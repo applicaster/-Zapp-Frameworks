@@ -27,9 +27,9 @@ public class NetworkRequestsManager {
     }
 
     public func startListening() {
-//        guard networkRequestsLoggingEnabled == true else {
-//            return
-//        }
+        guard networkRequestsLoggingEnabled == true else {
+            return
+        }
         pendingRequests = [String: [String: Any]]()
         
         let eventHandler = { (url: URL, logType: NetworkSniffer.LogType, content: [String: Any]) in
