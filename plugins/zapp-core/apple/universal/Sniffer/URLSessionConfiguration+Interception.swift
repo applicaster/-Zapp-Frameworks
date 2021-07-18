@@ -25,15 +25,15 @@ extension URLSessionConfiguration {
 
     @objc class func swizzledDefaultSessionConfiguration() -> URLSessionConfiguration {
         let configuration = swizzledDefaultSessionConfiguration()
-        URLProtocol.registerClass(Sniffer.self)
-        configuration.protocolClasses?.insert(Sniffer.self, at: 0)
+        URLProtocol.registerClass(NetworkSnifferURLProtocol.self)
+        configuration.protocolClasses?.insert(NetworkSnifferURLProtocol.self, at: 0)
         return configuration
     }
 
     @objc class func swizzledEphemeralSessionConfiguration() -> URLSessionConfiguration {
         let configuration = swizzledEphemeralSessionConfiguration()
-        URLProtocol.registerClass(Sniffer.self)
-        configuration.protocolClasses?.insert(Sniffer.self, at: 0)
+        URLProtocol.registerClass(NetworkSnifferURLProtocol.self)
+        configuration.protocolClasses?.insert(NetworkSnifferURLProtocol.self, at: 0)
         return configuration
     }
 }

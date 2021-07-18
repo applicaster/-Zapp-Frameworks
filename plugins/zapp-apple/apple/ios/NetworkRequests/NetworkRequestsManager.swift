@@ -11,11 +11,13 @@ import XrayLogger
 import ZappCore
 
 public class NetworkRequestsManager {
-    fileprivate static var instance = NetworkRequestsManager()
+    static var shared = NetworkRequestsManager()
+
     lazy var logger = Logger.getLogger(for: NetworkRequestsManagerLogs.subsystem)
-    var pendingRequests: [String: [String: Any]] = [:]
-    private let semaphore = DispatchSemaphore(value: 1)
-    
+    var pendingRequests: [String: [String: Any]]?
+    lazy var networkShiffer = NetworkSniffer.shared
+    var loggerEventsQueue: DispatchQueue = DispatchQueue.init(label: "NetworkRequestsManagerLoggerEventsQueue")
+
     struct Params {
         static let request = "request"
         static let response = "response"
@@ -24,46 +26,46 @@ public class NetworkRequestsManager {
         static let url = "url"
     }
 
-    public static func startListening() {
-        guard networkRequestsLoggingEnabled == true else {
-            return
-        }
+    public func startListening() {
+//        guard networkRequestsLoggingEnabled == true else {
+//            return
+//        }
+        pendingRequests = [String: [String: Any]]()
         
-        Sniffer.ignore(extensions: ignoredExtensions)
-        Sniffer.ignore(domains: ignoreDomains)
-        Sniffer.onLogger = { (url: URL, logType: Sniffer.LogType, content: [String: Any]) in
+        let eventHandler = { (url: URL, logType: NetworkSniffer.LogType, content: [String: Any]) in
             switch logType {
             case .request:
-                instance.pendingRequests[url.absoluteString] = content
+                self.pendingRequests?[url.absoluteString.md5()] = content
             case .response:
-                let urlString = url.absoluteString
-                guard urlString.isEmpty == false,
-                      instance.pendingRequests.keys.contains(urlString),
+                let key = url.absoluteString.md5()
+                guard let request = self.pendingRequests?.removeValue(forKey: key),
                       let response = content[Params.response] as? [String: Any],
                       let statusCode = response[Params.statusCode] as? String else {
                     return
                 }
 
-                let request = instance.pendingRequests[urlString] ?? [:]
-                instance.pendingRequests[urlString] = nil
-
-                instance.logger?.verboseLog(message: "\(NetworkRequestsManagerLogs.request.message): \(url.host ?? "")",
+                self.loggerEventsQueue.sync {
+                    self.logger?.verboseLog(message: "\(NetworkRequestsManagerLogs.request.message): \(url.host ?? "")",
                                             category: NetworkRequestsManagerLogs.request.category,
                                             data: [Params.request: request,
                                                    Params.response: response,
                                                    Params.statusCode: statusCode,
-                                                   Params.url: urlString])
+                                                   Params.url: url.absoluteString])
+                }
+                
             }
         }
-        Sniffer.start()
+        NetworkSniffer.shared.start(with: eventHandler,
+                                    ignoredDomains: ignoredDomains,
+                                    ignoredExtensions: ignoredExtensions)
     }
 
-    static var networkRequestsLoggingEnabled: Bool {
+    var networkRequestsLoggingEnabled: Bool {
         let key = "networkRequestsEnabled"
         return UserDefaults.standard.bool(forKey: key)
     }
 
-    static var ignoredExtensions: [String] {
+    var ignoredExtensions: [String] {
         let pluginNameSpace = "xray_logging_plugin"
         let key = "networkRequestsIgnoredExtensions"
         let defaultExtensions = ["png", "jpeg", "jpg", "ts"]
@@ -77,7 +79,7 @@ public class NetworkRequestsManager {
         return networkRequestsIgnoredExtensionsString.components(separatedBy: ";").filter({ !$0.isEmpty })
     }
 
-    static var ignoreDomains: [String] {
+    var ignoredDomains: [String] {
         let pluginNameSpace = "xray_logging_plugin"
         let key = "networkRequestsIgnoredDomains"
         guard let networkRequestsIgnoredDomainsString = FacadeConnector.connector?.storage?.localStorageValue(for: key,

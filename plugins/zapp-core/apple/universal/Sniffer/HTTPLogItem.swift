@@ -63,8 +63,8 @@ private extension HTTPLogItem {
         static let error = "error"
     }
 
-    func log(_ url: URL?, result: [String: Any], type: Sniffer.LogType) {
-        if let logger = Sniffer.onLogger, let url = url {
+    func log(_ url: URL?, result: [String: Any], type: NetworkSniffer.LogType) {
+        if let logger = NetworkSniffer.shared.onLogger, let url = url {
             logger(url, type, result)
         } else {
             print(result)
@@ -122,7 +122,7 @@ private extension HTTPLogItem {
         }
 
         if let body = data,
-           let deserialize = Sniffer.find(deserialize: contentType)?.deserialize(body: body) ?? PlainTextBodyDeserializer().deserialize(body: body) {
+           let deserialize = NetworkSniffer.find(deserialize: contentType)?.deserialize(body: body) ?? PlainTextBodyDeserializer().deserialize(body: body) {
             result[Params.body] = deserialize
         }
 
@@ -189,7 +189,7 @@ private extension URLRequest {
 
         let contentType = value(forHTTPHeaderField: "Content-Type") ?? "application/octet-stream"
 
-        if let deserialized = Sniffer.find(deserialize: contentType)?.deserialize(body: body) {
+        if let deserialized = NetworkSniffer.find(deserialize: contentType)?.deserialize(body: body) {
             result = deserialized
         }
 
