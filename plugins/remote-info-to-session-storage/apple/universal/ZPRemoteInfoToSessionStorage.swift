@@ -42,12 +42,14 @@ import ZappCore
               !urlString.isEmpty,
               let url = URL(string: urlString) else {
             logger?.errorLog(message: "Remote Url not defined")
+            completion?(true)
             return
         }
 
         guard let namespace = configurationJSON?["namespace"] as? String,
               !namespace.isEmpty else {
             logger?.errorLog(message: "Namespace not defined")
+            completion?(true)
             return
         }
 
@@ -83,16 +85,15 @@ import ZappCore
                                           data: ["url": urlString,
                                                  "error": error.localizedDescription])
                 } catch let error as NSError {
-                    self.logger?.errorLog(message: "DI Server error",
+                    self.logger?.errorLog(message: "Generic error",
                                           data: ["url": urlString,
                                                  "error": error.localizedDescription])
                 }
+                
+                if self.shouldWaitForCompletion {
+                    completion?(true)
+                }
             }
-
-            if self.shouldWaitForCompletion {
-                completion?(true)
-            }
-
         }.resume()
 
         if shouldWaitForCompletion == false {
