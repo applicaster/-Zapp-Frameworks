@@ -109,11 +109,11 @@ public class Sniffer: URLProtocol {
 
         sessionTask = session?.dataTask(with: urlRequest as URLRequest, completionHandler: { data, response, error in
             if let data = data, let response = response {
-                self.logItem?.didReceive(response: response, data: data)
+                self.logItem?.didComplete(withResult: .success((response: response, data: data)))
                 self.client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .allowed)
                 self.client?.urlProtocol(self, didLoad: data)
             } else if let error = error {
-                self.logItem?.didCompleteWithError(error)
+                self.logItem?.didComplete(withResult: .failure(error))
                 self.client?.urlProtocol(self, didFailWithError: error)
             }
             self.client?.urlProtocolDidFinishLoading(self)

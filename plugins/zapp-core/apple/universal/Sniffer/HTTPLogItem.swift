@@ -31,17 +31,16 @@ public final class HTTPLogItem {
         logRequest()
     }
 
-    func didReceive(response: URLResponse, data: Data) {
-        urlResponse = response
-        self.data = data
+    func didComplete(withResult result: Result<(response:URLResponse, data:Data), Error>) {
+        switch result {
+        case .success(let content):
+            urlResponse = content.response
+            data = content.data
+        case .failure(let error):
+            self.error = error
+        }
         
-        didCompleteWithError(nil)
-    }
-
-    func didCompleteWithError(_ error: Error?) {
-        self.error = error
         duration = fabs(startDate.timeIntervalSinceNow)
-
         logDidComplete()
     }
 }
