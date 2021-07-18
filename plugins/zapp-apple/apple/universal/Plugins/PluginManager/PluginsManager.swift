@@ -19,6 +19,7 @@ public class PluginsManager: NSObject {
     public lazy var playerDependants = PlayerDependantPluginsManager()
     public lazy var push = PushPluginsManager()
     public lazy var general = GeneralPluginsManager()
+    public lazy var cmp = CmpPluginsManager()
     public lazy var player = PlayerPluginsManager()
     public lazy var crashlogs = CrashlogsPluginsManager()
 
@@ -82,6 +83,14 @@ public class PluginsManager: NSObject {
         logger?.debugLog(template: PluginsManagerLogs.preparingGeneralPlugins)
 
         general.prepareManager { success in
+            success ? successHandler() : failHandler()
+        }
+    }
+    
+    func prepareCmpPlugins(_ successHandler: @escaping StateCallBack,
+                               _ failHandler: @escaping StateCallBack) {
+        logger?.debugLog(template: PluginsManagerLogs.preparingCmpPlugins)
+        cmp.prepareManager { success in
             success ? successHandler() : failHandler()
         }
     }

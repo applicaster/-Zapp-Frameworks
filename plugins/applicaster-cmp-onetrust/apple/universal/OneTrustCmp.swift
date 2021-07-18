@@ -14,7 +14,7 @@
 import XrayLogger
 import ZappCore
 
-public class OneTrustCmp: NSObject, GeneralProviderProtocol {
+public class OneTrustCmp: NSObject, CmpProviderProtocol {
     public var model: ZPPluginModel?
     public var configurationJSON: NSDictionary?
     lazy var logger = Logger.getLogger(for: "\(kNativeSubsystemPath)/OneTrustConsentManagement")

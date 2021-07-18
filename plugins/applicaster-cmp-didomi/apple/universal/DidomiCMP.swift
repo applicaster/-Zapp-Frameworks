@@ -10,7 +10,7 @@ import Didomi
 import XrayLogger
 import ZappCore
 
-public class DidomiCMP: NSObject, GeneralProviderProtocol {
+public class DidomiCMP: NSObject, CmpProviderProtocol {
     public var model: ZPPluginModel?
     public var configurationJSON: NSDictionary?
     lazy var logger = Logger.getLogger(for: "\(kNativeSubsystemPath)/DidomiConsentManagement")
