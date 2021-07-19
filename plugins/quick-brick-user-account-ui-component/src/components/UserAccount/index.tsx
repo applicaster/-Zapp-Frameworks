@@ -23,6 +23,7 @@ import {
   getStylesForTitleLabel,
   getStylesForDescriptionLabel,
 } from "./Utils";
+import { isTokenExist } from "../../utils/LoginHelper";
 import { login, logout, getUserId, getSubscriptionData } from "../../mockData";
 
 const logger = componentsLogger.addSubsystem(
@@ -37,6 +38,8 @@ type Props = {
       plugin_identifier: string;
     };
     localizations: {};
+    rivers: any;
+    navigator: any;
   };
   onLoadFinished: any;
 };
@@ -61,9 +64,9 @@ export function UserAccount(props: Props) {
     paddingBottom: theme?.component_margin_bottom,
   };
 
-  const { component, onLoadFinished } = props;
+  const { component, onLoadFinished, rivers, navigator } = props;
   const { data, localizations, styles, id } = component;
-  console.log({ data, localizations, styles, id });
+  console.log({ data, localizations, styles, id, rivers, navigator });
   const {
     account_title = "Account",
     user_name_title = "User",
@@ -79,9 +82,36 @@ export function UserAccount(props: Props) {
   const pluginIdentifier = data?.plugin_identifier;
 
   React.useEffect(() => {
-    onLoadFinished();
+    preparePlugin();
   }, []);
 
+  async function preparePlugin() {
+    const {
+      login_button_2_enabled,
+      login_type_button_1,
+      custom_namespace_button_1,
+      custom_token_key_button_1,
+      login_type_button_2,
+      custom_namespace_button_2,
+      custom_token_key_button_2,
+    } = styles;
+
+    const userLogedIn = await isTokenExist({
+      login_type_button_1,
+      custom_namespace_button_1,
+      custom_token_key_button_1,
+      login_type_button_2: login_button_2_enabled ? login_type_button_2 : null,
+      custom_namespace_button_2: login_button_2_enabled
+        ? custom_namespace_button_2
+        : null,
+      custom_token_key_button_2: login_button_2_enabled
+        ? custom_token_key_button_2
+        : null,
+    });
+    console.log({ userLogedIn });
+    setIsLogedIn(userLogedIn);
+    onLoadFinished();
+  }
   const styleLogin1Button = React.useCallback(
     () => styleForLogin1Button(styles),
     [styles]
@@ -114,6 +144,7 @@ export function UserAccount(props: Props) {
       description_style: styleDescriptionLabel(),
     },
   };
+
   const accountTitles = {
     account_title,
     user_name_title: getUserId(user_name_title),
@@ -130,12 +161,14 @@ export function UserAccount(props: Props) {
       setIsLogedIn(true);
     }
   }, []);
+
   const onLogin2 = React.useCallback(async () => {
     const result = await login();
     if (result) {
       setIsLogedIn(true);
     }
   }, []);
+
   const onLogout = React.useCallback(async () => {
     const result = await logout();
     if (result) {
@@ -151,6 +184,8 @@ export function UserAccount(props: Props) {
   };
 
   function renderLoginFlow() {
+    const login_button_2_enabled = styles?.login_button_2_enabled;
+    console.log({ login_button_2_enabled });
     return (
       <>
         <UserPhoto imageSrc={styles?.user_image_placeholder} />
@@ -161,13 +196,15 @@ export function UserAccount(props: Props) {
           onPress={onLogin1}
           titleText={login_button_1_title_text}
         />
-        <Button
-          customContainerStyle={customContainerStyle}
-          styles={styleLogin2Button()}
-          id={"login_2"}
-          onPress={onLogin2}
-          titleText={login_button_2_title_text}
-        />
+        {login_button_2_enabled && (
+          <Button
+            customContainerStyle={customContainerStyle}
+            styles={styleLogin2Button()}
+            id={"login_2"}
+            onPress={onLogin2}
+            titleText={login_button_2_title_text}
+          />
+        )}
       </>
     );
   }

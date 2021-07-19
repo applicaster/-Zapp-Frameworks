@@ -52,6 +52,13 @@ const styles = {
           placeholder: "Select login type",
         },
         {
+          key: "screen_id_button_1",
+          type: "text_input",
+          initial_value: "",
+          label: "Screen Id for pluin (optional)",
+          placeholder: "Custom plugin namespace",
+        },
+        {
           key: "custom_namespace_button_1",
           type: "text_input",
           initial_value: "",
@@ -60,7 +67,7 @@ const styles = {
           conditional_fields: [
             {
               condition_value: ["other"],
-              key: "styles/login_type",
+              key: "styles/login_type_button_1",
             },
           ],
         },
@@ -73,7 +80,7 @@ const styles = {
           conditional_fields: [
             {
               condition_value: ["other"],
-              key: "styles/login_type",
+              key: "styles/login_type_button_1",
             },
           ],
         },
@@ -189,6 +196,13 @@ const styles = {
           placeholder: "Select login type",
         },
         {
+          key: "screen_id_button_1",
+          type: "text_input",
+          initial_value: "",
+          label: "Screen Id for pluin (optional)",
+          placeholder: "Custom plugin namespace",
+        },
+        {
           key: "custom_namespace_button_2",
           type: "text_input",
           initial_value: "",
@@ -197,7 +211,7 @@ const styles = {
           conditional_fields: [
             {
               condition_value: ["other"],
-              key: "styles/login_type",
+              key: "styles/login_type_button_2",
             },
           ],
         },
@@ -210,7 +224,7 @@ const styles = {
           conditional_fields: [
             {
               condition_value: ["other"],
-              key: "styles/login_type",
+              key: "styles/login_type_button_2",
             },
           ],
         },

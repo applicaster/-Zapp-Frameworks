@@ -13,7 +13,14 @@ type GeneralStyles = {
   button_1_title_text_font_ios: string;
   button_1_title_text_fontsize: string;
   button_1_title_underlay_color: string;
+  login_type_button_1: string;
+  custom_namespace_button_1: string;
+  custom_token_key_button_1: string;
 
+  login_button_2_enabled: boolean;
+  login_type_button_2: string;
+  custom_namespace_button_2: string;
+  custom_token_key_button_2: string;
   button_2_background_color: string;
   button_2_background_underlay_color: string;
   button_2_border: string;
@@ -65,4 +72,22 @@ type LabelStyles = {
   title_text_fontsize: string;
   title_text_font_ios: string;
   title_text_font_android: string;
+};
+
+type TokenExistData = {
+  login_type_button_1: string;
+  custom_namespace_button_1: string;
+  custom_token_key_button_1: string;
+  login_type_button_2?: string;
+  custom_namespace_button_2?: string;
+  custom_token_key_button_2?: string;
+};
+
+type LoginTemplate = {
+  tokenKey: string;
+  namespace: string;
+  userId?: string;
+  subscriptionPriceKey?: string;
+  subscriptionRenewsDateKey?: string;
+  userPhotoUrlKey?: string;
 };
