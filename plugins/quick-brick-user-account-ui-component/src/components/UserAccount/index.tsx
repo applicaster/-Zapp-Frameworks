@@ -38,9 +38,9 @@ type Props = {
       plugin_identifier: string;
     };
     localizations: {};
-    rivers: any;
-    navigator: any;
   };
+  rivers: any;
+  navigator: any;
   onLoadFinished: any;
 };
 

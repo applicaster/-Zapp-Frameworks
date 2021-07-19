@@ -61,12 +61,12 @@ export function getScreenFromRivers(data: ScreenData2): ZappRiver {
   }
 }
 export function screenFromRivers(data: ScreenData): ZappRiver {
-  const values = Object.values(data.rivers);
+  const values: ZappRiver[] = Object.values(data.rivers);
   const pluginTypeLogin = "login";
 
   // eslint-disable-next-line array-callback-return,consistent-return
   const river = values.find((item) => {
-    if (item && item.type) {
+    if (item && item?.type) {
       if (data?.screenId) {
         return (
           item.plugin_type === pluginTypeLogin &&
