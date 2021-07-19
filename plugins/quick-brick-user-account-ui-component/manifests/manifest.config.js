@@ -174,7 +174,7 @@ const styles = {
       ],
       fields: [
         {
-          key: "login_type_button_1",
+          key: "login_type_button_2",
           type: "select",
           options: [
             { text: "Inplayer", value: "in_player" },
@@ -189,7 +189,7 @@ const styles = {
           placeholder: "Select login type",
         },
         {
-          key: "custom_namespace_button_1",
+          key: "custom_namespace_button_2",
           type: "text_input",
           initial_value: "",
           label: "Custom plugin namespace",
@@ -202,7 +202,7 @@ const styles = {
           ],
         },
         {
-          key: "custom_token_key_button_1",
+          key: "custom_token_key_button_2",
           type: "text_input",
           initial_value: "",
           label: "Custom plugin token key",
