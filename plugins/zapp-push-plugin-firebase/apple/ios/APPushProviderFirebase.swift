@@ -63,15 +63,19 @@ open class APPushProviderFirebase: ZPPushProvider {
             FirebaseApp.configure()
         }
         Messaging.messaging().delegate = self
-        setDefaultTopicIfNeeded()
 
         // Don't assign the UNUserNotificationCenter delegate because we are already handling the logic in the SDK
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: { _, _ in })
+        DispatchQueue.main.async {
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: { _, _ in })
 
-        UIApplication.shared.registerForRemoteNotifications()
+            UIApplication.shared.registerForRemoteNotifications()
+            
+            self.setDefaultTopicIfNeeded()
+        }
+        
         subscribeUUID()
         return true
     }
