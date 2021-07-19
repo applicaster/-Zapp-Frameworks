@@ -1,5 +1,5 @@
 //
-//  CmpPluginsManagerLogs.swift
+//  GeneralCmpPluginsManagerLogs.swift
 //  ZappApple
 //
 //  Created by Alex Zchut on 18/07/2021.
@@ -10,8 +10,8 @@ import Foundation
 import XrayLogger
 import ZappCore
 
-let cmpPluginsManagerLogsSubsystem = "\(PluginsManagerLogs.subsystem)/cmp_plugins"
+let cmpPluginsManagerLogsSubsystem = "\(PluginsManagerLogs.subsystem)/general_cmp_plugins"
 
-public struct CmpPluginsManagerLogs: XrayLoggerTemplateProtocol {
+public struct GeneralCmpPluginsManagerLogs: XrayLoggerTemplateProtocol {
     public static var subsystem: String = cmpPluginsManagerLogsSubsystem
 }

@@ -98,8 +98,10 @@ extension PluginsManager: FacadeConnectorPluginManagerControlFlow {
             return crashlogs
         case .General:
             return general
-        case .Cmp:
-            return cmp
+        case .General$Cmp:
+            return generalCmp
+        case .General$Storage:
+            return generalStorage
         default:
             return nil
         }

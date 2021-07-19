@@ -36,7 +36,7 @@ extension PluginsManager {
     }
 
     func retrieveHooksPlugins() -> [AppLoadingHookProtocol] {
-        var retVal = cmp.hooksProviders()
+        var retVal = generalCmp.hooksProviders()
         retVal += general.hooksProviders()
         retVal += push.hooksProviders()
         retVal += analytics.hooksProviders()

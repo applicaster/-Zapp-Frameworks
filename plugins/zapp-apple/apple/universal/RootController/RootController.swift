@@ -100,11 +100,18 @@ public class RootController: NSObject {
         plugins.dependantStates = [splashState.name,
                                    pluginsRemoteConfiguration.name,
                                    remoteConfiguration.name]
-        
+
+        let userInterfaceLayerDependantPlugins = LoadingState()
+        userInterfaceLayerDependantPlugins.stateHandler = loadUserInterfaceLayerDependantPluginsGroup
+        userInterfaceLayerDependantPlugins.readableName = "<app-loader-state-machine> Load User Interface Dependant plugins"
+        userInterfaceLayerDependantPlugins.dependantStates = [pluginsRemoteConfiguration.name,
+                                                              remoteConfiguration.name]
+
         let userInterfaceLayer = LoadingState()
         userInterfaceLayer.stateHandler = loadUserInterfaceLayerGroup
         userInterfaceLayer.readableName = "<app-loader-state-machine> Prepare User Interface Layer"
-        userInterfaceLayer.dependantStates = [remoteConfiguration.name]
+        userInterfaceLayer.dependantStates = [remoteConfiguration.name,
+                                              userInterfaceLayerDependantPlugins.name]
 
         let audience = LoadingState()
         audience.stateHandler = trackAudience
@@ -124,6 +131,7 @@ public class RootController: NSObject {
                 styles,
                 remoteConfiguration,
                 pluginsRemoteConfiguration,
+                userInterfaceLayerDependantPlugins,
                 audience,
                 userInterfaceLayer,
                 onApplicationReadyHook]

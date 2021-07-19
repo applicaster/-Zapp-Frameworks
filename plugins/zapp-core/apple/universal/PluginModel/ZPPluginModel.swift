@@ -36,7 +36,9 @@ public enum ZPPluginType: String {
     case CellStyleFamily = "cell_style_family"
     case VideoAdvertisement = "video_advertisement"
     case Crashlogs = "error_monitoring"
-    case Cmp = "cmp"
+    case General$Cmp = "general.cmp"
+    case General$Storage = "general.storage"
+
     /// Provides a new screen (view controller) for displaying articles
     case Article = "article"
     case Advertisement = "advertisement"
@@ -45,7 +47,10 @@ public enum ZPPluginType: String {
     
     func getSubtype(for identifier: String) -> ZPPluginType? {
         if identifier.lowercased().contains("-cmp-") {
-            return .Cmp
+            return .General$Cmp
+        }
+        else if identifier.lowercased().contains("storage") {
+            return .General$Storage
         }
         return nil
     }
