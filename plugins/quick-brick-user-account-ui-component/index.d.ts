@@ -1,6 +1,6 @@
 type GeneralStyles = {
   user_image_placeholder: string;
-
+  button_1_screen_id: string;
   button_1_background_color: string;
   button_1_background_underlay_color: string;
   button_1_border: string;
@@ -17,6 +17,7 @@ type GeneralStyles = {
   custom_namespace_button_1: string;
   custom_token_key_button_1: string;
 
+  button_2_screen_id: string;
   login_button_2_enabled: boolean;
   login_type_button_2: string;
   custom_namespace_button_2: string;

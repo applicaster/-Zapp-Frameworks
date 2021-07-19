@@ -52,7 +52,7 @@ const styles = {
           placeholder: "Select login type",
         },
         {
-          key: "screen_id_button_1",
+          key: "button_2_screen_id",
           type: "text_input",
           initial_value: "",
           label: "Screen Id for pluin (optional)",
@@ -196,7 +196,7 @@ const styles = {
           placeholder: "Select login type",
         },
         {
-          key: "screen_id_button_1",
+          key: "button_1_screen_id",
           type: "text_input",
           initial_value: "",
           label: "Screen Id for pluin (optional)",

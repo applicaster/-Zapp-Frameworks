@@ -25,7 +25,7 @@ import {
 } from "./Utils";
 import { isTokenExist } from "../../utils/LoginHelper";
 import { login, logout, getUserId, getSubscriptionData } from "../../mockData";
-
+import { getScreenFromRivers } from "../../utils/PluginsHelper";
 const logger = componentsLogger.addSubsystem(
   "quick-brick-toggle-plugin-lifecycle"
 );
@@ -154,19 +154,49 @@ export function UserAccount(props: Props) {
     ),
     logout_title_text,
   };
+  // type ScreenData2 = {
+  //   rivers: [string: ZappRiver];
+  //   screenId?: string;
+  //   login_type_button: string;
+  // };
 
+  //   login_type_button_2
   const onLogin1 = React.useCallback(async () => {
-    const result = await login();
-    if (result) {
-      setIsLogedIn(true);
-    }
+    const button_1_screen_id = styles?.button_1_screen_id;
+    const login_type_button_1 = styles?.login_type_button_1;
+    const custom_namespace_button_1 = styles?.custom_namespace_button_1;
+    const custom_token_key_button_1 = styles?.custom_token_key_button_1;
+    const plugin = getScreenFromRivers({
+      rivers,
+      screenId: button_1_screen_id,
+      login_type_button: login_type_button_1,
+      custom_namespace_button: custom_namespace_button_1,
+      custom_token_key_button: custom_token_key_button_1,
+    });
+    navigator.push(plugin);
+    // const result = await login();
+    // if (result) {
+    //   setIsLogedIn(true);
+    // }
   }, []);
 
   const onLogin2 = React.useCallback(async () => {
-    const result = await login();
-    if (result) {
-      setIsLogedIn(true);
-    }
+    // const result = await login();
+    // if (result) {
+    //   setIsLogedIn(true);
+    // }
+    const button_2_screen_id = styles?.button_2_screen_id;
+    const login_type_button_2 = styles?.login_type_button_2;
+    const custom_namespace_button_2 = styles?.custom_namespace_button_2;
+    const custom_token_key_button_2 = styles?.custom_token_key_button_2;
+    const plugin = getScreenFromRivers({
+      rivers,
+      screenId: button_2_screen_id,
+      login_type_button: login_type_button_2,
+      custom_namespace_button: custom_namespace_button_2,
+      custom_token_key_button: custom_token_key_button_2,
+    });
+    navigator.push(plugin);
   }, []);
 
   const onLogout = React.useCallback(async () => {
