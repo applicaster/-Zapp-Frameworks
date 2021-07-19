@@ -10,7 +10,9 @@
 import Foundation
 
 public final class HTTPLogItem {
-    var url: URL { urlRequest.url! }
+    var url: URL? {
+        return urlRequest.url
+    }
 
     private var urlRequest: URLRequest
     private var urlResponse: URLResponse?
@@ -29,19 +31,16 @@ public final class HTTPLogItem {
         logRequest()
     }
 
-    func didReceive(response: URLResponse) {
-        urlResponse = response
-        data = Data()
-    }
-
-    func didReceive(data: Data) {
-        self.data?.append(data)
-    }
-
-    func didCompleteWithError(_ error: Error?) {
-        self.error = error
+    func didComplete(withResult result: Result<(response:URLResponse, data:Data), Error>) {
+        switch result {
+        case .success(let content):
+            urlResponse = content.response
+            data = content.data
+        case .failure(let error):
+            self.error = error
+        }
+        
         duration = fabs(startDate.timeIntervalSinceNow)
-
         logDidComplete()
     }
 }
@@ -64,8 +63,8 @@ private extension HTTPLogItem {
         static let error = "error"
     }
 
-    func log(_ url: URL, result: [String: Any], type: Sniffer.LogType) {
-        if let logger = Sniffer.onLogger {
+    func log(_ url: URL?, result: [String: Any], type: NetworkSniffer.LogType) {
+        if let logger = NetworkSniffer.shared.onLogger, let url = url {
             logger(url, type, result)
         } else {
             print(result)
@@ -77,7 +76,7 @@ private extension HTTPLogItem {
 
         if let method = urlRequest.httpMethod {
             result[Params.method] = method
-            result[Params.url] = url.absoluteString
+            result[Params.url] = url?.absoluteString ?? ""
         }
 
         result[Params.httpHeaderFieldsDescription] = urlRequest.httpHeaderFieldsDescription
@@ -88,7 +87,7 @@ private extension HTTPLogItem {
 
     func logDidComplete() {
         var result: [String: Any] = [:]
-        result[Params.url] = url.absoluteString
+        result[Params.url] = url?.absoluteString ?? ""
 
         if let duration = duration {
             result[Params.duration] = "\(duration)"
@@ -123,7 +122,7 @@ private extension HTTPLogItem {
         }
 
         if let body = data,
-           let deserialize = Sniffer.find(deserialize: contentType)?.deserialize(body: body) ?? PlainTextBodyDeserializer().deserialize(body: body) {
+           let deserialize = NetworkSniffer.find(deserialize: contentType)?.deserialize(body: body) ?? PlainTextBodyDeserializer().deserialize(body: body) {
             result[Params.body] = deserialize
         }
 
@@ -190,7 +189,7 @@ private extension URLRequest {
 
         let contentType = value(forHTTPHeaderField: "Content-Type") ?? "application/octet-stream"
 
-        if let deserialized = Sniffer.find(deserialize: contentType)?.deserialize(body: body) {
+        if let deserialized = NetworkSniffer.find(deserialize: contentType)?.deserialize(body: body) {
             result = deserialized
         }
 

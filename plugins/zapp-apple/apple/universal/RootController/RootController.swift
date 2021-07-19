@@ -60,7 +60,7 @@ public class RootController: NSObject {
             window?.makeKeyAndVisible()
             splashViewController = window?.rootViewController as? SplashViewController
             #if os(iOS)
-                NetworkRequestsManager.startListening()
+                NetworkRequestsManager.shared.startListening()
             #endif
             self.pluginsManager.crashlogs.prepareManager { [weak self] success in
                 guard let self = self else { return }
