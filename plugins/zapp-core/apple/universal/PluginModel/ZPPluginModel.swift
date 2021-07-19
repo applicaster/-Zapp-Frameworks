@@ -36,7 +36,10 @@ public enum ZPPluginType: String {
     case CellStyleFamily = "cell_style_family"
     case VideoAdvertisement = "video_advertisement"
     case Crashlogs = "error_monitoring"
+    
+    /// CMP plugins needs to be loaded as hooks before general plugins
     case General$Cmp = "general.cmp"
+    /// Storage plugins need to be loaded before userInterface layer to save storage related info to be used by QB
     case General$Storage = "general.storage"
 
     /// Provides a new screen (view controller) for displaying articles
