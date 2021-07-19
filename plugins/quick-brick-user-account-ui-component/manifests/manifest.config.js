@@ -25,6 +25,47 @@ const baseManifest = {
 const styles = {
   fields: [
     {
+      key: "login_type",
+      type: "select",
+      options: [
+        { text: "Inplayer", value: "in_player" },
+        { text: "Cleeng", value: "cleeng" },
+        { text: "Adobe primetime", value: "adobe_primetime" },
+        { text: "Oauth2", value: "oauth_2" },
+        { text: "Other", value: "other" },
+      ],
+      initial_value: "in_player",
+      mandatory: true,
+      label: "Select login type",
+      placeholder: "Select login type",
+    },
+    {
+      key: "custom_namespace",
+      type: "text_input",
+      initial_value: "",
+      label: "Custom plugin namespace",
+      placeholder: "Custom plugin namespace",
+      conditional_fields: [
+        {
+          condition_value: ["other"],
+          key: "styles/login_type",
+        },
+      ],
+    },
+    {
+      key: "custom_token",
+      type: "text_input",
+      initial_value: "",
+      label: "Custom plugin token key",
+      placeholder: "Custom plugin token key",
+      conditional_fields: [
+        {
+          condition_value: ["other"],
+          key: "styles/login_type",
+        },
+      ],
+    },
+    {
       key: "user_image_placeholder",
       type: "uploader",
       label: "Placeholder for the user image",
