@@ -36,12 +36,19 @@ public enum ZPPluginType: String {
     case CellStyleFamily = "cell_style_family"
     case VideoAdvertisement = "video_advertisement"
     case Crashlogs = "error_monitoring"
-
+    case Cmp = "cmp"
     /// Provides a new screen (view controller) for displaying articles
     case Article = "article"
     case Advertisement = "advertisement"
 
     case Unknown = "unknown"
+    
+    func getSubtype(for identifier: String) -> ZPPluginType? {
+        if identifier.lowercased().contains("-cmp-") {
+            return .Cmp
+        }
+        return nil
+    }
 }
 
 @objc open class ZPPluginModel: NSObject {
@@ -75,7 +82,13 @@ public enum ZPPluginType: String {
         guard let stringPluginType = plugin?[ZappPluginModelKeys.kPluginTypeString] as? String else {
             return nil
         }
-        return ZPPluginType(rawValue: stringPluginType)
+        var type = ZPPluginType(rawValue: stringPluginType)
+        
+        //update type with subtype if exists
+        if let subtype = type?.getSubtype(for: identifier) {
+            type = subtype
+        }
+        return type
     }()
 
     public var pluginClassName: String? {
@@ -90,21 +103,21 @@ public enum ZPPluginType: String {
 
     @objc public init?(object: NSDictionary?) {
         guard let objectDictionary = object,
-            objectDictionary[ZappPluginModelKeys.kPlugin] as? NSDictionary != nil else {
+              objectDictionary[ZappPluginModelKeys.kPlugin] as? NSDictionary != nil else {
             return nil
         }
         self.object = objectDictionary
         configurationJSON = objectDictionary[ZappPluginModelKeys.kConfigurationJSON] as? NSDictionary
     }
 
-    static public func == (lhs: ZPPluginModel, rhs: ZPPluginModel) -> Bool {
+    public static func == (lhs: ZPPluginModel, rhs: ZPPluginModel) -> Bool {
         return lhs.identifier == rhs.identifier
     }
 
     public func configurationValue(for key: String) -> AnyObject? {
         var retValue: AnyObject?
-        if let pluginConfiguration = self.object[ZappPluginModelKeys.kConfigurationJSON] as? [String: AnyObject],
-            let value = pluginConfiguration[key] {
+        if let pluginConfiguration = object[ZappPluginModelKeys.kConfigurationJSON] as? [String: AnyObject],
+           let value = pluginConfiguration[key] {
             retValue = value
         }
         return retValue
