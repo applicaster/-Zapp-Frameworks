@@ -30,26 +30,26 @@ import ZappCore
 
     public func prepareProvider(_ defaultParams: [String: Any],
                                 completion: ((_ isReady: Bool) -> Void)?) {
-        fetchRemoteInfo(completion)
+        completion?(true)
     }
 
     public func disable(completion: ((Bool) -> Void)?) {
         completion?(true)
     }
 
-    public func fetchRemoteInfo(_ completion: ((_ success: Bool) -> Void)?) {
+    public func fetchRemoteInfo(_ completion: (() -> Void)?) {
         guard let urlString = configurationJSON?["remote_url"] as? String,
               !urlString.isEmpty,
               let url = URL(string: urlString) else {
             logger?.errorLog(message: "Remote Url not defined")
-            completion?(true)
+            completion?()
             return
         }
 
         guard let namespace = configurationJSON?["namespace"] as? String,
               !namespace.isEmpty else {
             logger?.errorLog(message: "Namespace not defined")
-            completion?(true)
+            completion?()
             return
         }
 
@@ -91,13 +91,13 @@ import ZappCore
                 }
                 
                 if self.shouldWaitForCompletion {
-                    completion?(true)
+                    completion?()
                 }
             }
         }.resume()
 
         if shouldWaitForCompletion == false {
-            completion?(true)
+            completion?()
         }
     }
 
@@ -120,6 +120,12 @@ import ZappCore
         }
         return retValue
     }()
+}
+
+extension ZPRemoteInfoToSessionStorage: AppLoadingHookProtocol {
+    public func executeOnApplicationReady(displayViewController: UIViewController?, completion: (() -> Void)?) {
+        fetchRemoteInfo(completion)
+    }
 }
 
 extension ZPRemoteInfoToSessionStorage {

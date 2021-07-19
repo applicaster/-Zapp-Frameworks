@@ -122,7 +122,7 @@ const project_dependencies = {
 };
 
 const api_apple = {
-  require_startup_execution: false,
+  require_startup_execution: true,
   class_name: "ZPRemoteInfoToSessionStorage",
   modules: ["ZappRemoteInfoToSessionStorage"],
 };
