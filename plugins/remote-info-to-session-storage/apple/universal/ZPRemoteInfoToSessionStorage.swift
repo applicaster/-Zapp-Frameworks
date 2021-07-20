@@ -89,7 +89,7 @@ import ZappCore
                                           data: ["url": urlString,
                                                  "error": error.localizedDescription])
                 }
-                
+
                 if self.shouldWaitForCompletion {
                     completion?(true)
                 }

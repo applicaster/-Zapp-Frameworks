@@ -125,6 +125,7 @@ const api_apple = {
   require_startup_execution: true,
   class_name: "ZPRemoteInfoToSessionStorage",
   modules: ["ZappRemoteInfoToSessionStorage"],
+  subtype: "general.storage"
 };
 
 const api_android = {
