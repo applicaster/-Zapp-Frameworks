@@ -26,8 +26,9 @@ import {
 import { isTokenExist } from "../../utils/LoginHelper";
 import { login, logout, getUserId, getSubscriptionData } from "../../mockData";
 import { getScreenFromRivers } from "../../utils/PluginsHelper";
+
 const logger = componentsLogger.addSubsystem(
-  "quick-brick-toggle-plugin-lifecycle"
+  "quick-brick-user-account-ui-component"
 );
 
 type Props = {
