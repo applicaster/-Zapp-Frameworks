@@ -9,7 +9,13 @@ import UIKit
 import XrayLogger
 import ZappCore
 
-class QuickBrickViewController: UIViewController {
+class QuickBrickViewController: UIViewController, UILayerViewControllerProtocol {
+    var homeIndicatorAutoHidden: Bool = false {
+        didSet {
+            setNeedsUpdateOfHomeIndicatorAutoHidden()
+        }
+    }
+
     lazy var logger = Logger.getLogger(for: QuickBrickViewControllerLogs.subsystem)
 
     var orientationStack = [UIInterfaceOrientationMask.all]
@@ -36,7 +42,7 @@ class QuickBrickViewController: UIViewController {
 
     static var isTabletPortrait: Bool {
         guard let value = FacadeConnector.connector?.storage?.sessionStorageValue(for: "isTabletPortrait",
-                                                                                             namespace: nil) else {
+                                                                                  namespace: nil) else {
             return false
         }
         return value.boolValue
@@ -167,5 +173,9 @@ class QuickBrickViewController: UIViewController {
 
         UIDevice.current.setValue(orientation.rawValue, forKey: "orientation")
         UIViewController.attemptRotationToDeviceOrientation()
+    }
+    
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return homeIndicatorAutoHidden
     }
 }
