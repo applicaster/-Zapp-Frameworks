@@ -15,7 +15,6 @@ open class APAnalyticsProviderComScore: ZPAnalyticsProvider, PlayerDependantPlug
     var playbackStalled: Bool = false
 
     let kCustomerC2Key = "customer_c2"
-    let kPublisherSecretKey = "publisher_secret"
     let kAppNameKey = "app_name"
     let kNsSiteKey = "ns_site"
     let kStreamSenseKey = "stream_sense"
@@ -29,60 +28,42 @@ open class APAnalyticsProviderComScore: ZPAnalyticsProvider, PlayerDependantPlug
     override open func configureProvider() -> Bool {
         var retValue = false
 
-        var customerC2: String?
-        if let value = providerProperties[kCustomerC2Key] as? String {
-            customerC2 = value
+        guard let customerC2 = providerProperties[kCustomerC2Key] as? String else {
+            return retValue
         }
 
-        var publishSecret: String?
-        if let value = providerProperties[kPublisherSecretKey] as? String {
-            publishSecret = value
+        var nsSite: String?
+        if let value = providerProperties[kNsSiteKey] as? String {
+            nsSite = value
+        }
+        
+        var appName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+        if let value = providerProperties[kAppNameKey] as? String {
+            appName = value
         }
 
-        if publishSecret != nil && customerC2 != nil {
-            var appName: String?
-            if let value = providerProperties[kAppNameKey] as? String {
-                appName = value
-            } else {
-                appName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+        let publisherConfig = SCORPublisherConfiguration(builderBlock: { builder in
+            if let builder = builder {
+                builder.publisherId = customerC2
+                builder.keepAliveMeasurementEnabled = true
             }
+        })
+        
+        SCORAnalytics.configuration().addClient(with: publisherConfig)
 
-            var nsSite: String?
-            if let value = providerProperties[kNsSiteKey] as? String {
-                nsSite = value
-            }
-
-//            var streamSense: String = ""
-//            if let value = providerProperties[kStreamSenseKey] as? String {
-//                streamSense = value
-//            }
-
-            let publisherConfig = SCORPublisherConfiguration(builderBlock: { builder in
-                if let builder = builder {
-                    builder.publisherId = customerC2
-                    builder.publisherSecret = publishSecret
-                    builder.applicationName = appName
-                }
-            })
-            SCORAnalytics.configuration().addClient(with: publisherConfig)
-            SCORAnalytics.configuration().keepAliveMeasurement = true
-
-            if nsSite != nil {
-                SCORAnalytics.configuration().setPersistentLabelWithName(kNsSiteKey, value: nsSite)
-            } else {
-                SCORAnalytics.configuration().setPersistentLabelWithName(kNsSiteKey, value: "app-" + appName!)
-            }
-
-            SCORAnalytics.start()
-
-            APStreamSenseManager.setProviderProperties(providerProperties)
-            APStreamSenseManager.setDelegate(self)
-            APStreamSenseManager.start()
-
-            retValue = true
+        if let nsSite = nsSite {
+            SCORAnalytics.configuration().setPersistentLabelWithName(kNsSiteKey, value: nsSite)
+        } else if let appName = appName {
+            SCORAnalytics.configuration().setPersistentLabelWithName(kNsSiteKey, value: "app-" + appName)
         }
 
-        return retValue
+        SCORAnalytics.start()
+
+        APStreamSenseManager.setProviderProperties(providerProperties)
+        APStreamSenseManager.setDelegate(self)
+        APStreamSenseManager.start()
+
+        return true
     }
 }
 
@@ -91,4 +72,3 @@ extension APAnalyticsProviderComScore: APStreamSenseManagerDelegate {
         return playerPlugin?.playerObject as? AVPlayer
     }
 }
- 

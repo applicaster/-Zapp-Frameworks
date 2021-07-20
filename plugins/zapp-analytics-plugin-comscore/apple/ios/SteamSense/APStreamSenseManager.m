@@ -28,7 +28,7 @@ NSString *kAPStreamSenseManagerItemID;
 NSString *kAPStreamSenseManagerItemName;
 NSString *kAPStreamSenseManagerItemUrl;
 
-SCORContentType contentType;
+SCORStreamingContentType contentType;
 NSMutableDictionary *extendedDict;
 
 BOOL initialRun = false;
@@ -38,7 +38,7 @@ NSTimer *eventTimer;
 @interface APStreamSenseManager ()
 
 @property (nonatomic, strong) NSDictionary *state;
-@property (nonatomic, strong) SCORReducedRequirementsStreamingAnalytics *streamAnalytics;
+@property (nonatomic, strong) SCORStreamingAnalytics *streamAnalytics;
 @property (nonatomic, assign) BOOL wasNewPlayerCreated;
 @property (nonatomic, strong) NSMutableArray *notificationUserInfoReceived;
 @property (nonatomic, strong) NSMutableArray *playerActionReceived;
@@ -135,16 +135,16 @@ static APStreamSenseManager *__sharedInstance;
 
 - (void)playerDidPausePlayItem {
     [self.playerActionReceived addObject:@"didPause"];
-    [self.streamAnalytics stop];
+    [self.streamAnalytics notifyPause];
 }
 
 - (void)playerDidBufferPlayItem {
     [self.playerActionReceived addObject:@"didBuffer"];
-    [self.streamAnalytics stop];
+    [self.streamAnalytics notifyBufferStop];
 }
 
 - (void)playerDidFinishPlayItem {
-    [self.streamAnalytics stop];
+    [self.streamAnalytics notifyEnd];
     self.wasNewPlayerCreated = YES;
     [self.notificationUserInfoReceived removeAllObjects];
     [self.playerActionReceived removeAllObjects];
@@ -161,17 +161,17 @@ static APStreamSenseManager *__sharedInstance;
 
     //when playing live items, we must skip the first didPlay event since when pre-roll ad ends, it will trigger again
     if ([adType isEqualToString:@"Preroll"]) {
-        self.streamAnalytics = [SCORReducedRequirementsStreamingAnalytics new];
+        self.streamAnalytics = [SCORStreamingAnalytics new];
         [self.streamAnalytics playVideoAdvertisementWithMetadata:@{ @"ns_st_cl": @"0" }
-                                                    andMediaType:SCORAdTypeLinearOnDemandPreRoll];
+                                                    andMediaType:SCORStreamingAdvertisementTypeOnDemandPreRoll];
         self.skipFirstDidPlay = YES;
     } else {
         [self.streamAnalytics playVideoAdvertisementWithMetadata:@{ @"ns_st_cl": @"0" }
-                                                    andMediaType:SCORAdTypeLinearOnDemandMidRoll];
+                                                    andMediaType:SCORStreamingAdvertisementTypeOnDemandMidRoll];
         self.skipFirstDidPlay = YES;
     }
 
-    [self.streamAnalytics stop];
+    [self.streamAnalytics notifyEnd];
 }
 
 #pragma mark - Observers
@@ -233,7 +233,8 @@ static APStreamSenseManager *__sharedInstance;
         if ([previousStream isEqualToString:currentStream]) {
             //this is the case when app is sent to background and back to foreground
             if (self.playerSentToBackground == YES) {
-                [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict andMediaType:contentType];
+                [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict
+                                                          andMediaType:contentType];
                 self.playerSentToBackground = NO;
             } else {
                 if (self.playerActionReceived.count > 1) {
@@ -243,7 +244,8 @@ static APStreamSenseManager *__sharedInstance;
 
                     if (([previousAction isEqualToString:@"didPause"] || [previousAction isEqualToString:@"didBuffer"])
                         && ([currentAction isEqualToString:@"didPlay"])) {
-                        [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict andMediaType:contentType];
+                        [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict
+                                                                  andMediaType:contentType];
                     }
                 }
             }
@@ -255,7 +257,8 @@ static APStreamSenseManager *__sharedInstance;
                 [self setupNextItem:previousNotificationUserInfo];
             } else if (itemDuration > 0 || (itemIsLive && !self.wasNewPlayerCreated)) {
                 [eventTimer invalidate];
-                [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict andMediaType:contentType];
+                [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict
+                                                          andMediaType:contentType];
                 self.playerSentToBackground = NO;
             }
         }
@@ -274,7 +277,8 @@ static APStreamSenseManager *__sharedInstance;
             }
         } else if (itemDuration > 0 || (itemIsLive && !self.wasNewPlayerCreated)) {
             [eventTimer invalidate];
-            [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict andMediaType:contentType];
+            [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict
+                                                      andMediaType:contentType];
             self.playerSentToBackground = NO;
         }
     }
@@ -307,13 +311,14 @@ static APStreamSenseManager *__sharedInstance;
     }
 
     if (self.streamAnalytics == nil) {
-        self.streamAnalytics = [SCORReducedRequirementsStreamingAnalytics new];
+        self.streamAnalytics = [SCORStreamingAnalytics new];
     }
 
     [self setupExtendedDict:userInfo];
 
     // Before setting a new clip we need to reset so the clip will be reported.
-    [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict andMediaType:contentType];
+    [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict
+                                              andMediaType:contentType];
     self.playerSentToBackground = NO;
 }
 
@@ -366,7 +371,7 @@ static APStreamSenseManager *__sharedInstance;
     if (itemIsLive) {
         // Live
         [extendedDict setValue:@"live" forKey:kAPStreamSenseManagerPlaylistTitle];
-        contentType = SCORContentTypeLive;
+        contentType = SCORStreamingContentTypeLive;
     } else {
         // VOD
         NSString *showName = [userInfo objectForKey:kAPStreamSenseManagerItemName];
@@ -374,9 +379,9 @@ static APStreamSenseManager *__sharedInstance;
         [extendedDict setValue:[showName analyticsString] forKey:kAPStreamSenseManagerPlaylistTitle];
 
         if (itemDuration >= 600) {
-            contentType = SCORContentTypeLongFormOnDemand;
+            contentType = SCORStreamingContentTypeLongFormOnDemand;
         } else {
-            contentType = SCORContentTypeShortFormOnDemand;
+            contentType = SCORStreamingContentTypeShortFormOnDemand;
         }
     }
 }
