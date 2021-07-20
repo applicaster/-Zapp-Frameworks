@@ -29,6 +29,12 @@ extension PluginsManager: LoadingStateMachineDataSource {
         general.dependantStates = [onLaunchHook.name]
         general.readableName = "<plugins-state-machine> Prepare General Plugins"
 
+        let cmp = LoadingState()
+        cmp.stateHandler = prepareGeneralCmpPlugins
+        cmp.dependantStates = [onLaunchHook.name]
+        cmp.readableName = "<plugins-state-machine> Prepare Cmp Plugins"
+
+        
         let player = LoadingState()
         player.stateHandler = preparePlayerPlugins
         player.dependantStates = [onLaunchHook.name]
@@ -45,6 +51,14 @@ extension PluginsManager: LoadingStateMachineDataSource {
                 general,
                 player,
                 pluginsSessionStorageData]
+    }
+    
+    func prepareLoadingUserInterfaceLayerDependantPluginStates() -> [LoadingState] {
+        let storage = LoadingState()
+        storage.stateHandler = prepareGeneralStoragePlugins
+        storage.readableName = "<plugins-state-machine> Prepare Storage plugins"
+
+        return [storage]
     }
 
     public func stateMachineFinishedWork(with state: LoadingStateTypes) {
