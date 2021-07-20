@@ -13,6 +13,7 @@ public struct ZappPluginModelKeys {
     static let kPlugin = "plugin"
     static let kIdentifier = "identifier"
     static let kPluginTypeString = "type"
+    static let kPluginApiSubTypeString = "subtype"
     static let kPluginNameString = "name"
     static let kApiString = "api"
     static let kPluginClassNameString = "class_name"
@@ -36,7 +37,7 @@ public enum ZPPluginType: String {
     case CellStyleFamily = "cell_style_family"
     case VideoAdvertisement = "video_advertisement"
     case Crashlogs = "error_monitoring"
-    
+
     /// CMP plugins needs to be loaded as hooks before general plugins
     case General$Cmp = "general.cmp"
     /// Storage plugins need to be loaded before userInterface layer to save storage related info to be used by QB
@@ -47,15 +48,12 @@ public enum ZPPluginType: String {
     case Advertisement = "advertisement"
 
     case Unknown = "unknown"
-    
-    func getSubtype(for identifier: String) -> ZPPluginType? {
-        if identifier.lowercased().contains("-cmp-") {
-            return .General$Cmp
+
+    func hasSubtype(_ subtype: ZPPluginType) -> Bool {
+        guard let type = subtype.rawValue.split(separator: ".").first else {
+            return false
         }
-        else if identifier.lowercased().contains("storage") {
-            return .General$Storage
-        }
-        return nil
+        return type == rawValue
     }
 }
 
@@ -91,12 +89,23 @@ public enum ZPPluginType: String {
             return nil
         }
         var type = ZPPluginType(rawValue: stringPluginType)
-        
-        //update type with subtype if exists
-        if let subtype = type?.getSubtype(for: identifier) {
+
+        // update type with subtype if exists
+        if let subtype = pluginSubType,
+           type?.hasSubtype(subtype) == true {
             type = subtype
         }
+
         return type
+    }()
+
+    public lazy var pluginSubType: ZPPluginType? = {
+        guard let stringPluginSubType = api?[ZappPluginModelKeys.kPluginApiSubTypeString] as? String,
+              let subtype = ZPPluginType(rawValue: stringPluginSubType) else {
+            return nil
+        }
+
+        return subtype
     }()
 
     public var pluginClassName: String? {

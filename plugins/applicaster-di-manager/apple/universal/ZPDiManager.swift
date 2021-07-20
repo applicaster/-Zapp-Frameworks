@@ -45,7 +45,7 @@ import ZappCore
 
     public func disable(completion: ((Bool) -> Void)?) {
         _ = FacadeConnector.connector?.storage?.sessionStorageRemoveValue(for: Params.jwtStorageKey,
-                                                                        namespace: nil)
+                                                                          namespace: nil)
         completion?(true)
     }
 
