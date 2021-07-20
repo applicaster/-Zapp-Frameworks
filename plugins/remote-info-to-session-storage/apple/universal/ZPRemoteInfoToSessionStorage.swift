@@ -9,7 +9,7 @@
 import XrayLogger
 import ZappCore
 
-@objc public class ZPRemoteInfoToSessionStorage: NSObject, GeneralProviderProtocol {
+@objc public class ZPRemoteInfoToSessionStorage: NSObject, GeneralStorageProviderProtocol {
     public var model: ZPPluginModel?
     public var configurationJSON: NSDictionary?
     lazy var logger = Logger.getLogger(for: "\(kNativeSubsystemPath)/ZappRemoteInfoToSessionStorage")
