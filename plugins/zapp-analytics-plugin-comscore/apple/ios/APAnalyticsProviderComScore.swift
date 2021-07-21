@@ -26,10 +26,8 @@ open class APAnalyticsProviderComScore: ZPAnalyticsProvider, PlayerDependantPlug
     }
 
     override open func configureProvider() -> Bool {
-        var retValue = false
-
         guard let customerC2 = providerProperties[kCustomerC2Key] as? String else {
-            return retValue
+            return false
         }
 
         var nsSite: String?

@@ -162,12 +162,13 @@ static APStreamSenseManager *__sharedInstance;
     //when playing live items, we must skip the first didPlay event since when pre-roll ad ends, it will trigger again
     if ([adType isEqualToString:@"Preroll"]) {
         self.streamAnalytics = [SCORStreamingAnalytics new];
-        [self.streamAnalytics playVideoAdvertisementWithMetadata:@{ @"ns_st_cl": @"0" }
-                                                    andMediaType:SCORStreamingAdvertisementTypeOnDemandPreRoll];
+
+        [self setAdvertisementMetadataWithMetadata:@{ @"ns_st_cl": @"0" }
+                                         mediaType:SCORStreamingAdvertisementTypeOnDemandPreRoll];
         self.skipFirstDidPlay = YES;
     } else {
-        [self.streamAnalytics playVideoAdvertisementWithMetadata:@{ @"ns_st_cl": @"0" }
-                                                    andMediaType:SCORStreamingAdvertisementTypeOnDemandMidRoll];
+        [self setAdvertisementMetadataWithMetadata:@{ @"ns_st_cl": @"0" }
+                                         mediaType:SCORStreamingAdvertisementTypeOnDemandMidRoll];
         self.skipFirstDidPlay = YES;
     }
 
@@ -233,8 +234,8 @@ static APStreamSenseManager *__sharedInstance;
         if ([previousStream isEqualToString:currentStream]) {
             //this is the case when app is sent to background and back to foreground
             if (self.playerSentToBackground == YES) {
-                [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict
-                                                          andMediaType:contentType];
+                [self setContentMetadataWithMetadata:extendedDict
+                                         contentType:contentType];
                 self.playerSentToBackground = NO;
             } else {
                 if (self.playerActionReceived.count > 1) {
@@ -244,8 +245,8 @@ static APStreamSenseManager *__sharedInstance;
 
                     if (([previousAction isEqualToString:@"didPause"] || [previousAction isEqualToString:@"didBuffer"])
                         && ([currentAction isEqualToString:@"didPlay"])) {
-                        [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict
-                                                                  andMediaType:contentType];
+                        [self setContentMetadataWithMetadata:extendedDict
+                                                 contentType:contentType];
                     }
                 }
             }
@@ -257,8 +258,9 @@ static APStreamSenseManager *__sharedInstance;
                 [self setupNextItem:previousNotificationUserInfo];
             } else if (itemDuration > 0 || (itemIsLive && !self.wasNewPlayerCreated)) {
                 [eventTimer invalidate];
-                [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict
-                                                          andMediaType:contentType];
+
+                [self setContentMetadataWithMetadata:extendedDict
+                                         contentType:contentType];
                 self.playerSentToBackground = NO;
             }
         }
@@ -277,14 +279,35 @@ static APStreamSenseManager *__sharedInstance;
             }
         } else if (itemDuration > 0 || (itemIsLive && !self.wasNewPlayerCreated)) {
             [eventTimer invalidate];
-            [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict
-                                                      andMediaType:contentType];
+            [self setContentMetadataWithMetadata:extendedDict
+                                     contentType:contentType];
+
             self.playerSentToBackground = NO;
         }
     }
 
     [eventTimer invalidate];
     eventTimer = nil;
+}
+
+- (void)setContentMetadataWithMetadata:(NSDictionary *)metadata
+                           contentType:(SCORStreamingContentType)contentType {
+    SCORStreamingContentMetadata *sm = [SCORStreamingContentMetadata contentMetadataWithBuilderBlock:^(SCORStreamingContentMetadataBuilder *builder) {
+        [builder setCustomLabels:metadata];
+        [builder setMediaType:contentType];
+    }];
+    [self.streamAnalytics setMetadata:sm];
+    [self.streamAnalytics notifyPlay];
+}
+
+- (void)setAdvertisementMetadataWithMetadata:(NSDictionary *)metadata
+                                   mediaType:(SCORStreamingAdvertisementType)mediaType {
+    SCORStreamingAdvertisementMetadata *am = [SCORStreamingAdvertisementMetadata advertisementMetadataWithBuilderBlock:^(SCORStreamingAdvertisementMetadataBuilder *builder) {
+        [builder setCustomLabels:metadata];
+        [builder setMediaType:mediaType];
+    }];
+    [self.streamAnalytics setMetadata:am];
+    [self.streamAnalytics notifyPlay];
 }
 
 - (void)removeConsecutiveActionDuplicates {
@@ -317,8 +340,8 @@ static APStreamSenseManager *__sharedInstance;
     [self setupExtendedDict:userInfo];
 
     // Before setting a new clip we need to reset so the clip will be reported.
-    [self.streamAnalytics playVideoContentPartWithMetadata:extendedDict
-                                              andMediaType:contentType];
+    [self setContentMetadataWithMetadata:extendedDict
+                             contentType:contentType];
     self.playerSentToBackground = NO;
 }
 
