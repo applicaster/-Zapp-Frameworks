@@ -166,6 +166,7 @@ const InPlayer = (props) => {
 
   async function completeStorefrontFlow({ success, error, payload }) {
     try {
+      console.log("completeStorefrontFlow", { success, error, payload });
       if (success && !error) {
         await validatePayment({ ...props, payload, store });
         const newPayload = await assetLoader({
@@ -218,45 +219,77 @@ const InPlayer = (props) => {
       await setConfig(in_player_environment);
 
       if (payload) {
+        // Check that an item requires auth (inplayer item and not raw video url).
+        const authenticationRequired = isAuthenticationRequired({ payload });
+        if (!authenticationRequired) {
+          logger.info({
+            message:
+              "Asset loader finished task, authentication is not required",
+            data: {
+              in_player_environment,
+              in_player_client_id,
+              authenticationRequired,
+            },
+          });
+
+          finishStorefront({ success: true, error: null, payload });
+          return;
+        }
+
+        // Check that user is logged in.
+        if (!isUserAuthenticated) {
+          const message =
+            "Asset loader finished task, authentication is required but user is not logged. Check login plugin and hook order.";
+          logger.error({
+            message: message,
+            data: {
+              in_player_environment,
+              in_player_client_id,
+            },
+          });
+          throw Error(message);
+        }
+
         const assetId = await inPlayerAssetId({
           payload,
           configuration: props.configuration,
         });
-        const authenticationRequired = isAuthenticationRequired({ payload });
 
-        if (authenticationRequired && isUserAuthenticated && assetId) {
-          const payloadWithAsset = await assetLoader({ props, assetId, store });
-          logger.debug({
-            message: "Asset loader finished task",
+        // Extract inplayer asset id from the entry json
+        if (!assetId) {
+          const message = "Inplayer asset Id was not found in the entry";
+          logger.error({
+            message,
             data: {
               in_player_environment,
               in_player_client_id,
-              inplayer_asset_id: assetId,
-              payloadWithAsset,
             },
           });
-          if (!R.isNil(payloadWithAsset?.content?.src)) {
-            callback &&
-              callback({
-                success: true,
-                error: null,
-                payload: payloadWithAsset,
-              });
-          } else {
-            setItemAssetId(assetId);
-            setPayloadWithPurchaseData(payloadWithAsset);
-            setIsLoading(false);
-          }
+          throw Error(message);
+        }
+
+        const payloadWithAsset = await assetLoader({ props, assetId, store });
+        logger.debug({
+          message: `Asset loaded: inplayer assetID ${assetId}`,
+          data: {
+            in_player_environment,
+            in_player_client_id,
+            assetId,
+            payloadWithAsset,
+          },
+        });
+
+        if (!R.isNil(payloadWithAsset?.content?.src)) {
+          callback &&
+            callback({
+              success: true,
+              error: null,
+              payload: payloadWithAsset,
+            });
         } else {
-          logger.debug({
-            message:
-              "Data source not support InPlayer plugin invocation, finishing hook with: success",
-            data: {
-              in_player_environment,
-              in_player_client_id,
-            },
-          });
-          finishStorefront({ success: true, error: null, payload });
+          setItemAssetId(assetId);
+          setPayloadWithPurchaseData(payloadWithAsset);
+          setIsLoading(false);
         }
       } else if (isStanaloneScreen()) {
         const mockPayload = {
@@ -294,7 +327,8 @@ const InPlayer = (props) => {
         }
       } else {
         logger.error({
-          message: "Plugin could not started, no data exist",
+          message:
+            "Plugin could not started, unxpected flow, no payload, not standalone screen",
         });
         finishStorefront({ success: false, error: null, payload });
       }
@@ -318,6 +352,8 @@ const InPlayer = (props) => {
   };
 
   function finishStorefront({ success, error, payload }) {
+    console.log("finishStorefront", { callback, success, error, payload });
+
     if (callback) {
       callback({ success, error, payload });
     } else {
