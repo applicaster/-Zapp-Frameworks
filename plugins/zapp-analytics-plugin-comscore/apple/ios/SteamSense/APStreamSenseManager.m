@@ -45,6 +45,8 @@ NSTimer *eventTimer;
 @property (nonatomic, strong) NSString *lastActionSentToComscore;
 @property (nonatomic, assign) BOOL playerSentToBackground;
 @property (nonatomic, assign) BOOL skipFirstDidPlay;
+@property (nonatomic, weak) id<APStreamSenseManagerDelegate> delegate;
+@property (nonatomic, copy) NSDictionary *providerProperties;
 
 @end
 
@@ -55,9 +57,18 @@ NSTimer *eventTimer;
  */
 @implementation APStreamSenseManager
 
-static APStreamSenseManager *__sharedInstance;
-
 #pragma mark - Public
+
+- (instancetype)initWithProviderProperties:(NSDictionary *)providerProperties
+                                  delegate:(id<APStreamSenseManagerDelegate>)delegate {
+    self = [super init];
+    if (self) {
+        self.delegate = delegate;
+        _providerProperties = providerProperties;
+        [self prepareIntialRun];
+    }
+    return self;
+}
 
 + (void)initialize {
     kAPStreamSenseManagerItemID = kPlayingItemUniqueID;
@@ -65,43 +76,30 @@ static APStreamSenseManager *__sharedInstance;
     kAPStreamSenseManagerItemUrl = kPlayingItemUrl;
 }
 
-+ (APStreamSenseManager *)sharedInstance {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        __sharedInstance = [APStreamSenseManager new];
-        __sharedInstance.notificationUserInfoReceived = [NSMutableArray new];
-        __sharedInstance.playerActionReceived = [NSMutableArray new];
-    });
+- (void)prepareIntialRun {
+    if (self.streamAnalytics == nil) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(watchedAd:)
+                                                     name:@"watchVideoAdvertisements"
+                                                   object:nil];
 
-    return __sharedInstance;
-}
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(adOportunity:)
+                                                     name:@"videoAdvertisementsOpportunity"
+                                                   object:nil];
 
-+ (void)start {
-    APStreamSenseManager *manager = [APStreamSenseManager sharedInstance];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(appWillResignActive:)
+                                                     name:UIApplicationWillResignActiveNotification
+                                                   object:nil];
 
-    if (manager && manager.streamAnalytics == nil) {
-        [[NSNotificationCenter defaultCenter] addObserver:manager
-                                                 selector:@selector(watchedAd:) name:@"watchVideoAdvertisements" object:nil];
-
-        [[NSNotificationCenter defaultCenter] addObserver:manager
-                                                 selector:@selector(adOportunity:) name:@"videoAdvertisementsOpportunity" object:nil];
-
-        [[NSNotificationCenter defaultCenter] addObserver:manager
-                                                 selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-
-        [[NSNotificationCenter defaultCenter] addObserver:manager
-                                                 selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(appWillTerminate:)
+                                                     name:UIApplicationWillTerminateNotification
+                                                   object:nil];
     }
 
     initialRun = true;
-}
-
-+ (void)setProviderProperties:(NSDictionary *)providerProperties {
-    [self sharedInstance].providerProperties = providerProperties;
-}
-
-+ (void)setDelegate:(id<APStreamSenseManagerDelegate>)delegate {
-    [self sharedInstance].delegate = delegate;
 }
 
 - (void)dealloc {

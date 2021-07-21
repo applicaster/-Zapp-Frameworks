@@ -13,7 +13,8 @@ import ZappPlugins
 open class APAnalyticsProviderComScore: ZPAnalyticsProvider, PlayerDependantPluginProtocol {
     public var playerPlugin: PlayerProtocol?
     var playbackStalled: Bool = false
-
+    var comscoreObjHelper:APStreamSenseManager?
+    
     let kCustomerC2Key = "customer_c2"
     let kAppNameKey = "app_name"
     let kNsSiteKey = "ns_site"
@@ -57,9 +58,8 @@ open class APAnalyticsProviderComScore: ZPAnalyticsProvider, PlayerDependantPlug
 
         SCORAnalytics.start()
 
-        APStreamSenseManager.setProviderProperties(providerProperties)
-        APStreamSenseManager.setDelegate(self)
-        APStreamSenseManager.start()
+        comscoreObjHelper = APStreamSenseManager(providerProperties: providerProperties,
+                                                 delegate: self)
 
         return true
     }

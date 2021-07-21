@@ -20,7 +20,7 @@ extension APAnalyticsProviderComScore: PlayerObserverProtocol {
     }
 
     public func playerDidCreate(player: PlayerProtocol) {
-        APStreamSenseManager.sharedInstance()?.playerDidCreate()
+        comscoreObjHelper?.playerDidCreate()
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleAccessLogEntry(notification:)),
@@ -34,7 +34,7 @@ extension APAnalyticsProviderComScore: PlayerObserverProtocol {
                                         forKeyPath: "rate",
                                         context: nil)
         }
-        APStreamSenseManager.sharedInstance()?.playerDidFinishPlayItem()
+        comscoreObjHelper?.playerDidFinishPlayItem()
     }
 
     public func playerProgressUpdate(player: PlayerProtocol, currentTime: TimeInterval, duration: TimeInterval) {
@@ -55,7 +55,7 @@ extension APAnalyticsProviderComScore: PlayerObserverProtocol {
                               forKeyPath: "rate",
                               options: [],
                               context: nil)
-        APStreamSenseManager.sharedInstance()?.playerDidStartPlayItem(entry)
+        comscoreObjHelper?.playerDidStartPlayItem(entry)
     }
 
     override public func observeValue(forKeyPath keyPath: String?,
@@ -67,12 +67,12 @@ extension APAnalyticsProviderComScore: PlayerObserverProtocol {
             object == player {
             // if playing
             if playbackStalled, player.rate > 0 {
-                APStreamSenseManager.sharedInstance()?.playerDidResumePlayItem()
+                comscoreObjHelper?.playerDidResumePlayItem()
                 playbackStalled = false
             }
             // if paused
             else if !playbackStalled, player.rate == 0 {
-                APStreamSenseManager.sharedInstance()?.playerDidPausePlayItem()
+                comscoreObjHelper?.playerDidPausePlayItem()
                 playbackStalled = true
             }
         } else {
