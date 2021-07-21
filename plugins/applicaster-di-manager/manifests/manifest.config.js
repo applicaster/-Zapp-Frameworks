@@ -76,8 +76,8 @@ const custom_configuration_fields = {
 };
 
 const min_zapp_sdk = {
-  ios_for_quickbrick: "3.0.0-Dev",
-  tvos_for_quickbrick: "3.0.0-Dev",
+  ios_for_quickbrick: "5.1.0-Dev",
+  tvos_for_quickbrick: "5.1.0-Dev",
   android_for_quickbrick: "2.0.0",
   android_tv_for_quickbrick: "2.0.0",
   amazon_fire_tv_for_quickbrick: "2.0.0",
@@ -117,9 +117,10 @@ const project_dependencies = {
 };
 
 const api_apple = {
-  require_startup_execution: false,
+  require_startup_execution: true,
   class_name: "ZPDiManager",
   modules: ["ZappDiManager"],
+  subtype: "general.storage"
 };
 
 const api_android = {
