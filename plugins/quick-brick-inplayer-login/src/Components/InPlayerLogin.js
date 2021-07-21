@@ -172,11 +172,11 @@ const InPlayerLogin = (props) => {
     try {
       const { token } = await InPlayerSDK.Account.getToken();
       setIdtoken(token);
-    } catch(err) {
+    } catch (err) {
       logger.debug({
         message: `Error getting InPlayer Token`,
         data: {
-          err
+          err,
         },
       });
     }
@@ -186,28 +186,27 @@ const InPlayerLogin = (props) => {
       data: { configuration: props?.configuration },
     });
 
-    let shouldBeSkipped = payload?.extensions?.skip_hook;
-
-    if (show_hook_once) {
-      const presentScreen = await screenShouldBePresented();
-      if (presentScreen === false) {
-        shouldBeSkipped = true;
-      } else {
-        await removePresentedInfo();
-      }
-    }
-
-    if (shouldBeSkipped) {
-      logger.debug({
-        message:
-          "InPlayer plugin invocation, finishing hook with: success. Hook should be scipped",
-        data: { should_be_skipped: shouldBeSkipped },
-      });
-      accountFlowCallback({ success: true });
-      return;
-    }
-
     if (payload) {
+      let shouldBeSkipped = payload?.extensions?.skip_hook;
+
+      if (show_hook_once) {
+        const presentScreen = await screenShouldBePresented();
+        if (presentScreen === false) {
+          shouldBeSkipped = true;
+        } else {
+          await removePresentedInfo();
+        }
+      }
+
+      if (shouldBeSkipped) {
+        logger.debug({
+          message:
+            "InPlayer plugin invocation, finishing hook with: success. Hook should be skipped",
+          data: { should_be_skipped: shouldBeSkipped },
+        });
+        accountFlowCallback({ success: true });
+        return;
+      }
       const authenticationRequired = isAuthenticationRequired({ payload });
       const assetId = inPlayerAssetId({
         payload,
