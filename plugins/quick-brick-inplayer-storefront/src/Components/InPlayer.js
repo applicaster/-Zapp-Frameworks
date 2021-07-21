@@ -166,7 +166,6 @@ const InPlayer = (props) => {
 
   async function completeStorefrontFlow({ success, error, payload }) {
     try {
-      console.log("completeStorefrontFlow", { success, error, payload });
       if (success && !error) {
         await validatePayment({ ...props, payload, store });
         const newPayload = await assetLoader({
@@ -352,8 +351,6 @@ const InPlayer = (props) => {
   };
 
   function finishStorefront({ success, error, payload }) {
-    console.log("finishStorefront", { callback, success, error, payload });
-
     if (callback) {
       callback({ success, error, payload });
     } else {
