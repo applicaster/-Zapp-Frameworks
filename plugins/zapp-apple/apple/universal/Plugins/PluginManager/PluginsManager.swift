@@ -30,9 +30,17 @@ public class PluginsManager: NSObject {
         return retVal?.value as? FacadeConnectorLocalNotificationProtocol
     }()
 
+    public var uiLayerDependantPluginsSubManager: UserInterfaceLayerDependantPluginsSubManager?
+
+    
     var pluginsStateMachine: LoadingStateMachine!
     var pluginLoaderCompletion: ((_ success: Bool) -> Void)?
-
+    
+    override init() {
+        super.init()
+        uiLayerDependantPluginsSubManager = UserInterfaceLayerDependantPluginsSubManager(parent: self)
+    }
+    
     func intializePlugins(completion: @escaping (_ success: Bool) -> Void) {
         logger?.debugLog(template: PluginsManagerLogs.pluginsInitialization)
 
@@ -41,16 +49,6 @@ public class PluginsManager: NSObject {
                                                   withStates: prepareLoadingPluginStates())
         pluginsStateMachine.startStatesInvocation()
     }
-    
-    func intializeUserInterfaceLayerDependantPlugins(completion: @escaping (_ success: Bool) -> Void) {
-        logger?.debugLog(template: PluginsManagerLogs.pluginsInitialization)
-
-        pluginLoaderCompletion = completion
-        pluginsStateMachine = LoadingStateMachine(dataSource: self,
-                                                  withStates: prepareLoadingUserInterfaceLayerDependantPluginStates())
-        pluginsStateMachine.startStatesInvocation()
-    }
-    
 
     func loadPluginConfiguration(_ successHandler: @escaping StateCallBack,
                           _ failHandler: @escaping StateCallBack) {
@@ -103,14 +101,6 @@ public class PluginsManager: NSObject {
                                _ failHandler: @escaping StateCallBack) {
         logger?.debugLog(template: PluginsManagerLogs.preparingGeneralCmpPlugins)
         generalCmp.prepareManager { success in
-            success ? successHandler() : failHandler()
-        }
-    }
-    
-    func prepareGeneralStoragePlugins(_ successHandler: @escaping StateCallBack,
-                               _ failHandler: @escaping StateCallBack) {
-        logger?.debugLog(template: PluginsManagerLogs.preparingGeneralStoragePlugins)
-        generalStorage.prepareManager { success in
             success ? successHandler() : failHandler()
         }
     }
