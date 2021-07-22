@@ -182,7 +182,7 @@ export async function retrieveProducts(purchasableItems) {
 
       logger
         .createEvent()
-        .setLevel(XRayLogLevel.debug)
+        .setLevel(XRayLogLevel.info)
         .addData({
           purchasable_items: purchasableItems,
           mapped_purchasable_items: mappedPurchasableItems,
@@ -196,7 +196,7 @@ export async function retrieveProducts(purchasableItems) {
 
       logger
         .createEvent()
-        .setLevel(XRayLogLevel.debug)
+        .setLevel(XRayLogLevel.info)
         .addData({
           purchasable_items: purchasableItems,
           mapped_purchasable_items: mappedPurchasableItems,

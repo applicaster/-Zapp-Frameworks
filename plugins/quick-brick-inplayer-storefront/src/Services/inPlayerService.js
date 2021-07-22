@@ -273,8 +273,6 @@ export async function isAuthenticated(in_player_client_id) {
   } catch (error) {
     const res = await error.response;
     if (res?.status === 403) {
-      await InPlayer.Account.refreshToken(in_player_client_id);
-
       logger.warning({
         message: `InPlayer.Account.getAccount >> status: ${res?.status}, is_authenticated: true`,
         data: {
@@ -283,6 +281,8 @@ export async function isAuthenticated(in_player_client_id) {
           error,
         },
       });
+      await InPlayer.Account.refreshToken(in_player_client_id);
+
       return true;
     }
 

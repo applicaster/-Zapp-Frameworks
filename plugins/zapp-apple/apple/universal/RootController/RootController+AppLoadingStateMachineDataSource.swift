@@ -31,7 +31,12 @@ extension RootController: LoadingStateMachineDataSource {
 
     func loadUserInterfaceLayerDependantPluginsGroup(_ successHandler: @escaping StateCallBack,
                                                 _ failHandler: @escaping StateCallBack) {
-        pluginsManager.intializeUserInterfaceLayerDependantPlugins { success in
+        guard let manager = pluginsManager.uiLayerDependantPluginsSubManager else {
+            successHandler()
+            return
+        }
+        
+        manager.intializePlugins { success in
             if success == true {
                 successHandler()
             } else {
