@@ -79,7 +79,7 @@ export default function Storefront(props) {
         message: `initializeIap: Initializing IAP plugin, FAILED: ${error}`,
         data: { error },
       });
-      onStorefrontCompleted({ success: false });
+      throw error;
     }
   }
 
@@ -96,9 +96,16 @@ export default function Storefront(props) {
   };
 
   async function prepareStoreFront() {
-    await initializeIap();
-    await preparePurchaseData();
+    try {
+      await initializeIap();
+      await preparePurchaseData();
+    } catch (error) {
+      const alertTitle = MESSAGES.purchase.fail;
+      showAlert(alertTitle, error.message);
+      onStorefrontCompleted({ success: false, error });
+    }
   }
+
   function syncPurchaseData({ productsToPurchase, storeFeesData }) {
     let retVal = [];
     for (let i = 0; i < storeFeesData.length; i++) {
@@ -131,8 +138,9 @@ export default function Storefront(props) {
       const productsToPurchase =
         props?.payload?.extensions?.in_app_purchase_data?.productsToPurchase;
       const storeFeesData = await retrieveProducts(productsToPurchase);
+
       if (storeFeesData.length === 0) {
-        throw new Error(MESSAGES.validation.emptyStore);
+        throw Error(MESSAGES.validation.emptyStore);
       }
 
       const mappedFeeData = syncPurchaseData({
@@ -151,7 +159,7 @@ export default function Storefront(props) {
       setDataSource(mappedFeeData);
     } catch (error) {
       setLoading(false);
-      onStorefrontCompleted({ success: false, error });
+      throw error;
     }
   }
 
