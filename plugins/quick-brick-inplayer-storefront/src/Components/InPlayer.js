@@ -90,22 +90,6 @@ const InPlayer = (props) => {
           userAccountStorageTokenKey,
           tokenValue
         );
-        const localStorageToken = await localStorageGet(
-          defaultTokenKey,
-          tokenValue
-        );
-        const { token } = await InPlayerSDK.Account.getToken();
-        const stringifyLocalStorageToken = JSON.stringify(localStorageToken);
-        logger.debug({
-          message: `InplayerSDK get token ${defaultTokenKey}`,
-          data: {
-            defaultTokenKey,
-            tokenValue,
-            localStorageToken,
-            token,
-            stringifyLocalStorageToken,
-          },
-        });
       },
       getItem: async function (defaultTokenKey) {
         const token = await localStorageGet(defaultTokenKey);
