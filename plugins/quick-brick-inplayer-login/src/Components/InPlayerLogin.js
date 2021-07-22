@@ -179,7 +179,6 @@ const InPlayerLogin = (props) => {
             stringifyLocalStorageToken,
           },
         });
-        
       },
       getItem: async function (defaultTokenKey) {
         const token = await localStorageGet(defaultTokenKey);
@@ -591,7 +590,14 @@ const InPlayerLogin = (props) => {
     } catch (error) {
       setError(error);
       setTimeout(() => {
-        invokeCompleteAction();
+        logger.error({
+          message: `Logout error: ${error.message}`,
+          data: {
+            email,
+            error,
+          },
+        });
+        invokeLogoutCompleteAction();
       }, timeout);
     }
   }
