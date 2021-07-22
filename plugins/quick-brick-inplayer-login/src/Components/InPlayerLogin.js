@@ -53,7 +53,7 @@ const getRiversProp = (key, rivers = {}, screenId = "") => {
   return getPropByKey(rivers);
 };
 
-const localStorageTokenKey = "in_player_token";
+const localStorageTokenKey = "inplayer_token";
 const userAccountStorageTokenKey = "idToken";
 
 const InPlayerLogin = (props) => {
@@ -150,19 +150,51 @@ const InPlayerLogin = (props) => {
         defaultTokenKey, // 'inplayer_token'
         tokenValue
       ) {
-        await localStorageSet(localStorageTokenKey, tokenValue);
+        logger.debug({
+          message: "InplayerSDK set new token",
+          data: {
+            defaultTokenKey,
+            tokenValue,
+          },
+        });
+        await localStorageSet(defaultTokenKey, tokenValue);
         await localStorageSetUserAccount(
           userAccountStorageTokenKey,
           tokenValue
         );
-      },
-      getItem: async function () {
-        const token = await localStorageGet(localStorageTokenKey);
 
+        const localStorageToken = await localStorageGet(
+          defaultTokenKey,
+          tokenValue
+        );
+        const { token } = await InPlayerSDK.Account.getToken();
+        const stringifyLocalStorageToken = JSON.stringify(localStorageToken);
+        logger.debug({
+          message: `InplayerSDK get token ${defaultTokenKey}`,
+          data: {
+            defaultTokenKey,
+            tokenValue,
+            localStorageToken,
+            token,
+            stringifyLocalStorageToken,
+          },
+        });
+        
+      },
+      getItem: async function (defaultTokenKey) {
+        const token = await localStorageGet(defaultTokenKey);
         return JSON.stringify(token);
       },
-      removeItem: async function () {
-        await localStorageRemove(localStorageTokenKey);
+      removeItem: async function (defaultTokenKey) {
+        logger.debug({
+          message: "InplayerSDK remove token",
+          data: {
+            defaultTokenKey,
+            tokenValue,
+          },
+        });
+
+        await localStorageRemove(defaultTokenKey);
         await localStorageRemoveUserAccount(userAccountStorageTokenKey);
       },
     };
