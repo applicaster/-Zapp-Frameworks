@@ -593,7 +593,6 @@ const InPlayerLogin = (props) => {
         logger.error({
           message: `Logout error: ${error.message}`,
           data: {
-            email,
             error,
           },
         });
