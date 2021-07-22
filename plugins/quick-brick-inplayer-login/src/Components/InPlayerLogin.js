@@ -189,7 +189,6 @@ const InPlayerLogin = (props) => {
           message: "InplayerSDK remove token",
           data: {
             defaultTokenKey,
-            tokenValue,
           },
         });
 
