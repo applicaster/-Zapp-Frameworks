@@ -43,7 +43,7 @@ const getRiversProp = (key, rivers = {}, screenId = "") => {
   return getPropByKey(rivers);
 };
 
-const localStorageTokenKey = "in_player_token";
+const localStorageTokenKey = "inplayer_token";
 const userAccountStorageTokenKey = "idToken";
 
 const InPlayer = (props) => {
@@ -78,21 +78,36 @@ const InPlayer = (props) => {
         defaultTokenKey, // 'inplayer_token'
         tokenValue
       ) {
-        await localStorageSet(localStorageTokenKey, tokenValue);
+        logger.debug({
+          message: "InplayerSDK set new token",
+          data: {
+            defaultTokenKey,
+            tokenValue,
+          },
+        });
+        await localStorageSet(defaultTokenKey, tokenValue);
         await localStorageSetUserAccount(
           userAccountStorageTokenKey,
           tokenValue
         );
       },
-      getItem: async function () {
-        const token = await localStorageGet(localStorageTokenKey);
+      getItem: async function (defaultTokenKey) {
+        const token = await localStorageGet(defaultTokenKey);
         return JSON.stringify(token);
       },
-      removeItem: async function () {
-        await localStorageRemove(localStorageTokenKey);
+      removeItem: async function (defaultTokenKey) {
+        logger.debug({
+          message: "InplayerSDK remove token",
+          data: {
+            defaultTokenKey,
+          },
+        });
+
+        await localStorageRemove(defaultTokenKey);
         await localStorageRemoveUserAccount(userAccountStorageTokenKey);
       },
     };
+
     setupEnvironment();
     return () => {
       navigator.showNavBar();
