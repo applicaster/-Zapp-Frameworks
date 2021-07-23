@@ -1,15 +1,12 @@
 import * as React from "react";
-import * as R from "ramda";
 import { View, StyleSheet } from "react-native";
-import { pluginsManagerBridge } from "@applicaster/zapp-react-native-bridge/PluginManager";
-import { componentsLogger } from "@applicaster/zapp-react-native-ui-components/Helpers/logger";
-// import { handleStyleType } from "./Utils";
 import { platformSelect } from "@applicaster/zapp-react-native-utils/reactUtils";
 import { useTheme } from "@applicaster/zapp-react-native-utils/theme";
 import { useLocalizedStrings } from "@applicaster/zapp-react-native-utils/localizationUtils";
 import { AccountInfo } from "../AccountInfo";
 import { Button } from "../Button";
 import { UserPhoto } from "../UserPhoto";
+import { logger } from "../../services/LoggerService";
 import {
   styleForLogin1Button,
   styleForLogin2Button,
@@ -20,10 +17,6 @@ import {
 } from "./Utils";
 import { loginModelButton1, loginModelButton2 } from "../../utils/DataUtils";
 import { screenFromRivers } from "../../utils/ScreenUtils";
-
-const logger = componentsLogger.addSubsystem(
-  "quick-brick-user-account-ui-component"
-);
 
 type Props = {
   component: {
@@ -69,7 +62,8 @@ export function UserAccount(props: Props) {
 
   const { component, onLoadFinished, rivers, navigator } = props;
   const { data, localizations, styles, id } = component;
-  console.log({ data, localizations, styles, id, rivers, navigator });
+  const button_2_login_enabled = styles?.button_2_login_enabled;
+
   const {
     account_title = "Account",
     user_name_title = "User",
@@ -91,21 +85,46 @@ export function UserAccount(props: Props) {
   }, [navigator.previousAction]);
 
   React.useEffect(() => {
-    if (button1Model && button1Model.token) {
-      setIsLogedIn(true);
+    let logedIn = false;
+    if (button1Model === null && button2Model === null) {
+      logger.error({
+        message:
+          "Error: both login buttons are empty, check plugin configuration",
+        data: { localizations, styles },
+      });
+    } else if (button1Model && button1Model.token) {
+      logedIn = true;
     } else if (button2Model && button2Model.token) {
-      setIsLogedIn(true);
+      logedIn = true;
     }
+    logger.debug({
+      message: `Login status changed, login 1 has token ${!!button1Model.token}, login 2 has token ${!!button2Model.token}`,
+      data: { button1Model, button2Model },
+    });
+    setIsLogedIn(logedIn);
   }, [button1Model, button2Model]);
 
   async function preparePlugin() {
-    const button1Model = await loginModelButton1(styles);
-    const button2Model = await loginModelButton2(styles);
+    try {
+      logger.info({
+        message: `preparePlugin: login button 2 is enabled: ${button_2_login_enabled}.`,
+        data: { localizations, styles },
+      });
+      const button1Model = await loginModelButton1(styles);
+      setButton1Model(button1Model);
 
-    setButton1Model(button1Model);
-    setButton2Model(button2Model);
+      if (button_2_login_enabled) {
+        const button2Model = await loginModelButton2(styles);
+        setButton2Model(button2Model);
+      }
 
-    onLoadFinished();
+      onLoadFinished();
+    } catch (error) {
+      logger.error({
+        message: `preparePlugin: error ${error.message}`,
+        data: { error },
+      });
+    }
   }
 
   const styleLogin1Button = React.useCallback(
@@ -157,18 +176,29 @@ export function UserAccount(props: Props) {
 
   const onLogin1 = React.useCallback(async () => {
     const plugin = screenFromRivers({ rivers, loginDataModel: button1Model });
+    logger.debug({
+      message: `Login Button 1 was clicked ${button1Model.title}`,
+      data: { button1Model, plugin },
+    });
     navigator.push(plugin);
   }, []);
 
   const onLogin2 = React.useCallback(async () => {
     const plugin = screenFromRivers({ rivers, loginDataModel: button2Model });
+    logger.debug({
+      message: `Login Button 2 was clicked ${button1Model.title}`,
+      data: { button2Model, plugin },
+    });
     navigator.push(plugin);
   }, []);
 
   const onLogout = React.useCallback(async () => {
     const model = loginDataModelByToken();
     let plugin = screenFromRivers({ rivers, loginDataModel: model });
-
+    logger.debug({
+      message: `Logout Button was clicked ${model.title}`,
+      data: { button1Model, plugin },
+    });
     navigator.push(plugin);
   }, []);
 
@@ -181,8 +211,6 @@ export function UserAccount(props: Props) {
   }
 
   function renderLoginFlow() {
-    const login_button_2_enabled = styles?.button_2_login_enabled;
-    console.log({ login_button_2_enabled });
     return (
       <>
         <UserPhoto imageSrc={styles?.user_image_placeholder} />
@@ -192,7 +220,7 @@ export function UserAccount(props: Props) {
           onPress={onLogin1}
           titleText={login_button_1_title_text}
         />
-        {login_button_2_enabled && (
+        {button_2_login_enabled && (
           <Button
             styles={styleLogin2Button()}
             id={login2ButtonId}

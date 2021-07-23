@@ -1,5 +1,3 @@
-// export const pluginIdentifier = "quick-brick-user-account-ui-component";
-
 type GeneralStyles = {
   user_image_placeholder: string;
   button_1_custom_screen_id: string;
@@ -97,6 +95,7 @@ type LoginData = {
 };
 
 type LoginKeysDataModel = {
+  title: string;
   tokenKey: string;
   namespace: string;
   userIdKey?: string;
@@ -108,6 +107,7 @@ type LoginKeysDataModel = {
 
 type LoginDataModel = {
   keysModel: LoginKeysDataModel;
+  title: string;
   token: string;
   userId?: string;
   subscriptionPrice?: string;
