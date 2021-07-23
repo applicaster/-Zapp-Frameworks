@@ -119,7 +119,14 @@ async function itemForKey(key: string, namespace: string) {
 }
 
 function loginModelKeysButton1(props: GeneralStyles): LoginKeysDataModel {
-  if (!props.button_1_custom_namespace || !props?.button_1_custom_token_key) {
+  console.log("loginModelKeysButton1", {
+    props,
+    button_type: props.button_1_login_type,
+  });
+  if (
+    props.button_1_login_type === LoginModelsType.Other &&
+    (!props.button_1_custom_namespace || !props?.button_1_custom_token_key)
+  ) {
     logger.warning({
       message:
         "Button 1 enabled, with type other but custom token key was not defined",

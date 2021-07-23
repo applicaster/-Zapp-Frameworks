@@ -86,19 +86,20 @@ export function UserAccount(props: Props) {
 
   React.useEffect(() => {
     let logedIn = false;
+    console.log({ button1Model });
     if (button1Model === null && button2Model === null) {
       logger.error({
         message:
           "Error: both login buttons are empty, check plugin configuration",
         data: { localizations, styles },
       });
-    } else if (button1Model && button1Model.token) {
+    } else if (button1Model && button1Model?.token) {
       logedIn = true;
-    } else if (button2Model && button2Model.token) {
+    } else if (button2Model && button2Model?.token) {
       logedIn = true;
     }
     logger.debug({
-      message: `Login status changed, login 1 has token ${!!button1Model.token}, login 2 has token ${!!button2Model.token}`,
+      message: `Login status changed, login 1 has token ${!!button1Model?.token}, login 2 has token ${!!button2Model?.token}`,
       data: { button1Model, button2Model },
     });
     setIsLogedIn(logedIn);
