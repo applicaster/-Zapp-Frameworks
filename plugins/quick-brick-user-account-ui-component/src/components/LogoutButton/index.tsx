@@ -12,10 +12,8 @@ type Props = {
 
 const componentStyles = StyleSheet.create({
   containerStyle: {
-    height: 32,
-    marginRight: 57,
-    marginLeft: 57,
-    marginBottom: 12,
+    height: 22,
+    width: 99,
     flex: 1,
     flexDirection: "row",
   },
@@ -29,7 +27,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export function Button(props: Props) {
+export function LogoutButton(props: Props) {
   const [isUnderlay, setIsUnderlay] = React.useState(false);
 
   function onShowUnderlay() {

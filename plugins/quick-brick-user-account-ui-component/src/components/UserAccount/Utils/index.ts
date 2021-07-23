@@ -52,3 +52,14 @@ function getStylesForLabele(styles: Styles, key: string): LabelStyles {
     title_text_font_android: styles[`${key}title_text_font_android`],
   };
 }
+
+export function getSubscriptionData(
+  model: LoginDataModel,
+  subscription_expiration_title
+): string {
+  const { subscriptionPrice, subscriptionRenewsDate } = model;
+  if (!subscriptionPrice && !subscriptionRenewsDate) {
+    return null;
+  }
+  return `${subscriptionPrice} ${subscription_expiration_title} ${subscriptionRenewsDate}`;
+}

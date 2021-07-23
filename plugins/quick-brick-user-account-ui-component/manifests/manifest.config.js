@@ -37,7 +37,7 @@ const styles = {
       folded: true,
       fields: [
         {
-          key: "login_type_button_1",
+          key: "button_1_login_type",
           type: "select",
           options: [
             { text: "Inplayer", value: "in_player" },
@@ -52,14 +52,14 @@ const styles = {
           placeholder: "Select login type",
         },
         {
-          key: "button_2_screen_id",
+          key: "button_1_custom_screen_id",
           type: "text_input",
           initial_value: "",
           label: "Screen Id for pluin (optional)",
           placeholder: "Custom plugin namespace",
         },
         {
-          key: "custom_namespace_button_1",
+          key: "button_1_custom_namespace",
           type: "text_input",
           initial_value: "",
           label: "Custom plugin namespace",
@@ -67,12 +67,12 @@ const styles = {
           conditional_fields: [
             {
               condition_value: ["other"],
-              key: "styles/login_type_button_1",
+              key: "styles/button_1_login_type",
             },
           ],
         },
         {
-          key: "custom_token_key_button_1",
+          key: "button_1_custom_token_key",
           type: "text_input",
           initial_value: "",
           label: "Custom plugin token key",
@@ -80,7 +80,59 @@ const styles = {
           conditional_fields: [
             {
               condition_value: ["other"],
-              key: "styles/login_type_button_1",
+              key: "styles/button_1_login_type",
+            },
+          ],
+        },
+        {
+          key: "button_1_custom_user_id_key",
+          type: "text_input",
+          initial_value: "",
+          label: "Custom user id key",
+          placeholder: "Custom user id key",
+          conditional_fields: [
+            {
+              condition_value: ["other"],
+              key: "styles/button_1_login_type",
+            },
+          ],
+        },
+        {
+          key: "button_1_custom_subscription_price_key",
+          type: "text_input",
+          initial_value: "",
+          label: "Custom user id key",
+          placeholder: "Custom user id key",
+          conditional_fields: [
+            {
+              condition_value: ["other"],
+              key: "styles/button_1_login_type",
+            },
+          ],
+        },
+        {
+          key: "button_1_custom_subscription_renews_date_key",
+          type: "text_input",
+          initial_value: "",
+          label: "Custom user id key",
+          placeholder: "Custom user id key",
+          conditional_fields: [
+            {
+              condition_value: ["other"],
+              key: "styles/button_1_login_type",
+            },
+          ],
+        },
+        {
+          key: "button_1_custom_user_photo_url_key",
+          type: "text_input",
+          initial_value: "",
+          label: "Custom user id key",
+          placeholder: "Custom user id key",
+          conditional_fields: [
+            {
+              condition_value: ["other"],
+              key: "styles/button_1_login_type",
             },
           ],
         },
@@ -163,7 +215,7 @@ const styles = {
       ],
     },
     {
-      key: "login_button_2_enabled",
+      key: "button_2_login_enabled",
       label: "Switch to enable loggin button 2",
       type: "switch",
       initial_value: false,
@@ -181,7 +233,7 @@ const styles = {
       ],
       fields: [
         {
-          key: "login_type_button_2",
+          key: "button_2_login_type",
           type: "select",
           options: [
             { text: "Inplayer", value: "in_player" },
@@ -196,14 +248,14 @@ const styles = {
           placeholder: "Select login type",
         },
         {
-          key: "button_1_screen_id",
+          key: "button_2_custom_screen_id",
           type: "text_input",
           initial_value: "",
           label: "Screen Id for pluin (optional)",
           placeholder: "Custom plugin namespace",
         },
         {
-          key: "custom_namespace_button_2",
+          key: "button_2_custom_namespace",
           type: "text_input",
           initial_value: "",
           label: "Custom plugin namespace",
@@ -211,12 +263,12 @@ const styles = {
           conditional_fields: [
             {
               condition_value: ["other"],
-              key: "styles/login_type_button_2",
+              key: "styles/button_2_login_type",
             },
           ],
         },
         {
-          key: "custom_token_key_button_2",
+          key: "button_2_custom_token_key",
           type: "text_input",
           initial_value: "",
           label: "Custom plugin token key",
@@ -224,7 +276,59 @@ const styles = {
           conditional_fields: [
             {
               condition_value: ["other"],
-              key: "styles/login_type_button_2",
+              key: "styles/button_2_login_type",
+            },
+          ],
+        },
+        {
+          key: "button_2_custom_user_id_key",
+          type: "text_input",
+          initial_value: "",
+          label: "Custom user id key",
+          placeholder: "Custom user id key",
+          conditional_fields: [
+            {
+              condition_value: ["other"],
+              key: "styles/button_2_login_type",
+            },
+          ],
+        },
+        {
+          key: "button_2_custom_subscription_price_key",
+          type: "text_input",
+          initial_value: "",
+          label: "Custom user id key",
+          placeholder: "Custom user id key",
+          conditional_fields: [
+            {
+              condition_value: ["other"],
+              key: "styles/button_2_login_type",
+            },
+          ],
+        },
+        {
+          key: "button_2_custom_subscription_renews_date_key",
+          type: "text_input",
+          initial_value: "",
+          label: "Custom user id key",
+          placeholder: "Custom user id key",
+          conditional_fields: [
+            {
+              condition_value: ["other"],
+              key: "styles/button_2_login_type",
+            },
+          ],
+        },
+        {
+          key: "button_2_custom_user_photo_url_key",
+          type: "text_input",
+          initial_value: "",
+          label: "Custom user id key",
+          placeholder: "Custom user id key",
+          conditional_fields: [
+            {
+              condition_value: ["other"],
+              key: "styles/button_2_login_type",
             },
           ],
         },

@@ -1,12 +1,6 @@
 import * as React from "react";
 import * as R from "ramda";
-import {
-  View,
-  TouchableHighlight,
-  StyleSheet,
-  Text,
-  Alert,
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import { pluginsManagerBridge } from "@applicaster/zapp-react-native-bridge/PluginManager";
 import { componentsLogger } from "@applicaster/zapp-react-native-ui-components/Helpers/logger";
 // import { handleStyleType } from "./Utils";
@@ -22,10 +16,10 @@ import {
   styleForLogoutButton,
   getStylesForTitleLabel,
   getStylesForDescriptionLabel,
+  getSubscriptionData,
 } from "./Utils";
-import { isTokenExist } from "../../utils/LoginHelper";
-import { login, logout, getUserId, getSubscriptionData } from "../../mockData";
-import { getScreenFromRivers } from "../../utils/PluginsHelper";
+import { loginModelButton1, loginModelButton2 } from "../../utils/DataUtils";
+import { screenFromRivers } from "../../utils/ScreenUtils";
 
 const logger = componentsLogger.addSubsystem(
   "quick-brick-user-account-ui-component"
@@ -55,7 +49,15 @@ const componentStyles = StyleSheet.create({
 });
 
 export function UserAccount(props: Props) {
+  const login1ButtonId = "login_1";
+  const login2ButtonId = "login_2";
+
   const [isLogedIn, setIsLogedIn] = React.useState(false);
+  const [button1Model, setButton1Model] =
+    React.useState<LoginDataModel>(undefined);
+  const [button2Model, setButton2Model] =
+    React.useState<LoginDataModel>(undefined);
+
   const theme = useTheme();
 
   const newContainerStyleStyle = {
@@ -80,39 +82,32 @@ export function UserAccount(props: Props) {
     localizations,
   });
 
-  const pluginIdentifier = data?.plugin_identifier;
+  React.useEffect(() => {
+    console.log("Prepare plugin");
+  }, []);
 
   React.useEffect(() => {
     preparePlugin();
-  }, []);
+  }, [navigator.previousAction]);
+
+  React.useEffect(() => {
+    if (button1Model && button1Model.token) {
+      setIsLogedIn(true);
+    } else if (button2Model && button2Model.token) {
+      setIsLogedIn(true);
+    }
+  }, [button1Model, button2Model]);
 
   async function preparePlugin() {
-    const {
-      login_button_2_enabled,
-      login_type_button_1,
-      custom_namespace_button_1,
-      custom_token_key_button_1,
-      login_type_button_2,
-      custom_namespace_button_2,
-      custom_token_key_button_2,
-    } = styles;
+    const button1Model = await loginModelButton1(styles);
+    const button2Model = await loginModelButton2(styles);
 
-    const userLogedIn = await isTokenExist({
-      login_type_button_1,
-      custom_namespace_button_1,
-      custom_token_key_button_1,
-      login_type_button_2: login_button_2_enabled ? login_type_button_2 : null,
-      custom_namespace_button_2: login_button_2_enabled
-        ? custom_namespace_button_2
-        : null,
-      custom_token_key_button_2: login_button_2_enabled
-        ? custom_token_key_button_2
-        : null,
-    });
-    console.log({ userLogedIn });
-    setIsLogedIn(userLogedIn);
+    setButton1Model(button1Model);
+    setButton2Model(button2Model);
+
     onLoadFinished();
   }
+
   const styleLogin1Button = React.useCallback(
     () => styleForLogin1Button(styles),
     [styles]
@@ -146,92 +141,61 @@ export function UserAccount(props: Props) {
     },
   };
 
-  const accountTitles = {
-    account_title,
-    user_name_title: getUserId(user_name_title),
-    subscription_title,
-    subscription_expiration_title: getSubscriptionData(
-      subscription_expiration_title
-    ),
-    logout_title_text,
-  };
-  // type ScreenData2 = {
-  //   rivers: [string: ZappRiver];
-  //   screenId?: string;
-  //   login_type_button: string;
-  // };
+  function accountTitles() {
+    const model = loginDataModelByToken();
+    return {
+      account_title,
+      user_name_title: model.userId,
+      subscription_title,
+      subscription_expiration_title: getSubscriptionData(
+        model,
+        subscription_expiration_title
+      ),
+      logout_title_text,
+    };
+  }
 
-  //   login_type_button_2
   const onLogin1 = React.useCallback(async () => {
-    const button_1_screen_id = styles?.button_1_screen_id;
-    const login_type_button_1 = styles?.login_type_button_1;
-    const custom_namespace_button_1 = styles?.custom_namespace_button_1;
-    const custom_token_key_button_1 = styles?.custom_token_key_button_1;
-    const plugin = getScreenFromRivers({
-      rivers,
-      screenId: button_1_screen_id,
-      login_type_button: login_type_button_1,
-      custom_namespace_button: custom_namespace_button_1,
-      custom_token_key_button: custom_token_key_button_1,
-    });
+    const plugin = screenFromRivers({ rivers, loginDataModel: button1Model });
     navigator.push(plugin);
-    // const result = await login();
-    // if (result) {
-    //   setIsLogedIn(true);
-    // }
   }, []);
 
   const onLogin2 = React.useCallback(async () => {
-    // const result = await login();
-    // if (result) {
-    //   setIsLogedIn(true);
-    // }
-    const button_2_screen_id = styles?.button_2_screen_id;
-    const login_type_button_2 = styles?.login_type_button_2;
-    const custom_namespace_button_2 = styles?.custom_namespace_button_2;
-    const custom_token_key_button_2 = styles?.custom_token_key_button_2;
-    const plugin = getScreenFromRivers({
-      rivers,
-      screenId: button_2_screen_id,
-      login_type_button: login_type_button_2,
-      custom_namespace_button: custom_namespace_button_2,
-      custom_token_key_button: custom_token_key_button_2,
-    });
+    const plugin = screenFromRivers({ rivers, loginDataModel: button2Model });
     navigator.push(plugin);
   }, []);
 
   const onLogout = React.useCallback(async () => {
-    const result = await logout();
-    if (result) {
-      setIsLogedIn(false);
-    }
+    const model = loginDataModelByToken();
+    let plugin = screenFromRivers({ rivers, loginDataModel: model });
+
+    navigator.push(plugin);
   }, []);
 
-  const customContainerStyle = {
-    height: 32,
-    marginRight: 57,
-    marginLeft: 57,
-    marginBottom: 12,
-  };
+  function loginDataModelByToken(): LoginDataModel {
+    if (button1Model?.token) {
+      return button1Model;
+    } else if (button2Model?.token) {
+      return button2Model;
+    }
+  }
 
   function renderLoginFlow() {
-    const login_button_2_enabled = styles?.login_button_2_enabled;
+    const login_button_2_enabled = styles?.button_2_login_enabled;
     console.log({ login_button_2_enabled });
     return (
       <>
         <UserPhoto imageSrc={styles?.user_image_placeholder} />
         <Button
-          customContainerStyle={customContainerStyle}
           styles={styleLogin1Button()}
-          id={"login_1"}
+          id={login1ButtonId}
           onPress={onLogin1}
           titleText={login_button_1_title_text}
         />
         {login_button_2_enabled && (
           <Button
-            customContainerStyle={customContainerStyle}
             styles={styleLogin2Button()}
-            id={"login_2"}
+            id={login2ButtonId}
             onPress={onLogin2}
             titleText={login_button_2_title_text}
           />
@@ -246,7 +210,7 @@ export function UserAccount(props: Props) {
           onLogoutPress={onLogout}
           user_image_placeholder={styles?.user_image_placeholder}
           styles={accoutInfoStyles}
-          titles={accountTitles}
+          titles={accountTitles()}
         />
       ) : (
         renderLoginFlow()

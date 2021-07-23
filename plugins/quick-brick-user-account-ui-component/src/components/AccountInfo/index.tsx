@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import { InfoView } from "../InfoView";
-import { Button } from "../Button";
+import { LogoutButton } from "../LogoutButton";
 import { UserPhoto } from "../UserPhoto";
 type Props = {
   onLogoutPress: () => void;
@@ -38,6 +38,8 @@ const componentStyles = StyleSheet.create({
 });
 
 export function AccountInfo(props: Props) {
+  const logoutButtonId = "logout";
+
   const titles = props?.titles;
 
   const logoutButtonStyles = props?.styles?.logoutButtonStyles;
@@ -56,17 +58,17 @@ export function AccountInfo(props: Props) {
     <View style={componentStyles.container}>
       <UserPhoto imageSrc={props?.user_image_placeholder} />
       <View style={componentStyles.infoViewsContainer}>
-        <InfoView styles={labelStyles} titles={accountDataTitles} />
-        <InfoView styles={labelStyles} titles={subscriptionDataTitles} />
-        <Button
-          customContainerStyle={{
-            height: 22,
-            width: 99,
-          }}
+        {accountDataTitles.description_text && (
+          <InfoView styles={labelStyles} titles={accountDataTitles} />
+        )}
+        {subscriptionDataTitles.description_text && (
+          <InfoView styles={labelStyles} titles={subscriptionDataTitles} />
+        )}
+        <LogoutButton
           onPress={props?.onLogoutPress}
           titleText={titles.logout_title_text}
           styles={logoutButtonStyles}
-          id={"logout"}
+          id={logoutButtonId}
         />
       </View>
     </View>
