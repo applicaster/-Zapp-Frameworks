@@ -2,6 +2,14 @@ import { localStorageGet } from "../../services/LocalStorageService";
 import { Inplayer, Cleeng, AdobePrimetime, Oauth2 } from "../../models";
 import { logger } from "../../services/LoggerService";
 
+enum LoginModelsType {
+  Inplayer = "in_player",
+  Cleeng = "cleeng",
+  AdobePrimetime = "adobe_primetime",
+  Oauth2 = "oauth_2",
+  Other = "other",
+}
+
 export async function loginModelButton1(
   props: GeneralStyles
 ): Promise<LoginDataModel> {
@@ -10,7 +18,7 @@ export async function loginModelButton1(
     return null;
   }
   const button1Model = await loginModel(keysModel);
-
+  console.log({ button1Model, keysModel });
   logger.debug({
     message: `Get model for login button 1 - ${button1Model.title}`,
     data: { button1Model, keysModel },
@@ -38,10 +46,7 @@ export async function loginModel(
 ): Promise<LoginDataModel> {
   try {
     const token = await tokenForKey(keysModel.tokenKey, keysModel.namespace);
-    if (!token) {
-      return null;
-    }
-
+    console.log({ keysModel });
     let userId = await itemForKey(keysModel.userIdKey, keysModel.namespace);
 
     let subscriptionPrice = await itemForKey(
@@ -100,6 +105,10 @@ async function tokenForKey(
 
 async function itemForKey(key: string, namespace: string) {
   try {
+    if (!key) {
+      return null;
+    }
+    console.log({ key, namespace });
     let value = await localStorageGet(key, namespace);
     logger.warning({
       message: `itemForKey value - ${value}`,
@@ -122,6 +131,7 @@ function loginModelKeysButton1(props: GeneralStyles): LoginKeysDataModel {
   console.log("loginModelKeysButton1", {
     props,
     button_type: props.button_1_login_type,
+    LoginModelsType,
   });
   if (
     props.button_1_login_type === LoginModelsType.Other &&

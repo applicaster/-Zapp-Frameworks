@@ -86,7 +86,7 @@ export function UserAccount(props: Props) {
 
   React.useEffect(() => {
     let logedIn = false;
-    console.log({ button1Model });
+    console.log({ button1Model, button2Model });
     if (button1Model === null && button2Model === null) {
       logger.error({
         message:
@@ -112,6 +112,7 @@ export function UserAccount(props: Props) {
         data: { localizations, styles },
       });
       const button1Model = await loginModelButton1(styles);
+      console.log({ button1Model });
       setButton1Model(button1Model);
 
       if (button_2_login_enabled) {
@@ -176,6 +177,7 @@ export function UserAccount(props: Props) {
   }
 
   const onLogin1 = React.useCallback(async () => {
+    console.log({ button1Model });
     const plugin = screenFromRivers({ rivers, loginDataModel: button1Model });
     logger.debug({
       message: `Login Button 1 was clicked ${button1Model.title}`,
@@ -187,7 +189,7 @@ export function UserAccount(props: Props) {
   const onLogin2 = React.useCallback(async () => {
     const plugin = screenFromRivers({ rivers, loginDataModel: button2Model });
     logger.debug({
-      message: `Login Button 2 was clicked ${button1Model.title}`,
+      message: `Login Button 2 was clicked ${button2Model.title}`,
       data: { button2Model, plugin },
     });
     navigator.push(plugin);

@@ -119,11 +119,3 @@ type ScreenData = {
   rivers: ZappRiver[];
   loginDataModel: LoginDataModel;
 };
-
-declare enum LoginModelsType {
-  Inplayer = "in_player",
-  Cleeng = "cleeng",
-  AdobePrimetime = "adobe_primetime",
-  Oauth2 = "oauth_2",
-  Other = "other",
-}
