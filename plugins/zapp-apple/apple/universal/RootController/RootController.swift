@@ -37,7 +37,7 @@ public class RootController: NSObject {
 
     override public init() {
         super.init()
-        subscribeToReachabilityChange()
+        subscribeToEventsBus()
         logger?.debugLog(template: RootControllerLogs.rootControllerCreated)
     }
 

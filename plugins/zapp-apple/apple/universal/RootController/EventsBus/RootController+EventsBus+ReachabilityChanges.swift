@@ -1,9 +1,9 @@
 //
-//  RootViewController+ReachabilityManagerDelegate.swift
+//  RootController+EventsBus+ReachabilityChanges.swift
 //  ZappApple
 //
-//  Created by Anton Kononenko on 6/10/19.
-//  Copyright © 2019 Applicaster LTD. All rights reserved.
+//  Created by Alex Zchut on 25/07/2021
+//  Copyright © 2021 Applicaster LTD. All rights reserved.
 //
 
 import Foundation
@@ -16,7 +16,7 @@ extension RootController {
         static let new = "new"
     }
 
-    func subscribeToReachabilityChange() {
+    func subscribeToEventsBusReachabilityChanges() {
         EventsBus.subscribe(self,
                             type: EventsBusType(.reachabilityChanged),
                             handler: { content in
@@ -47,10 +47,5 @@ extension RootController {
 
     func showInternetError() {
         showErrorMessage(message: "You are not connected to a network. Please use your device settings to connect to a network and try again.")
-    }
-
-    func forceReloadApplication() {
-        makeSplashAsRootViewContoroller()
-        reloadApplication()
     }
 }
