@@ -20,12 +20,6 @@ public class RootController: NSObject {
     public var appDelegate: AppDelegateProtocol?
     public var appReadyForUse: Bool = false
 
-    // Properties for managing connectivity listeners
-    lazy var connectivityListeners: NSMutableArray = []
-
-    var reachabilityManager: ReachabilityManager?
-    var currentConnection: ReachabilityState = .connected([.wifi])
-
     var loadingStateMachine: LoadingStateMachine!
     public var userInterfaceLayer: UserInterfaceLayerProtocol?
     public var userInterfaceLayerViewController: UIViewController?
@@ -33,6 +27,8 @@ public class RootController: NSObject {
     public var pluginsManager = PluginsManager()
     public let audienceManager = TrackingManager()
     public let loggerAssistance = LoggerAssistanceManager()
+    let reachabilityManager = ReachabilityManager()
+
     var splashViewController: SplashViewController?
 
     public lazy var facadeConnector: FacadeConnector = {
@@ -41,7 +37,7 @@ public class RootController: NSObject {
 
     override public init() {
         super.init()
-        reachabilityManager = ReachabilityManager(delegate: self)
+        subscribeToReachabilityChange()
         logger?.debugLog(template: RootControllerLogs.rootControllerCreated)
     }
 

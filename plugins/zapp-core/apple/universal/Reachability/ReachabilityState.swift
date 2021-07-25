@@ -1,17 +1,13 @@
 //
-//  ReachabilityManagerDelegate.swift
-//  ZappApple
+//  ReachabilityState.swift
+//  ZappCore
 //
-//  Created by Anton Kononenko on 6/10/19.
-//  Copyright © 2019 Applicaster LTD. All rights reserved.
+//  Created by Alex Zchut on 28/06/2021.
+//  Copyright © 2021 Applicaster Ltd. All rights reserved.
 //
 
 import Foundation
 import Network
-
-protocol ReachabilityManagerDelegate {
-    func reachabilityChanged(_ state: ReachabilityState)
-}
 
 public enum ReachabilityState: Equatable {
     case connected(_ interfaces: [NWInterface.InterfaceType])
@@ -35,6 +31,24 @@ public enum ReachabilityState: Equatable {
             retValue = "connected"
         case .disconnected:
             retValue = "disconnected"
+        }
+        return retValue
+    }
+    
+    public var connectivityState: ConnectivityState {
+        var retValue: ConnectivityState = .cellular
+
+        switch self {
+        case let .connected(connections):
+            if connections.contains(.cellular) {
+                retValue = .cellular
+            }
+            
+            if connections.contains(.wifi) {
+                retValue = .wifi
+            }
+        case .disconnected:
+            retValue = .offline
         }
         return retValue
     }

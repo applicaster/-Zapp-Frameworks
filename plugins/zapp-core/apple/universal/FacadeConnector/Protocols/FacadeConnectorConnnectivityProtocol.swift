@@ -7,39 +7,17 @@
 
 import Foundation
 
-@objc public enum ConnectivityState: NSInteger {
-    case offline = 0
-    case cellular
-    case wifi
-}
-
-@objc public protocol ConnectivityListener {
-    @objc func connectivityStateChanged(_ state: ConnectivityState)
-}
-
-@objc public protocol FacadeConnectorConnnectivityProtocol {
+public protocol FacadeConnectorConnnectivityProtocol {
     /**
      Get online status
      */
-    @objc func isOnline() -> Bool
+    func isOnline() -> Bool
     /**
      Get offline status
      */
-    @objc func isOffline() -> Bool
+    func isOffline() -> Bool
     /**
      Get current connectivity state
      */
-    @objc func getCurrentConnectivityState() -> ConnectivityState
-    
-    /**
-     Add listener to get calls for connectivity state changes
-     */
-    @available(*, deprecated, message: "Deprecated from QB SDK 4.1.0, use EventsBus instead")
-    @objc func addConnectivityListener(_ listener: ConnectivityListener)
-    
-    /**
-     Remove listener to get calls for connectivity state changes
-     */
-    @available(*, deprecated, message: "Deprecated from QB SDK 4.1.0, use EventsBus instead")
-    @objc func removeConnectivityListener(_ listener: ConnectivityListener)
+    func getCurrentConnectivityState() -> ConnectivityState
 }
