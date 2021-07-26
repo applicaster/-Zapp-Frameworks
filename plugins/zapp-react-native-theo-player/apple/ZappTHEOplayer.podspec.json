@@ -23,9 +23,7 @@
       "OTHER_CFLAGS": "-fembed-bitcode"
     },
     "dependencies": {
-      "GoogleAds-IMA-iOS-SDK": [
-        "= 3.14.3"
-      ],
+      "GoogleAds-IMA-iOS-SDK": ["= 3.14.3"],
       "React": [],
       "ZappCore": []
     },
@@ -39,19 +37,12 @@
     },
     "source_files": "tvos/**/*.{swift}"
   },
-  "vendored_frameworks": [
-    "THEOplayerSDK.xcframework",
-    "GoogleCast.framework"
-  ],
+  "vendored_frameworks": ["THEOplayerSDK.xcframework"],
   "dependencies": {
     "XrayLogger": []
   },
-  "source_files": [
-    "universal/**/*.{h,m,swift}"
-  ],
-  "resources": [
-    "ui_customization/**/*"
-  ],
+  "source_files": ["universal/**/*.{h,m,swift}"],
+  "resources": ["ui_customization/**/*"],
   "testspecs": [
     {
       "name": "UnitTests",
