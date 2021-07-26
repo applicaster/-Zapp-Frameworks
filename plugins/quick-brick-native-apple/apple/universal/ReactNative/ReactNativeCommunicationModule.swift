@@ -23,6 +23,7 @@ enum Events: String {
     case releaseOrientationsForScreen
     case idleTimerDisabled
     case forceAppReload
+    case forceAppReloadAfterOfflineStart
 
     /**
      invokes the event handler for a given event
@@ -43,6 +44,8 @@ enum Events: String {
             manager.idleTimerDisabled(payload)
         case .forceAppReload:
             manager.forceAppReload()
+        case .forceAppReloadAfterOfflineStart:
+            manager.forceAppReloadAfterOfflineStart()()
         }
     }
 }
@@ -75,6 +78,7 @@ enum Events: String {
     func idleTimerDisabled(_ payload: Dictionary<String, Any>)
 
     func forceAppReload()
+    func forceAppReloadAfterOfflineStart()
 }
 
 @objc(QuickBrickCommunicationModule)

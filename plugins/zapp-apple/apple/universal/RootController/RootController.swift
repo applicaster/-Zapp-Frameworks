@@ -16,6 +16,7 @@ struct RootControllerError {
 
 struct RootControllerStorageKeys {
     static let appInitialCompleteLoad = "app_initialy_loaded"
+    static let shouldRestartAfterOfflineStart = "should_restart_after_offline_start"
 }
 
 public class RootController: NSObject {

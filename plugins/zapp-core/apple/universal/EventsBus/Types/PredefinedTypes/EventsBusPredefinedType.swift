@@ -15,6 +15,7 @@ public enum EventsBusPredefinedType {
     case analytics(_ subtype: EventsBusTypeAnalyticsSubtype)
     case msAppCenterCheckUpdates
     case forceAppReload
+    case forceAppReloadAfterOfflineStart
     
     var rawValue: String {
         return "\(self)"

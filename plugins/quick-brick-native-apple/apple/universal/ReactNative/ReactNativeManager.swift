@@ -200,4 +200,8 @@ extension ReactNativeManager: QuickBrickManagerDelegate {
     public func forceAppReload() {
         EventsBus.post(EventsBus.Event(type: EventsBusType(.forceAppReload)))
     }
+    
+    public func forceAppReloadAfterOfflineStart() {
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.forceAppReloadAfterOfflineStart)))
+    }
 }

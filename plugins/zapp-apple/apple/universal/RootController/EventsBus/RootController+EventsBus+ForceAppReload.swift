@@ -13,13 +13,25 @@ extension RootController {
     func subscribeToEventsBusForceAppReload() {
         EventsBus.subscribe(self,
                             type: EventsBusType(.forceAppReload),
-                            handler: { content in
+                            handler: { _ in
                                 self.forceReloadApplication()
                             })
+
+        EventsBus.subscribe(self,
+                            type: EventsBusType(.forceAppReloadAfterOfflineStart),
+                            handler: { _ in
+                                self.forceReloadApplicationAfterOfflineStart()
+                            })
     }
-    
+
     func forceReloadApplication() {
         makeSplashAsRootViewContoroller()
         reloadApplication()
+    }
+
+    func forceReloadApplicationAfterOfflineStart() {
+        _ = SessionStorage.sharedInstance.removeItem(key: RootControllerStorageKeys.shouldRestartAfterOfflineStart,
+                                                     namespace: nil)
+        forceReloadApplication()
     }
 }
