@@ -16,30 +16,10 @@ extension RootController {
                             handler: { _ in
                                 self.forceReloadApplication()
                             })
-
-        EventsBus.subscribe(self,
-                            type: EventsBusType(.forceAppReloadAfterOfflineStart),
-                            handler: { _ in
-                                self.forceReloadApplicationAfterOfflineStart()
-                            })
     }
 
     func forceReloadApplication() {
         makeSplashAsRootViewContoroller()
         reloadApplication()
-    }
-
-    func forceReloadApplicationAfterOfflineStart() {
-        let key = RootControllerStorageKeys.shouldRestartAfterOfflineStart
-
-        guard sessionStorageValue(for: key,
-                                  namespace: nil)?.boolValue() == false,
-            isOnline() else {
-            return
-        }
-
-        _ = SessionStorage.sharedInstance.removeItem(key: key,
-                                                     namespace: nil)
-        forceReloadApplication()
     }
 }
