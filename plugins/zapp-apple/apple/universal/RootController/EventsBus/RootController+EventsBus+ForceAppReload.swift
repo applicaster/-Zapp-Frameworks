@@ -10,6 +10,12 @@ import Foundation
 import ZappCore
 
 extension RootController {
+    fileprivate struct Constants {
+        static let event = "event"
+        static let old = "old"
+        static let new = "new"
+    }
+
     func subscribeToEventsBusForceAppReload() {
         EventsBus.subscribe(self,
                             type: EventsBusType(.forceAppReload),
