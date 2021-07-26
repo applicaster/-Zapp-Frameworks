@@ -37,7 +37,8 @@ extension RootController {
     fileprivate func stateChanged(from old: ConnectivityState, to new: ConnectivityState) {
         switch new {
         case .cellular, .wifi:
-            if old == .offline {
+            if old == .offline,
+               appDidLoadedCompletely == false {
                 forceReloadApplication()
             }
         default:

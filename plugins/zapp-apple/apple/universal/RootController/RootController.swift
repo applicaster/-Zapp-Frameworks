@@ -14,6 +14,10 @@ struct RootControllerError {
     static let canNotCreateInterfaceLayer = "Can not create Interface Layer"
 }
 
+struct RootControllerStorageKeys {
+    static let appInitialCompleteLoad = "app_initialy_loaded"
+}
+
 public class RootController: NSObject {
     lazy var logger = Logger.getLogger(for: RootControllerLogs.subsystem)
 
