@@ -40,12 +40,8 @@ extension RootController {
             if old == .offline {
                 forceReloadApplication()
             }
-        case .offline:
-            showInternetError()
+        default:
+            break
         }
-    }
-
-    func showInternetError() {
-        showErrorMessage(message: "You are not connected to a network. Please use your device settings to connect to a network and try again.")
     }
 }
