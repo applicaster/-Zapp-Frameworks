@@ -144,17 +144,18 @@ extension RootController: LoadingStateMachineDataSource {
     }
 
     var appDidLoadedCompletely: Bool {
-        localStorageValue(for: RootControllerStorageKeys.appInitialCompleteLoad,
-                          namespace: nil)?.boolValue() ?? false
+        sessionStorageValue(for: RootControllerStorageKeys.appInitialCompleteLoad,
+                            namespace: nil)?.boolValue() ?? false
     }
 
     func saveAppDidLoadedCompletelyIfNeeded() {
-        guard appDidLoadedCompletely == false else {
+        guard appDidLoadedCompletely == false,
+              isOnline() else {
             return
         }
 
-        _ = localStorageSetValue(for: RootControllerStorageKeys.appInitialCompleteLoad,
-                                 value: "true",
-                                 namespace: nil)
+        _ = sessionStorageSetValue(for: RootControllerStorageKeys.appInitialCompleteLoad,
+                                   value: "true",
+                                   namespace: nil)
     }
 }
