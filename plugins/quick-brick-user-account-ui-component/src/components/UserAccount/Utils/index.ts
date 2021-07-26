@@ -14,8 +14,6 @@ export function styleForLogoutButton(styles: GeneralStyles): ButtonStyles {
 }
 
 function getStylesForButton(styles: Styles, key: string): ButtonStyles {
-  console.log({ styles, key, too: styles[`${key}background_underlay_color`] });
-
   return {
     containerStyle: {
       background_underlay_color: styles[`${key}background_underlay_color`],

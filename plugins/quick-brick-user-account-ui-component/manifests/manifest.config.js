@@ -58,6 +58,12 @@ const styles = {
           placeholder: "Select login type",
         },
         {
+          key: "button_1_background_image",
+          type: "uploader",
+          label: "Background Image for the button",
+          placeholder: "Please, upload a file",
+        },
+        {
           key: "button_1_custom_screen_id",
           type: "text_input",
           initial_value: "",
@@ -254,11 +260,23 @@ const styles = {
           placeholder: "Select login type",
         },
         {
+          key: "button_2_background_image",
+          type: "uploader",
+          label: "Background Image for the button",
+          placeholder: "Please, upload a file",
+        },
+        {
           key: "button_2_custom_screen_id",
           type: "text_input",
           initial_value: "",
           label: "Screen Id for pluin (optional)",
           placeholder: "Custom plugin namespace",
+          conditional_fields: [
+            {
+              condition_value: ["other"],
+              key: "styles/button_2_login_type",
+            },
+          ],
         },
         {
           key: "button_2_custom_namespace",
@@ -480,6 +498,12 @@ const styles = {
       tooltip: "These fields affect logout button styles",
       folded: true,
       fields: [
+        {
+          key: "button_logout_background_image",
+          type: "uploader",
+          label: "Background Image for the button",
+          placeholder: "Please, upload a file",
+        },
         {
           key: "button_logout_radius",
           type: "number_input",

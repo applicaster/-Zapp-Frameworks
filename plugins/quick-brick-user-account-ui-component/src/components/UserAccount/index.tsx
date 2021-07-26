@@ -7,6 +7,7 @@ import { AccountInfo } from "../AccountInfo";
 import { Button } from "../Button";
 import { UserPhoto } from "../UserPhoto";
 import { logger } from "../../services/LoggerService";
+import { InfoView } from "../InfoView";
 import {
   styleForLogin1Button,
   styleForLogin2Button,
@@ -44,6 +45,7 @@ const componentStyles = StyleSheet.create({
 export function UserAccount(props: Props) {
   const login1ButtonId = "login_1";
   const login2ButtonId = "login_2";
+  const logoutButtonId = "logout";
 
   const [isLogedIn, setIsLogedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -92,19 +94,20 @@ export function UserAccount(props: Props) {
   React.useEffect(() => {
     let logedIn = false;
     console.log({ button1Model, button2Model });
-    if (button1Model === null && button2Model === null) {
-      logger.error({
-        message:
-          "Error: both login buttons are empty, check plugin configuration",
-        data: { localizations, styles },
-      });
-    } else if (button1Model && button1Model?.token) {
+    // if (button1Model === null && button2Model === null) {
+    //   logger.error({
+    //     message:
+    //       "Error: both login buttons are empty, check plugin configuration",
+    //     data: { localizations, styles },
+    //   });
+    // } else
+    if (button1Model && button1Model?.token) {
       logedIn = true;
     } else if (button2Model && button2Model?.token) {
       logedIn = true;
     }
     logger.debug({
-      message: `Login status changed, login 1 has token ${!!button1Model?.token}, login 2 has token ${!!button2Model?.token}`,
+      message: `Login status changed, login 1 has token: ${!!button1Model?.token}, login 2 has token: ${!!button2Model?.token}`,
       data: { button1Model, button2Model },
     });
     setIsLogedIn(logedIn);
@@ -116,12 +119,12 @@ export function UserAccount(props: Props) {
         message: `preparePlugin: login button 2 is enabled: ${button_2_login_enabled}.`,
         data: { localizations, styles },
       });
-      const button1Model = await loginModelButton1(
+      const buttonModel1 = await loginModelButton1(
         styles,
         debug_dummy_data_source
       );
-      console.log({ button1Model });
-      setButton1Model(button1Model);
+      console.log({ buttonModel1 });
+      setButton1Model(buttonModel1);
 
       if (button_2_login_enabled) {
         const button2Model = await loginModelButton2(
@@ -175,7 +178,11 @@ export function UserAccount(props: Props) {
 
   const accountTitles = React.useCallback(() => {
     const model = loginDataModelByToken();
-    console.log({ model });
+    if (!model) {
+      return null;
+    }
+
+    console.log("accountTitles", { model, button1Model });
     return {
       account_title,
       user_name_title: model?.userId,
@@ -188,11 +195,20 @@ export function UserAccount(props: Props) {
     };
   }, [button1Model, button2Model]);
 
-  const onLogin1 = React.useCallback(async () => {
+  const onLogin1 = React.useCallback(() => {
+    console.log("onLogin1s", {
+      button1Model,
+      debug_dummy_data_source,
+      isLogedIn,
+      isLoading,
+    });
     if (!debug_dummy_data_source) {
-      const plugin = screenFromRivers({ rivers, loginDataModel: button1Model });
+      const plugin = screenFromRivers({
+        rivers,
+        loginDataModel: button1Model,
+      });
       logger.debug({
-        message: `Login Button 1 was clicked ${button1Model.title}`,
+        message: `Login Button 1 was clicked ${button1Model?.title}`,
         data: { button1Model, plugin },
       });
       navigator.push(plugin);
@@ -201,7 +217,7 @@ export function UserAccount(props: Props) {
     }
   }, [button1Model]);
 
-  const onLogin2 = React.useCallback(async () => {
+  const onLogin2 = React.useCallback(() => {
     if (!debug_dummy_data_source) {
       const plugin = screenFromRivers({ rivers, loginDataModel: button2Model });
       logger.debug({
@@ -214,13 +230,21 @@ export function UserAccount(props: Props) {
     }
   }, [button2Model]);
 
-  const onLogout = React.useCallback(async () => {
+  const onLogout = React.useCallback(() => {
     if (!debug_dummy_data_source) {
       const model = loginDataModelByToken();
+      if (!model) {
+        const errorMessage = "Logout failed, no active model with token exist";
+        logger.error({
+          message: errorMessage,
+          data: { button1Model, button2Model },
+        });
+        throw Error(errorMessage);
+      }
       let plugin = screenFromRivers({ rivers, loginDataModel: model });
       logger.debug({
         message: `Logout Button was clicked ${model.title}`,
-        data: { button1Model, plugin },
+        data: { button1Model, button2Model, plugin },
       });
       navigator.push(plugin);
     } else {
@@ -234,39 +258,67 @@ export function UserAccount(props: Props) {
     } else if (button2Model?.token) {
       return button2Model;
     }
+    return null;
   }, [button1Model, button2Model]);
+  const titles = accountTitles();
 
-  console.log({ isLogedIn });
-  function renderLoginFlow() {
+  const renderLoginFlow = React.useCallback(() => {
     return (
       <>
         <UserPhoto imageSrc={styles?.user_image_placeholder} />
-        <Button
-          styles={styleLogin1Button()}
-          id={login1ButtonId}
-          onPress={onLogin1}
-          titleText={login_button_1_title_text}
-        />
-        {button_2_login_enabled && (
+        {!isLogedIn && (
           <Button
+            src={styles.button_1_background_image}
+            styles={styleLogin1Button()}
+            id={login1ButtonId}
+            onPress={onLogin1}
+            titleText={login_button_1_title_text}
+          />
+        )}
+        {!isLogedIn && button_2_login_enabled && (
+          <Button
+            src={styles.button_2_background_image}
             styles={styleLogin2Button()}
             id={login2ButtonId}
             onPress={onLogin2}
             titleText={login_button_2_title_text}
           />
         )}
+        {isLogedIn && (
+          <InfoView
+            styles={accoutInfoStyles?.labelStyles}
+            titles={{
+              description_text: titles.user_name_title,
+              title_text: null,
+            }}
+          />
+        )}
+        {isLogedIn && (
+          <Button
+            src={styles.button_logout_background_image}
+            styles={styleLogoutButton()}
+            id={logoutButtonId}
+            onPress={onLogout}
+            titleText={logout_title_text}
+          />
+        )}
       </>
     );
-  }
+  }, [isLogedIn, button1Model, button2Model]);
+
+  console.log("Render", { button1Model });
   return (
     <View style={newContainerStyleStyle}>
-      {isLogedIn
+      {isLogedIn &&
+      titles.user_name_title &&
+      titles.subscription_expiration_title
         ? !isLoading && (
             <AccountInfo
+              src={styles.button_logout_background_image}
               onLogoutPress={onLogout}
               user_image_placeholder={styles?.user_image_placeholder}
               styles={accoutInfoStyles}
-              titles={accountTitles()}
+              titles={titles}
             />
           )
         : !isLoading && renderLoginFlow()}

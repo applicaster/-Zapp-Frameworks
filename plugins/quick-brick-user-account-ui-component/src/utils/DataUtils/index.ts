@@ -21,9 +21,8 @@ export async function loginModelButton1(
   const button1Model = debug_dummy_data_source
     ? debugLoginModel1(keysModel)
     : await loginModel(keysModel);
-  console.log({ button1Model, keysModel });
   logger.debug({
-    message: `Get model for login button 1 - ${button1Model.title}`,
+    message: `Get model for login button 1 - ${button1Model?.title}`,
     data: { button1Model, keysModel },
   });
   return button1Model;
@@ -40,7 +39,7 @@ export async function loginModelButton2(
   const button2Model = debug_dummy_data_source
     ? debugLoginModel2(keysModel)
     : await loginModel(keysModel);
-    
+
   logger.debug({
     message: `Get model for login button 2 - ${button2Model.title}`,
     data: { button2Model, keysModel },
@@ -53,9 +52,7 @@ export async function loginModel(
 ): Promise<LoginDataModel> {
   try {
     const token = await tokenForKey(keysModel.tokenKey, keysModel.namespace);
-    console.log({ keysModel });
     const userId = await itemForKey(keysModel.userIdKey, keysModel.namespace);
-    console.log({ userId });
 
     const subscriptionPrice = await itemForKey(
       keysModel.subscriptionPriceKey,
@@ -116,7 +113,6 @@ async function itemForKey(key: string, namespace: string) {
     if (!key) {
       return null;
     }
-    console.log({ key, namespace });
     let value = await localStorageGet(key, namespace);
     logger.debug({
       message: `itemForKey Finised key - ${key}, value - ${value}`,
@@ -136,11 +132,6 @@ async function itemForKey(key: string, namespace: string) {
 }
 
 function loginModelKeysButton1(props: GeneralStyles): LoginKeysDataModel {
-  console.log("loginModelKeysButton1", {
-    props,
-    button_type: props.button_1_login_type,
-    LoginModelsType,
-  });
   if (
     props.button_1_login_type === LoginModelsType.Other &&
     (!props.button_1_custom_namespace || !props?.button_1_custom_token_key)

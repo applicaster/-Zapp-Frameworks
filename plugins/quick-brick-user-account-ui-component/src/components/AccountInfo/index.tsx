@@ -20,6 +20,7 @@ type Props = {
       description_style: LabelStyles;
     };
   };
+  src: string;
 };
 
 const componentStyles = StyleSheet.create({
@@ -65,6 +66,7 @@ export function AccountInfo(props: Props) {
           <InfoView styles={labelStyles} titles={subscriptionDataTitles} />
         )}
         <LogoutButton
+          src={props?.src}
           onPress={props?.onLogoutPress}
           titleText={titles.logout_title_text}
           styles={logoutButtonStyles}

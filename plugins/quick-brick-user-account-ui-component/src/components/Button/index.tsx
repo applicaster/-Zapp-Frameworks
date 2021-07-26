@@ -1,5 +1,11 @@
 import * as React from "react";
-import { View, TouchableHighlight, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableHighlight,
+  Text,
+  StyleSheet,
+  ImageBackground,
+} from "react-native";
 import { handleStyleType } from "../../utils";
 import { platformSelect } from "@applicaster/zapp-react-native-utils/reactUtils";
 
@@ -8,6 +14,7 @@ type Props = {
   onPress: () => void;
   titleText: string;
   styles: ButtonStyles;
+  src: string;
 };
 
 const componentStyles = StyleSheet.create({
@@ -67,6 +74,7 @@ export function Button(props: Props) {
       android: propsLabelStyles?.title_text_font_android,
     }),
   };
+  const image = { uri: props?.src };
 
   return (
     <TouchableHighlight
@@ -78,11 +86,11 @@ export function Button(props: Props) {
       underlayColor={background_underlay_color}
       accessible={false}
     >
-      <View style={componentStyles.flexOne}>
+      <ImageBackground style={componentStyles.flexOne} source={image}>
         <Text numberOfLines={1} style={labelStyles}>
           {props?.titleText}
         </Text>
-      </View>
+      </ImageBackground>
     </TouchableHighlight>
   );
 }

@@ -1,6 +1,7 @@
 type GeneralStyles = {
   custom_padding_top: number;
   user_image_placeholder: string;
+  button_1_background_image: string;
   button_1_custom_screen_id: string;
   button_1_background_color: string;
   button_1_background_underlay_color: string;
@@ -22,6 +23,7 @@ type GeneralStyles = {
   button_1_custom_subscription_renews_date_key: string;
   button_1_custom_user_photo_url_key: string;
 
+  button_2_background_image: string;
   button_2_custom_screen_id: string;
   button_2_login_enabled: boolean;
   button_2_background_color: string;
@@ -44,6 +46,7 @@ type GeneralStyles = {
   button_2_custom_subscription_renews_date_key: string;
   button_2_custom_user_photo_url_key: string;
 
+  button_logout_background_image: string;
   button_logout_background_color: string;
   button_logout_background_underlay_color: string;
   button_logout_border: string;

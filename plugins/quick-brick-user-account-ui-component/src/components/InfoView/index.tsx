@@ -55,16 +55,20 @@ export function InfoView(props: Props) {
   };
   return (
     <View style={componentStyles.containerStyle}>
-      <View style={componentStyles.flexOne}>
-        <Text numberOfLines={1} style={titleLabelStyle}>
-          {props?.titles?.title_text}
-        </Text>
-      </View>
-      <View style={componentStyles.flexOne}>
-        <Text numberOfLines={1} style={descriptionLabelStyle}>
-          {props?.titles?.description_text}
-        </Text>
-      </View>
+      {props?.titles?.title_text && (
+        <View style={componentStyles.flexOne}>
+          <Text numberOfLines={1} style={titleLabelStyle}>
+            {props?.titles?.title_text}
+          </Text>
+        </View>
+      )}
+      {props?.titles?.description_text && (
+        <View style={componentStyles.flexOne}>
+          <Text numberOfLines={1} style={descriptionLabelStyle}>
+            {props?.titles?.description_text}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }
