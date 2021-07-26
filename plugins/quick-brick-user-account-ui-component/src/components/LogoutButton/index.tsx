@@ -82,7 +82,11 @@ export function LogoutButton(props: Props) {
       underlayColor={background_underlay_color}
       accessible={false}
     >
-      <ImageBackground style={componentStyles.flexOne} source={image}>
+      <ImageBackground
+        imageStyle={{ resizeMode: "stretch" }}
+        style={componentStyles.flexOne}
+        source={image}
+      >
         <Text numberOfLines={1} style={labelStyles}>
           {props?.titleText}
         </Text>
