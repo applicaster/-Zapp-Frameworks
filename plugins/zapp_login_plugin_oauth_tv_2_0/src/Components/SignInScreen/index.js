@@ -32,7 +32,12 @@ function SignInScreen(props) {
     onMenuButtonClicked,
   } = props;
 
-  const { activity_indicator_color, line_separator_color } = screenStyles;
+  const {
+    activity_indicator_color,
+    line_separator_color,
+    action_button_show
+  } = screenStyles;
+
   const styles = {
     container: {
       flex: 1,
@@ -341,7 +346,7 @@ function SignInScreen(props) {
             </Text>
           </Text>
         </View>
-        {isPrehook && (
+        {isPrehook && action_button_show && (
           <Button
             screenStyles={screenStyles}
             label={sing_in_later}

@@ -211,6 +211,12 @@ const stylesTv = {
       folded: true,
       fields: [
         {
+          key: "action_button_show",
+          type: "switch",
+          label: "Enable Action Button",
+          initial_value: "true",
+        },
+        {
           key: "action_button_font_ios",
           type: "ios_font_selector",
           label: "iOS font family",
