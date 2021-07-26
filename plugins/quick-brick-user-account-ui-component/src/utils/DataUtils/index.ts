@@ -1,7 +1,7 @@
 import { localStorageGet } from "../../services/LocalStorageService";
 import { Inplayer, Cleeng, AdobePrimetime, Oauth2 } from "../../models";
 import { logger } from "../../services/LoggerService";
-
+import { debugLoginModel1, debugLoginModel2 } from "../../debug/Stubs";
 enum LoginModelsType {
   Inplayer = "in_player",
   Cleeng = "cleeng",
@@ -11,13 +11,16 @@ enum LoginModelsType {
 }
 
 export async function loginModelButton1(
-  props: GeneralStyles
+  props: GeneralStyles,
+  debug_dummy_data_source = false
 ): Promise<LoginDataModel> {
   const keysModel = await loginModelKeysButton1(props);
   if (!keysModel) {
     return null;
   }
-  const button1Model = await loginModel(keysModel);
+  const button1Model = debug_dummy_data_source
+    ? debugLoginModel1(keysModel)
+    : await loginModel(keysModel);
   console.log({ button1Model, keysModel });
   logger.debug({
     message: `Get model for login button 1 - ${button1Model.title}`,
@@ -27,13 +30,17 @@ export async function loginModelButton1(
 }
 
 export async function loginModelButton2(
-  props: GeneralStyles
+  props: GeneralStyles,
+  debug_dummy_data_source = false
 ): Promise<LoginDataModel> {
   const keysModel = loginModelKeysButton2(props);
   if (!keysModel) {
     return null;
   }
-  const button2Model = await loginModel(keysModel);
+  const button2Model = debug_dummy_data_source
+    ? debugLoginModel2(keysModel)
+    : await loginModel(keysModel);
+    
   logger.debug({
     message: `Get model for login button 2 - ${button2Model.title}`,
     data: { button2Model, keysModel },
@@ -47,19 +54,20 @@ export async function loginModel(
   try {
     const token = await tokenForKey(keysModel.tokenKey, keysModel.namespace);
     console.log({ keysModel });
-    let userId = await itemForKey(keysModel.userIdKey, keysModel.namespace);
+    const userId = await itemForKey(keysModel.userIdKey, keysModel.namespace);
+    console.log({ userId });
 
-    let subscriptionPrice = await itemForKey(
+    const subscriptionPrice = await itemForKey(
       keysModel.subscriptionPriceKey,
       keysModel.namespace
     );
 
-    let subscriptionRenewsDate = await itemForKey(
+    const subscriptionRenewsDate = await itemForKey(
       keysModel.subscriptionRenewsDateKey,
       keysModel.namespace
     );
 
-    let userPhotoUrl = await itemForKey(
+    const userPhotoUrl = await itemForKey(
       keysModel.userPhotoUrlKey,
       keysModel.namespace
     );
@@ -110,19 +118,19 @@ async function itemForKey(key: string, namespace: string) {
     }
     console.log({ key, namespace });
     let value = await localStorageGet(key, namespace);
-    logger.warning({
-      message: `itemForKey value - ${value}`,
+    logger.debug({
+      message: `itemForKey Finised key - ${key}, value - ${value}`,
       data: { value },
     });
     if (!value) {
       return null;
     }
+    return value;
   } catch (error) {
     logger.warning({
-      message: `itemForKey failed - ${error.message}`,
+      message: `itemForKey Error: key - ${key}, failed - ${error.message}`,
       data: { error },
     });
-    //TODO give debug log
     return null;
   }
 }

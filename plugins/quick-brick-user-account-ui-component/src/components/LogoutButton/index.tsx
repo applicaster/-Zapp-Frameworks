@@ -14,7 +14,6 @@ const componentStyles = StyleSheet.create({
   containerStyle: {
     height: 22,
     width: 99,
-    flex: 1,
     flexDirection: "row",
   },
   flexOne: {

@@ -57,7 +57,9 @@ export function getSubscriptionData(
   model: LoginDataModel,
   subscription_expiration_title
 ): string {
-  const { subscriptionPrice, subscriptionRenewsDate } = model;
+  const subscriptionPrice = model?.subscriptionPrice;
+  const subscriptionRenewsDate = model?.subscriptionRenewsDate;
+
   if (!subscriptionPrice && !subscriptionRenewsDate) {
     return null;
   }

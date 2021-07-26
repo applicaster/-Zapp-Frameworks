@@ -1,4 +1,5 @@
 type GeneralStyles = {
+  custom_padding_top: number;
   user_image_placeholder: string;
   button_1_custom_screen_id: string;
   button_1_background_color: string;
@@ -55,6 +56,8 @@ type GeneralStyles = {
   button_logout_title_text_font_ios: string;
   button_logout_title_text_fontsize: string;
   button_logout_title_underlay_color: string;
+
+  debug_dummy_data_source: string;
 };
 
 type ButtonStyles = {

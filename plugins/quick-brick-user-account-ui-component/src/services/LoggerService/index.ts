@@ -5,4 +5,4 @@ const BaseCategories = {
   GENERAL: "general",
 };
 
-export const logger = new XRayLogger(BaseCategories, BaseSubsystem);
+export const logger = new XRayLogger(BaseCategories.GENERAL, BaseSubsystem);

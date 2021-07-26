@@ -25,6 +25,12 @@ const baseManifest = {
 const styles = {
   fields: [
     {
+      key: "custom_padding_top",
+      type: "number_input",
+      label_tooltip: "Padding top for component UI",
+      initial_value: 0,
+    },
+    {
       key: "user_image_placeholder",
       type: "uploader",
       label: "Placeholder for the user image",
@@ -549,6 +555,30 @@ const styles = {
           type: "number_input",
           label_tooltip: "Font size toggle title",
           initial_value: "10",
+        },
+      ],
+    },
+    {
+      group: true,
+      label: "Debug",
+      tooltip: "For development purposes",
+      folded: true,
+      fields: [
+        {
+          type: "tag_select",
+          key: "debug_dummy_data_source",
+          tooltip_text: "Use dummy data source to test UI",
+          options: [
+            {
+              text: "On",
+              value: "on",
+            },
+            {
+              text: "Off",
+              value: "off",
+            },
+          ],
+          initial_value: "off",
         },
       ],
     },

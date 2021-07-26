@@ -46,23 +46,27 @@ export function UserAccount(props: Props) {
   const login2ButtonId = "login_2";
 
   const [isLogedIn, setIsLogedIn] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+
   const [button1Model, setButton1Model] =
     React.useState<LoginDataModel>(undefined);
   const [button2Model, setButton2Model] =
     React.useState<LoginDataModel>(undefined);
 
-  const theme = useTheme();
+  const { component, onLoadFinished, rivers, navigator } = props;
+  const { data, localizations, styles, id } = component;
+  const button_2_login_enabled = styles?.button_2_login_enabled;
 
+  const theme = useTheme();
+  const custom_padding_top = styles?.custom_padding_top || 0;
+  const debug_dummy_data_source = styles?.debug_dummy_data_source === "on";
   const newContainerStyleStyle = {
     ...componentStyles.containerStyle,
     paddingLeft: theme?.component_padding_left,
     paddingRight: theme?.component_padding_right,
     paddingBottom: theme?.component_margin_bottom,
+    paddingTop: custom_padding_top,
   };
-
-  const { component, onLoadFinished, rivers, navigator } = props;
-  const { data, localizations, styles, id } = component;
-  const button_2_login_enabled = styles?.button_2_login_enabled;
 
   const {
     account_title = "Account",
@@ -81,6 +85,7 @@ export function UserAccount(props: Props) {
   }, []);
 
   React.useEffect(() => {
+    setIsLoading(true);
     preparePlugin();
   }, [navigator.previousAction]);
 
@@ -111,15 +116,21 @@ export function UserAccount(props: Props) {
         message: `preparePlugin: login button 2 is enabled: ${button_2_login_enabled}.`,
         data: { localizations, styles },
       });
-      const button1Model = await loginModelButton1(styles);
+      const button1Model = await loginModelButton1(
+        styles,
+        debug_dummy_data_source
+      );
       console.log({ button1Model });
       setButton1Model(button1Model);
 
       if (button_2_login_enabled) {
-        const button2Model = await loginModelButton2(styles);
+        const button2Model = await loginModelButton2(
+          styles,
+          debug_dummy_data_source
+        );
         setButton2Model(button2Model);
       }
-
+      setIsLoading(false);
       onLoadFinished();
     } catch (error) {
       logger.error({
@@ -162,11 +173,12 @@ export function UserAccount(props: Props) {
     },
   };
 
-  function accountTitles() {
+  const accountTitles = React.useCallback(() => {
     const model = loginDataModelByToken();
+    console.log({ model });
     return {
       account_title,
-      user_name_title: model.userId,
+      user_name_title: model?.userId,
       subscription_title,
       subscription_expiration_title: getSubscriptionData(
         model,
@@ -174,45 +186,57 @@ export function UserAccount(props: Props) {
       ),
       logout_title_text,
     };
-  }
+  }, [button1Model, button2Model]);
 
   const onLogin1 = React.useCallback(async () => {
-    console.log({ button1Model });
-    const plugin = screenFromRivers({ rivers, loginDataModel: button1Model });
-    logger.debug({
-      message: `Login Button 1 was clicked ${button1Model.title}`,
-      data: { button1Model, plugin },
-    });
-    navigator.push(plugin);
-  }, []);
+    if (!debug_dummy_data_source) {
+      const plugin = screenFromRivers({ rivers, loginDataModel: button1Model });
+      logger.debug({
+        message: `Login Button 1 was clicked ${button1Model.title}`,
+        data: { button1Model, plugin },
+      });
+      navigator.push(plugin);
+    } else {
+      setIsLogedIn(true);
+    }
+  }, [button1Model]);
 
   const onLogin2 = React.useCallback(async () => {
-    const plugin = screenFromRivers({ rivers, loginDataModel: button2Model });
-    logger.debug({
-      message: `Login Button 2 was clicked ${button2Model.title}`,
-      data: { button2Model, plugin },
-    });
-    navigator.push(plugin);
-  }, []);
+    if (!debug_dummy_data_source) {
+      const plugin = screenFromRivers({ rivers, loginDataModel: button2Model });
+      logger.debug({
+        message: `Login Button 2 was clicked ${button2Model.title}`,
+        data: { button2Model, plugin },
+      });
+      navigator.push(plugin);
+    } else {
+      setIsLogedIn(true);
+    }
+  }, [button2Model]);
 
   const onLogout = React.useCallback(async () => {
-    const model = loginDataModelByToken();
-    let plugin = screenFromRivers({ rivers, loginDataModel: model });
-    logger.debug({
-      message: `Logout Button was clicked ${model.title}`,
-      data: { button1Model, plugin },
-    });
-    navigator.push(plugin);
-  }, []);
+    if (!debug_dummy_data_source) {
+      const model = loginDataModelByToken();
+      let plugin = screenFromRivers({ rivers, loginDataModel: model });
+      logger.debug({
+        message: `Logout Button was clicked ${model.title}`,
+        data: { button1Model, plugin },
+      });
+      navigator.push(plugin);
+    } else {
+      setIsLogedIn(false);
+    }
+  }, [button1Model, button2Model]);
 
-  function loginDataModelByToken(): LoginDataModel {
+  const loginDataModelByToken = React.useCallback((): LoginDataModel => {
     if (button1Model?.token) {
       return button1Model;
     } else if (button2Model?.token) {
       return button2Model;
     }
-  }
+  }, [button1Model, button2Model]);
 
+  console.log({ isLogedIn });
   function renderLoginFlow() {
     return (
       <>
@@ -236,16 +260,16 @@ export function UserAccount(props: Props) {
   }
   return (
     <View style={newContainerStyleStyle}>
-      {isLogedIn ? (
-        <AccountInfo
-          onLogoutPress={onLogout}
-          user_image_placeholder={styles?.user_image_placeholder}
-          styles={accoutInfoStyles}
-          titles={accountTitles()}
-        />
-      ) : (
-        renderLoginFlow()
-      )}
+      {isLogedIn
+        ? !isLoading && (
+            <AccountInfo
+              onLogoutPress={onLogout}
+              user_image_placeholder={styles?.user_image_placeholder}
+              styles={accoutInfoStyles}
+              titles={accountTitles()}
+            />
+          )
+        : !isLoading && renderLoginFlow()}
     </View>
   );
 }
