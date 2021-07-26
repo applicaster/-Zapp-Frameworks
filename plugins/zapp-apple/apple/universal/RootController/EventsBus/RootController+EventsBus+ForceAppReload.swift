@@ -30,7 +30,15 @@ extension RootController {
     }
 
     func forceReloadApplicationAfterOfflineStart() {
-        _ = SessionStorage.sharedInstance.removeItem(key: RootControllerStorageKeys.shouldRestartAfterOfflineStart,
+        let key = RootControllerStorageKeys.shouldRestartAfterOfflineStart
+
+        guard sessionStorageValue(for: key,
+                                  namespace: nil)?.boolValue() == false,
+            isOnline() else {
+            return
+        }
+
+        _ = SessionStorage.sharedInstance.removeItem(key: key,
                                                      namespace: nil)
         forceReloadApplication()
     }

@@ -45,7 +45,7 @@ enum Events: String {
         case .forceAppReload:
             manager.forceAppReload()
         case .forceAppReloadAfterOfflineStart:
-            manager.forceAppReloadAfterOfflineStart()()
+            manager.forceAppReloadAfterOfflineStart()
         }
     }
 }
