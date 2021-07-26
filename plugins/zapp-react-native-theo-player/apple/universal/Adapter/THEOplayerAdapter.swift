@@ -26,7 +26,7 @@ open class THEOplayerAdapter: NSObject, PluginAdapterProtocol {
         completion?(true)
     }
 
-    open func prepareProvider(_ defaultParams: [String: Any], completion: ((Bool) -> Void)?) 
+    open func prepareProvider(_ defaultParams: [String: Any], completion: ((Bool) -> Void)?) {
         completion?(true)
     }
 
