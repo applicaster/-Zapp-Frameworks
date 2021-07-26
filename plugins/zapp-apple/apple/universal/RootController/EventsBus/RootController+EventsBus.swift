@@ -9,7 +9,6 @@ import Foundation
 
 extension RootController {
     func subscribeToEventsBus() {
-        subscribeToEventsBusReachabilityChanges()
         subscribeToEventsBusForceAppReload()
     }
 }
