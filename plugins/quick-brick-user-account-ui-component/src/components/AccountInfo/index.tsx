@@ -42,18 +42,18 @@ export function AccountInfo(props: Props) {
   const logoutButtonId = "logout";
 
   const titles = props?.titles;
-
+  console.log({ titles });
   const logoutButtonStyles = props?.styles?.logoutButtonStyles;
 
   const labelStyles = props?.styles?.labelStyles;
   const accountDataTitles = {
-    title_text: titles.account_title,
-    description_text: titles.user_name_title,
+    title_text: titles?.account_title,
+    description_text: titles?.user_name_title,
   };
 
   const subscriptionDataTitles = {
-    title_text: titles.subscription_title,
-    description_text: titles.subscription_expiration_title,
+    title_text: titles?.subscription_title,
+    description_text: titles?.subscription_expiration_title,
   };
   return (
     <View style={componentStyles.container}>

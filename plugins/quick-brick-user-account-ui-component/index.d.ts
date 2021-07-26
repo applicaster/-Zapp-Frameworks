@@ -49,11 +49,11 @@ type GeneralStyles = {
   button_logout_background_image: string;
   button_logout_background_color: string;
   button_logout_background_underlay_color: string;
-  button_logout_border: string;
+  button_logout_border: number;
   button_logout_border_color: string;
-  button_logout_border_underlay: string;
+  button_logout_border_underlay: number;
   button_logout_border_underlay_color: string;
-  button_logout_radius: string;
+  button_logout_radius: number;
   button_logout_title_color: string;
   button_logout_title_text_font_android: string;
   button_logout_title_text_font_ios: string;

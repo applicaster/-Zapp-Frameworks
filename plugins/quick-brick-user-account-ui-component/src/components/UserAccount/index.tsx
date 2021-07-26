@@ -60,7 +60,8 @@ export function UserAccount(props: Props) {
   const button_2_login_enabled = styles?.button_2_login_enabled;
 
   const theme = useTheme();
-  const custom_padding_top = styles?.custom_padding_top || 0;
+  const custom_padding_top = Number(styles?.custom_padding_top) || 0;
+  console.log({ custom_padding_top });
   const debug_dummy_data_source = styles?.debug_dummy_data_source === "on";
   const newContainerStyleStyle = {
     ...componentStyles.containerStyle,
@@ -263,6 +264,7 @@ export function UserAccount(props: Props) {
   const titles = accountTitles();
 
   const renderLoginFlow = React.useCallback(() => {
+    console.log({ titles });
     return (
       <>
         <UserPhoto imageSrc={styles?.user_image_placeholder} />
@@ -288,7 +290,7 @@ export function UserAccount(props: Props) {
           <InfoView
             styles={accoutInfoStyles?.labelStyles}
             titles={{
-              description_text: titles.user_name_title,
+              description_text: titles?.user_name_title,
               title_text: null,
             }}
           />
@@ -310,8 +312,8 @@ export function UserAccount(props: Props) {
   return (
     <View style={newContainerStyleStyle}>
       {isLogedIn &&
-      titles.user_name_title &&
-      titles.subscription_expiration_title
+      titles?.user_name_title &&
+      titles?.subscription_expiration_title
         ? !isLoading && (
             <AccountInfo
               src={styles.button_logout_background_image}
