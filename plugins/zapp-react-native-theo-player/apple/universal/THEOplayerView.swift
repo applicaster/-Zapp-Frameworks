@@ -74,6 +74,7 @@ class THEOplayerView: UIView {
     }
 
     deinit {
+        print("deinit")
     }
 
     override init(frame: CGRect) {
@@ -90,6 +91,8 @@ class THEOplayerView: UIView {
     }
 
     override public func removeFromSuperview() {
+        FacadeConnector.connector?.uiLayer?.setPrefersHomeIndicatorAutoHidden(autoHidden: false)
+
         unloadTheoPlayer()
         super.removeFromSuperview()
     }
@@ -147,6 +150,7 @@ class THEOplayerView: UIView {
     // MARK: - THEOplayer setup and unload
 
     private func setupTheoPlayer() {
+        FacadeConnector.connector?.uiLayer?.setPrefersHomeIndicatorAutoHidden(autoHidden: true)
         logger?.debugLog(message: "Initialize player",
                          data: [:])
         let theoplayerLicenseKey = configurationData?["theoplayer_license_key"] as? String

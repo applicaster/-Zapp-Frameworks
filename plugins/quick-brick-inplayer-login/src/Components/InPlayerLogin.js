@@ -53,7 +53,7 @@ const getRiversProp = (key, rivers = {}, screenId = "") => {
   return getPropByKey(rivers);
 };
 
-const localStorageTokenKey = "in_player_token";
+const localStorageTokenKey = "inplayer_token";
 const userAccountStorageTokenKey = "idToken";
 
 const InPlayerLogin = (props) => {
@@ -150,19 +150,32 @@ const InPlayerLogin = (props) => {
         defaultTokenKey, // 'inplayer_token'
         tokenValue
       ) {
-        await localStorageSet(localStorageTokenKey, tokenValue);
+        logger.debug({
+          message: "InplayerSDK set new token",
+          data: {
+            defaultTokenKey,
+            tokenValue,
+          },
+        });
+        await localStorageSet(defaultTokenKey, tokenValue);
         await localStorageSetUserAccount(
           userAccountStorageTokenKey,
           tokenValue
         );
       },
-      getItem: async function () {
-        const token = await localStorageGet(localStorageTokenKey);
-
+      getItem: async function (defaultTokenKey) {
+        const token = await localStorageGet(defaultTokenKey);
         return JSON.stringify(token);
       },
-      removeItem: async function () {
-        await localStorageRemove(localStorageTokenKey);
+      removeItem: async function (defaultTokenKey) {
+        logger.debug({
+          message: "InplayerSDK remove token",
+          data: {
+            defaultTokenKey,
+          },
+        });
+
+        await localStorageRemove(defaultTokenKey);
         await localStorageRemoveUserAccount(userAccountStorageTokenKey);
       },
     };
@@ -172,11 +185,11 @@ const InPlayerLogin = (props) => {
     try {
       const { token } = await InPlayerSDK.Account.getToken();
       setIdtoken(token);
-    } catch(err) {
+    } catch (err) {
       logger.debug({
         message: `Error getting InPlayer Token`,
         data: {
-          err
+          err,
         },
       });
     }
@@ -186,28 +199,27 @@ const InPlayerLogin = (props) => {
       data: { configuration: props?.configuration },
     });
 
-    let shouldBeSkipped = payload?.extensions?.skip_hook;
-
-    if (show_hook_once) {
-      const presentScreen = await screenShouldBePresented();
-      if (presentScreen === false) {
-        shouldBeSkipped = true;
-      } else {
-        await removePresentedInfo();
-      }
-    }
-
-    if (shouldBeSkipped) {
-      logger.debug({
-        message:
-          "InPlayer plugin invocation, finishing hook with: success. Hook should be scipped",
-        data: { should_be_skipped: shouldBeSkipped },
-      });
-      accountFlowCallback({ success: true });
-      return;
-    }
-
     if (payload) {
+      let shouldBeSkipped = payload?.extensions?.skip_hook;
+
+      if (show_hook_once) {
+        const presentScreen = await screenShouldBePresented();
+        if (presentScreen === false) {
+          shouldBeSkipped = true;
+        } else {
+          await removePresentedInfo();
+        }
+      }
+
+      if (shouldBeSkipped) {
+        logger.debug({
+          message:
+            "InPlayer plugin invocation, finishing hook with: success. Hook should be skipped",
+          data: { should_be_skipped: shouldBeSkipped },
+        });
+        accountFlowCallback({ success: true });
+        return;
+      }
       const authenticationRequired = isAuthenticationRequired({ payload });
       const assetId = inPlayerAssetId({
         payload,
@@ -560,7 +572,13 @@ const InPlayerLogin = (props) => {
     } catch (error) {
       setError(error);
       setTimeout(() => {
-        invokeCompleteAction();
+        logger.error({
+          message: `Logout error: ${error.message}`,
+          data: {
+            error,
+          },
+        });
+        invokeLogoutCompleteAction();
       }, timeout);
     }
   }

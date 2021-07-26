@@ -13,6 +13,7 @@ public struct ZappPluginModelKeys {
     static let kPlugin = "plugin"
     static let kIdentifier = "identifier"
     static let kPluginTypeString = "type"
+    static let kPluginApiSubTypeString = "subtype"
     static let kPluginNameString = "name"
     static let kApiString = "api"
     static let kPluginClassNameString = "class_name"
@@ -37,11 +38,23 @@ public enum ZPPluginType: String {
     case VideoAdvertisement = "video_advertisement"
     case Crashlogs = "error_monitoring"
 
+    /// CMP plugins needs to be loaded as hooks before general plugins
+    case General$Cmp = "general.cmp"
+    /// Storage plugins need to be loaded before userInterface layer to save storage related info to be used by QB
+    case General$Storage = "general.storage"
+
     /// Provides a new screen (view controller) for displaying articles
     case Article = "article"
     case Advertisement = "advertisement"
 
     case Unknown = "unknown"
+
+    func hasSubtype(_ subtype: ZPPluginType) -> Bool {
+        guard let type = subtype.rawValue.split(separator: ".").first else {
+            return false
+        }
+        return type == rawValue
+    }
 }
 
 @objc open class ZPPluginModel: NSObject {
@@ -75,7 +88,24 @@ public enum ZPPluginType: String {
         guard let stringPluginType = plugin?[ZappPluginModelKeys.kPluginTypeString] as? String else {
             return nil
         }
-        return ZPPluginType(rawValue: stringPluginType)
+        var type = ZPPluginType(rawValue: stringPluginType)
+
+        // update type with subtype if exists
+        if let subtype = pluginSubType,
+           type?.hasSubtype(subtype) == true {
+            type = subtype
+        }
+
+        return type
+    }()
+
+    public lazy var pluginSubType: ZPPluginType? = {
+        guard let stringPluginSubType = api?[ZappPluginModelKeys.kPluginApiSubTypeString] as? String,
+              let subtype = ZPPluginType(rawValue: stringPluginSubType) else {
+            return nil
+        }
+
+        return subtype
     }()
 
     public var pluginClassName: String? {
@@ -90,21 +120,21 @@ public enum ZPPluginType: String {
 
     @objc public init?(object: NSDictionary?) {
         guard let objectDictionary = object,
-            objectDictionary[ZappPluginModelKeys.kPlugin] as? NSDictionary != nil else {
+              objectDictionary[ZappPluginModelKeys.kPlugin] as? NSDictionary != nil else {
             return nil
         }
         self.object = objectDictionary
         configurationJSON = objectDictionary[ZappPluginModelKeys.kConfigurationJSON] as? NSDictionary
     }
 
-    static public func == (lhs: ZPPluginModel, rhs: ZPPluginModel) -> Bool {
+    public static func == (lhs: ZPPluginModel, rhs: ZPPluginModel) -> Bool {
         return lhs.identifier == rhs.identifier
     }
 
     public func configurationValue(for key: String) -> AnyObject? {
         var retValue: AnyObject?
-        if let pluginConfiguration = self.object[ZappPluginModelKeys.kConfigurationJSON] as? [String: AnyObject],
-            let value = pluginConfiguration[key] {
+        if let pluginConfiguration = object[ZappPluginModelKeys.kConfigurationJSON] as? [String: AnyObject],
+           let value = pluginConfiguration[key] {
             retValue = value
         }
         return retValue

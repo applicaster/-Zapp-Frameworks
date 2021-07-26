@@ -10,6 +10,7 @@ import XrayLogger
 import ZappCore
 
 let pluginsManagerSubsystem = "\(kNativeSubsystemPath)/plugins_manager"
+let userInterfaceLayerDependantPluginsSubManagerSubsystem = "\(pluginsManagerSubsystem)/ui_layer_dependant_plugins_manager"
 
 public struct PluginsManagerLogs: XrayLoggerTemplateProtocol {
     public static var subsystem: String = pluginsManagerSubsystem
@@ -20,7 +21,17 @@ public struct PluginsManagerLogs: XrayLoggerTemplateProtocol {
     public static var preparingAnalyticsPlugins = LogTemplate(message: "Preparing analytics plugins")
     public static var preparingPushPlugins = LogTemplate(message: "Preparing push plugins")
     public static var preparingGeneralPlugins = LogTemplate(message: "Preparing general plugins")
+    public static var preparingGeneralCmpPlugins = LogTemplate(message: "Preparing general cmp plugins")
     public static var preparingPlayerPlugin = LogTemplate(message: "Preparing player plugins")
     public static var preparingHookPlugins = LogTemplate(message: "Preparing hook plugins to be executed on launch")
     public static var savingPluginConfigurationToSessionStorage = LogTemplate(message: "Saving configuration of each plugin to session storage")
 }
+
+public struct UserInterfaceLayerDependantPluginsSubManagerLogs: XrayLoggerTemplateProtocol {
+    public static var subsystem: String = userInterfaceLayerDependantPluginsSubManagerSubsystem
+
+    public static var pluginsInitialization = LogTemplate(message: "Initializing plugins state machine")
+    public static var preparingGeneralStoragePlugins = LogTemplate(message: "Preparing general storage plugins")
+
+}
+

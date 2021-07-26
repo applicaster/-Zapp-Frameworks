@@ -18,7 +18,12 @@ import UIKit
         return connectorProvider as? FacadeConnectorAppDataProtocol
     }
 
+    @objc public var uiLayer: FacadeConnectorUILayerViewControllerProtocol? {
+        return connectorProvider as? FacadeConnectorUILayerViewControllerProtocol
+    }
+    
     @available(*, deprecated, message: "Deprecated from QB SDK 4.1.0, use EventsBus instead")
+    
     @objc public var analytics: FacadeConnectorAnalyticsProtocol? {
         return connectorProvider as? FacadeConnectorAnalyticsProtocol
     }

@@ -1295,7 +1295,7 @@ function createManifest({ version, platform }) {
         {
           type: "switch",
           key: "show_hook_once",
-          tooltip_text:
+          label_tooltip:
             "Define if hook should be presented on time or each time screen will open",
           initial_value: false,
         },

@@ -43,7 +43,7 @@ const getRiversProp = (key, rivers = {}, screenId = "") => {
   return getPropByKey(rivers);
 };
 
-const localStorageTokenKey = "in_player_token";
+const localStorageTokenKey = "inplayer_token";
 const userAccountStorageTokenKey = "idToken";
 
 const InPlayer = (props) => {
@@ -78,21 +78,36 @@ const InPlayer = (props) => {
         defaultTokenKey, // 'inplayer_token'
         tokenValue
       ) {
-        await localStorageSet(localStorageTokenKey, tokenValue);
+        logger.debug({
+          message: "InplayerSDK set new token",
+          data: {
+            defaultTokenKey,
+            tokenValue,
+          },
+        });
+        await localStorageSet(defaultTokenKey, tokenValue);
         await localStorageSetUserAccount(
           userAccountStorageTokenKey,
           tokenValue
         );
       },
-      getItem: async function () {
-        const token = await localStorageGet(localStorageTokenKey);
+      getItem: async function (defaultTokenKey) {
+        const token = await localStorageGet(defaultTokenKey);
         return JSON.stringify(token);
       },
-      removeItem: async function () {
-        await localStorageRemove(localStorageTokenKey);
+      removeItem: async function (defaultTokenKey) {
+        logger.debug({
+          message: "InplayerSDK remove token",
+          data: {
+            defaultTokenKey,
+          },
+        });
+
+        await localStorageRemove(defaultTokenKey);
         await localStorageRemoveUserAccount(userAccountStorageTokenKey);
       },
     };
+
     setupEnvironment();
     return () => {
       navigator.showNavBar();
@@ -218,45 +233,77 @@ const InPlayer = (props) => {
       await setConfig(in_player_environment);
 
       if (payload) {
+        // Check that an item requires auth (inplayer item and not raw video url).
+        const authenticationRequired = isAuthenticationRequired({ payload });
+        if (!authenticationRequired) {
+          logger.info({
+            message:
+              "Asset loader finished task, authentication is not required",
+            data: {
+              in_player_environment,
+              in_player_client_id,
+              authenticationRequired,
+            },
+          });
+
+          finishStorefront({ success: true, error: null, payload });
+          return;
+        }
+
+        // Check that user is logged in.
+        if (!isUserAuthenticated) {
+          const message =
+            "Asset loader finished task, authentication is required but user is not logged. Check login plugin and hook order.";
+          logger.error({
+            message: message,
+            data: {
+              in_player_environment,
+              in_player_client_id,
+            },
+          });
+          throw Error(message);
+        }
+
         const assetId = await inPlayerAssetId({
           payload,
           configuration: props.configuration,
         });
-        const authenticationRequired = isAuthenticationRequired({ payload });
 
-        if (authenticationRequired && isUserAuthenticated && assetId) {
-          const payloadWithAsset = await assetLoader({ props, assetId, store });
-          logger.debug({
-            message: "Asset loader finished task",
+        // Extract inplayer asset id from the entry json
+        if (!assetId) {
+          const message = "Inplayer asset Id was not found in the entry";
+          logger.error({
+            message,
             data: {
               in_player_environment,
               in_player_client_id,
-              inplayer_asset_id: assetId,
-              payloadWithAsset,
             },
           });
-          if (!R.isNil(payloadWithAsset?.content?.src)) {
-            callback &&
-              callback({
-                success: true,
-                error: null,
-                payload: payloadWithAsset,
-              });
-          } else {
-            setItemAssetId(assetId);
-            setPayloadWithPurchaseData(payloadWithAsset);
-            setIsLoading(false);
-          }
+          throw Error(message);
+        }
+
+        const payloadWithAsset = await assetLoader({ props, assetId, store });
+        logger.debug({
+          message: `Asset loaded: inplayer assetID ${assetId}`,
+          data: {
+            in_player_environment,
+            in_player_client_id,
+            assetId,
+            payloadWithAsset,
+          },
+        });
+
+        if (!R.isNil(payloadWithAsset?.content?.src)) {
+          callback &&
+            callback({
+              success: true,
+              error: null,
+              payload: payloadWithAsset,
+            });
         } else {
-          logger.debug({
-            message:
-              "Data source not support InPlayer plugin invocation, finishing hook with: success",
-            data: {
-              in_player_environment,
-              in_player_client_id,
-            },
-          });
-          finishStorefront({ success: true, error: null, payload });
+          setItemAssetId(assetId);
+          setPayloadWithPurchaseData(payloadWithAsset);
+          setIsLoading(false);
         }
       } else if (isStanaloneScreen()) {
         const mockPayload = {
@@ -294,7 +341,8 @@ const InPlayer = (props) => {
         }
       } else {
         logger.error({
-          message: "Plugin could not started, no data exist",
+          message:
+            "Plugin could not started, unxpected flow, no payload, not standalone screen",
         });
         finishStorefront({ success: false, error: null, payload });
       }

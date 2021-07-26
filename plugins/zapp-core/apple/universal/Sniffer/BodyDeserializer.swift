@@ -121,7 +121,7 @@ private struct MultipartFormData {
 
     private var isSupportType: Bool {
         guard let type = type,
-              let deserializer = Sniffer.find(deserialize: type) else {
+              let deserializer = NetworkSniffer.find(deserialize: type) else {
             return false
         }
 

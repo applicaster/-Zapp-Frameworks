@@ -10,7 +10,7 @@ import AdSupport
 import XrayLogger
 import ZappCore
 
-@objc public class ZPDiManager: NSObject, GeneralProviderProtocol {
+@objc public class ZPDiManager: NSObject, GeneralStorageProviderProtocol {
     public var model: ZPPluginModel?
     public var configurationJSON: NSDictionary?
     lazy var logger = Logger.getLogger(for: "\(kNativeSubsystemPath)/ZappDiManager")
@@ -45,7 +45,7 @@ import ZappCore
 
     public func disable(completion: ((Bool) -> Void)?) {
         _ = FacadeConnector.connector?.storage?.sessionStorageRemoveValue(for: Params.jwtStorageKey,
-                                                                        namespace: nil)
+                                                                          namespace: nil)
         completion?(true)
     }
 

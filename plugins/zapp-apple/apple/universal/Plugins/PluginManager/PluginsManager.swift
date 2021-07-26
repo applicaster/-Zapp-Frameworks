@@ -19,6 +19,9 @@ public class PluginsManager: NSObject {
     public lazy var playerDependants = PlayerDependantPluginsManager()
     public lazy var push = PushPluginsManager()
     public lazy var general = GeneralPluginsManager()
+    public lazy var generalCmp = GeneralCmpPluginsManager()
+    public lazy var generalStorage = GeneralStoragePluginsManager()
+
     public lazy var player = PlayerPluginsManager()
     public lazy var crashlogs = CrashlogsPluginsManager()
 
@@ -27,9 +30,17 @@ public class PluginsManager: NSObject {
         return retVal?.value as? FacadeConnectorLocalNotificationProtocol
     }()
 
+    public var uiLayerDependantPluginsSubManager: UserInterfaceLayerDependantPluginsSubManager?
+
+    
     var pluginsStateMachine: LoadingStateMachine!
     var pluginLoaderCompletion: ((_ success: Bool) -> Void)?
-
+    
+    override init() {
+        super.init()
+        uiLayerDependantPluginsSubManager = UserInterfaceLayerDependantPluginsSubManager(parent: self)
+    }
+    
     func intializePlugins(completion: @escaping (_ success: Bool) -> Void) {
         logger?.debugLog(template: PluginsManagerLogs.pluginsInitialization)
 
@@ -82,6 +93,14 @@ public class PluginsManager: NSObject {
         logger?.debugLog(template: PluginsManagerLogs.preparingGeneralPlugins)
 
         general.prepareManager { success in
+            success ? successHandler() : failHandler()
+        }
+    }
+    
+    func prepareGeneralCmpPlugins(_ successHandler: @escaping StateCallBack,
+                               _ failHandler: @escaping StateCallBack) {
+        logger?.debugLog(template: PluginsManagerLogs.preparingGeneralCmpPlugins)
+        generalCmp.prepareManager { success in
             success ? successHandler() : failHandler()
         }
     }

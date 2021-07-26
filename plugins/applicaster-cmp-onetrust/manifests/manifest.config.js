@@ -253,6 +253,7 @@ const api_apple = {
   require_startup_execution: true,
   class_name: "OneTrustCmp",
   modules: ["ZappCmpOneTrust"],
+  subtype: "general.cmp"
 };
 
 const api_android = {

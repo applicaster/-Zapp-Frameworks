@@ -181,6 +181,7 @@ const api_apple = {
     NSUserTrackingUsageDescription:
       "This identifier will be used to deliver personalized ads to you.",
   },
+  subtype: "general.cmp"
 };
 
 const api_android = {

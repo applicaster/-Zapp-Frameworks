@@ -107,25 +107,6 @@
     },
     {
       "group": true,
-      "label": "Chromecast",
-      "tooltip": "Chromecast Settings",
-      "folded": true,
-      "fields": [
-        {
-          "type": "text_input",
-          "key": "chromecast_app_id",
-          "tooltip_text": "Chromecast application ID",
-          "default": ""
-        },
-        {
-          "type": "hidden",
-          "key": "plist.array.NSBonjourServices",
-          "initial_value": "_[chromecast_app_id]._googlecast._tcp, _googlecast._tcp"
-        }
-      ]
-    },
-    {
-      "group": true,
       "label": "Moat Analytics",
       "tooltip": "Moat Analytics",
       "folded": true,
@@ -164,22 +145,16 @@
     }
   ],
   "platform": "ios_for_quickbrick",
-  "dependency_version": "0.11.0",
-  "manifest_version": "0.11.0",
+  "dependency_version": "0.13.0",
+  "manifest_version": "0.13.0",
   "api": {
     "class_name": "THEOplayerAdapter",
     "modules": [
       "ZappTHEOplayer"
-    ],
-    "plist": {
-      "NSLocalNetworkUsageDescription": "App uses the local network to discover Cast-enabled devices on your WiFi network."
-    },
-    "entitlements": {
-      "com.apple.developer.networking.wifi-info": true
-    }
+    ]
   },
   "npm_dependencies": [
-    "@applicaster/zapp-react-native-theo-player@0.11.0"
+    "@applicaster/zapp-react-native-theo-player@0.13.0"
   ],
   "dependency_repository_url": {},
   "min_zapp_sdk": "3.0.0-Dev",

@@ -47,7 +47,7 @@ export const externalAssetData = ({ payload }) => {
 };
 
 export const isAuthenticationRequired = ({ payload }) => {
-  const requires_authentication = R.path([
+  const requires_authentication = !!R.path([
     "extensions",
     "requires_authentication",
   ])(payload);

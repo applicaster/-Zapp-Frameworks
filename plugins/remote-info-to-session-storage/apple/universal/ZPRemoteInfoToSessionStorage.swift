@@ -9,7 +9,7 @@
 import XrayLogger
 import ZappCore
 
-@objc public class ZPRemoteInfoToSessionStorage: NSObject, GeneralProviderProtocol {
+@objc public class ZPRemoteInfoToSessionStorage: NSObject, GeneralStorageProviderProtocol {
     public var model: ZPPluginModel?
     public var configurationJSON: NSDictionary?
     lazy var logger = Logger.getLogger(for: "\(kNativeSubsystemPath)/ZappRemoteInfoToSessionStorage")
@@ -37,17 +37,19 @@ import ZappCore
         completion?(true)
     }
 
-    public func fetchRemoteInfo(_ completion: ((_ success: Bool) -> Void)?) {
+    public func fetchRemoteInfo(_ completion: ((_ isReady: Bool) -> Void)?) {
         guard let urlString = configurationJSON?["remote_url"] as? String,
               !urlString.isEmpty,
               let url = URL(string: urlString) else {
             logger?.errorLog(message: "Remote Url not defined")
+            completion?(true)
             return
         }
 
         guard let namespace = configurationJSON?["namespace"] as? String,
               !namespace.isEmpty else {
             logger?.errorLog(message: "Namespace not defined")
+            completion?(true)
             return
         }
 
@@ -83,16 +85,15 @@ import ZappCore
                                           data: ["url": urlString,
                                                  "error": error.localizedDescription])
                 } catch let error as NSError {
-                    self.logger?.errorLog(message: "DI Server error",
+                    self.logger?.errorLog(message: "Generic error",
                                           data: ["url": urlString,
                                                  "error": error.localizedDescription])
                 }
-            }
 
-            if self.shouldWaitForCompletion {
-                completion?(true)
+                if self.shouldWaitForCompletion {
+                    completion?(true)
+                }
             }
-
         }.resume()
 
         if shouldWaitForCompletion == false {

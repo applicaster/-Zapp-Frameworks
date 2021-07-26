@@ -29,6 +29,22 @@ extension RootController: LoadingStateMachineDataSource {
         }
     }
 
+    func loadUserInterfaceLayerDependantPluginsGroup(_ successHandler: @escaping StateCallBack,
+                                                _ failHandler: @escaping StateCallBack) {
+        guard let manager = pluginsManager.uiLayerDependantPluginsSubManager else {
+            successHandler()
+            return
+        }
+        
+        manager.intializePlugins { success in
+            if success == true {
+                successHandler()
+            } else {
+                failHandler()
+            }
+        }
+    }
+
     func loadStylesGroup(_ successHandler: @escaping StateCallBack,
                          _ failHandler: @escaping StateCallBack) {
         let loadingManager = LoadingManager()
@@ -41,9 +57,9 @@ extension RootController: LoadingStateMachineDataSource {
             }
         }
     }
-    
+
     func loadRemoteConfigurationGroup(_ successHandler: @escaping StateCallBack,
-                         _ failHandler: @escaping StateCallBack) {
+                                      _ failHandler: @escaping StateCallBack) {
         let loadingManager = LoadingManager()
         loadingManager.loadFile(type: .remoteConfiguration) { success in
             if success == true {
@@ -54,16 +70,14 @@ extension RootController: LoadingStateMachineDataSource {
             }
         }
     }
-    
+
     func loadPluginsRemoteConfigurationGroup(_ successHandler: @escaping StateCallBack,
-                         _ failHandler: @escaping StateCallBack) {
-        
+                                             _ failHandler: @escaping StateCallBack) {
         pluginsManager.loadPluginConfiguration(successHandler, failHandler)
     }
 
     func loadUserInterfaceLayerGroup(_ successHandler: @escaping StateCallBack,
                                      _ failHandler: @escaping StateCallBack) {
-        
         guard let userInterfaceLayer = UserInterfaceLayerManager.layerAdapter(launchOptions: appDelegate?.launchOptions) else {
             failHandler()
             return
@@ -105,12 +119,12 @@ extension RootController: LoadingStateMachineDataSource {
             let event = EventsBus.Event(type: EventsBusType(.analytics(.sendEvent)),
                                         source: logger?.subsystem,
                                         data: [
-                                            "name": CoreAnalyticsKeys.applicationWasLaunched
+                                            "name": CoreAnalyticsKeys.applicationWasLaunched,
                                         ])
             EventsBus.post(event)
 
             EventsBus.post(EventsBus.Event(type: EventsBusType(.msAppCenterCheckUpdates)))
-            
+
             pluginsManager.hookAfterAppRootPresentation(hooksPlugins: nil,
                                                         completion: {})
             // Delay to provide time for QB present view
