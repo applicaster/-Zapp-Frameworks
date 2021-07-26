@@ -44,7 +44,7 @@ public enum ReachabilityState: Equatable {
                 retValue = .cellular
             }
             
-            if connections.contains(.wifi) {
+            if connections.contains(.wifi) || connections.contains(.wiredEthernet) {
                 retValue = .wifi
             }
         case .disconnected:
