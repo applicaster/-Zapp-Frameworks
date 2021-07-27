@@ -1,23 +1,19 @@
 import * as React from "react";
 import {
-  ImageBackground,
   TouchableHighlight,
   Text,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
 import { mapLabelKeyToStyle, mapViewKeyToStyle } from "../../customization";
-type Props = {
-  id: string;
-  onPress: () => void;
-  titleText: string;
-  styles: ButtonStyles;
-  src: string;
-};
 
 const componentStyles = StyleSheet.create({
   containerStyle: {
-    height: 22,
-    width: 99,
+    height: 32,
+    marginRight: 57,
+    marginLeft: 57,
+    marginBottom: 12,
+    flex: 1,
     flexDirection: "row",
   },
   flexOne: {
@@ -30,7 +26,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export function LogoutButton(props: ButtonProps) {
+export default function ButtonMobile(props: ButtonProps) {
   const [isUnderlay, setIsUnderlay] = React.useState(false);
   const styles = props?.styles;
   const styleKey = props?.styleKey;

@@ -16,16 +16,15 @@ export function styleForLogoutButton(styles: GeneralStyles): ButtonStyles {
 function getStylesForButton(styles: Styles, key: string): ButtonStyles {
   return {
     containerStyle: {
-      background_underlay_color: styles[`${key}background_underlay_color`],
+      background_color_focused: styles[`${key}background_color_focused`],
       background_color: styles[`${key}background_color`],
       radius: styles[`${key}radius`],
       border: styles[`${key}border`],
       border_color: styles[`${key}border_color`],
-      border_underlay: styles[`${key}border_underlay`],
-      border_underlay_color: styles[`${key}border_underlay_color`],
+      border_color_focused: styles[`${key}border_color_focused`],
     },
     labelStyles: {
-      title_underlay_color: styles[`${key}title_underlay_color`],
+      title_color_focused: styles[`${key}title_color_focused`],
       title_color: styles[`${key}title_color`],
       title_text_fontsize: styles[`${key}title_text_fontsize`],
       title_text_font_ios: styles[`${key}title_text_font_ios`],

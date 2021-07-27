@@ -4,17 +4,16 @@ type GeneralStyles = {
   button_1_background_image: string;
   button_1_custom_screen_id: string;
   button_1_background_color: string;
-  button_1_background_underlay_color: string;
+  button_1_background_color_focused: string;
   button_1_border: string;
   button_1_border_color: string;
-  button_1_border_underlay: string;
-  button_1_border_underlay_color: string;
+  button_1_border_color_focused: string;
   button_1_radius: string;
   button_1_title_color: string;
   button_1_title_text_font_android: string;
   button_1_title_text_font_ios: string;
   button_1_title_text_fontsize: string;
-  button_1_title_underlay_color: string;
+  button_1_title_color_focused: string;
   button_1_login_type: string;
   button_1_custom_namespace: string;
   button_1_custom_token_key: string;
@@ -27,17 +26,16 @@ type GeneralStyles = {
   button_2_custom_screen_id: string;
   button_2_login_enabled: boolean;
   button_2_background_color: string;
-  button_2_background_underlay_color: string;
+  button_2_background_color_focused: string;
   button_2_border: string;
   button_2_border_color: string;
-  button_2_border_underlay: string;
-  button_2_border_underlay_color: string;
+  button_2_border_color_focused: string;
   button_2_radius: string;
   button_2_title_color: string;
   button_2_title_text_font_android: string;
   button_2_title_text_font_ios: string;
   button_2_title_text_fontsize: string;
-  button_2_title_underlay_color: string;
+  button_2_title_color_focused: string;
   button_2_login_type: string;
   button_2_custom_namespace: string;
   button_2_custom_token_key: string;
@@ -48,33 +46,41 @@ type GeneralStyles = {
 
   button_logout_background_image: string;
   button_logout_background_color: string;
-  button_logout_background_underlay_color: string;
+  button_logout_background_color_focused: string;
   button_logout_border: number;
   button_logout_border_color: string;
-  button_logout_border_underlay: number;
-  button_logout_border_underlay_color: string;
+  button_logout_border_color_focused: string;
   button_logout_radius: number;
   button_logout_title_color: string;
   button_logout_title_text_font_android: string;
   button_logout_title_text_font_ios: string;
   button_logout_title_text_fontsize: string;
-  button_logout_title_underlay_color: string;
+  button_logout_title_color_focused: string;
 
   debug_dummy_data_source: string;
+};
+
+type ButtonProps = {
+  id: string;
+  onPress: () => void;
+  titleText: string;
+  styles: GeneralStyles;
+  styleKey: string;
+  src?: string;
+  groupId?: string;
 };
 
 type ButtonStyles = {
   containerStyle: {
     border: string;
     border_color: string;
-    border_underlay: string;
-    border_underlay_color: string;
-    background_underlay_color: string;
+    border_color_focused: string;
+    background_color_focused: string;
     background_color: string;
     radius: string;
   };
   labelStyles: {
-    title_underlay_color: string;
+    title_color_focused: string;
     title_color: string;
     title_text_fontsize: string;
     title_text_font_ios: string;

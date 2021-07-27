@@ -43,9 +43,9 @@ const componentStyles = StyleSheet.create({
 });
 
 export function UserAccount(props: Props) {
-  const login1ButtonId = "login_1";
-  const login2ButtonId = "login_2";
-  const logoutButtonId = "logout";
+  const login1ButtonId = "button_1";
+  const login2ButtonId = "button_2";
+  const logoutButtonId = "button_logout";
 
   const [isLogedIn, setIsLogedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -254,8 +254,9 @@ export function UserAccount(props: Props) {
         <UserPhoto imageSrc={styles?.user_image_placeholder} />
         {!isLogedIn && (
           <Button
+            styleKey={login1ButtonId}
             src={styles.button_1_background_image}
-            styles={styleLogin1Button()}
+            styles={styles}
             id={login1ButtonId}
             onPress={onLogin1}
             titleText={login_button_1_title_text}
@@ -264,7 +265,8 @@ export function UserAccount(props: Props) {
         {!isLogedIn && button_2_login_enabled && (
           <Button
             src={styles.button_2_background_image}
-            styles={styleLogin2Button()}
+            styleKey={login2ButtonId}
+            styles={styles}
             id={login2ButtonId}
             onPress={onLogin2}
             titleText={login_button_2_title_text}
@@ -281,8 +283,9 @@ export function UserAccount(props: Props) {
         )}
         {isLogedIn && (
           <Button
+            styleKey={logout_title_text}
             src={styles.button_logout_background_image}
-            styles={styleLogoutButton()}
+            styles={styles}
             id={logoutButtonId}
             onPress={onLogout}
             titleText={logout_title_text}
