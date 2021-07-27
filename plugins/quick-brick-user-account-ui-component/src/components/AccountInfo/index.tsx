@@ -42,7 +42,6 @@ export function AccountInfo(props: Props) {
   const logoutButtonId = "logout";
 
   const titles = props?.titles;
-  console.log({ titles });
   const logoutButtonStyles = props?.styles?.logoutButtonStyles;
 
   const labelStyles = props?.styles?.labelStyles;

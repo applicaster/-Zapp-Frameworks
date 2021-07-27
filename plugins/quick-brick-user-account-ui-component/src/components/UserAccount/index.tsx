@@ -61,7 +61,6 @@ export function UserAccount(props: Props) {
 
   const theme = useTheme();
   const custom_padding_top = Number(styles?.custom_padding_top) || 0;
-  console.log({ custom_padding_top });
   const debug_dummy_data_source = styles?.debug_dummy_data_source === "on";
   const newContainerStyleStyle = {
     ...componentStyles.containerStyle,
@@ -84,25 +83,19 @@ export function UserAccount(props: Props) {
   });
 
   React.useEffect(() => {
-    console.log("Prepare plugin");
-  }, []);
-
-  React.useEffect(() => {
     setIsLoading(true);
     preparePlugin();
   }, [navigator.previousAction]);
 
   React.useEffect(() => {
     let logedIn = false;
-    console.log({ button1Model, button2Model });
-    // if (button1Model === null && button2Model === null) {
-    //   logger.error({
-    //     message:
-    //       "Error: both login buttons are empty, check plugin configuration",
-    //     data: { localizations, styles },
-    //   });
-    // } else
-    if (button1Model && button1Model?.token) {
+    if (button1Model === null && button2Model === null) {
+      logger.error({
+        message:
+          "Error: both login buttons are empty, check plugin configuration",
+        data: { localizations, styles },
+      });
+    } else if (button1Model && button1Model?.token) {
       logedIn = true;
     } else if (button2Model && button2Model?.token) {
       logedIn = true;
@@ -124,7 +117,6 @@ export function UserAccount(props: Props) {
         styles,
         debug_dummy_data_source
       );
-      console.log({ buttonModel1 });
       setButton1Model(buttonModel1);
 
       if (button_2_login_enabled) {
@@ -183,7 +175,6 @@ export function UserAccount(props: Props) {
       return null;
     }
 
-    console.log("accountTitles", { model, button1Model });
     return {
       account_title,
       user_name_title: model?.userId,
@@ -197,12 +188,6 @@ export function UserAccount(props: Props) {
   }, [button1Model, button2Model]);
 
   const onLogin1 = React.useCallback(() => {
-    console.log("onLogin1s", {
-      button1Model,
-      debug_dummy_data_source,
-      isLogedIn,
-      isLoading,
-    });
     if (!debug_dummy_data_source) {
       const plugin = screenFromRivers({
         rivers,
@@ -264,7 +249,6 @@ export function UserAccount(props: Props) {
   const titles = accountTitles();
 
   const renderLoginFlow = React.useCallback(() => {
-    console.log({ titles });
     return (
       <>
         <UserPhoto imageSrc={styles?.user_image_placeholder} />
@@ -308,7 +292,6 @@ export function UserAccount(props: Props) {
     );
   }, [isLogedIn, button1Model, button2Model]);
 
-  console.log("Render", { button1Model });
   return (
     <View style={newContainerStyleStyle}>
       {isLogedIn &&
