@@ -35,8 +35,8 @@
     "quickbrick"
   ],
   "platform": "tvos_for_quickbrick",
-  "dependency_version": "0.0.5",
-  "manifest_version": "0.0.5",
+  "dependency_version": "0.0.6-beta.0",
+  "manifest_version": "0.0.6-beta.0",
   "api": {},
   "project_dependencies": [],
   "extra_dependencies": [],
@@ -114,13 +114,13 @@
             "key": "background_color",
             "type": "color_picker",
             "label": "Background color",
-            "initial_value": "#f1f1f1FF"
+            "initial_value": "#ff161B29"
           },
           {
             "key": "background_color_prehook",
             "type": "color_picker",
             "label": "Background color",
-            "initial_value": "#00000000"
+            "initial_value": "#ff161B29"
           },
           {
             "key": "client_logo",
@@ -139,7 +139,7 @@
             "key": "line_separator_color",
             "type": "color_picker",
             "label": "Sign in screen verticall separator",
-            "initial_value": "#979797"
+            "initial_value": "#ff161B29"
           }
         ]
       },
@@ -164,7 +164,7 @@
             "key": "title_font_size",
             "type": "number_input",
             "label": "Font size",
-            "initial_value": 42
+            "initial_value": 50
           },
           {
             "key": "title_font_color",
@@ -226,13 +226,13 @@
             "key": "text_url_font_size",
             "type": "number_input",
             "label": "Font size",
-            "initial_value": 20
+            "initial_value": 38
           },
           {
             "key": "text_url_font_color",
             "type": "color_picker",
             "label": "Color",
-            "initial_value": "#525A5C"
+            "initial_value": "#ffffffff"
           }
         ]
       },
@@ -257,7 +257,7 @@
             "key": "text_code_font_size",
             "type": "number_input",
             "label": "Font size",
-            "initial_value": 20
+            "initial_value": 96
           },
           {
             "key": "text_code_font_color",
@@ -272,6 +272,12 @@
         "label": "Action button",
         "folded": true,
         "fields": [
+          {
+            "key": "action_button_show",
+            "type": "switch",
+            "label": "Enable Action Button",
+            "initial_value": "true"
+          },
           {
             "key": "action_button_font_ios",
             "type": "ios_font_selector",
@@ -288,7 +294,7 @@
             "key": "action_button_font_size",
             "type": "number_input",
             "label": "Font size",
-            "initial_value": 15
+            "initial_value": 32
           },
           {
             "key": "action_button_font_color",
@@ -358,7 +364,7 @@
       {
         "key": "sing_in_title",
         "label": "Sign in screen title",
-        "initial_value": "SIGN IN INTO YOUR APPLICATION ACCOUNT"
+        "initial_value": "Connect Your Account"
       },
       {
         "key": "sign_in_go_to_title",
@@ -368,7 +374,7 @@
       {
         "key": "sign_in_activation_code_title",
         "label": "Activation code label",
-        "initial_value": "Enter the activation code below"
+        "initial_value": "Enter the activation code below:"
       },
       {
         "key": "sign_in_support_title",
@@ -379,6 +385,11 @@
         "key": "sign_in_support_link",
         "label": "support link",
         "initial_value": "google.com"
+      },
+      {
+        "key": "sign_in_qr_text",
+        "label": "QR Support Text",
+        "initial_value": "Or scan the QR Code"
       },
       {
         "key": "sing_out",
