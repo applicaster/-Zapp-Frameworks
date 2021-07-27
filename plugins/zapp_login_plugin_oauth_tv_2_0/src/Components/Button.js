@@ -1,8 +1,9 @@
 import * as React from "react";
+import { View, Text, Platform } from "react-native";
 import { FocusableGroup } from "@applicaster/zapp-react-native-ui-components/Components/FocusableGroup";
 import { Focusable } from "@applicaster/zapp-react-native-ui-components/Components/Focusable";
-import { View, Text, Platform } from "react-native";
 import { mapKeyToStyle } from "../Utils/Customization";
+
 export default function Button(props) {
   const {
     id,
