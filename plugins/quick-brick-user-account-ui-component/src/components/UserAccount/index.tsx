@@ -1,22 +1,14 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import { platformSelect } from "@applicaster/zapp-react-native-utils/reactUtils";
 import { useTheme } from "@applicaster/zapp-react-native-utils/theme";
 import { useLocalizedStrings } from "@applicaster/zapp-react-native-utils/localizationUtils";
 import { AccountInfo } from "../AccountInfo";
 import { Button } from "../Button";
 import { UserPhoto } from "../UserPhoto";
 import { logger } from "../../services/LoggerService";
-import { InfoView } from "../InfoView";
-import {
-  styleForLogin1Button,
-  styleForLogin2Button,
-  styleForLogoutButton,
-  getStylesForTitleLabel,
-  getStylesForDescriptionLabel,
-  getSubscriptionData,
-} from "./Utils";
+import { getSubscriptionData } from "./Utils";
 import { loginModelButton1, loginModelButton2 } from "../../utils/DataUtils";
+import { TextView } from "../TextView";
 import { screenFromRivers } from "../../utils/ScreenUtils";
 
 type Props = {
@@ -136,39 +128,6 @@ export function UserAccount(props: Props) {
     }
   }
 
-  const styleLogin1Button = React.useCallback(
-    () => styleForLogin1Button(styles),
-    [styles]
-  );
-
-  const styleLogin2Button = React.useCallback(
-    () => styleForLogin2Button(styles),
-    [styles]
-  );
-
-  const styleLogoutButton = React.useCallback(
-    () => styleForLogoutButton(styles),
-    [styles]
-  );
-
-  const styleTitleLabel = React.useCallback(
-    () => getStylesForTitleLabel(styles),
-    [styles]
-  );
-
-  const styleDescriptionLabel = React.useCallback(
-    () => getStylesForDescriptionLabel(styles),
-    [styles]
-  );
-
-  const accoutInfoStyles = {
-    logoutButtonStyles: styleLogoutButton(),
-    labelStyles: {
-      title_style: styleTitleLabel(),
-      description_style: styleDescriptionLabel(),
-    },
-  };
-
   const accountTitles = React.useCallback(() => {
     const model = loginDataModelByToken();
     if (!model) {
@@ -273,12 +232,10 @@ export function UserAccount(props: Props) {
           />
         )}
         {isLogedIn && (
-          <InfoView
-            styles={accoutInfoStyles?.labelStyles}
-            titles={{
-              description_text: titles?.user_name_title,
-              title_text: null,
-            }}
+          <TextView
+            styleKey={"info_label_description"}
+            styles={styles}
+            titleText={titles?.user_name_title}
           />
         )}
         {isLogedIn && (
@@ -305,7 +262,7 @@ export function UserAccount(props: Props) {
               src={styles.button_logout_background_image}
               onLogoutPress={onLogout}
               user_image_placeholder={styles?.user_image_placeholder}
-              styles={accoutInfoStyles}
+              styles={styles}
               titles={titles}
             />
           )

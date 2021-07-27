@@ -1,17 +1,12 @@
 import * as React from "react";
-import { View, TouchableHighlight, Text, StyleSheet } from "react-native";
-import { handleStyleType } from "../../utils";
-import { platformSelect } from "@applicaster/zapp-react-native-utils/reactUtils";
-
+import { View, Text, StyleSheet } from "react-native";
+import { TextView } from "../TextView";
 type Props = {
   titles: {
     title_text: string;
     description_text: string;
   };
-  styles: {
-    title_style: LabelStyles;
-    description_style: LabelStyles;
-  };
+  styles: GeneralStyles;
 };
 
 const componentStyles = StyleSheet.create({
@@ -31,44 +26,27 @@ const componentStyles = StyleSheet.create({
 });
 
 export function InfoView(props: Props) {
-  const propsTitleStyle = props?.styles?.title_style;
-  const propsDiscription = props?.styles?.description_style;
+  const styleKeyTitleLabel = "info_label";
+  const styleKeyDescriptionLabel = "info_label_description";
+  const styles = props.styles;
 
-  const titleLabelStyle = {
-    ...componentStyles.labelStyles,
-    color: propsTitleStyle?.title_color,
-    fontSize: handleStyleType(propsTitleStyle?.title_text_fontsize),
-    fontFamily: platformSelect({
-      ios: propsTitleStyle?.title_text_font_ios,
-      android: propsTitleStyle?.title_text_font_android,
-    }),
-  };
-
-  const descriptionLabelStyle = {
-    ...componentStyles.labelStyles,
-    color: propsDiscription?.title_color,
-    fontSize: handleStyleType(propsDiscription?.title_text_fontsize),
-    fontFamily: platformSelect({
-      ios: propsDiscription?.title_text_font_ios,
-      android: propsDiscription?.title_text_font_android,
-    }),
-  };
+  const titleText = props?.titles?.title_text;
+  const descriptionText = props?.titles?.description_text;
+  const extraLabelStyles = { textAlign: "left" };
   return (
     <View style={componentStyles.containerStyle}>
-      {props?.titles?.title_text && (
-        <View style={componentStyles.flexOne}>
-          <Text numberOfLines={1} style={titleLabelStyle}>
-            {props?.titles?.title_text}
-          </Text>
-        </View>
-      )}
-      {props?.titles?.description_text && (
-        <View style={componentStyles.flexOne}>
-          <Text numberOfLines={1} style={descriptionLabelStyle}>
-            {props?.titles?.description_text}
-          </Text>
-        </View>
-      )}
+      <TextView
+        styleKey={styleKeyTitleLabel}
+        styles={styles}
+        titleText={titleText}
+        labelStyles={extraLabelStyles}
+      />
+      <TextView
+        styleKey={styleKeyDescriptionLabel}
+        styles={styles}
+        titleText={descriptionText}
+        labelStyles={extraLabelStyles}
+      />
     </View>
   );
 }

@@ -13,13 +13,7 @@ type Props = {
     subscription_expiration_title: string;
     logout_title_text: string;
   };
-  styles: {
-    logoutButtonStyles: ButtonStyles;
-    labelStyles: {
-      title_style: LabelStyles;
-      description_style: LabelStyles;
-    };
-  };
+  styles: GeneralStyles;
   src: string;
 };
 
@@ -39,12 +33,11 @@ const componentStyles = StyleSheet.create({
 });
 
 export function AccountInfo(props: Props) {
-  const logoutButtonId = "logout";
+  const logoutButtonId = "button_logout";
 
   const titles = props?.titles;
-  const logoutButtonStyles = props?.styles?.logoutButtonStyles;
+  const styles = props?.styles;
 
-  const labelStyles = props?.styles?.labelStyles;
   const accountDataTitles = {
     title_text: titles?.account_title,
     description_text: titles?.user_name_title,
@@ -54,21 +47,23 @@ export function AccountInfo(props: Props) {
     title_text: titles?.subscription_title,
     description_text: titles?.subscription_expiration_title,
   };
+
   return (
     <View style={componentStyles.container}>
       <UserPhoto imageSrc={props?.user_image_placeholder} />
       <View style={componentStyles.infoViewsContainer}>
         {accountDataTitles.description_text && (
-          <InfoView styles={labelStyles} titles={accountDataTitles} />
+          <InfoView styles={styles} titles={accountDataTitles} />
         )}
         {subscriptionDataTitles.description_text && (
-          <InfoView styles={labelStyles} titles={subscriptionDataTitles} />
+          <InfoView styles={styles} titles={subscriptionDataTitles} />
         )}
         <LogoutButton
+          styleKey={logoutButtonId}
           src={props?.src}
           onPress={props?.onLogoutPress}
           titleText={titles.logout_title_text}
-          styles={logoutButtonStyles}
+          styles={styles}
           id={logoutButtonId}
         />
       </View>

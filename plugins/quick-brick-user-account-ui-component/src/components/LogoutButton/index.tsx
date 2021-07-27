@@ -6,13 +6,6 @@ import {
   StyleSheet,
 } from "react-native";
 import { mapLabelKeyToStyle, mapViewKeyToStyle } from "../../customization";
-type Props = {
-  id: string;
-  onPress: () => void;
-  titleText: string;
-  styles: ButtonStyles;
-  src: string;
-};
 
 const componentStyles = StyleSheet.create({
   containerStyle: {

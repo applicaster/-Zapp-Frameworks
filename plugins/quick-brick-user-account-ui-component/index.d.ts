@@ -70,24 +70,6 @@ type ButtonProps = {
   groupId?: string;
 };
 
-type ButtonStyles = {
-  containerStyle: {
-    border: string;
-    border_color: string;
-    border_color_focused: string;
-    background_color_focused: string;
-    background_color: string;
-    radius: string;
-  };
-  labelStyles: {
-    title_color_focused: string;
-    title_color: string;
-    title_text_fontsize: string;
-    title_text_font_ios: string;
-    title_text_font_android: string;
-  };
-};
-
 type LabelStyles = {
   title_color: string;
   title_text_fontsize: string;
