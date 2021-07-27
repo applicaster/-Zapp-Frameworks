@@ -29,4 +29,10 @@ extension RootController: FacadeConnectorConnnectivityProtocol {
     public func getCurrentConnectivityState() -> ConnectivityState {
         return reachabilityManager.currentConnection.connectivityState
     }
+
+    public func setNeedsRestartAfterOffline() {
+        _ = sessionStorageSetValue(for: RootControllerStorageKeys.shouldRestartAfterOfflineStart,
+                                   value: "true",
+                                   namespace: nil)
+    }
 }

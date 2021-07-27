@@ -20,4 +20,8 @@ public protocol FacadeConnectorConnnectivityProtocol {
      Get current connectivity state
      */
     func getCurrentConnectivityState() -> ConnectivityState
+    /**
+     Set needs restart flag, will be handled by QB side to restart when needed
+     */
+    func setNeedsRestartAfterOffline()
 }
