@@ -1,7 +1,7 @@
 // @flow
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigation } from "@applicaster/zapp-react-native-utils/reactHooks/navigation";
-
+import * as R from "ramda";
 import IntroScreen from "../IntroScreen";
 import SignInScreen from "../SignInScreen";
 import LogoutScreen from "../LogoutScreen";
@@ -27,7 +27,8 @@ export const OAuth = (props) => {
   const [screen, setScreen] = useState(ScreenData.LOADING);
   const [forceFocus, setForceFocus] = useState(false);
   const { callback, payload, rivers } = props;
-  const screenId = navigator?.activeRiver?.id;
+  const screenType = navigator?.currentRoute.replace("/hooks/", "");
+  const { id: screenId } = R.find(R.propEq('type', screenType))(R.values(rivers));
 
   const localizations = getRiversProp("localizations", rivers, screenId);
   const styles = getRiversProp("styles", rivers, screenId);
