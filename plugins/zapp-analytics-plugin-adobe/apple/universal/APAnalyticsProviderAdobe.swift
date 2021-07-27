@@ -6,14 +6,16 @@
 //  Copyright © 2020 Applicaster. All rights reserved.
 //
 
-import ACPAnalytics
-import ACPCore
+import AEPAnalytics
+import AEPCore
+import AEPIdentity
+import AEPServices
+import AEPSignal
+import AEPUserProfile
+import AEPLifecycle
+
 import ZappAnalyticsPluginsSDK
 import ZappCore
-
-#if canImport(ACPUserProfile)
-    import ACPUserProfile
-#endif
 
 open class APAnalyticsProviderAdobe: ZPAnalyticsProvider, PlayerDependantPluginProtocol {
     let kDebugAppId = "mobile_app_account_id"
@@ -39,21 +41,21 @@ open class APAnalyticsProviderAdobe: ZPAnalyticsProvider, PlayerDependantPluginP
 
         subscribeToEventsBusTopics()
 
-        let logLevel: ACPMobileLogLevel = isDebug() ? .debug : .error
+        let logLevel: LogLevel = isDebug() ? .debug : .error
         let appID = isDebug() ? debugAppId : productionAddId
 
-        ACPCore.setLogLevel(logLevel)
-        ACPCore.configure(withAppId: appID)
-        ACPAnalytics.registerExtension()
-        #if canImport(ACPUserProfile)
-            ACPUserProfile.registerExtension()
+        #if canImport(AEPUserProfile)
+            MobileCore.registerExtension(UserProfile.self)
         #endif
-        ACPIdentity.registerExtension()
-        ACPLifecycle.registerExtension()
-        ACPSignal.registerExtension()
-        ACPCore.start {
-            ACPCore.lifecycleStart(nil)
-        }
+        
+        MobileCore.registerExtensions([Signal.self, Identity.self, Analytics.self, Lifecycle.self], {
+            #if canImport(AEPUserProfile)
+                MobileCore.registerExtension(UserProfile.self)
+            #endif
+            MobileCore.configureWith(appId: appID)
+        })
+
+        MobileCore.setLogLevel(logLevel)
 
         return true
     }
@@ -77,7 +79,7 @@ open class APAnalyticsProviderAdobe: ZPAnalyticsProvider, PlayerDependantPluginP
         super.trackEvent(eventName, parameters: parameters)
         adobeAnalyticsObjc?.prepareTrackEvent(eventName, parameters: parameters, completion: { parameters in
             let trackParameters = parameters as? [String: String] ?? [:]
-            ACPCore.trackAction(eventName, data: trackParameters)
+            MobileCore.track(action: eventName, data: trackParameters)
         })
     }
 
@@ -86,7 +88,7 @@ open class APAnalyticsProviderAdobe: ZPAnalyticsProvider, PlayerDependantPluginP
 
         adobeAnalyticsObjc?.prepareTrackScreenView(screenName, parameters: parameters, completion: { parameters in
             let trackParameters = parameters as? [String: String] ?? [:]
-            ACPCore.trackState(screenName, data: trackParameters)
+            MobileCore.track(state: screenName, data: trackParameters)
         })
     }
 
@@ -96,6 +98,6 @@ open class APAnalyticsProviderAdobe: ZPAnalyticsProvider, PlayerDependantPluginP
         guard let dictPiiUserProperties = dictPiiUserProperties as? [String: String] else {
             return
         }
-        ACPCore.collectPii(dictPiiUserProperties)
+        MobileCore.collectPii(dictPiiUserProperties)
     }
 }

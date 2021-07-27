@@ -6,8 +6,8 @@
 //  Copyright © 2020 Applicaster. All rights reserved.
 //
 
-import ACPAnalytics
-import ACPCore
+import AEPAnalytics
+import AEPCore
 import AVFoundation
 import Foundation
 import ZappCore
