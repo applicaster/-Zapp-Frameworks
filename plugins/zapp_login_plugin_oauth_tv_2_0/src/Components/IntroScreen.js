@@ -28,6 +28,7 @@ const IntroScreen = (props) => {
     sing_in_button,
     sing_in_later,
   } = screenLocalizations;
+  
   useEffect(() => {
     if (forceFocus) {
       goToScreen(null, false, true);

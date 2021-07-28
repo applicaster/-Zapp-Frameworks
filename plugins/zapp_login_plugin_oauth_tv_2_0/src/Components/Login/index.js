@@ -98,10 +98,8 @@ export const OAuth = (props) => {
             error: null,
             payload,
           });
-
         return;
       }
-
       const userNeedsToLogin = await isLoginRequired();
 
       if (userNeedsToLogin) {
@@ -163,11 +161,13 @@ export const OAuth = (props) => {
   }
 
   function renderScreen() {
-    const configuration = props?.configuration;
-    const screenData = props;
-    const payload = props;
-    const parentFocus = props;
-    const focused = props;
+    const {
+      payload,
+      configuration,
+      focused,
+      parentFocus,
+      screenData
+    } = props;
 
     const getGroupId = () => {
       if (screenData) {
@@ -186,13 +186,13 @@ export const OAuth = (props) => {
     };
 
     function onMaybeLater() {
-      const playerHook = isPlayerHook(props?.payload);
+      const playerHook = isPlayerHook(payload);
       const success = playerHook ? false : true;
       callback &&
         callback({
           success: success,
           error: null,
-          payload: payload?.payload,
+          payload,
         });
     }
 
@@ -201,7 +201,7 @@ export const OAuth = (props) => {
         callback({
           success: true,
           error: null,
-          payload: payload?.payload,
+          payload,
         });
     }
 
@@ -212,7 +212,7 @@ export const OAuth = (props) => {
           callback({
             success: false,
             error: null,
-            payload: payload?.payload,
+            payload,
           });
       } else {
         goToScreen(ScreenData.INTRO);
