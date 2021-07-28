@@ -18,6 +18,7 @@ import {
 import { BaseSubsystem, BaseCategories } from "../../Services/LoggerService";
 import { getStyles } from "../../Utils/Customization";
 import { getLocalizations } from "../../Utils/Localizations";
+import { isAuthenticationRequired } from "../../Utils/PayloadUtils";
 
 const logger = new XRayLogger(BaseCategories.GENERAL, BaseSubsystem);
 console.disableYellowBox = true;
@@ -25,16 +26,42 @@ console.disableYellowBox = true;
 export const OAuth = (props) => {
   const navigator = useNavigation();
   const [screen, setScreen] = useState(ScreenData.LOADING);
+  const [styles, setStyles] = useState({});
+  const [localizations, setLocalizations] = useState({});
+
   const [forceFocus, setForceFocus] = useState(false);
-  const { callback, payload, rivers } = props;
-  const screenType = navigator?.currentRoute.replace("/hooks/", "");
-  const { id: screenId } = R.find(R.propEq('type', screenType))(R.values(rivers));
+  const { 
+    callback,
+    payload,
+    rivers,
+    configuration, 
+    hookPlugin,
+    screenData
+  } = props;
 
-  const localizations = getRiversProp("localizations", rivers, screenId);
-  const styles = getRiversProp("styles", rivers, screenId);
-  const general = getRiversProp("general", rivers, screenId);
-  const configuration = props?.configuration;
+  const handleScreenData = () => {
+    if (hookPlugin) {
+      const { styles, localizations } = hookPlugin;
+      setStyles(styles);
+      setLocalizations(localizations);
+      return;
+    }
 
+    if (screenData) {
+      const { styles, localizations } = screenData;
+      setStyles(styles);
+      setLocalizations(localizations);
+      return;
+    }
+
+    const screenType = navigator?.currentRoute.replace("/hook/", "");
+    const { id: screenId } = R.find(R.propEq('type', screenType))(R.values(rivers));
+    const styles = getRiversProp("styles", rivers, screenId);
+
+    setStyles(styles);
+    setLocalizations(localizations);
+  }
+  
   const screenStyles = useMemo(() => getStyles(styles), [styles]);
   const screenLocalizations = getLocalizations(localizations);
   const mounted = useRef(true);
@@ -44,6 +71,8 @@ export const OAuth = (props) => {
     mounted.current = true;
 
     setupEnvironment();
+    handleScreenData();
+
     return () => {
       mounted.current = false;
     };
@@ -52,17 +81,17 @@ export const OAuth = (props) => {
   async function setupEnvironment() {
     try {
       const playerHook = isPlayerHook(props?.payload);
-      const testEnvironmentEnabled =
-        props?.configuration?.force_authentication_on_all || "off";
+      const testEnvironmentEnabled = configuration?.force_authentication_on_all || "off";
 
       if (
         playerHook === true &&
         testEnvironmentEnabled === "off" &&
-        isAuthenticationRequired(payload) === false
+        isAuthenticationRequired({payload}) === false
       ) {
         logger.debug({
           message: `setupEnvironment: Hook finished, no authentefication required, skipping`,
         });
+
         mounted.current &&
           callback &&
           callback({
@@ -70,9 +99,12 @@ export const OAuth = (props) => {
             error: null,
             payload,
           });
+
         return;
       }
+      
       const userNeedsToLogin = await isLoginRequired();
+
       if (userNeedsToLogin) {
         logger.debug({
           message: "setupEnvironment: Presenting login screen",
