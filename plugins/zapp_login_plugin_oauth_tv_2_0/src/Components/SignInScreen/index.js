@@ -67,6 +67,7 @@ function SignInScreen(props) {
     bottomText: {
       width: 1110,
       paddingTop: 80,
+      paddingBottom: 10
     },
     leftColumn: {
       flex: 1,
