@@ -68,6 +68,7 @@ type ButtonProps = {
   styleKey: string;
   src?: string;
   groupId?: string;
+  containerStyle?: object;
 };
 
 type LabelStyles = {

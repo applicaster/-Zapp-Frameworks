@@ -6,6 +6,6 @@ type Props = {
   styles: object;
 };
 
-export const UserPhotoView = ({ imageSrc, styles }: Props) => (
+export const UserPhotoComponent = ({ imageSrc, styles }: Props) => (
   <Image style={styles} source={{ uri: imageSrc }} />
 );

@@ -30,6 +30,7 @@ export default function ButtonMobile(props: ButtonProps) {
   const [isUnderlay, setIsUnderlay] = React.useState(false);
   const styles = props?.styles;
   const styleKey = props?.styleKey;
+  const propsContainerStyle = props?.containerStyle || {};
 
   function onShowUnderlay() {
     setIsUnderlay(true);
@@ -41,6 +42,7 @@ export default function ButtonMobile(props: ButtonProps) {
 
   const containerStyle = {
     ...componentStyles.containerStyle,
+    ...propsContainerStyle,
     ...mapViewKeyToStyle({ key: styleKey, obj: styles, isFocused: isUnderlay }),
   };
 

@@ -5,7 +5,7 @@ import { platformSelect } from "@applicaster/zapp-react-native-utils/reactUtils"
 
 function valueFromObject({ key, obj, isFocused }) {
   const focusedKey = isFocused ? "_focused" : "";
-
+  console.log("valueFromObject", { key, obj, isFocused });
   let result = null;
   if (isFocused) {
     result = obj?.[`${key}${focusedKey}`];
@@ -18,26 +18,54 @@ function valueFromObject({ key, obj, isFocused }) {
 }
 
 export function mapLabelKeyToStyle({ key, obj, isFocused = false }) {
+  console.log({ key, obj, isFocused });
+
   return {
     fontFamily: platformSelect({
-      ios: valueFromObject({ key: `${key}_font_ios`, obj, isFocused }),
-      android: valueFromObject({ key: `${key}_font_android`, obj, isFocused }),
-      tvos: valueFromObject({ key: `${key}_font_tvos`, obj, isFocused }),
+      ios: valueFromObject({
+        key: `${key}_title_text_font_ios`,
+        obj,
+        isFocused,
+      }),
+      android: valueFromObject({
+        key: `${key}_title_text_font_android`,
+        obj,
+        isFocused,
+      }),
+      tvos: valueFromObject({
+        key: `${key}_title_text_font_tvos`,
+        obj,
+        isFocused,
+      }),
       android_tv: valueFromObject({
-        key: `${key}_font_android_tv`,
+        key: `${key}_title_text_font_android_tv`,
         obj,
         isFocused,
       }),
-      web: valueFromObject({ key: `${key}_font_web`, obj, isFocused }),
+      web: valueFromObject({
+        key: `${key}_title_text_font_web`,
+        obj,
+        isFocused,
+      }),
       samsung_tv: valueFromObject({
-        key: `${key}_font_samsung_tv`,
+        key: `${key}_title_text_font_samsung_tv`,
         obj,
         isFocused,
       }),
-      lg_tv: valueFromObject({ key: `${key}_font_lg_tv`, obj, isFocused }),
+      lg_tv: valueFromObject({
+        key: `${key}_title_text_font_lg_tv`,
+        obj,
+        isFocused,
+      }),
     }),
-    fontSize: valueFromObject({ key: `${key}_fontsize`, obj, isFocused }),
-    color: valueFromObject({ key: `${key}_fontcolor`, obj, isFocused }),
+    fontSize: handleStyleType(
+      valueFromObject({
+        key: `${key}_title_text_fontsize`,
+        obj,
+        isFocused,
+      })
+    ),
+    color: valueFromObject({ key: `${key}_title_color`, obj, isFocused }),
   };
 }
 

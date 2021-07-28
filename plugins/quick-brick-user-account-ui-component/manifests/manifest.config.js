@@ -79,4 +79,5 @@ function createManifest({ version, platform }) {
     },
   };
 }
+
 module.exports = createManifest;

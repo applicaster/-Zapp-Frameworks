@@ -5,9 +5,9 @@ import { mapLabelKeyToStyle, mapViewKeyToStyle } from "../../customization";
 
 const componentStyles = StyleSheet.create({
   containerStyle: {
-    height: 60,
-    width: 850,
-    // marginBottom: 12,
+    height: 73,
+    width: 544,
+    marginBottom: 27,
     // flex: 1,
     // flexDirection: "row",
   },
@@ -20,11 +20,14 @@ const componentStyles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+// import { RiverOffsetContext } from "@applicaster/zapp-react-native-ui-components/Contexts";
 
 export default function ButtonTV(props: ButtonProps) {
+  // const riverContext = React.useContext(RiverOffsetContext);
   console.log("ButtonTV", { props });
   const styles = props?.styles;
   const styleKey = props?.styleKey;
+  const propsContainerStyle = props?.containerStyle || {};
 
   const image = { uri: props?.src };
   const groupId = props?.groupId;
@@ -39,6 +42,7 @@ export default function ButtonTV(props: ButtonProps) {
       {(focused) => {
         const containerStyle = {
           ...componentStyles.containerStyle,
+          ...propsContainerStyle,
           ...mapViewKeyToStyle({
             key: styleKey,
             obj: styles,
@@ -54,6 +58,7 @@ export default function ButtonTV(props: ButtonProps) {
             isFocused: focused,
           }),
         };
+
         console.log({ containerStyle, labelStyles });
 
         return (

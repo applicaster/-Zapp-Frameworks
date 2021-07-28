@@ -10,6 +10,7 @@ import { getSubscriptionData } from "./Utils";
 import { loginModelButton1, loginModelButton2 } from "../../utils/DataUtils";
 import { TextView } from "../TextView";
 import { screenFromRivers } from "../../utils/ScreenUtils";
+import { ScreenLayoutContext } from "@applicaster/zapp-react-native-ui-components/Contexts/ScreenLayoutContext";
 
 type Props = {
   component: {
@@ -40,7 +41,9 @@ export function UserAccount(props: Props) {
   const login1ButtonId = "button_1";
   const login2ButtonId = "button_2";
   const logoutButtonId = "button_logout";
+  const logoutButtonBigId = "button_logout_big";
 
+  const screenLayout = React.useContext(ScreenLayoutContext);
   const [isLogedIn, setIsLogedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -64,11 +67,11 @@ export function UserAccount(props: Props) {
     paddingRight: theme?.component_padding_right,
     paddingBottom: theme?.component_margin_bottom,
     paddingTop: custom_padding_top,
-    // marginTop: theme?.screen_margin_top,
+    marginTop: theme?.screen_margin_top,
     backgroundColor: "red",
   };
 
-  console.log({ newContainerStyleStyle, theme });
+  console.log({ newContainerStyleStyle, theme, screenLayout, props });
   const {
     account_title = "Account",
     user_name_title = "User",
@@ -90,6 +93,8 @@ export function UserAccount(props: Props) {
 
     return null;
   }, [button1Model, button2Model]);
+
+  React.useEffect(() => {}, []);
 
   async function preparePlugin() {
     try {
@@ -178,6 +183,15 @@ export function UserAccount(props: Props) {
         rivers,
         loginDataModel: button1Model,
       });
+
+      if (!plugin) {
+        logger.error({
+          message: `Screen for login type: ${button1Model?.title} not exist. Check screen of the plugin created in zapp layout`,
+          data: { button1Model },
+        });
+
+        return;
+      }
 
       logger.debug({
         message: `Login Button 1 was clicked ${button1Model?.title}`,
@@ -268,7 +282,7 @@ export function UserAccount(props: Props) {
         )}
         {isLogedIn && (
           <Button
-            styleKey={logout_title_text}
+            styleKey={logoutButtonBigId}
             src={styles.button_logout_background_image}
             styles={styles}
             id={logoutButtonId}
