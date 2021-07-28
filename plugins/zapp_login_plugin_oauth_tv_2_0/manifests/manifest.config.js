@@ -75,6 +75,13 @@ const stylesTv = {
           placeholder: "W 1920 x H 1080px",
         },
         {
+          key: "logout_icon",
+          type: "uploader",
+          label: "Logout screen icon",
+          label_tooltip: "Logout icon. Dimension 500x500 pixels.",
+          placeholder: "W 500 x H 500px",
+        },
+        {
           key: "activity_indicator_color",
           type: "color_picker",
           label: "Activity indicator color",

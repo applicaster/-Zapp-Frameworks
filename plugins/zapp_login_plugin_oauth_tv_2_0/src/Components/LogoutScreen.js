@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, Image } from "react-native";
 import { useInitialFocus } from "@applicaster/zapp-react-native-utils/focusManager";
 import Button from "./Button";
 import Layout from "./Layout";
@@ -36,6 +36,7 @@ const LogoutScreen = (props) => {
   } = props;
 
   const { sing_out, sing_out_url_text, sing_out_url } = screenLocalizations;
+  const { logout_icon } = screenStyles;
 
   const signoutButton = useRef(null);
 
@@ -43,14 +44,13 @@ const LogoutScreen = (props) => {
     container: {
       flex: 1,
       alignItems: "flex-start",
-      marginTop: 100,
+      marginTop: 70,
     },
     text: {
       ...mapKeyToStyle("text", screenStyles),
       fontSize: 32,
       marginBottom: 20,
     },
-
     url: {
       ...mapKeyToStyle("text_url", screenStyles),
 
@@ -59,11 +59,23 @@ const LogoutScreen = (props) => {
       marginBottom: 60,
     },
     buttonContainer: {
-      marginTop: 80,
+      marginTop: 50,
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
       alignSelf: "center",
+    },
+    iconContainer: {
+      width: 250,
+      height: 250,
+      marginBottom: 50,
+      justifyContent: "center",
+      alignItems: "center",
+      alignSelf: "center",
+    },
+    icon: {
+      width: 250,
+      height: 250,
     },
   };
 
@@ -105,6 +117,18 @@ const LogoutScreen = (props) => {
   return (
     <Layout screenStyles={screenStyles} isPrehook={isPrehook}>
       <View style={styles.container}>
+        {
+          logout_icon &&
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.icon}
+              resizeMode="contain"
+              source={{
+                uri: logout_icon,
+              }}
+            />
+          </View>
+        }
         <Text style={styles.text}>
           {`${sing_out_url_text} `}
           <Text style={styles.url}>{sing_out_url}</Text>
