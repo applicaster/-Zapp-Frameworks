@@ -26,8 +26,10 @@ type Props = {
 };
 
 const componentStyles = StyleSheet.create({
+  // eslint-disable-next-line react-native/no-color-literals
   containerStyle: {
     flex: 1,
+    flexDirection: "column",
     backgroundColor: "#161b29FF",
     alignItems: "center",
     justifyContent: "center",
@@ -44,6 +46,7 @@ export function UserAccount(props: Props) {
 
   const [button1Model, setButton1Model] =
     React.useState<LoginDataModel>(undefined);
+
   const [button2Model, setButton2Model] =
     React.useState<LoginDataModel>(undefined);
 
@@ -54,14 +57,18 @@ export function UserAccount(props: Props) {
   const theme = useTheme();
   const custom_padding_top = Number(styles?.custom_padding_top) || 0;
   const debug_dummy_data_source = styles?.debug_dummy_data_source === "on";
+
   const newContainerStyleStyle = {
     ...componentStyles.containerStyle,
     paddingLeft: theme?.component_padding_left,
     paddingRight: theme?.component_padding_right,
     paddingBottom: theme?.component_margin_bottom,
     paddingTop: custom_padding_top,
+    // marginTop: theme?.screen_margin_top,
+    backgroundColor: "red",
   };
 
+  console.log({ newContainerStyleStyle, theme });
   const {
     account_title = "Account",
     user_name_title = "User",
@@ -74,6 +81,50 @@ export function UserAccount(props: Props) {
     localizations,
   });
 
+  const loginDataModelByToken = React.useCallback((): LoginDataModel => {
+    if (button1Model?.token) {
+      return button1Model;
+    } else if (button2Model?.token) {
+      return button2Model;
+    }
+
+    return null;
+  }, [button1Model, button2Model]);
+
+  async function preparePlugin() {
+    try {
+      logger.info({
+        message: `preparePlugin: login button 2 is enabled: ${button_2_login_enabled}.`,
+        data: { localizations, styles },
+      });
+
+      const buttonModel1 = await loginModelButton1(
+        styles,
+        debug_dummy_data_source
+      );
+
+      setButton1Model(buttonModel1);
+
+      if (button_2_login_enabled) {
+        const button2Model = await loginModelButton2(
+          styles,
+          debug_dummy_data_source
+        );
+
+        setButton2Model(button2Model);
+      }
+
+      setIsLoading(false);
+
+      onLoadFinished();
+    } catch (error) {
+      logger.error({
+        message: `preparePlugin: error ${error.message}`,
+        data: { error },
+      });
+    }
+  }
+
   React.useEffect(() => {
     setIsLoading(true);
     preparePlugin();
@@ -81,6 +132,7 @@ export function UserAccount(props: Props) {
 
   React.useEffect(() => {
     let logedIn = false;
+
     if (button1Model === null && button2Model === null) {
       logger.error({
         message:
@@ -92,44 +144,18 @@ export function UserAccount(props: Props) {
     } else if (button2Model && button2Model?.token) {
       logedIn = true;
     }
+
     logger.debug({
       message: `Login status changed, login 1 has token: ${!!button1Model?.token}, login 2 has token: ${!!button2Model?.token}`,
       data: { button1Model, button2Model },
     });
+
     setIsLogedIn(logedIn);
   }, [button1Model, button2Model]);
 
-  async function preparePlugin() {
-    try {
-      logger.info({
-        message: `preparePlugin: login button 2 is enabled: ${button_2_login_enabled}.`,
-        data: { localizations, styles },
-      });
-      const buttonModel1 = await loginModelButton1(
-        styles,
-        debug_dummy_data_source
-      );
-      setButton1Model(buttonModel1);
-
-      if (button_2_login_enabled) {
-        const button2Model = await loginModelButton2(
-          styles,
-          debug_dummy_data_source
-        );
-        setButton2Model(button2Model);
-      }
-      setIsLoading(false);
-      onLoadFinished();
-    } catch (error) {
-      logger.error({
-        message: `preparePlugin: error ${error.message}`,
-        data: { error },
-      });
-    }
-  }
-
   const accountTitles = React.useCallback(() => {
     const model = loginDataModelByToken();
+
     if (!model) {
       return null;
     }
@@ -152,10 +178,12 @@ export function UserAccount(props: Props) {
         rivers,
         loginDataModel: button1Model,
       });
+
       logger.debug({
         message: `Login Button 1 was clicked ${button1Model?.title}`,
         data: { button1Model, plugin },
       });
+
       navigator.push(plugin);
     } else {
       setIsLogedIn(true);
@@ -165,10 +193,12 @@ export function UserAccount(props: Props) {
   const onLogin2 = React.useCallback(() => {
     if (!debug_dummy_data_source) {
       const plugin = screenFromRivers({ rivers, loginDataModel: button2Model });
+
       logger.debug({
         message: `Login Button 2 was clicked ${button2Model.title}`,
         data: { button2Model, plugin },
       });
+
       navigator.push(plugin);
     } else {
       setIsLogedIn(true);
@@ -178,33 +208,31 @@ export function UserAccount(props: Props) {
   const onLogout = React.useCallback(() => {
     if (!debug_dummy_data_source) {
       const model = loginDataModelByToken();
+
       if (!model) {
         const errorMessage = "Logout failed, no active model with token exist";
+
         logger.error({
           message: errorMessage,
           data: { button1Model, button2Model },
         });
+
         throw Error(errorMessage);
       }
+
       let plugin = screenFromRivers({ rivers, loginDataModel: model });
+
       logger.debug({
         message: `Logout Button was clicked ${model.title}`,
         data: { button1Model, button2Model, plugin },
       });
+
       navigator.push(plugin);
     } else {
       setIsLogedIn(false);
     }
   }, [button1Model, button2Model]);
 
-  const loginDataModelByToken = React.useCallback((): LoginDataModel => {
-    if (button1Model?.token) {
-      return button1Model;
-    } else if (button2Model?.token) {
-      return button2Model;
-    }
-    return null;
-  }, [button1Model, button2Model]);
   const titles = accountTitles();
 
   const renderLoginFlow = React.useCallback(() => {

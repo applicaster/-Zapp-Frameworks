@@ -5,12 +5,11 @@ import { mapLabelKeyToStyle, mapViewKeyToStyle } from "../../customization";
 
 const componentStyles = StyleSheet.create({
   containerStyle: {
-    height: 32,
-    marginRight: 57,
-    marginLeft: 57,
-    marginBottom: 12,
-    flex: 1,
-    flexDirection: "row",
+    height: 60,
+    width: 850,
+    // marginBottom: 12,
+    // flex: 1,
+    // flexDirection: "row",
   },
   flexOne: {
     flex: 1,
@@ -23,6 +22,7 @@ const componentStyles = StyleSheet.create({
 });
 
 export default function ButtonTV(props: ButtonProps) {
+  console.log("ButtonTV", { props });
   const styles = props?.styles;
   const styleKey = props?.styleKey;
 
@@ -54,6 +54,7 @@ export default function ButtonTV(props: ButtonProps) {
             isFocused: focused,
           }),
         };
+        console.log({ containerStyle, labelStyles });
 
         return (
           <View style={containerStyle}>

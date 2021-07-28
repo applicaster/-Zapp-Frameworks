@@ -1,13 +1,21 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { StyleSheet, Image } from "react-native";
+import { platformSelect } from "@applicaster/zapp-react-native-utils/reactUtils";
+import { UserPhotoView } from "./UserPhotoView";
 
-const styles = StyleSheet.create({
-  image: { width: 55, height: 55, marginBottom: 23, marginTop: 31 },
-});
+const stylesMobile = { width: 55, height: 55, marginBottom: 23, marginTop: 31 };
+const stylesTV = { width: 100, height: 100, marginBottom: 23, marginTop: 31 };
 
-export const UserPhoto = ({ imageSrc }) => (
-  <Image style={styles.image} source={{ uri: imageSrc }} />
-);
+export function UserPhoto(props) {
+  const mobile = <UserPhotoView {...props} styles={stylesMobile} />;
+  const tv = <UserPhotoView {...props} styles={stylesTV} />;
 
-UserPhoto.propTypes = { imageSrc: PropTypes.string };
+  return platformSelect({
+    tvos: tv,
+    ios: mobile,
+    android: mobile,
+    android_tv: tv,
+    web: tv,
+    samsung_tv: tv,
+    lg_tv: tv,
+  });
+}
