@@ -18,7 +18,7 @@ extension RootController: FacadeConnectorChromecastProtocol {
     }
 
     public var isReachableViaWiFi: Bool {
-        let value = FacadeConnector.connector?.connectivity?.getCurrentConnectivityState() ?? .offline
+        let value = reachabilityManager.currentConnection.connectivityState
         return value == .wifi
     }
 

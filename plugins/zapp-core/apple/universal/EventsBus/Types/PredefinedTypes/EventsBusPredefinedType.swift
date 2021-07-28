@@ -14,6 +14,7 @@ public enum EventsBusPredefinedType {
     case reachabilityChanged
     case analytics(_ subtype: EventsBusTypeAnalyticsSubtype)
     case msAppCenterCheckUpdates
+    case forceAppReload
     
     var rawValue: String {
         return "\(self)"

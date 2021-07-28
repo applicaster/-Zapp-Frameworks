@@ -37,7 +37,7 @@ extension OneTrustCmp {
                                                                                value: onetrustIABConsent,
                                                                                namespace: Params.pluginIdentifier)
             }
-            
+
             if let onetrustUSPrivacy = UserDefaults.standard.string(forKey: Params.onetrustUSPrivacy) {
                 _ = FacadeConnector.connector?.storage?.sessionStorageSetValue(for: Params.onetrustUSPrivacy,
                                                                                value: onetrustUSPrivacy,
@@ -69,10 +69,13 @@ extension OneTrustCmp: OTEventListener {
     public func onShowConsentPurposesUI() {
     }
 
+    #if os(tvOS)
     /// Conform to this method to get notified when all the OT SDK Views are dismissed from the view hierarchy.
     /// - Parameter interactionType: The user interaction type.
     public func allSDKViewsDismissed(interactionType: OTPublishersHeadlessSDKtvOS.ConsentInteractionType) {
+    
     }
+    #endif
 
     /// Conform to this method to get notified when user selects `Accept All` option from the banner view and the banner view gets dismissed from the view hierarchy.
     public func onBannerClickedAcceptAll() {
