@@ -40,17 +40,20 @@ export const OAuth = (props) => {
   } = props;
 
   const handleScreenData = () => {
+    const setScreenData = (styles, localizations) => {
+      setStyles(getStyles(styles));
+      setLocalizations(getLocalizations(localizations));
+    }
+
     if (hookPlugin) {
       const { styles, localizations } = hookPlugin;
-      setStyles(styles);
-      setLocalizations(localizations);
+      setScreenData(styles, localizations)
       return;
     }
 
     if (screenData) {
       const { styles, localizations } = screenData;
-      setStyles(styles);
-      setLocalizations(localizations);
+      setScreenData(styles, localizations)
       return;
     }
 
@@ -58,12 +61,9 @@ export const OAuth = (props) => {
     const { id: screenId } = R.find(R.propEq('type', screenType))(R.values(rivers));
     const styles = getRiversProp("styles", rivers, screenId);
 
-    setStyles(styles);
-    setLocalizations(localizations);
+    setScreenData(styles, localizations)
   }
   
-  const screenStyles = useMemo(() => getStyles(styles), [styles]);
-  const screenLocalizations = getLocalizations(localizations);
   const mounted = useRef(true);
   const isPrehook = !!props?.callback;
 
@@ -72,7 +72,6 @@ export const OAuth = (props) => {
 
     setupEnvironment();
     handleScreenData();
-
     return () => {
       mounted.current = false;
     };
@@ -102,7 +101,7 @@ export const OAuth = (props) => {
 
         return;
       }
-      
+
       const userNeedsToLogin = await isLoginRequired();
 
       if (userNeedsToLogin) {
@@ -148,8 +147,8 @@ export const OAuth = (props) => {
       mounted.current && setScreen(ScreenData.INTRO);
 
       showAlert(
-        screenLocalizations?.general_error_title,
-        screenLocalizations?.general_error_message
+        localizations?.general_error_title,
+        localizations?.general_error_message
       );
     }
   }
@@ -228,8 +227,8 @@ export const OAuth = (props) => {
         return (
           <IntroScreen
             {...screenOptions}
-            screenStyles={screenStyles}
-            screenLocalizations={screenLocalizations}
+            screenStyles={styles}
+            screenLocalizations={localizations}
             parentFocus={parentFocus}
             focused={focused}
             forceFocus={forceFocus}
@@ -242,8 +241,8 @@ export const OAuth = (props) => {
           <LogoutScreen
             {...screenOptions}
             configuration={configuration}
-            screenStyles={screenStyles}
-            screenLocalizations={screenLocalizations}
+            screenStyles={styles}
+            screenLocalizations={localizations}
             parentFocus={parentFocus}
             focused={focused}
             forceFocus={forceFocus}
@@ -255,8 +254,8 @@ export const OAuth = (props) => {
           <SignInScreen
             {...screenOptions}
             configuration={configuration}
-            screenStyles={screenStyles}
-            screenLocalizations={screenLocalizations}
+            screenStyles={styles}
+            screenLocalizations={localizations}
             onSignedIn={onSignedIn}
             onMenuButtonClicked={onMenuButtonClickedSignIn}
             onMaybeLater={onMaybeLater}
