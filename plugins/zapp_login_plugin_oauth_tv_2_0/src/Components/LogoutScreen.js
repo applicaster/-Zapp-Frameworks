@@ -119,6 +119,7 @@ const LogoutScreen = (props) => {
           buttonRef={signoutButton}
           id={"sign-out-button"}
           nextFocusLeft={parentFocus ? parentFocus.nextFocusLeft : null}
+          nextFocusUp={parentFocus ? parentFocus.nextFocusUp : null}
         />
       </View>
     </Layout>
