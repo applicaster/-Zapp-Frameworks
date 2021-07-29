@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, NativeModules } from "react-native";
 import { useTheme } from "@applicaster/zapp-react-native-utils/theme";
 import { useLocalizedStrings } from "@applicaster/zapp-react-native-utils/localizationUtils";
 import { AccountInfo } from "../AccountInfo";
@@ -11,6 +11,7 @@ import { loginModelButton1, loginModelButton2 } from "../../utils/DataUtils";
 import { TextView } from "../TextView";
 import { screenFromRivers } from "../../utils/ScreenUtils";
 import { ScreenLayoutContext } from "@applicaster/zapp-react-native-ui-components/Contexts/ScreenLayoutContext";
+NativeModules.DevSettings.setIsDebuggingRemotely(true);
 
 type Props = {
   component: {

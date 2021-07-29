@@ -14,9 +14,9 @@ const mobile = [
     placeholder: "Please, upload a file",
   },
   {
-    key: "user_image_bottom_padding",
+    key: "user_image_bottom_margin",
     type: "number_input",
-    label_tooltip: "User Image padding buttom",
+    label_tooltip: "User Image margin buttom",
     initial_value: 23,
   },
   {
@@ -44,6 +44,12 @@ const mobile = [
         key: "button_1_background_image",
         type: "uploader",
         label: "Background Image for the button",
+        placeholder: "Please, upload a file",
+      },
+      {
+        key: "button_1_background_image_focused",
+        type: "uploader",
+        label: "Background Image for the button focused",
         placeholder: "Please, upload a file",
       },
       {
@@ -138,9 +144,9 @@ const mobile = [
         initial_value: 239,
       },
       {
-        key: "button_1_bottom_padding",
+        key: "button_1_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 12,
       },
       {
@@ -255,6 +261,12 @@ const mobile = [
         placeholder: "Please, upload a file",
       },
       {
+        key: "button_2_background_image_focused",
+        type: "uploader",
+        label: "Background Image for the button focused",
+        placeholder: "Please, upload a file",
+      },
+      {
         key: "button_2_custom_screen_id",
         type: "text_input",
         initial_value: "",
@@ -352,9 +364,9 @@ const mobile = [
         initial_value: 239,
       },
       {
-        key: "button_2_bottom_padding",
+        key: "button_2_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 12,
       },
       {
@@ -461,9 +473,9 @@ const mobile = [
         initial_value: "16",
       },
       {
-        key: "info_label_title_text_bottom_padding",
+        key: "info_label_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 5,
       },
       {
@@ -492,9 +504,9 @@ const mobile = [
         initial_value: 12,
       },
       {
-        key: "info_label_description_text_bottom_padding",
+        key: "info_label_description_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 5,
       },
     ],
@@ -512,15 +524,21 @@ const mobile = [
         placeholder: "Please, upload a file",
       },
       {
+        key: "button_logout_background_image_focused",
+        type: "uploader",
+        label: "Background Image for the button focused",
+        placeholder: "Please, upload a file",
+      },
+      {
         key: "button_logout_width",
         type: "number_input",
         label_tooltip: "Component button width",
         initial_value: 99,
       },
       {
-        key: "button_logout_bottom_padding",
+        key: "button_logout_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 12,
       },
       {
@@ -608,15 +626,21 @@ const mobile = [
         placeholder: "Please, upload a file",
       },
       {
+        key: "button_logout_big_background_image_focused",
+        type: "uploader",
+        label: "Background Image for the button focused",
+        placeholder: "Please, upload a file",
+      },
+      {
         key: "button_logout_big_width",
         type: "number_input",
         label_tooltip: "Component button width",
         initial_value: 239,
       },
       {
-        key: "button_logout_big_bottom_padding",
+        key: "button_logout_big_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 12,
       },
       {
@@ -731,9 +755,9 @@ const tv = [
     placeholder: "Please, upload a file",
   },
   {
-    key: "user_image_bottom_padding",
+    key: "user_image_bottom_margin",
     type: "number_input",
-    label_tooltip: "User Image padding buttom",
+    label_tooltip: "User Image margin buttom",
     initial_value: 35,
   },
   {
@@ -761,6 +785,12 @@ const tv = [
         key: "button_1_background_image",
         type: "uploader",
         label: "Background Image for the button",
+        placeholder: "Please, upload a file",
+      },
+      {
+        key: "button_1_background_image_focused",
+        type: "uploader",
+        label: "Background Image for the button focused",
         placeholder: "Please, upload a file",
       },
       {
@@ -855,9 +885,9 @@ const tv = [
         initial_value: 544,
       },
       {
-        key: "button_1_bottom_padding",
+        key: "button_1",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 27,
       },
       {
@@ -984,6 +1014,12 @@ const tv = [
         placeholder: "Please, upload a file",
       },
       {
+        key: "button_2_background_image_focused",
+        type: "uploader",
+        label: "Background Image for the button focused",
+        placeholder: "Please, upload a file",
+      },
+      {
         key: "button_2_custom_screen_id",
         type: "text_input",
         initial_value: "",
@@ -1081,9 +1117,9 @@ const tv = [
         initial_value: 544,
       },
       {
-        key: "button_2_bottom_padding",
+        key: "button_2_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 27,
       },
       {
@@ -1214,9 +1250,9 @@ const tv = [
         initial_value: 40,
       },
       {
-        key: "info_label_title_text_bottom_padding",
+        key: "info_label_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 24,
       },
       {
@@ -1257,9 +1293,9 @@ const tv = [
         initial_value: 35,
       },
       {
-        key: "info_label_description_title_text_bottom_padding",
+        key: "info_label_description_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 24,
       },
     ],
@@ -1277,15 +1313,21 @@ const tv = [
         placeholder: "Please, upload a file",
       },
       {
+        key: "button_logout_background_image_focused",
+        type: "uploader",
+        label: "Background Image for the button focused",
+        placeholder: "Please, upload a file",
+      },
+      {
         key: "button_logout_width",
         type: "number_input",
         label_tooltip: "Component button width",
         initial_value: 250,
       },
       {
-        key: "button_logout_bottom_padding",
+        key: "button_logout_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 27,
       },
       {
@@ -1385,6 +1427,12 @@ const tv = [
         placeholder: "Please, upload a file",
       },
       {
+        key: "button_logout_big_background_image_focused",
+        type: "uploader",
+        label: "Background Image for the button focused",
+        placeholder: "Please, upload a file",
+      },
+      {
         key: "button_logout_big_radius",
         type: "number_input",
         label_tooltip: "Component button radius",
@@ -1397,9 +1445,9 @@ const tv = [
         initial_value: 544,
       },
       {
-        key: "button_logout_big_bottom_padding",
+        key: "button_logout_big_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom padding",
+        label_tooltip: "Component button bottom margin",
         initial_value: 27,
       },
       {

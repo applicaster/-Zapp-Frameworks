@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { mapLabelKeyToStyle } from "../../customization";
+import { mapLabelKeyToStyle, mapViewKeyToStyle } from "../../customization";
 
 type Props = {
   titleText: string;
@@ -31,6 +31,14 @@ export function TextView(props: Props) {
   const titleText = props?.titleText;
   const labelStyles = props?.labelStyles;
 
+  const containerStyle = {
+    ...componentStyles.flexOne,
+    ...mapViewKeyToStyle({
+      key: styleKey,
+      obj: styles,
+    }),
+  };
+
   const titleLabelStyle = {
     ...componentStyles.labelStyles,
     ...labelStyles,
@@ -43,9 +51,9 @@ export function TextView(props: Props) {
   if (!titleText) {
     return null;
   }
-
+  console.log("TEXT_View", { containerStyle, titleLabelStyle });
   return (
-    <View style={componentStyles.flexOne}>
+    <View style={containerStyle}>
       <Text numberOfLines={1} style={titleLabelStyle}>
         {titleText}
       </Text>

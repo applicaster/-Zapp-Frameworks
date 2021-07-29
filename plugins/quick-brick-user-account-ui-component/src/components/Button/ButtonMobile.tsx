@@ -55,7 +55,7 @@ export default function ButtonMobile(props: ButtonProps) {
     }),
   };
 
-  const image = { uri: props?.src };
+  const image = { uri: isUnderlay ? `${props?.src}_focused` : props?.src };
 
   return (
     <TouchableHighlight

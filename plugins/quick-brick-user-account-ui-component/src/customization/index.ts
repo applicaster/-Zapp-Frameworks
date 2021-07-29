@@ -95,5 +95,19 @@ export function mapViewKeyToStyle({ key, obj, isFocused = false }) {
       obj,
       isFocused,
     }),
+    marginBottom: handleStyleType(
+      valueFromObject({
+        key: `${key}_bottom_margin`,
+        obj,
+        isFocused,
+      })
+    ),
+    width: handleStyleType(
+      valueFromObject({
+        key: `${key}_width`,
+        obj,
+        isFocused,
+      })
+    ),
   };
 }

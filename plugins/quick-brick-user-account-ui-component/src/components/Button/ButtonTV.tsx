@@ -29,7 +29,6 @@ export default function ButtonTV(props: ButtonProps) {
   const styleKey = props?.styleKey;
   const propsContainerStyle = props?.containerStyle || {};
 
-  const image = { uri: props?.src };
   const groupId = props?.groupId;
   const id = props?.id;
 
@@ -58,6 +57,8 @@ export default function ButtonTV(props: ButtonProps) {
             isFocused: focused,
           }),
         };
+
+        const image = { uri: focused ? `${props?.src}_focused` : props?.src };
 
         console.log({ containerStyle, labelStyles });
 
