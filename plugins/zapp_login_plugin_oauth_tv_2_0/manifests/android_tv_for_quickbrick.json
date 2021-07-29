@@ -35,8 +35,8 @@
     "quickbrick"
   ],
   "platform": "android_tv_for_quickbrick",
-  "dependency_version": "0.0.6-beta.1",
-  "manifest_version": "0.0.6-beta.1",
+  "dependency_version": "0.0.6-beta.2",
+  "manifest_version": "0.0.6-beta.2",
   "api": {
     "class_name": "com.applicaster.reactnative.plugins.APReactNativeAdapter",
     "react_packages": [
@@ -153,7 +153,7 @@
             "key": "activity_indicator_color",
             "type": "color_picker",
             "label": "Activity indicator color",
-            "initial_value": "#525A5CFF"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "line_separator_color",
@@ -233,7 +233,7 @@
             "key": "text_font_color",
             "type": "color_picker",
             "label": "Color",
-            "initial_value": "#525A5C"
+            "initial_value": "#ffffffff"
           }
         ]
       },
@@ -295,7 +295,7 @@
             "key": "text_code_font_color",
             "type": "color_picker",
             "label": "Color",
-            "initial_value": "#525A5C"
+            "initial_value": "#ffffffff"
           }
         ]
       },
