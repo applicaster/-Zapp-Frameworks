@@ -81,7 +81,6 @@ const custom_configuration_fields_apple = [
   {
     group: true,
     label: "Build time Settings",
-    tooltip: "This fields affect logout screen.",
     folded: true,
     fields: [
       {
