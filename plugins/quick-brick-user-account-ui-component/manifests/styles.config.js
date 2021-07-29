@@ -14,6 +14,12 @@ const mobile = [
     placeholder: "Please, upload a file",
   },
   {
+    key: "user_image_bottom_padding",
+    type: "number_input",
+    label_tooltip: "User Image padding buttom",
+    initial_value: 23,
+  },
+  {
     group: true,
     label: "Login Button 1 Styles",
     tooltip: "These fields affect login 1 button styles",
@@ -124,6 +130,18 @@ const mobile = [
             key: "styles/button_1_login_type",
           },
         ],
+      },
+      {
+        key: "button_1_width",
+        type: "number_input",
+        label_tooltip: "Component button width",
+        initial_value: 239,
+      },
+      {
+        key: "button_1_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 12,
       },
       {
         key: "button_1_radius",
@@ -328,6 +346,18 @@ const mobile = [
         ],
       },
       {
+        key: "button_2_width",
+        type: "number_input",
+        label_tooltip: "Component button width",
+        initial_value: 239,
+      },
+      {
+        key: "button_2_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 12,
+      },
+      {
         key: "button_2_radius",
         type: "number_input",
         label_tooltip: "Component button radius",
@@ -431,6 +461,12 @@ const mobile = [
         initial_value: "16",
       },
       {
+        key: "info_label_title_text_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 5,
+      },
+      {
         key: "info_label_description_title_color",
         type: "color_picker_rgba",
         label: "Title color of the component",
@@ -455,6 +491,12 @@ const mobile = [
         label_tooltip: "Font size toggle title",
         initial_value: 12,
       },
+      {
+        key: "info_label_description_text_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 5,
+      },
     ],
   },
   {
@@ -468,6 +510,18 @@ const mobile = [
         type: "uploader",
         label: "Background Image for the button",
         placeholder: "Please, upload a file",
+      },
+      {
+        key: "button_logout_width",
+        type: "number_input",
+        label_tooltip: "Component button width",
+        initial_value: 99,
+      },
+      {
+        key: "button_logout_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 12,
       },
       {
         key: "button_logout_radius",
@@ -552,6 +606,18 @@ const mobile = [
         type: "uploader",
         label: "Background Image for the button",
         placeholder: "Please, upload a file",
+      },
+      {
+        key: "button_logout_big_width",
+        type: "number_input",
+        label_tooltip: "Component button width",
+        initial_value: 239,
+      },
+      {
+        key: "button_logout_big_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 12,
       },
       {
         key: "button_logout_big_radius",
@@ -665,6 +731,12 @@ const tv = [
     placeholder: "Please, upload a file",
   },
   {
+    key: "user_image_bottom_padding",
+    type: "number_input",
+    label_tooltip: "User Image padding buttom",
+    initial_value: 35,
+  },
+  {
     group: true,
     label: "Login Button 1 Styles",
     tooltip: "These fields affect login 1 button styles",
@@ -775,6 +847,18 @@ const tv = [
             key: "styles/button_1_login_type",
           },
         ],
+      },
+      {
+        key: "button_1_width",
+        type: "number_input",
+        label_tooltip: "Component button width",
+        initial_value: 544,
+      },
+      {
+        key: "button_1_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 27,
       },
       {
         key: "button_1_radius",
@@ -991,6 +1075,18 @@ const tv = [
         ],
       },
       {
+        key: "button_2_width",
+        type: "number_input",
+        label_tooltip: "Component button width",
+        initial_value: 544,
+      },
+      {
+        key: "button_2_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 27,
+      },
+      {
         key: "button_2_radius",
         type: "number_input",
         label_tooltip: "Component button radius",
@@ -1118,6 +1214,12 @@ const tv = [
         initial_value: 40,
       },
       {
+        key: "info_label_title_text_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 24,
+      },
+      {
         key: "info_label_description_title_color",
         type: "color_picker_rgba",
         label: "Title color of the component",
@@ -1154,6 +1256,12 @@ const tv = [
         label_tooltip: "Font size toggle title",
         initial_value: 35,
       },
+      {
+        key: "info_label_description_title_text_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 24,
+      },
     ],
   },
   {
@@ -1167,6 +1275,18 @@ const tv = [
         type: "uploader",
         label: "Background Image for the button",
         placeholder: "Please, upload a file",
+      },
+      {
+        key: "button_logout_width",
+        type: "number_input",
+        label_tooltip: "Component button width",
+        initial_value: 250,
+      },
+      {
+        key: "button_logout_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 27,
       },
       {
         key: "button_logout_radius",
@@ -1269,6 +1389,18 @@ const tv = [
         type: "number_input",
         label_tooltip: "Component button radius",
         initial_value: 13,
+      },
+      {
+        key: "button_logout_big_width",
+        type: "number_input",
+        label_tooltip: "Component button width",
+        initial_value: 544,
+      },
+      {
+        key: "button_logout_big_bottom_padding",
+        type: "number_input",
+        label_tooltip: "Component button bottom padding",
+        initial_value: 27,
       },
       {
         key: "button_logout_big_border",
