@@ -57,7 +57,7 @@ const stylesTv = {
         {
           key: "background_color_prehook",
           type: "color_picker",
-          label: "Background color",
+          label: "Background color prehook",
           initial_value: "#ff161B29",
         },
         {
@@ -190,7 +190,7 @@ const stylesTv = {
           key: "text_url_font_size",
           type: "number_input",
           label: "Font size",
-          initial_value: 38,
+          initial_value: 34,
         },
         {
           key: "text_url_font_color",
@@ -258,13 +258,13 @@ const stylesTv = {
           key: "action_button_font_color",
           type: "color_picker",
           label: "Color",
-          initial_value: "#5D5D5DFF",
+          initial_value: "#ffffffff",
         },
         {
           key: "action_button_font_color_focused",
           type: "color_picker",
           label: "Color Focused",
-          initial_value: "#ffffffff",
+          initial_value: "#ff8F9198",
         },
         {
           key: "action_button_background_color",
@@ -293,7 +293,7 @@ const stylesTv = {
         {
           key: "action_button_border_color_focused",
           type: "color_picker",
-          label: "Border Color",
+          label: "Border Color Focused",
           initial_value: "#ffCFD1D4",
         },
         {
