@@ -5,7 +5,11 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
-import { mapLabelKeyToStyle, mapViewKeyToStyle } from "../../customization";
+import {
+  mapLabelKeyToStyle,
+  mapViewKeyToStyle,
+  valueFromObject,
+} from "../../customization";
 
 const componentStyles = StyleSheet.create({
   containerStyle: {
@@ -55,7 +59,13 @@ export default function ButtonMobile(props: ButtonProps) {
     }),
   };
 
-  const image = { uri: isUnderlay ? `${props?.src}_focused` : props?.src };
+  const uri = valueFromObject({
+    key: `${styleKey}_background_image`,
+    obj: styles,
+    isFocused: isUnderlay,
+  });
+
+  const image = { uri };
 
   return (
     <TouchableHighlight

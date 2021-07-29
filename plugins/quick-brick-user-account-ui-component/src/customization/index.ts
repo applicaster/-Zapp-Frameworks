@@ -3,17 +3,21 @@ import * as R from "ramda";
 import { handleStyleType } from "../utils";
 import { platformSelect } from "@applicaster/zapp-react-native-utils/reactUtils";
 
-function valueFromObject({ key, obj, isFocused }) {
+export function valueFromObject({ key, obj, isFocused }) {
   const focusedKey = isFocused ? "_focused" : "";
   console.log("valueFromObject", { key, obj, isFocused });
   let result = null;
+
   if (isFocused) {
     result = obj?.[`${key}${focusedKey}`];
+    
     if (result) {
       return result;
     }
   }
+
   result = obj?.[`${key}`];
+
   return result;
 }
 

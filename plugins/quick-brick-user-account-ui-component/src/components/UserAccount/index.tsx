@@ -257,7 +257,6 @@ export function UserAccount(props: Props) {
         {!isLogedIn && (
           <Button
             styleKey={login1ButtonId}
-            src={styles.button_1_background_image}
             styles={styles}
             id={login1ButtonId}
             onPress={onLogin1}
@@ -266,7 +265,6 @@ export function UserAccount(props: Props) {
         )}
         {!isLogedIn && button_2_login_enabled && (
           <Button
-            src={styles.button_2_background_image}
             styleKey={login2ButtonId}
             styles={styles}
             id={login2ButtonId}
@@ -284,7 +282,6 @@ export function UserAccount(props: Props) {
         {isLogedIn && (
           <Button
             styleKey={logoutButtonBigId}
-            src={styles.button_logout_background_image}
             styles={styles}
             id={logoutButtonId}
             onPress={onLogout}

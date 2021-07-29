@@ -60,7 +60,6 @@ export function AccountInfo(props: Props) {
         )}
         <LogoutButton
           styleKey={logoutButtonId}
-          src={props?.src}
           onPress={props?.onLogoutPress}
           titleText={titles.logout_title_text}
           styles={styles}

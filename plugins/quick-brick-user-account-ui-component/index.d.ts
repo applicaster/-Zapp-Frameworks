@@ -66,7 +66,6 @@ type ButtonProps = {
   titleText: string;
   styles: GeneralStyles;
   styleKey: string;
-  src?: string;
   groupId?: string;
   containerStyle?: object;
 };

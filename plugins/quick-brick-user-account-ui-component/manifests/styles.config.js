@@ -885,7 +885,7 @@ const tv = [
         initial_value: 544,
       },
       {
-        key: "button_1",
+        key: "button_1_bottom_margin",
         type: "number_input",
         label_tooltip: "Component button bottom margin",
         initial_value: 27,

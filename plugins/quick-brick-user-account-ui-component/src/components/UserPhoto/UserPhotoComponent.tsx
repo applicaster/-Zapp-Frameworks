@@ -10,13 +10,17 @@ type Props = {
 export const UserPhotoComponent = ({ imageSrc, styles }: Props) => {
   const styleKey = "user_image";
 
+  const containerData = mapViewKeyToStyle({
+    key: styleKey,
+    obj: styles,
+  });
+
   const containerStyle = {
     ...styles,
-    ...mapViewKeyToStyle({
-      key: styleKey,
-      obj: styles,
-    }),
+    marginBottom: containerData?.marginBottom,
   };
+
+  console.log("User Image", { containerStyle });
 
   return <Image style={containerStyle} source={{ uri: imageSrc }} />;
 };

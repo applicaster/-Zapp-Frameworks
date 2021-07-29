@@ -1,13 +1,17 @@
 import * as React from "react";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { Focusable } from "@applicaster/zapp-react-native-ui-components/Components/Focusable";
-import { mapLabelKeyToStyle, mapViewKeyToStyle } from "../../customization";
+import {
+  mapLabelKeyToStyle,
+  mapViewKeyToStyle,
+  valueFromObject,
+} from "../../customization";
 
 const componentStyles = StyleSheet.create({
   containerStyle: {
     height: 73,
     width: 544,
-    marginBottom: 27,
+    // marginBottom: 27,
     // flex: 1,
     // flexDirection: "row",
   },
@@ -32,11 +36,23 @@ export default function ButtonTV(props: ButtonProps) {
   const groupId = props?.groupId;
   const id = props?.id;
 
+  const containerStyle = {
+    ...componentStyles.containerStyle,
+    ...propsContainerStyle,
+    ...mapViewKeyToStyle({
+      key: styleKey,
+      obj: styles,
+    }),
+  };
+
+  console.log({ containerStyle });
+
   return (
     <Focusable
       id={`${groupId}-${id}`}
       groupId={groupId}
       onPress={props?.onPress}
+      style={{containerStyle}}
     >
       {(focused) => {
         const containerStyle = {
@@ -58,7 +74,14 @@ export default function ButtonTV(props: ButtonProps) {
           }),
         };
 
-        const image = { uri: focused ? `${props?.src}_focused` : props?.src };
+        const uri = valueFromObject({
+          key: `${styleKey}_background_image`,
+          obj: styles,
+          isFocused: focused,
+        });
+
+        console.log({ uri });
+        const image = { uri: uri };
 
         console.log({ containerStyle, labelStyles });
 
