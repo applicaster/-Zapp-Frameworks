@@ -44,14 +44,6 @@ function createManifest({ version, platform }) {
 
 const custom_configuration_fields_apple = [
   {
-    key: "enabled",
-    type: "checkbox",
-    default: 1,
-    label: "Plugin enabled",
-    label_tooltip:
-      "Disable plugin if you do not want to use plugin or require enable plugin after application start",
-  },
-  {
     type: "checkbox",
     key: "allow_enterprise_rich_push_notifications",
     default: 1,
@@ -68,21 +60,39 @@ const custom_configuration_fields_apple = [
     key: "ios_assets_bundle",
     type: "uploader",
     label: "Custom sound files",
-    label_tooltip: "Please upload a zip file to provide the custom sounds mp3 files to be used with FCM custom sound parameter</a>."
+    label_tooltip:
+      "Please upload a zip file to provide the custom sounds mp3 files to be used with FCM custom sound parameter</a>.",
   },
   {
     key: "default_topics",
     type: "text",
     label: "Default topics",
     default: "general",
-    tooltip_text: "Topics to subscribe to, separated with comma"
+    tooltip_text: "Topics to subscribe to, separated with comma",
   },
   {
     key: "default_localized_topics",
     type: "text",
     label: "Default Localized topics",
     default: "general",
-    tooltip_text: "Topics to subscribe to, separated with comma that will have appended language (ex. general-en)"
+    tooltip_text:
+      "Topics to subscribe to, separated with comma that will have appended language (ex. general-en)",
+  },
+  {
+    group: true,
+    label: "Build time Settings",
+    tooltip: "This fields affect logout screen.",
+    folded: true,
+    fields: [
+      {
+        key: "enabled",
+        type: "checkbox",
+        default: 1,
+        label: "Plugin enabled",
+        label_tooltip:
+          "Use this flag to set the initial state of the plugin on build time. In case user preferences will change in the app, the initial flag will not reflect the status of the plugin, The app will not reflect changes on this flag after the build",
+      },
+    ],
   },
 ];
 
@@ -100,14 +110,15 @@ const custom_configuration_fields_android = [
     type: "text",
     label: "Default topics",
     default: "general",
-    tooltip_text: "Topics to subscribe to, separated with comma"
+    tooltip_text: "Topics to subscribe to, separated with comma",
   },
   {
     key: "default_localized_topics",
     type: "text",
     label: "Default Localized topics",
     default: "general",
-    tooltip_text: "Topics to subscribe to, separated with comma that will have appended language (ex. general-en)"
+    tooltip_text:
+      "Topics to subscribe to, separated with comma that will have appended language (ex. general-en)",
   },
   {
     key: "notification_channel_name",
