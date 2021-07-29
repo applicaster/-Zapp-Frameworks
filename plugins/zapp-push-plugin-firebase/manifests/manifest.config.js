@@ -89,7 +89,7 @@ const custom_configuration_fields_apple = [
         default: 1,
         label: "Plugin enabled",
         label_tooltip:
-          "Use this flag to set the initial state of the plugin on build time. In case user preferences will change in the app, the initial flag will not reflect the status of the plugin, The app will not reflect changes on this flag after the build",
+          "Use this flag to set the initial state of the plugin on build time. In case user preferences will change in the app, the initial flag will not reflect the status of the plugin.",
       },
     ],
   },
