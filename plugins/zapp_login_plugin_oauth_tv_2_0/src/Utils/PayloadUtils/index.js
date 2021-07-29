@@ -12,10 +12,18 @@ export const logger = createLogger({
 });
 
 export const isAuthenticationRequired = ({ payload }) => {
-  const requires_authentication = R.path([
+  const authPath = payload.extensions 
+  ? [
     "extensions",
     "requires_authentication",
-  ])(payload);
+  ]
+  : [
+    "parent",
+    "extensions",
+    "requires_authentication",
+  ]
+  
+  const requires_authentication = R.path(authPath)(payload);
 
   logger.debug({
     message: `setupEnvironment: Hook finished, no authentefication required, skipping`,
