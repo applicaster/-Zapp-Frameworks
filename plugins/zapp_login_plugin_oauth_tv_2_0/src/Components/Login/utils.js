@@ -114,13 +114,13 @@ export async function refreshToken(oAuthConfig) {
         await saveDataToStorages(loginData);
         logger.debug({
           message: `refreshToken: completed`,
-          data: { refresh_result: refreshResult, login_data: loginData },
+          data: { login_data: loginData },
         });
         return true;
       } else {
         logger.debug({
           message: `refreshToken: failed, no data from refresh token`,
-          data: { refresh_result: refreshResult, login_data: loginData },
+          data: { login_data: loginData },
         });
         return false;
       }
