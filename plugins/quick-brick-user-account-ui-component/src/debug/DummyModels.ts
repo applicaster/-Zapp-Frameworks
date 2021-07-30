@@ -1,8 +1,8 @@
 export const dummy_model_1 = {
   token: "some_token",
   userId: "a.kononenko@applicaster.com",
-  subscriptionPrice: null,
-  subscriptionRenewsDate: null,
+  subscriptionPrice: "Monthly 10.99$",
+  subscriptionRenewsDate: "5/10/2021",
   userPhotoUrl: null,
 };
 

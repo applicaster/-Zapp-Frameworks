@@ -11,6 +11,11 @@ import { loginModelButton1, loginModelButton2 } from "../../utils/DataUtils";
 import { TextView } from "../TextView";
 import { screenFromRivers } from "../../utils/ScreenUtils";
 import { ScreenLayoutContext } from "@applicaster/zapp-react-native-ui-components/Contexts/ScreenLayoutContext";
+import {
+  mimicLoginForDummy1,
+  mimicLoginForDummy2,
+  mimicLogout,
+} from "../../debug/Stubs";
 NativeModules.DevSettings.setIsDebuggingRemotely(true);
 
 type Props = {
@@ -59,7 +64,7 @@ export function UserAccount(props: Props) {
   const button_2_login_enabled = styles?.button_2_login_enabled;
 
   const theme = useTheme();
-  const custom_padding_top = Number(styles?.custom_padding_top) || 0;
+  const custom_margin_top = Number(styles?.custom_margin_top) || 150;
   const debug_dummy_data_source = styles?.debug_dummy_data_source === "on";
 
   const newContainerStyleStyle = {
@@ -67,12 +72,10 @@ export function UserAccount(props: Props) {
     paddingLeft: theme?.component_padding_left,
     paddingRight: theme?.component_padding_right,
     paddingBottom: theme?.component_margin_bottom,
-    paddingTop: custom_padding_top,
-    marginTop: theme?.screen_margin_top,
-    backgroundColor: "red",
+    marginTop: custom_margin_top,
+    backgroundColor: "blue",
   };
 
-  console.log({ newContainerStyleStyle, theme, screenLayout, props });
   const {
     account_title = "Account",
     user_name_title = "User",
@@ -94,8 +97,6 @@ export function UserAccount(props: Props) {
 
     return null;
   }, [button1Model, button2Model]);
-
-  React.useEffect(() => {}, []);
 
   async function preparePlugin() {
     try {
@@ -178,74 +179,83 @@ export function UserAccount(props: Props) {
     };
   }, [button1Model, button2Model]);
 
-  const onLogin1 = React.useCallback(() => {
-    if (!debug_dummy_data_source) {
-      const plugin = screenFromRivers({
-        rivers,
-        loginDataModel: button1Model,
-      });
+  const onLogin1 = React.useCallback(async () => {
+    if (debug_dummy_data_source) {
+      await mimicLoginForDummy1();
+      preparePlugin();
 
-      if (!plugin) {
-        logger.error({
-          message: `Screen for login type: ${button1Model?.title} not exist. Check screen of the plugin created in zapp layout`,
-          data: { button1Model },
-        });
-
-        return;
-      }
-
-      logger.debug({
-        message: `Login Button 1 was clicked ${button1Model?.title}`,
-        data: { button1Model, plugin },
-      });
-
-      navigator.push(plugin);
-    } else {
-      setIsLogedIn(true);
+      return;
     }
+
+    const plugin = screenFromRivers({
+      rivers,
+      loginDataModel: button1Model,
+    });
+
+    if (!plugin) {
+      logger.error({
+        message: `Screen for login type: ${button1Model?.title} not exist. Check screen of the plugin created in zapp layout`,
+        data: { button1Model },
+      });
+
+      return;
+    }
+
+    logger.debug({
+      message: `Login Button 1 was clicked ${button1Model?.title}`,
+      data: { button1Model, plugin },
+    });
+
+    navigator.push(plugin);
   }, [button1Model]);
 
-  const onLogin2 = React.useCallback(() => {
-    if (!debug_dummy_data_source) {
-      const plugin = screenFromRivers({ rivers, loginDataModel: button2Model });
+  const onLogin2 = React.useCallback(async () => {
+    if (debug_dummy_data_source) {
+      await mimicLoginForDummy2();
+      preparePlugin();
 
-      logger.debug({
-        message: `Login Button 2 was clicked ${button2Model.title}`,
-        data: { button2Model, plugin },
-      });
-
-      navigator.push(plugin);
-    } else {
-      setIsLogedIn(true);
+      return;
     }
+
+    const plugin = screenFromRivers({ rivers, loginDataModel: button2Model });
+
+    logger.debug({
+      message: `Login Button 2 was clicked ${button2Model.title}`,
+      data: { button2Model, plugin },
+    });
+
+    navigator.push(plugin);
   }, [button2Model]);
 
-  const onLogout = React.useCallback(() => {
-    if (!debug_dummy_data_source) {
-      const model = loginDataModelByToken();
+  const onLogout = React.useCallback(async () => {
+    if (debug_dummy_data_source) {
+      await mimicLogout();
+      preparePlugin();
 
-      if (!model) {
-        const errorMessage = "Logout failed, no active model with token exist";
+      return;
+    }
 
-        logger.error({
-          message: errorMessage,
-          data: { button1Model, button2Model },
-        });
+    const model = loginDataModelByToken();
 
-        throw Error(errorMessage);
-      }
+    if (!model) {
+      const errorMessage = "Logout failed, no active model with token exist";
 
-      let plugin = screenFromRivers({ rivers, loginDataModel: model });
-
-      logger.debug({
-        message: `Logout Button was clicked ${model.title}`,
-        data: { button1Model, button2Model, plugin },
+      logger.error({
+        message: errorMessage,
+        data: { button1Model, button2Model },
       });
 
-      navigator.push(plugin);
-    } else {
-      setIsLogedIn(false);
+      throw Error(errorMessage);
     }
+
+    let plugin = screenFromRivers({ rivers, loginDataModel: model });
+
+    logger.debug({
+      message: `Logout Button was clicked ${model.title}`,
+      data: { button1Model, button2Model, plugin },
+    });
+
+    navigator.push(plugin);
   }, [button1Model, button2Model]);
 
   const titles = accountTitles();
@@ -253,7 +263,7 @@ export function UserAccount(props: Props) {
   const renderLoginFlow = React.useCallback(() => {
     return (
       <>
-        <UserPhoto imageSrc={styles?.user_image_placeholder} />
+        <UserPhoto styles={styles} imageSrc={styles?.user_image_placeholder} />
         {!isLogedIn && (
           <Button
             styleKey={login1ButtonId}

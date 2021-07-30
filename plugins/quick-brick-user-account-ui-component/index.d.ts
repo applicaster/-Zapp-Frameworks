@@ -1,5 +1,5 @@
 type GeneralStyles = {
-  custom_padding_top: number;
+  custom_margin_top: number;
   user_image_placeholder: string;
   button_1_background_image: string;
   button_1_custom_screen_id: string;

@@ -5,12 +5,12 @@ import { platformSelect } from "@applicaster/zapp-react-native-utils/reactUtils"
 
 export function valueFromObject({ key, obj, isFocused }) {
   const focusedKey = isFocused ? "_focused" : "";
-  console.log("valueFromObject", { key, obj, isFocused });
+
   let result = null;
 
   if (isFocused) {
     result = obj?.[`${key}${focusedKey}`];
-    
+
     if (result) {
       return result;
     }
@@ -22,8 +22,6 @@ export function valueFromObject({ key, obj, isFocused }) {
 }
 
 export function mapLabelKeyToStyle({ key, obj, isFocused = false }) {
-  console.log({ key, obj, isFocused });
-
   return {
     fontFamily: platformSelect({
       ios: valueFromObject({

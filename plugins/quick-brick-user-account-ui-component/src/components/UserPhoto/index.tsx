@@ -6,8 +6,11 @@ const stylesMobile = { width: 55, height: 55, marginBottom: 23, marginTop: 31 };
 const stylesTV = { width: 150, height: 150, margin: 35 };
 
 export function UserPhoto(props) {
-  const mobile = <UserPhotoComponent {...props} styles={stylesMobile} />;
-  const tv = <UserPhotoComponent {...props} styles={stylesTV} />;
+  const mobile = (
+    <UserPhotoComponent {...props} containerStyle={stylesMobile} />
+  );
+
+  const tv = <UserPhotoComponent {...props} containerStyle={stylesTV} />;
 
   return platformSelect({
     tvos: tv,

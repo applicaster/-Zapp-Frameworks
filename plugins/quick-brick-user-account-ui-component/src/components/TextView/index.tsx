@@ -51,7 +51,7 @@ export function TextView(props: Props) {
   if (!titleText) {
     return null;
   }
-  console.log("TEXT_View", { containerStyle, titleLabelStyle });
+
   return (
     <View style={containerStyle}>
       <Text numberOfLines={1} style={titleLabelStyle}>

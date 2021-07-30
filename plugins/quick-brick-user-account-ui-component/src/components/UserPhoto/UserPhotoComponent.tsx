@@ -4,10 +4,15 @@ import { mapViewKeyToStyle } from "../../customization";
 
 type Props = {
   imageSrc: string;
-  styles: object;
+  containerStyle: object;
+  styles: GeneralStyles;
 };
 
-export const UserPhotoComponent = ({ imageSrc, styles }: Props) => {
+export const UserPhotoComponent = ({
+  imageSrc,
+  containerStyle,
+  styles,
+}: Props) => {
   const styleKey = "user_image";
 
   const containerData = mapViewKeyToStyle({
@@ -15,12 +20,10 @@ export const UserPhotoComponent = ({ imageSrc, styles }: Props) => {
     obj: styles,
   });
 
-  const containerStyle = {
-    ...styles,
+  const imageStyle = {
+    ...containerStyle,
     marginBottom: containerData?.marginBottom,
   };
 
-  console.log("User Image", { containerStyle });
-
-  return <Image style={containerStyle} source={{ uri: imageSrc }} />;
+  return <Image style={imageStyle} source={{ uri: imageSrc }} />;
 };

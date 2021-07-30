@@ -28,7 +28,6 @@ const componentStyles = StyleSheet.create({
 
 export default function ButtonTV(props: ButtonProps) {
   // const riverContext = React.useContext(RiverOffsetContext);
-  console.log("ButtonTV", { props });
   const styles = props?.styles;
   const styleKey = props?.styleKey;
   const propsContainerStyle = props?.containerStyle || {};
@@ -36,23 +35,11 @@ export default function ButtonTV(props: ButtonProps) {
   const groupId = props?.groupId;
   const id = props?.id;
 
-  const containerStyle = {
-    ...componentStyles.containerStyle,
-    ...propsContainerStyle,
-    ...mapViewKeyToStyle({
-      key: styleKey,
-      obj: styles,
-    }),
-  };
-
-  console.log({ containerStyle });
-
   return (
     <Focusable
       id={`${groupId}-${id}`}
       groupId={groupId}
       onPress={props?.onPress}
-      style={{containerStyle}}
     >
       {(focused) => {
         const containerStyle = {
@@ -80,10 +67,7 @@ export default function ButtonTV(props: ButtonProps) {
           isFocused: focused,
         });
 
-        console.log({ uri });
         const image = { uri: uri };
-
-        console.log({ containerStyle, labelStyles });
 
         return (
           <View style={containerStyle}>

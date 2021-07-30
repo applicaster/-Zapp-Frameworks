@@ -28,7 +28,7 @@
   "styles": {
     "fields": [
       {
-        "key": "custom_padding_top",
+        "key": "custom_margin_top",
         "type": "number_input",
         "label_tooltip": "Padding top for component UI",
         "initial_value": 0

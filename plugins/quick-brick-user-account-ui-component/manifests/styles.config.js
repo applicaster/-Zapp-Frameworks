@@ -2,7 +2,7 @@ const common = [];
 
 const mobile = [
   {
-    key: "custom_padding_top",
+    key: "custom_margin_top",
     type: "number_input",
     label_tooltip: "Padding top for component UI",
     initial_value: 0,
@@ -743,10 +743,10 @@ const mobile = [
 
 const tv = [
   {
-    key: "custom_padding_top",
+    key: "custom_margin_top",
     type: "number_input",
     label_tooltip: "Padding top for component UI",
-    initial_value: 0,
+    initial_value: 100,
   },
   {
     key: "user_image_placeholder",

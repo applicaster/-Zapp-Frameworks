@@ -1,8 +1,13 @@
 import { localStorageGet } from "../../services/LocalStorageService";
-import { Inplayer, Cleeng, AdobePrimetime, Oauth2 } from "../../models";
+import {
+  Inplayer,
+  Cleeng,
+  AdobePrimetime,
+  Oauth2,
+  Dummy1,
+  Dummy2,
+} from "../../models";
 import { logger } from "../../services/LoggerService";
-import { debugLoginModel1, debugLoginModel2 } from "../../debug/Stubs";
-
 enum LoginModelsType {
   Inplayer = "in_player",
   Cleeng = "cleeng",
@@ -205,15 +210,17 @@ export async function loginModelButton1(
   props: GeneralStyles,
   debug_dummy_data_source = false
 ): Promise<LoginDataModel> {
-  const keysModel = await loginModelKeysButton1(props);
+  let keysModel = await loginModelKeysButton1(props);
+
+  if (debug_dummy_data_source) {
+    keysModel = Dummy1;
+  }
 
   if (!keysModel) {
     return null;
   }
 
-  const button1Model = debug_dummy_data_source
-    ? debugLoginModel1(keysModel)
-    : await loginModel(keysModel);
+  const button1Model = await loginModel(keysModel);
 
   logger.debug({
     message: `Get model for login button 1 - ${button1Model?.title}`,
@@ -227,15 +234,17 @@ export async function loginModelButton2(
   props: GeneralStyles,
   debug_dummy_data_source = false
 ): Promise<LoginDataModel> {
-  const keysModel = loginModelKeysButton2(props);
+  let keysModel = loginModelKeysButton2(props);
+
+  if (debug_dummy_data_source) {
+    keysModel = Dummy2;
+  }
 
   if (!keysModel) {
     return null;
   }
 
-  const button2Model = debug_dummy_data_source
-    ? debugLoginModel2(keysModel)
-    : await loginModel(keysModel);
+  const button2Model = await loginModel(keysModel);
 
   logger.debug({
     message: `Get model for login button 2 - ${button2Model.title}`,

@@ -50,7 +50,7 @@ export function AccountInfo(props: Props) {
 
   return (
     <View style={componentStyles.container}>
-      <UserPhoto imageSrc={props?.user_image_placeholder} />
+      <UserPhoto styles={styles} imageSrc={props?.user_image_placeholder} />
       <View style={componentStyles.infoViewsContainer}>
         {accountDataTitles.description_text && (
           <InfoView styles={styles} titles={accountDataTitles} />
