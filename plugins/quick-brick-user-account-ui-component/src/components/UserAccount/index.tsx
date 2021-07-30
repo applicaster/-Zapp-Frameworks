@@ -16,7 +16,7 @@ import {
   mimicLoginForDummy2,
   mimicLogout,
 } from "../../debug/Stubs";
-NativeModules.DevSettings.setIsDebuggingRemotely(true);
+// NativeModules.DevSettings.setIsDebuggingRemotely(true);
 
 type Props = {
   component: {
