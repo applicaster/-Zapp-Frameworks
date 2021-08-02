@@ -31,13 +31,13 @@ export async function mimicLoginForDummy2() {
 
   await localStorageSet(
     Dummy2.subscriptionPriceKey,
-    dummy_model_2.userId,
+    dummy_model_2.subscriptionPrice,
     Dummy2.namespace
   );
 
   await localStorageSet(
     Dummy2.subscriptionRenewsDateKey,
-    dummy_model_2.userId,
+    dummy_model_2.subscriptionRenewsDate,
     Dummy2.namespace
   );
 }

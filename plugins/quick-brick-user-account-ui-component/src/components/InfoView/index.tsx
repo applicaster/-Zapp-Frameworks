@@ -9,7 +9,7 @@ type Props = {
   styles: GeneralStyles;
 };
 
-const componentStyles = StyleSheet.create({
+const componentStyles = {
   containerStyle: {
     flex: 1,
     paddingBottom: 20,
@@ -23,7 +23,7 @@ const componentStyles = StyleSheet.create({
     textAlign: "left",
     justifyContent: "center",
   },
-});
+};
 
 export function InfoView(props: Props) {
   const styleKeyTitleLabel = "info_label";
@@ -33,6 +33,7 @@ export function InfoView(props: Props) {
   const titleText = props?.titles?.title_text;
   const descriptionText = props?.titles?.description_text;
   const extraLabelStyles = { textAlign: "left" };
+
   return (
     <View style={componentStyles.containerStyle}>
       <TextView

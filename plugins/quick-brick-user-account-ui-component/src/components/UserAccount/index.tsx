@@ -17,7 +17,6 @@ import {
   mimicLogout,
 } from "../../debug/Stubs";
 // NativeModules.DevSettings.setIsDebuggingRemotely(true);
-
 type Props = {
   component: {
     id: string;
@@ -32,16 +31,15 @@ type Props = {
   onLoadFinished: any;
 };
 
-const componentStyles = StyleSheet.create({
+const componentStyles = {
   // eslint-disable-next-line react-native/no-color-literals
   containerStyle: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#161b29FF",
     alignItems: "center",
     justifyContent: "center",
   },
-});
+};
 
 export function UserAccount(props: Props) {
   const login1ButtonId = "button_1";
@@ -73,7 +71,6 @@ export function UserAccount(props: Props) {
     paddingRight: theme?.component_padding_right,
     paddingBottom: theme?.component_margin_bottom,
     marginTop: custom_margin_top,
-    backgroundColor: "blue",
   };
 
   const {

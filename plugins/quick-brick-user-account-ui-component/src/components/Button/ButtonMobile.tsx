@@ -11,7 +11,7 @@ import {
   valueFromObject,
 } from "../../customization";
 
-const componentStyles = StyleSheet.create({
+const componentStyles = {
   containerStyle: {
     height: 32,
     marginRight: 57,
@@ -28,7 +28,7 @@ const componentStyles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
   },
-});
+};
 
 export default function ButtonMobile(props: ButtonProps) {
   const [isUnderlay, setIsUnderlay] = React.useState(false);

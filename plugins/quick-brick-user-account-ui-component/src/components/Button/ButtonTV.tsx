@@ -7,13 +7,10 @@ import {
   valueFromObject,
 } from "../../customization";
 
-const componentStyles = StyleSheet.create({
+const componentStyles = {
   containerStyle: {
     height: 73,
     width: 544,
-    // marginBottom: 27,
-    // flex: 1,
-    // flexDirection: "row",
   },
   flexOne: {
     flex: 1,
@@ -23,10 +20,11 @@ const componentStyles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
   },
-});
+};
 // import { RiverOffsetContext } from "@applicaster/zapp-react-native-ui-components/Contexts";
 
 export default function ButtonTV(props: ButtonProps) {
+  console.log("PAlundra!!!!");
   // const riverContext = React.useContext(RiverOffsetContext);
   const styles = props?.styles;
   const styleKey = props?.styleKey;
@@ -60,6 +58,7 @@ export default function ButtonTV(props: ButtonProps) {
             isFocused: focused,
           }),
         };
+        console.log({ labelStyles });
 
         const uri = valueFromObject({
           key: `${styleKey}_background_image`,

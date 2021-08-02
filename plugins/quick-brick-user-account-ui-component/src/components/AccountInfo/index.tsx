@@ -17,7 +17,7 @@ type Props = {
   src: string;
 };
 
-const componentStyles = StyleSheet.create({
+const componentStyles = {
   container: {
     flex: 1,
     alignItems: "center",
@@ -30,7 +30,7 @@ const componentStyles = StyleSheet.create({
     paddingLeft: 17,
     paddingTop: 35,
   },
-});
+};
 
 export function AccountInfo(props: Props) {
   const logoutButtonId = "button_logout";

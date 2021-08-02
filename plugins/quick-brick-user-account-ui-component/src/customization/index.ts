@@ -17,7 +17,7 @@ export function valueFromObject({ key, obj, isFocused }) {
   }
 
   result = obj?.[`${key}`];
-
+  console.log({ result, key, obj, isFocused  });
   return result;
 }
 
