@@ -20,11 +20,11 @@ const componentStyles = {
     textAlign: "center",
     justifyContent: "center",
   },
+  imageStyle: { resizeMode: "stretch" },
 };
 // import { RiverOffsetContext } from "@applicaster/zapp-react-native-ui-components/Contexts";
 
 export default function ButtonTV(props: ButtonProps) {
-  console.log("PAlundra!!!!");
   // const riverContext = React.useContext(RiverOffsetContext);
   const styles = props?.styles;
   const styleKey = props?.styleKey;
@@ -40,7 +40,7 @@ export default function ButtonTV(props: ButtonProps) {
       onPress={props?.onPress}
     >
       {(focused) => {
-        const containerStyle = {
+        const containerStyle: any = {
           ...componentStyles.containerStyle,
           ...propsContainerStyle,
           ...mapViewKeyToStyle({
@@ -50,7 +50,7 @@ export default function ButtonTV(props: ButtonProps) {
           }),
         };
 
-        const labelStyles = {
+        const labelStyles: any = {
           ...componentStyles.labelStyles,
           ...mapLabelKeyToStyle({
             key: styleKey,
@@ -58,7 +58,9 @@ export default function ButtonTV(props: ButtonProps) {
             isFocused: focused,
           }),
         };
-        console.log({ labelStyles });
+
+        const imageBackgroundStyle: any = componentStyles.flexOne;
+        const imageStyle: any = componentStyles.imageStyle;
 
         const uri = valueFromObject({
           key: `${styleKey}_background_image`,
@@ -71,8 +73,8 @@ export default function ButtonTV(props: ButtonProps) {
         return (
           <View style={containerStyle}>
             <ImageBackground
-              imageStyle={{ resizeMode: "stretch" }}
-              style={componentStyles.flexOne}
+              imageStyle={imageStyle}
+              style={imageBackgroundStyle}
               source={image}
             >
               <Text numberOfLines={1} style={labelStyles}>

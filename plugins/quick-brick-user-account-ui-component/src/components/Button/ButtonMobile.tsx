@@ -28,6 +28,7 @@ const componentStyles = {
     textAlign: "center",
     justifyContent: "center",
   },
+  imageStyle: { resizeMode: "stretch" },
 };
 
 export default function ButtonMobile(props: ButtonProps) {
@@ -44,13 +45,13 @@ export default function ButtonMobile(props: ButtonProps) {
     setIsUnderlay(false);
   }
 
-  const containerStyle = {
+  const containerStyle: any = {
     ...componentStyles.containerStyle,
     ...propsContainerStyle,
     ...mapViewKeyToStyle({ key: styleKey, obj: styles, isFocused: isUnderlay }),
   };
 
-  const labelStyles = {
+  const labelStyles: any = {
     ...componentStyles.labelStyles,
     ...mapLabelKeyToStyle({
       key: styleKey,
@@ -58,6 +59,9 @@ export default function ButtonMobile(props: ButtonProps) {
       isFocused: isUnderlay,
     }),
   };
+
+  const imageBackgroundStyle: any = componentStyles.flexOne;
+  const imageStyle: any = componentStyles.imageStyle;
 
   const uri = valueFromObject({
     key: `${styleKey}_background_image`,
@@ -78,8 +82,8 @@ export default function ButtonMobile(props: ButtonProps) {
       accessible={false}
     >
       <ImageBackground
-        imageStyle={{ resizeMode: "stretch" }}
-        style={componentStyles.flexOne}
+        imageStyle={imageStyle}
+        style={imageBackgroundStyle}
         source={image}
       >
         <Text numberOfLines={1} style={labelStyles}>

@@ -9,7 +9,7 @@ type Props = {
   labelStyles?: object;
 };
 
-const componentStyles = StyleSheet.create({
+const componentStyles = {
   containerStyle: {
     flex: 1,
     paddingBottom: 20,
@@ -23,7 +23,7 @@ const componentStyles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
   },
-});
+};
 
 export function TextView(props: Props) {
   const styles = props.styles;
@@ -31,7 +31,7 @@ export function TextView(props: Props) {
   const titleText = props?.titleText;
   const labelStyles = props?.labelStyles;
 
-  const containerStyle = {
+  const containerStyle: any = {
     ...componentStyles.flexOne,
     ...mapViewKeyToStyle({
       key: styleKey,
@@ -39,7 +39,7 @@ export function TextView(props: Props) {
     }),
   };
 
-  const titleLabelStyle = {
+  const titleLabelStyle: any = {
     ...componentStyles.labelStyles,
     ...labelStyles,
     ...mapLabelKeyToStyle({

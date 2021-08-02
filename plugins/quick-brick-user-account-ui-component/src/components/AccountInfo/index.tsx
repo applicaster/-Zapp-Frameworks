@@ -48,8 +48,10 @@ export function AccountInfo(props: Props) {
     description_text: titles?.subscription_expiration_title,
   };
 
+  const containuerStyle: any = componentStyles.container;
+
   return (
-    <View style={componentStyles.container}>
+    <View style={containuerStyle}>
       <UserPhoto styles={styles} imageSrc={props?.user_image_placeholder} />
       <View style={componentStyles.infoViewsContainer}>
         {accountDataTitles.description_text && (

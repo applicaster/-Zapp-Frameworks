@@ -65,7 +65,7 @@ export function UserAccount(props: Props) {
   const custom_margin_top = Number(styles?.custom_margin_top) || 150;
   const debug_dummy_data_source = styles?.debug_dummy_data_source === "on";
 
-  const newContainerStyleStyle = {
+  const newContainerStyleStyle: any = {
     ...componentStyles.containerStyle,
     paddingLeft: theme?.component_padding_left,
     paddingRight: theme?.component_padding_right,
