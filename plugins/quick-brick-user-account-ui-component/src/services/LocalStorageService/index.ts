@@ -18,6 +18,7 @@ export async function localStorageSet(
 export async function localStorageRemove(key: string, namespace?: string) {
   if (isWebPlatform) {
     const keyToDelete = namespace ? `${namespace}_::_${key}` : key;
+    // @ts-ignore
     window.localStorage[keyToDelete] = null;
 
     return;
