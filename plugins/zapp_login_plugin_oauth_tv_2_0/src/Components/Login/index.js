@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigation } from "@applicaster/zapp-react-native-utils/reactHooks/navigation";
 import * as R from "ramda";
-import IntroScreen from "../IntroScreen";
 import SignInScreen from "../SignInScreen";
 import LogoutScreen from "../LogoutScreen";
 import LoadingScreen from "../LoadingScreen";
@@ -107,11 +106,8 @@ export const OAuth = (props) => {
           message: "setupEnvironment: Presenting login screen",
           data: { userNeedsToLogin },
         });
-        if (playerHook) {
-          mounted.current && setScreen(ScreenData.LOG_IN);
-        } else {
-          mounted.current && setScreen(ScreenData.INTRO);
-        }
+
+        mounted.current && setScreen(ScreenData.LOG_IN);
       } else {
         const success = await refreshToken(configuration);
         logger.debug({
@@ -129,12 +125,8 @@ export const OAuth = (props) => {
           }
         } else {
           // await removeDataFromStorages();
-
-          if (playerHook) {
-            mounted.current && setScreen(ScreenData.LOG_IN);
-          } else {
-            mounted.current && setScreen(ScreenData.INTRO);
-          }
+          
+          mounted.current && setScreen(ScreenData.LOG_IN);
         }
       }
     } catch (error) {
@@ -142,7 +134,8 @@ export const OAuth = (props) => {
         message: `setupEnvironment: Error, ${error?.message}`,
         data: { error },
       });
-      mounted.current && setScreen(ScreenData.INTRO);
+
+      mounted.current && setScreen(ScreenData.LOG_IN);
 
       showAlert(
         localizations?.general_error_title,
@@ -215,26 +208,17 @@ export const OAuth = (props) => {
             payload,
           });
       } else {
-        goToScreen(ScreenData.INTRO);
+        if (navigator.canGoBack()) {
+          navigator.goBack();
+        } else {
+          navigator.goHome();
+        }
       }
     }
 
     switch (screen) {
       case ScreenData.LOADING: {
         return <LoadingScreen {...screenOptions} />;
-      }
-      case ScreenData.INTRO: {
-        return (
-          <IntroScreen
-            {...screenOptions}
-            screenStyles={styles}
-            screenLocalizations={localizations}
-            parentFocus={parentFocus}
-            focused={focused}
-            forceFocus={forceFocus}
-            onSignedIn={onSignedIn}
-          />
-        );
       }
       case ScreenData.LOG_OUT: {
         return (

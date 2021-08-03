@@ -94,7 +94,7 @@ const LogoutScreen = (props) => {
       const accessToken = await storageGet(AuthDataKeys.access_token);
       await pleaseLogOut(configuration, accessToken);
       await removeDataFromStorages();
-      goToScreen(ScreenData.INTRO);
+      goToScreen(ScreenData.LOG_IN);
       logger.debug({
         message: "handleSignOut: Sign out complete",
       });
