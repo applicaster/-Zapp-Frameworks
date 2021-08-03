@@ -10,8 +10,8 @@ export const Inplayer: LoginKeysDataModel = {
 
 export const Cleeng: LoginKeysDataModel = {
   title: "Cleeng",
-  tokenKey: "inplayer_token",
-  namespace: "quick-brick-inplayer",
+  tokenKey: "in_player_token", // Yes, it is correct, mistake on the plugin level
+  namespace: "zapp-cleeng-login",
 };
 
 export const AdobePrimetime: LoginKeysDataModel = {
@@ -22,6 +22,23 @@ export const AdobePrimetime: LoginKeysDataModel = {
 
 export const Oauth2: LoginKeysDataModel = {
   title: "Oauth2",
-  tokenKey: "inplayer_token",
-  namespace: "quick-brick-inplayer",
+  tokenKey: "access_token",
+  namespace: "cognito-webview-login",
+};
+
+export const Dummy1: LoginKeysDataModel = {
+  title: "Dummy1",
+  tokenKey: "access_token",
+  namespace: "quick-brick-user-account-ui-component-dummy-1",
+  userIdKey: "user_id",
+};
+
+export const Dummy2: LoginKeysDataModel = {
+  title: "Dummy2",
+  tokenKey: "access_token",
+  namespace: "quick-brick-user-account-ui-component-dummy-2",
+  userIdKey: "user_id",
+  subscriptionPriceKey: "price_key",
+  subscriptionRenewsDateKey: "renew_date_key",
+  userPhotoUrlKey: null,
 };

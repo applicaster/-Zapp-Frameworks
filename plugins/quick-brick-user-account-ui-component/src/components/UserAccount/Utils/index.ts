@@ -1,54 +1,21 @@
 const buttonKey = "button";
 const labelKey = "info_label";
 
-export function styleForLogin1Button(styles: GeneralStyles): ButtonStyles {
-  return getStylesForButton(styles, `${buttonKey}_1_`);
-}
-
-export function styleForLogin2Button(styles: GeneralStyles): ButtonStyles {
-  return getStylesForButton(styles, `${buttonKey}_2_`);
-}
-
-export function styleForLogoutButton(styles: GeneralStyles): ButtonStyles {
-  return getStylesForButton(styles, `${buttonKey}_logout_`);
-}
-
-function getStylesForButton(styles: Styles, key: string): ButtonStyles {
-  return {
-    containerStyle: {
-      background_underlay_color: styles[`${key}background_underlay_color`],
-      background_color: styles[`${key}background_color`],
-      radius: styles[`${key}radius`],
-      border: styles[`${key}border`],
-      border_color: styles[`${key}border_color`],
-      border_underlay: styles[`${key}border_underlay`],
-      border_underlay_color: styles[`${key}border_underlay_color`],
-    },
-    labelStyles: {
-      title_underlay_color: styles[`${key}title_underlay_color`],
-      title_color: styles[`${key}title_color`],
-      title_text_fontsize: styles[`${key}title_text_fontsize`],
-      title_text_font_ios: styles[`${key}title_text_font_ios`],
-      title_text_font_android: styles[`${key}title_text_font_android`],
-    },
-  };
-}
-
-export function getStylesForTitleLabel(styles: Styles): LabelStyles {
-  return getStylesForLabele(styles, `${labelKey}_`);
-}
-
-export function getStylesForDescriptionLabel(styles: Styles): LabelStyles {
-  return getStylesForLabele(styles, `${labelKey}_description_`);
-}
-
-function getStylesForLabele(styles: Styles, key: string): LabelStyles {
+function getStylesForLabel(styles: Styles, key: string): LabelStyles {
   return {
     title_color: styles[`${key}title_color`],
     title_text_fontsize: styles[`${key}title_text_fontsize`],
     title_text_font_ios: styles[`${key}title_text_font_ios`],
     title_text_font_android: styles[`${key}title_text_font_android`],
   };
+}
+
+export function getStylesForTitleLabel(styles: Styles): LabelStyles {
+  return getStylesForLabel(styles, `${labelKey}_`);
+}
+
+export function getStylesForDescriptionLabel(styles: Styles): LabelStyles {
+  return getStylesForLabel(styles, `${labelKey}_description_`);
 }
 
 export function getSubscriptionData(
@@ -61,5 +28,6 @@ export function getSubscriptionData(
   if (!subscriptionPrice && !subscriptionRenewsDate) {
     return null;
   }
+
   return `${subscriptionPrice} ${subscription_expiration_title} ${subscriptionRenewsDate}`;
 }

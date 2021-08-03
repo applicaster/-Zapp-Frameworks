@@ -13,17 +13,11 @@ type Props = {
     subscription_expiration_title: string;
     logout_title_text: string;
   };
-  styles: {
-    logoutButtonStyles: ButtonStyles;
-    labelStyles: {
-      title_style: LabelStyles;
-      description_style: LabelStyles;
-    };
-  };
+  styles: GeneralStyles;
   src: string;
 };
 
-const componentStyles = StyleSheet.create({
+const componentStyles = {
   container: {
     flex: 1,
     alignItems: "center",
@@ -36,15 +30,14 @@ const componentStyles = StyleSheet.create({
     paddingLeft: 17,
     paddingTop: 35,
   },
-});
+};
 
 export function AccountInfo(props: Props) {
-  const logoutButtonId = "logout";
+  const logoutButtonId = "button_logout";
 
   const titles = props?.titles;
-  const logoutButtonStyles = props?.styles?.logoutButtonStyles;
+  const styles = props?.styles;
 
-  const labelStyles = props?.styles?.labelStyles;
   const accountDataTitles = {
     title_text: titles?.account_title,
     description_text: titles?.user_name_title,
@@ -54,21 +47,29 @@ export function AccountInfo(props: Props) {
     title_text: titles?.subscription_title,
     description_text: titles?.subscription_expiration_title,
   };
+
+  const containuerStyle: any = componentStyles.container;
+  const userPhotoContainerStyle = { alignSelf: "start" };
+
   return (
-    <View style={componentStyles.container}>
-      <UserPhoto imageSrc={props?.user_image_placeholder} />
+    <View style={containuerStyle}>
+      <UserPhoto
+        styles={styles}
+        containerStyle={userPhotoContainerStyle}
+        imageSrc={props?.user_image_placeholder}
+      />
       <View style={componentStyles.infoViewsContainer}>
         {accountDataTitles.description_text && (
-          <InfoView styles={labelStyles} titles={accountDataTitles} />
+          <InfoView styles={styles} titles={accountDataTitles} />
         )}
         {subscriptionDataTitles.description_text && (
-          <InfoView styles={labelStyles} titles={subscriptionDataTitles} />
+          <InfoView styles={styles} titles={subscriptionDataTitles} />
         )}
         <LogoutButton
-          src={props?.src}
+          styleKey={logoutButtonId}
           onPress={props?.onLogoutPress}
           titleText={titles.logout_title_text}
-          styles={logoutButtonStyles}
+          styles={styles}
           id={logoutButtonId}
         />
       </View>

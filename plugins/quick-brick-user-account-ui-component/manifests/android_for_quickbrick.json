@@ -13,12 +13,8 @@
   "whitelisted_account_ids": [],
   "deprecated_since_zapp_sdk": "",
   "unsupported_since_zapp_sdk": "",
-  "targets": [
-    "mobile"
-  ],
-  "ui_frameworks": [
-    "quickbrick"
-  ],
+  "targets": ["mobile"],
+  "ui_frameworks": ["quickbrick"],
   "preload": true,
   "custom_configuration_fields": [],
   "platform": "android_for_quickbrick",
@@ -28,7 +24,7 @@
   "styles": {
     "fields": [
       {
-        "key": "custom_padding_top",
+        "key": "custom_margin_top",
         "type": "number_input",
         "label_tooltip": "Padding top for component UI",
         "initial_value": 0
@@ -96,9 +92,7 @@
             "placeholder": "Custom plugin namespace",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_1_login_type"
               }
             ]
@@ -111,9 +105,7 @@
             "placeholder": "Custom plugin token key",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_1_login_type"
               }
             ]
@@ -126,9 +118,7 @@
             "placeholder": "Custom user id key",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_1_login_type"
               }
             ]
@@ -141,9 +131,7 @@
             "placeholder": "Custom user id key",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_1_login_type"
               }
             ]
@@ -156,9 +144,7 @@
             "placeholder": "Custom user id key",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_1_login_type"
               }
             ]
@@ -171,9 +157,7 @@
             "placeholder": "Custom user id key",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_1_login_type"
               }
             ]
@@ -269,9 +253,7 @@
         "folded": true,
         "conditional_fields": [
           {
-            "condition_value": [
-              false
-            ],
+            "condition_value": [false],
             "key": "styles/login_button_2_enabled"
           }
         ],
@@ -320,9 +302,7 @@
             "placeholder": "Custom plugin namespace",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_2_login_type"
               }
             ]
@@ -335,9 +315,7 @@
             "placeholder": "Custom plugin namespace",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_2_login_type"
               }
             ]
@@ -350,9 +328,7 @@
             "placeholder": "Custom plugin token key",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_2_login_type"
               }
             ]
@@ -365,9 +341,7 @@
             "placeholder": "Custom user id key",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_2_login_type"
               }
             ]
@@ -380,9 +354,7 @@
             "placeholder": "Custom user id key",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_2_login_type"
               }
             ]
@@ -395,9 +367,7 @@
             "placeholder": "Custom user id key",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_2_login_type"
               }
             ]
@@ -410,9 +380,7 @@
             "placeholder": "Custom user id key",
             "conditional_fields": [
               {
-                "condition_value": [
-                  "other"
-                ],
+                "condition_value": ["other"],
                 "key": "styles/button_2_login_type"
               }
             ]
