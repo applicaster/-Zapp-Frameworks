@@ -16,10 +16,7 @@
   "requires_arc": true,
   "static_framework": true,
   "public_header_files": "ZappAnalyticsPluginFirebase/*.h",
-  "source_files": [
-    "ios/**/*.{swift}",
-    "\"${PODS_ROOT}\"/Firebase/**/*.{h}"
-  ],
+  "source_files": ["ios/**/*.{swift}", "\"${PODS_ROOT}\"/Firebase/**/*.{h}"],
   "xcconfig": {
     "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
     "FRAMEWORK_SEARCH_PATHS": "$(inherited) \"${PODS_ROOT}\"/Firebase/**",
