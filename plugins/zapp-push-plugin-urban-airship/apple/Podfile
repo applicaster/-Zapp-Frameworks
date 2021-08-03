@@ -20,6 +20,8 @@ target 'FrameworksApp' do
   use_frameworks!
 
   pod 'ZappPushPluginUrbanAirship', path: './ZappPushPluginUrbanAirship.podspec', testspecs: ['UnitTests']
+  pod 'ZappPushPluginsSDK', path: '../../zapp-push-plugins/apple/ZappPushPluginsSDK.podspec'
+  pod 'ZappPlugins', :git => 'https://github.com/applicaster/ZappPlugins.2.0-iOS', :tag => '12.0.0'
   pod 'ZappCore', path: '../../zapp-core/apple/ZappCore.podspec'
   pod 'XrayLogger', :path => '../../../node_modules/@applicaster/x-ray/apple/XrayLogger.podspec'
 
