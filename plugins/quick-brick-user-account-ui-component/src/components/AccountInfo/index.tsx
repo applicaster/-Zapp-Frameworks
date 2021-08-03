@@ -49,10 +49,15 @@ export function AccountInfo(props: Props) {
   };
 
   const containuerStyle: any = componentStyles.container;
+  const userPhotoContainerStyle = { alignSelf: "start" };
 
   return (
     <View style={containuerStyle}>
-      <UserPhoto styles={styles} imageSrc={props?.user_image_placeholder} />
+      <UserPhoto
+        styles={styles}
+        containerStyle={userPhotoContainerStyle}
+        imageSrc={props?.user_image_placeholder}
+      />
       <View style={componentStyles.infoViewsContainer}>
         {accountDataTitles.description_text && (
           <InfoView styles={styles} titles={accountDataTitles} />
