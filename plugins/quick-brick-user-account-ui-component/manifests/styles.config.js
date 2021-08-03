@@ -4,7 +4,8 @@ const mobile = [
   {
     key: "custom_margin_top",
     type: "number_input",
-    label_tooltip: " Top Padding top for component",
+    label: "Top Padding",
+    label_tooltip: "Top padding top for component",
     initial_value: 0,
   },
   {
@@ -16,6 +17,7 @@ const mobile = [
   {
     key: "user_image_bottom_margin",
     type: "number_input",
+    label: "Bottom Margin"
     label_tooltip: "Bottom margin for user image",
     initial_value: 23,
   },
@@ -140,43 +142,43 @@ const mobile = [
       {
         key: "button_1_width",
         type: "number_input",
-        label_tooltip: "Button width",
+        label: "Button Width",
         initial_value: 239,
       },
       {
         key: "button_1_bottom_margin",
         type: "number_input",
-        label_tooltip: "Button bottom margin",
+        label: "Button Bottom Margin",
         initial_value: 12,
       },
       {
         key: "button_1_radius",
         type: "number_input",
-        label_tooltip: "Button radius",
+        label: "Button Radius",
         initial_value: 16,
       },
       {
         key: "button_1_border",
         type: "number_input",
-        label_tooltip: "Button border",
+        label: "Button Border",
         initial_value: 0,
       },
       {
         key: "button_1_border_color",
         type: "color_picker_rgba",
-        label_tooltip: "Button border color",
+        label: "Button Border Color",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_1_border_color_focused",
         type: "color_picker_rgba",
-        label_tooltip: "Button border focused",
+        label: "Button Border Focused",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_1_background_color",
         type: "color_picker_rgba",
-        label: "Component Background Color",
+        label: "Background Color",
         label_tooltip: "Background color for the toggle component",
         initial_value: "rgba(255,255,255,1)",
       },
@@ -204,18 +206,21 @@ const mobile = [
       {
         key: "button_1_title_text_font_android",
         type: "android_font_selector",
+        label: "Title Font Android"
         label_tooltip: "Toggle title font family for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_1_title_text_font_ios",
         type: "ios_font_selector",
+        label: "Title Font iOS"
         label_tooltip: " Toggle title font family for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_1_title_text_fontsize",
         type: "number_input",
+        label: "Font size"
         label_tooltip: "Font size toggle title",
         initial_value: 12,
       },
@@ -360,37 +365,37 @@ const mobile = [
       {
         key: "button_2_width",
         type: "number_input",
-        label_tooltip: "Button Width",
+        label: "Button Width",
         initial_value: 239,
       },
       {
         key: "button_2_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom margin",
+        label: "Button Bottom Margin",
         initial_value: 12,
       },
       {
         key: "button_2_radius",
         type: "number_input",
-        label_tooltip: "Component button radius",
+        label: "Button Radius",
         initial_value: 16,
       },
       {
         key: "button_2_border",
         type: "number_input",
-        label_tooltip: "Button Border",
+        label: "Button Border",
         initial_value: 1,
       },
       {
         key: "button_2_border_color",
         type: "color_picker_rgba",
-        label_tooltip: "Button border color",
+        label: "Button Border Color",
         initial_value: "rgba(255,255,255,1)",
       },
       {
         key: "button_2_border_color_focused",
         type: "color_picker_rgba",
-        label_tooltip: "Button border focused color",
+        label: "Button Border Focused Color",
         initial_value: "rgba(255,255,255,1)",
       },
       {
@@ -418,24 +423,27 @@ const mobile = [
         key: "button_2_title_color_focused",
         type: "color_picker_rgba",
         label: "Title Focused Color",
-        label_tooltip: "Title focused Color for the toggle component",
+        label_tooltip: "Title focused color for the toggle component",
         initial_value: "#161b29FF",
       },
       {
         key: "button_2_title_text_font_android",
         type: "android_font_selector",
+        label: "Title Font Android"
         label_tooltip: "Font for the toggle title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_2_title_text_font_ios",
         type: "ios_font_selector",
+        label: "Title Font iOS"
         label_tooltip: "Font for the toggle title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_2_title_text_fontsize",
         type: "number_input",
+        label: "Font Size"
         label_tooltip: "Font size toggle title",
         initial_value: 12,
       },
@@ -444,7 +452,7 @@ const mobile = [
   {
     group: true,
     label: "Info View Styles",
-    tooltip: "These fields affect inormation views",
+    tooltip: "These fields affect information views",
     folded: true,
     fields: [
       {
@@ -457,24 +465,28 @@ const mobile = [
       {
         key: "info_label_title_text_font_android",
         type: "android_font_selector",
+        label: "Title Font Android"
         label_tooltip: "Font family for the toggle component's title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "info_label_title_text_font_ios",
         type: "ios_font_selector",
+        label: "Tille Font iOS"
         label_tooltip: "Font family for the toggle component's title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "info_label_title_text_fontsize",
         type: "number_input",
+        label: "Font Size"
         label_tooltip: "Font size for the toggle component's title",
         initial_value: "16",
       },
       {
         key: "info_label_bottom_margin",
         type: "number_input",
+        label: "Button Bottom Margin"
         label_tooltip: "Bottom margin for the component's button",
         initial_value: 5,
       },
@@ -488,25 +500,28 @@ const mobile = [
       {
         key: "info_label_description_title_text_font_android",
         type: "android_font_selector",
+        label: "Title Font Android"
         label_tooltip: "Font for the toggle title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "info_label_description_title_text_font_ios",
         type: "ios_font_selector",
+        label: "Title Font iOS"
         label_tooltip: "Font for the toggle title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "info_label_description_title_text_fontsize",
         type: "number_input",
+        label: "Font Size"
         label_tooltip: "Font size toggle title",
         initial_value: 12,
       },
       {
         key: "info_label_description_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom margin",
+        label: "Button Bottom Margin",
         initial_value: 5,
       },
     ],
@@ -532,37 +547,37 @@ const mobile = [
       {
         key: "button_logout_width",
         type: "number_input",
-        label_tooltip: "Component button width",
+        label: "Button Width",
         initial_value: 99,
       },
       {
         key: "button_logout_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom margin",
+        label: "Button Bottom Margin",
         initial_value: 12,
       },
       {
         key: "button_logout_radius",
         type: "number_input",
-        label_tooltip: "Component button radius",
+        label: "Button Radius",
         initial_value: 13,
       },
       {
         key: "button_logout_border",
         type: "number_input",
-        label_tooltip: "Button border",
+        label: "Button Border",
         initial_value: 1,
       },
       {
         key: "button_logout_border_color",
         type: "color_picker_rgba",
-        label_tooltip: "Button border color",
+        label: "Button Border Color",
         initial_value: "#979797ff",
       },
       {
         key: "button_logout_border_color_focused",
         type: "color_picker_rgba",
-        label_tooltip: "Button border focused color",
+        label: "Button Border Focused Color",
         initial_value: "rgba(255,255,255,1)",
       },
       {
@@ -596,18 +611,21 @@ const mobile = [
       {
         key: "button_logout_title_text_font_android",
         type: "android_font_selector",
+        label: "Title Font Android"
         label_tooltip: "Font for the toggle title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_title_text_font_ios",
         type: "ios_font_selector",
+        label: "Title Font iOS"
         label_tooltip: "Font for the toggle title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_title_text_fontsize",
         type: "number_input",
+        label: "Font Size"
         label_tooltip: "Font size toggle title",
         initial_value: 10,
       },
@@ -628,43 +646,43 @@ const mobile = [
       {
         key: "button_logout_big_background_image_focused",
         type: "uploader",
-        label: "Button Fcocused Background Image",
+        label: "Button Focused Background Image",
         placeholder: "Upload a file",
       },
       {
         key: "button_logout_big_width",
         type: "number_input",
-        label_tooltip: "Component button width",
+        label: "Button Width",
         initial_value: 239,
       },
       {
         key: "button_logout_big_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom margin",
+        label: "Button Bottom Margin",
         initial_value: 12,
       },
       {
         key: "button_logout_big_radius",
         type: "number_input",
-        label_tooltip: "Component button radius",
+        label: "Button Radius",
         initial_value: 13,
       },
       {
         key: "button_logout_big_border",
         type: "number_input",
-        label_tooltip: "Button border",
+        label: "Button Border",
         initial_value: 1,
       },
       {
         key: "button_logout_big_border_color",
         type: "color_picker_rgba",
-        label_tooltip: "Button border color",
+        label: "Button Border Color",
         initial_value: "#979797ff",
       },
       {
         key: "button_logout_big_border_color_focused",
         type: "color_picker_rgba",
-        label_tooltip: "Button border focused color",
+        label: "Button Border Focused Color",
         initial_value: "rgba(255,255,255,1)",
       },
       {
@@ -698,18 +716,21 @@ const mobile = [
       {
         key: "button_logout_big_title_text_font_android",
         type: "android_font_selector",
+        label: "Title Font Android"
         label_tooltip: "Font for the toggle title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_big_title_text_font_ios",
         type: "ios_font_selector",
+        label: "Title Font iOS"
         label_tooltip: "Font for the toggle title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_big_title_text_fontsize",
         type: "number_input",
+        label: "Font Size"
         label_tooltip: "Font size toggle title",
         initial_value: "12",
       },
@@ -745,19 +766,21 @@ const tv = [
   {
     key: "custom_margin_top",
     type: "number_input",
+    label: "Padding"
     label_tooltip: "Padding top for component UI",
     initial_value: 100,
   },
   {
     key: "user_image_placeholder",
     type: "uploader",
-    label: "Placeholder for the user image",
+    label: "User Image Placeholder",
     placeholder: "Upload a file",
   },
   {
     key: "user_image_bottom_margin",
     type: "number_input",
-    label_tooltip: "User image margin buttom",
+    label: "User Image Bottom Margin"
+    label_tooltip: "User image margin bottom",
     initial_value: 35,
   },
   {
@@ -881,37 +904,37 @@ const tv = [
       {
         key: "button_1_width",
         type: "number_input",
-        label_tooltip: "Component button width",
+        label: "Button Width",
         initial_value: 544,
       },
       {
         key: "button_1_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom margin",
+        label: "Button Bottom Margin",
         initial_value: 27,
       },
       {
         key: "button_1_radius",
         type: "number_input",
-        label_tooltip: "Component button radius",
+        label: "Button Radius",
         initial_value: 16,
       },
       {
         key: "button_1_border",
         type: "number_input",
-        label_tooltip: "Button border",
+        label: "Button Border",
         initial_value: 0,
       },
       {
         key: "button_1_border_color",
         type: "color_picker_rgba",
-        label_tooltip: "Button border color",
+        label: "Button Border Color",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_1_border_color_focused",
         type: "color_picker_rgba",
-        label_tooltip: "Button border focused",
+        label: "Button Border Focused",
         initial_value: "rgba(255,255,255,0)",
       },
       {
@@ -925,7 +948,7 @@ const tv = [
         key: "button_1_background_color_focused",
         type: "color_picker_rgba",
         label: "Background Focused Color",
-        label_tooltip: "Background focused Color for the toggle component",
+        label_tooltip: "Background focused color for the toggle component",
         initial_value: "rgba(255,255,255,1)",
       },
       {
@@ -945,30 +968,35 @@ const tv = [
       {
         key: "button_1_title_text_font_android_tv",
         type: "android_font_selector",
+        label: "Title Font Android"
         label_tooltip: "Font for the toggle title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_1_title_text_font_tvos",
         type: "tvos_font_selector",
+        label: "Title Font TVOS"
         label_tooltip: "Font for the toggle title for TVOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_1_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
+        label: "Title Font LG TV"
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_1_title_text_font_samsung_tv",
         type: "samsung_font_selector",
+        label: "Title Font Samsung TV"
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "button_1_title_text_fontsize",
         type: "number_input",
+        label: "Font Size"
         label_tooltip: "Font size toggle title",
         initial_value: 29,
       },
@@ -1113,37 +1141,37 @@ const tv = [
       {
         key: "button_2_width",
         type: "number_input",
-        label_tooltip: "Component button width",
+        label: "Button Width",
         initial_value: 544,
       },
       {
         key: "button_2_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom margin",
+        label: "Button Bottom Margin",
         initial_value: 27,
       },
       {
         key: "button_2_radius",
         type: "number_input",
-        label_tooltip: "Component button radius",
+        label: "Button Radius",
         initial_value: 16,
       },
       {
         key: "button_2_border",
         type: "number_input",
-        label_tooltip: "Button border",
+        label: "Button Border",
         initial_value: 1,
       },
       {
         key: "button_2_border_color",
         type: "color_picker_rgba",
-        label_tooltip: "Button border color",
+        label: "Button Border Color",
         initial_value: "rgba(255,255,255,1)",
       },
       {
         key: "button_2_border_color_focused",
         type: "color_picker_rgba",
-        label_tooltip: "Button border focused color",
+        label: "Button Border Focused Color",
         initial_value: "rgba(255,255,255,1)",
       },
       {
@@ -1170,37 +1198,42 @@ const tv = [
       {
         key: "button_2_title_color_focused",
         type: "color_picker_rgba",
-        label: "Title focused Color",
+        label: "Title Focused Color",
         label_tooltip: "Title focused color for the toggle component",
         initial_value: "#161b29FF",
       },
       {
         key: "button_2_title_text_font_android_tv",
         type: "android_font_selector",
+        label: "Title Font Android"
         label_tooltip: "Font for the toggle title for Android TV",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_2_title_text_font_tvos",
         type: "tvos_font_selector",
+        label: "Title Font iOS"
         label_tooltip: "Font for the toggle title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_2_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
+        label: "Title Font LG TV"
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_2_title_text_font_samsung_tv",
         type: "samsung_font_selector",
+        label: "Title Font Samsung TV"
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "button_2_title_text_fontsize",
         type: "number_input",
+        label: "Font Size"
         label_tooltip: "Font size toggle title",
         initial_value: 29,
       },
@@ -1209,7 +1242,7 @@ const tv = [
   {
     group: true,
     label: "Info View Styles",
-    tooltip: "These fields affect inormation views",
+    tooltip: "These fields affect information views",
     folded: true,
     fields: [
       {
@@ -1222,37 +1255,42 @@ const tv = [
       {
         key: "info_label_title_text_font_android_tv",
         type: "android_font_selector",
+        label: "Title Font Android TV"
         label_tooltip: "Font for the toggle title for Android TV",
         initial_value: "Roboto-Bold",
       },
       {
         key: "info_label_title_text_font_ios",
         type: "tvos_font_selector",
+        label: "Title Font TVOS"
         label_tooltip: "Font for the toggle title for TVOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "info_label_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
+        label: "Title Font LG TV"
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "info_label_title_text_font_samsung_tv",
         type: "samsung_font_selector",
+        label: "Title Font Samsung TV"
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "info_label_title_text_fontsize",
         type: "number_input",
+        label: "Font Size"
         label_tooltip: "Font size for toggle title",
         initial_value: 40,
       },
       {
         key: "info_label_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom margin",
+        label: "Button Bottom Margin",
         initial_value: 24,
       },
       {
@@ -1265,37 +1303,42 @@ const tv = [
       {
         key: "info_label_description_title_text_font_android_tv",
         type: "android_font_selector",
+        label: "Title Font Android TV"
         label_tooltip: "Font for the toggle title for Android TV",
         initial_value: "Roboto-Bold",
       },
       {
         key: "info_label_description_title_text_font_tvos",
         type: "tvos_font_selector",
+        label: "Title Font TVOS"
         label_tooltip: "Font for the toggle title for TVOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "info_label_description_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
+        label: "Title Font LG TV"
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "info_label_description_title_text_font_samsung_tv",
         type: "samsung_font_selector",
+        label: "Title Font Samsung TV"
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "info_label_description_title_text_fontsize",
         type: "number_input",
+        label: "Font Size"
         label_tooltip: "Font size toggle title",
         initial_value: 35,
       },
       {
         key: "info_label_description_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom margin",
+        label: "Button Bottom Margin",
         initial_value: 24,
       },
     ],
@@ -1315,43 +1358,43 @@ const tv = [
       {
         key: "button_logout_background_image_focused",
         type: "uploader",
-        label: "Button Focuse Background Image",
+        label: "Button Focused Background Image",
         placeholder: "Upload a file",
       },
       {
         key: "button_logout_width",
         type: "number_input",
-        label_tooltip: "Component button width",
+        label: "Button Width",
         initial_value: 250,
       },
       {
         key: "button_logout_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom margin",
+        label: "Button Bottom Margin",
         initial_value: 27,
       },
       {
         key: "button_logout_radius",
         type: "number_input",
-        label_tooltip: "Component button radius",
+        label: "Button Radius",
         initial_value: 13,
       },
       {
         key: "button_logout_border",
         type: "number_input",
-        label_tooltip: "Button border",
+        label: "Button Border",
         initial_value: 1,
       },
       {
         key: "button_logout_border_color",
         type: "color_picker_rgba",
-        label_tooltip: "Button border color",
+        label: "Button Border Color",
         initial_value: "#979797ff",
       },
       {
         key: "button_logout_border_color_focused",
         type: "color_picker_rgba",
-        label_tooltip: "Button border focused color",
+        label: "Button Border Focused Color",
         initial_value: "rgba(255,255,255,1)",
       },
       {
@@ -1385,30 +1428,35 @@ const tv = [
       {
         key: "button_logout_title_text_font_android_tv",
         type: "android_font_selector",
+        label: "Title Font Android TV"
         label_tooltip: "Font for the toggle title for Android TV",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_title_text_font_tvos",
         type: "tvos_font_selector",
+        label: "Title Font TVOS"
         label_tooltip: "Font for the toggle title for TVOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
+        label: "Title Font LG TV"
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_logout_title_text_font_samsung_tv",
         type: "samsung_font_selector",
+        label: "Title Font Samsung TV"
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "button_logout_title_text_fontsize",
         type: "number_input",
+        label: "Font Size"
         label_tooltip: "Font size toggle title",
         initial_value: 20,
       },
@@ -1435,37 +1483,37 @@ const tv = [
       {
         key: "button_logout_big_radius",
         type: "number_input",
-        label_tooltip: "Component button radius",
+        label: "Button Radius",
         initial_value: 13,
       },
       {
         key: "button_logout_big_width",
         type: "number_input",
-        label_tooltip: "Component button width",
+        label: "Button Width",
         initial_value: 544,
       },
       {
         key: "button_logout_big_bottom_margin",
         type: "number_input",
-        label_tooltip: "Component button bottom margin",
+        label: "Button Bottom Margin",
         initial_value: 27,
       },
       {
         key: "button_logout_big_border",
         type: "number_input",
-        label_tooltip: "Button Border",
+        label: "Button Border",
         initial_value: 1,
       },
       {
         key: "button_logout_big_border_color",
         type: "color_picker_rgba",
-        label_tooltip: "Button border color",
+        label: "Button Border Color",
         initial_value: "#979797ff",
       },
       {
         key: "button_logout_big_border_color_focused",
         type: "color_picker_rgba",
-        label_tooltip: "Button border focused color",
+        label: "Button Border Focused Color",
         initial_value: "rgba(255,255,255,1)",
       },
       {
@@ -1478,8 +1526,8 @@ const tv = [
       {
         key: "button_logout_big_background_color_focused",
         type: "color_picker_rgba",
-        label: "Background focused color of the component",
-        label_tooltip: "Background focused Color for the toggle component",
+        label: "Background Focused Color",
+        label_tooltip: "Background focused color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
@@ -1493,36 +1541,41 @@ const tv = [
         key: "button_logout_big_title_color_focused",
         type: "color_picker_rgba",
         label: "Title Focused Color",
-        label_tooltip: "Title focused Color for the toggle component",
+        label_tooltip: "Title focused color for the toggle component",
         initial_value: "#979797FF",
       },
       {
         key: "button_logout_big_title_text_font_android_tv",
         type: "android_font_selector",
+        label: "Title Font Android TV"
         label_tooltip: "Font for the toggle title for Android TV",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_big_title_text_font_tvos",
         type: "tvos_font_selector",
+        label: "Title Font TVOS"
         label_tooltip: "Font for the toggle title for TVOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_big_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
+        label: "Title Font LG TV"
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_logout_big_title_text_font_samsung_tv",
         type: "samsung_font_selector",
+        label: "Title Font Samsung TV"
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "button_logout_big_title_text_fontsize",
         type: "number_input",
+        label: "Font Size"
         label_tooltip: "Font size toggle title",
         initial_value: 29,
       },
