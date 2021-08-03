@@ -22,8 +22,9 @@ extension GoogleInteractiveMediaAdsAdapter: IMAAdsLoaderDelegate {
         if let playerViewController = playerPlugin?.pluginPlayerViewController {
             // Create ads rendering settings and tell the SDK to use the in-app browser.
             let adsRenderingSettings = IMAAdsRenderingSettings()
-            adsRenderingSettings.webOpenerPresentingController = playerViewController
-
+            adsRenderingSettings.linkOpenerPresentingController = playerViewController
+            adsRenderingSettings.linkOpenerDelegate = self
+            
             // Initialize the ads manager.
             adsManager?.initialize(with: adsRenderingSettings)
         }
