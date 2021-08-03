@@ -14,43 +14,43 @@
   "deprecated_since_zapp_sdk": "",
   "unsupported_since_zapp_sdk": "",
   "targets": [
-    "mobile"
+    "tv"
   ],
   "ui_frameworks": [
     "quickbrick"
   ],
   "preload": true,
   "custom_configuration_fields": [],
-  "platform": "ios_for_quickbrick",
+  "platform": "samsung_tv",
   "dependency_version": "0.0.3",
   "manifest_version": "0.0.3",
-  "min_zapp_sdk": "4.1.0-Dev",
+  "min_zapp_sdk": "1.2.2",
   "styles": {
     "fields": [
       {
         "key": "custom_margin_top",
         "type": "number_input",
-        "label": "Top Padding",
-        "label_tooltip": "Top padding top for component",
-        "initial_value": 0
+        "label": "Padding",
+        "label_tooltip": "Padding top for component UI",
+        "initial_value": 100
       },
       {
         "key": "user_image_placeholder",
         "type": "uploader",
         "label": "User Image Placeholder",
-        "placeholder": "Upload an image"
+        "placeholder": "Upload a file"
       },
       {
         "key": "user_image_bottom_margin",
         "type": "number_input",
-        "label": "Bottom Margin",
-        "label_tooltip": "Bottom margin for user image",
-        "initial_value": 23
+        "label": "User Image Bottom Margin",
+        "label_tooltip": "User image margin bottom",
+        "initial_value": 35
       },
       {
         "group": true,
         "label": "Login Button 1 Styles",
-        "tooltip": "These fields affect Login 1 Button styles",
+        "tooltip": "These fields affect login 1 button styles",
         "folded": true,
         "fields": [
           {
@@ -136,7 +136,7 @@
             "key": "button_1_custom_user_id_key",
             "type": "text_input",
             "initial_value": "",
-            "label": "Custom User ID Key",
+            "label": "Custom user ID key",
             "placeholder": "Custom user ID key",
             "conditional_fields": [
               {
@@ -196,13 +196,13 @@
             "key": "button_1_width",
             "type": "number_input",
             "label": "Button Width",
-            "initial_value": 239
+            "initial_value": 544
           },
           {
             "key": "button_1_bottom_margin",
             "type": "number_input",
             "label": "Button Bottom Margin",
-            "initial_value": 12
+            "initial_value": 27
           },
           {
             "key": "button_1_radius",
@@ -257,25 +257,39 @@
             "initial_value": "#161b29FF"
           },
           {
-            "key": "button_1_title_text_font_android",
+            "key": "button_1_title_text_font_android_tv",
             "type": "android_font_selector",
             "label": "Title Font Android",
-            "label_tooltip": "Toggle title font family for Android",
+            "label_tooltip": "Font for the toggle title for Android",
             "initial_value": "Roboto-Bold"
           },
           {
-            "key": "button_1_title_text_font_ios",
-            "type": "ios_font_selector",
-            "label": "Title Font iOS",
-            "label_tooltip": " Toggle title font family for iOS",
+            "key": "button_1_title_text_font_tvos",
+            "type": "tvos_font_selector",
+            "label": "Title Font TVOS",
+            "label_tooltip": "Font for the toggle title for TVOS",
             "initial_value": "HelveticaNeue-Bold"
+          },
+          {
+            "key": "button_1_title_text_font_lg_tv",
+            "type": "lg_tv_font_selector",
+            "label": "Title Font LG TV",
+            "label_tooltip": "Font for the toggle title for LG TV",
+            "initial_value": "Museo-Bold"
+          },
+          {
+            "key": "button_1_title_text_font_samsung_tv",
+            "type": "samsung_font_selector",
+            "label": "Title Font Samsung TV",
+            "label_tooltip": "Font for the toggle title for Samsung TV",
+            "initial_value": "SamsungOneUI-Bold"
           },
           {
             "key": "button_1_title_text_fontsize",
             "type": "number_input",
-            "label": "Font size",
+            "label": "Font Size",
             "label_tooltip": "Font size toggle title",
-            "initial_value": 12
+            "initial_value": 29
           }
         ]
       },
@@ -338,7 +352,7 @@
           {
             "key": "button_2_background_image_focused",
             "type": "uploader",
-            "label": "Button Background Focused Image",
+            "label": "Button Focused Background Image",
             "placeholder": "Upload a file"
           },
           {
@@ -450,13 +464,13 @@
             "key": "button_2_width",
             "type": "number_input",
             "label": "Button Width",
-            "initial_value": 239
+            "initial_value": 544
           },
           {
             "key": "button_2_bottom_margin",
             "type": "number_input",
             "label": "Button Bottom Margin",
-            "initial_value": 12
+            "initial_value": 27
           },
           {
             "key": "button_2_radius",
@@ -492,7 +506,7 @@
           {
             "key": "button_2_background_color_focused",
             "type": "color_picker_rgba",
-            "label": "Background Focused Color",
+            "label": "Focused Background Color",
             "label_tooltip": "Background focused color for the toggle component",
             "initial_value": "rgba(255,255,255,0)"
           },
@@ -511,25 +525,39 @@
             "initial_value": "#161b29FF"
           },
           {
-            "key": "button_2_title_text_font_android",
+            "key": "button_2_title_text_font_android_tv",
             "type": "android_font_selector",
             "label": "Title Font Android",
-            "label_tooltip": "Font for the toggle title for Android",
+            "label_tooltip": "Font for the toggle title for Android TV",
             "initial_value": "Roboto-Bold"
           },
           {
-            "key": "button_2_title_text_font_ios",
-            "type": "ios_font_selector",
+            "key": "button_2_title_text_font_tvos",
+            "type": "tvos_font_selector",
             "label": "Title Font iOS",
             "label_tooltip": "Font for the toggle title for iOS",
             "initial_value": "HelveticaNeue-Bold"
+          },
+          {
+            "key": "button_2_title_text_font_lg_tv",
+            "type": "lg_tv_font_selector",
+            "label": "Title Font LG TV",
+            "label_tooltip": "Font for the toggle title for LG TV",
+            "initial_value": "Museo-Bold"
+          },
+          {
+            "key": "button_2_title_text_font_samsung_tv",
+            "type": "samsung_font_selector",
+            "label": "Title Font Samsung TV",
+            "label_tooltip": "Font for the toggle title for Samsung TV",
+            "initial_value": "SamsungOneUI-Bold"
           },
           {
             "key": "button_2_title_text_fontsize",
             "type": "number_input",
             "label": "Font Size",
             "label_tooltip": "Font size toggle title",
-            "initial_value": 12
+            "initial_value": 29
           }
         ]
       },
@@ -543,36 +571,49 @@
             "key": "info_label_title_color",
             "type": "color_picker_rgba",
             "label": "Title Color",
-            "label_tooltip": "Color for the toggle component's title",
+            "label_tooltip": "Title color for the toggle component",
             "initial_value": "#ffffffff"
           },
           {
-            "key": "info_label_title_text_font_android",
+            "key": "info_label_title_text_font_android_tv",
             "type": "android_font_selector",
-            "label": "Title Font Android",
-            "label_tooltip": "Font family for the toggle component's title for Android",
+            "label": "Title Font Android TV",
+            "label_tooltip": "Font for the toggle title for Android TV",
             "initial_value": "Roboto-Bold"
           },
           {
             "key": "info_label_title_text_font_ios",
-            "type": "ios_font_selector",
-            "label": "Tille Font iOS",
-            "label_tooltip": "Font family for the toggle component's title for iOS",
+            "type": "tvos_font_selector",
+            "label": "Title Font TVOS",
+            "label_tooltip": "Font for the toggle title for TVOS",
             "initial_value": "HelveticaNeue-Bold"
+          },
+          {
+            "key": "info_label_title_text_font_lg_tv",
+            "type": "lg_tv_font_selector",
+            "label": "Title Font LG TV",
+            "label_tooltip": "Font for the toggle title for LG TV",
+            "initial_value": "Museo-Bold"
+          },
+          {
+            "key": "info_label_title_text_font_samsung_tv",
+            "type": "samsung_font_selector",
+            "label": "Title Font Samsung TV",
+            "label_tooltip": "Font for the toggle title for Samsung TV",
+            "initial_value": "SamsungOneUI-Bold"
           },
           {
             "key": "info_label_title_text_fontsize",
             "type": "number_input",
             "label": "Font Size",
-            "label_tooltip": "Font size for the toggle component's title",
-            "initial_value": "16"
+            "label_tooltip": "Font size for toggle title",
+            "initial_value": 40
           },
           {
             "key": "info_label_bottom_margin",
             "type": "number_input",
             "label": "Button Bottom Margin",
-            "label_tooltip": "Bottom margin for the component's button",
-            "initial_value": 5
+            "initial_value": 24
           },
           {
             "key": "info_label_description_title_color",
@@ -582,31 +623,45 @@
             "initial_value": "#161b29B3"
           },
           {
-            "key": "info_label_description_title_text_font_android",
+            "key": "info_label_description_title_text_font_android_tv",
             "type": "android_font_selector",
-            "label": "Title Font Android",
-            "label_tooltip": "Font for the toggle title for Android",
+            "label": "Title Font Android TV",
+            "label_tooltip": "Font for the toggle title for Android TV",
             "initial_value": "Roboto-Bold"
           },
           {
-            "key": "info_label_description_title_text_font_ios",
-            "type": "ios_font_selector",
-            "label": "Title Font iOS",
-            "label_tooltip": "Font for the toggle title for iOS",
+            "key": "info_label_description_title_text_font_tvos",
+            "type": "tvos_font_selector",
+            "label": "Title Font TVOS",
+            "label_tooltip": "Font for the toggle title for TVOS",
             "initial_value": "HelveticaNeue-Bold"
+          },
+          {
+            "key": "info_label_description_title_text_font_lg_tv",
+            "type": "lg_tv_font_selector",
+            "label": "Title Font LG TV",
+            "label_tooltip": "Font for the toggle title for LG TV",
+            "initial_value": "Museo-Bold"
+          },
+          {
+            "key": "info_label_description_title_text_font_samsung_tv",
+            "type": "samsung_font_selector",
+            "label": "Title Font Samsung TV",
+            "label_tooltip": "Font for the toggle title for Samsung TV",
+            "initial_value": "SamsungOneUI-Bold"
           },
           {
             "key": "info_label_description_title_text_fontsize",
             "type": "number_input",
             "label": "Font Size",
             "label_tooltip": "Font size toggle title",
-            "initial_value": 12
+            "initial_value": 35
           },
           {
             "key": "info_label_description_bottom_margin",
             "type": "number_input",
             "label": "Button Bottom Margin",
-            "initial_value": 5
+            "initial_value": 24
           }
         ]
       },
@@ -632,13 +687,13 @@
             "key": "button_logout_width",
             "type": "number_input",
             "label": "Button Width",
-            "initial_value": 99
+            "initial_value": 250
           },
           {
             "key": "button_logout_bottom_margin",
             "type": "number_input",
             "label": "Button Bottom Margin",
-            "initial_value": 12
+            "initial_value": 27
           },
           {
             "key": "button_logout_radius",
@@ -693,25 +748,39 @@
             "initial_value": "#979797FF"
           },
           {
-            "key": "button_logout_title_text_font_android",
+            "key": "button_logout_title_text_font_android_tv",
             "type": "android_font_selector",
-            "label": "Title Font Android",
-            "label_tooltip": "Font for the toggle title for Android",
+            "label": "Title Font Android TV",
+            "label_tooltip": "Font for the toggle title for Android TV",
             "initial_value": "Roboto-Bold"
           },
           {
-            "key": "button_logout_title_text_font_ios",
-            "type": "ios_font_selector",
-            "label": "Title Font iOS",
-            "label_tooltip": "Font for the toggle title for iOS",
+            "key": "button_logout_title_text_font_tvos",
+            "type": "tvos_font_selector",
+            "label": "Title Font TVOS",
+            "label_tooltip": "Font for the toggle title for TVOS",
             "initial_value": "HelveticaNeue-Bold"
+          },
+          {
+            "key": "button_logout_title_text_font_lg_tv",
+            "type": "lg_tv_font_selector",
+            "label": "Title Font LG TV",
+            "label_tooltip": "Font for the toggle title for LG TV",
+            "initial_value": "Museo-Bold"
+          },
+          {
+            "key": "button_logout_title_text_font_samsung_tv",
+            "type": "samsung_font_selector",
+            "label": "Title Font Samsung TV",
+            "label_tooltip": "Font for the toggle title for Samsung TV",
+            "initial_value": "SamsungOneUI-Bold"
           },
           {
             "key": "button_logout_title_text_fontsize",
             "type": "number_input",
             "label": "Font Size",
             "label_tooltip": "Font size toggle title",
-            "initial_value": 10
+            "initial_value": 20
           }
         ]
       },
@@ -730,26 +799,26 @@
           {
             "key": "button_logout_big_background_image_focused",
             "type": "uploader",
-            "label": "Button Focused Background Image",
+            "label": "Button Focuserd Background Image",
             "placeholder": "Upload a file"
-          },
-          {
-            "key": "button_logout_big_width",
-            "type": "number_input",
-            "label": "Button Width",
-            "initial_value": 239
-          },
-          {
-            "key": "button_logout_big_bottom_margin",
-            "type": "number_input",
-            "label": "Button Bottom Margin",
-            "initial_value": 12
           },
           {
             "key": "button_logout_big_radius",
             "type": "number_input",
             "label": "Button Radius",
             "initial_value": 13
+          },
+          {
+            "key": "button_logout_big_width",
+            "type": "number_input",
+            "label": "Button Width",
+            "initial_value": 544
+          },
+          {
+            "key": "button_logout_big_bottom_margin",
+            "type": "number_input",
+            "label": "Button Bottom Margin",
+            "initial_value": 27
           },
           {
             "key": "button_logout_big_border",
@@ -798,25 +867,39 @@
             "initial_value": "#979797FF"
           },
           {
-            "key": "button_logout_big_title_text_font_android",
+            "key": "button_logout_big_title_text_font_android_tv",
             "type": "android_font_selector",
-            "label": "Title Font Android",
-            "label_tooltip": "Font for the toggle title for Android",
+            "label": "Title Font Android TV",
+            "label_tooltip": "Font for the toggle title for Android TV",
             "initial_value": "Roboto-Bold"
           },
           {
-            "key": "button_logout_big_title_text_font_ios",
-            "type": "ios_font_selector",
-            "label": "Title Font iOS",
-            "label_tooltip": "Font for the toggle title for iOS",
+            "key": "button_logout_big_title_text_font_tvos",
+            "type": "tvos_font_selector",
+            "label": "Title Font TVOS",
+            "label_tooltip": "Font for the toggle title for TVOS",
             "initial_value": "HelveticaNeue-Bold"
+          },
+          {
+            "key": "button_logout_big_title_text_font_lg_tv",
+            "type": "lg_tv_font_selector",
+            "label": "Title Font LG TV",
+            "label_tooltip": "Font for the toggle title for LG TV",
+            "initial_value": "Museo-Bold"
+          },
+          {
+            "key": "button_logout_big_title_text_font_samsung_tv",
+            "type": "samsung_font_selector",
+            "label": "Title Font Samsung TV",
+            "label_tooltip": "Font for the toggle title for Samsung TV",
+            "initial_value": "SamsungOneUI-Bold"
           },
           {
             "key": "button_logout_big_title_text_fontsize",
             "type": "number_input",
             "label": "Font Size",
             "label_tooltip": "Font size toggle title",
-            "initial_value": "12"
+            "initial_value": 29
           }
         ]
       },

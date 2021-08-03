@@ -21,10 +21,10 @@
   ],
   "preload": true,
   "custom_configuration_fields": [],
-  "platform": "ios_for_quickbrick",
+  "platform": "lg_tv",
   "dependency_version": "0.0.3",
   "manifest_version": "0.0.3",
-  "min_zapp_sdk": "4.1.0-Dev",
+  "min_zapp_sdk": "1.0.0",
   "styles": {
     "fields": [
       {
