@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.applicaster.util.APLogger;
 import com.applicaster.util.StringUtil;
 import com.applicaster.util.push.PushUtil;
 import com.urbanairship.actions.DeepLinkListener;
@@ -28,7 +29,7 @@ public class PluginAirshipReceiver implements PushListener, NotificationListener
     private final DeepLinkListener mDeepLinkListener = new DeepLinkListener() {
         @Override
         public boolean onDeepLink(@NonNull String s) {
-            Log.i(TAG, "Handling DeepLink: " + s);
+            APLogger.info(TAG, "Handling DeepLink: " + s);
             launchActivity(mContext.getApplicationContext(), Uri.parse(s));
             return true;
         }
@@ -40,43 +41,45 @@ public class PluginAirshipReceiver implements PushListener, NotificationListener
 
     @Override
     public void onChannelCreated(@NonNull String channelId) {
-        Log.i(TAG, "Channel created. Channel Id:" + channelId + ".");
+        APLogger.info(TAG, "Channel created. Channel Id:" + channelId + ".");
     }
 
     @Override
     public void onChannelUpdated(@NonNull String channelId) {
-        Log.i(TAG, "Channel updated. Channel Id:" + channelId + ".");
+        APLogger.info(TAG, "Channel updated. Channel Id:" + channelId + ".");
     }
 
     @Override
     public void onPushReceived(@NonNull PushMessage message, boolean notificationPosted) {
-        Log.i(TAG, "Received push message. Alert: " + message.getAlert() + ". posted notification: " + notificationPosted);
+        APLogger.info(TAG, "Received push message. Alert: " + message.getAlert() + ". posted notification: " + notificationPosted);
     }
 
     @Override
     public void onNotificationPosted(@NonNull NotificationInfo notificationInfo) {
-        Log.i(TAG, "Notification posted. Alert: " + notificationInfo.getMessage().getAlert() + ". NotificationId: " + notificationInfo.getNotificationId());
+        APLogger.info(TAG, "Notification posted. Alert: " + notificationInfo.getMessage().getAlert() + ". NotificationId: " + notificationInfo.getNotificationId());
     }
 
     @Override
     public boolean onNotificationOpened(@NonNull NotificationInfo notificationInfo) {
-        Log.i(TAG, "Notification opened. Alert: " + notificationInfo.getMessage().getAlert() + ". NotificationId: " + notificationInfo.getNotificationId());
+        APLogger.info(TAG, "Notification opened. Alert: " + notificationInfo.getMessage().getAlert() + ". NotificationId: " + notificationInfo.getNotificationId());
         PushMessage message = notificationInfo.getMessage();
         onTapAnalyticsEvent(message);
         return false;
     }
 
     @Override
-    public boolean onNotificationForegroundAction(@NonNull NotificationInfo notificationInfo, @NonNull NotificationActionButtonInfo notificationActionButtonInfo) {
+    public boolean onNotificationForegroundAction(@NonNull NotificationInfo notificationInfo,
+                                                  @NonNull NotificationActionButtonInfo notificationActionButtonInfo) {
         String buttonId = notificationActionButtonInfo.getButtonId();
-        Log.i(TAG, "Notification action button opened. Button ID: " + buttonId + ". NotificationId: " + notificationInfo.getNotificationId());
+        APLogger.info(TAG, "Notification action button opened. Button ID: " + buttonId + ". NotificationId: " + notificationInfo.getNotificationId());
         PushMessage message = notificationInfo.getMessage();
         onTapAnalyticsEvent(message);
         return false;
     }
 
     @Override
-    public void onNotificationBackgroundAction(@NonNull NotificationInfo notificationInfo, @NonNull NotificationActionButtonInfo notificationActionButtonInfo) {
+    public void onNotificationBackgroundAction(@NonNull NotificationInfo notificationInfo,
+                                               @NonNull NotificationActionButtonInfo notificationActionButtonInfo) {
         PushMessage message = notificationInfo.getMessage();
         onTapAnalyticsEvent(message);
     }
@@ -108,7 +111,7 @@ public class PluginAirshipReceiver implements PushListener, NotificationListener
 
     @Override
     public void onNotificationDismissed(@NonNull NotificationInfo notificationInfo) {
-        Log.i(TAG, "Notification dismissed. Alert: " + notificationInfo.getMessage().getAlert() + ". Notification ID: " + notificationInfo.getNotificationId());
+        APLogger.info(TAG, "Notification dismissed. Alert: " + notificationInfo.getMessage().getAlert() + ". Notification ID: " + notificationInfo.getNotificationId());
     }
 
     public DeepLinkListener getDeepLinkListener() {

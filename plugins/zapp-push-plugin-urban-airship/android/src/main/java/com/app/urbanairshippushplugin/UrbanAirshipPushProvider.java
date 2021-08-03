@@ -3,6 +3,7 @@ package com.app.urbanairshippushplugin;
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationManagerCompat;
@@ -103,6 +104,10 @@ public class UrbanAirshipPushProvider implements PushContract {
                 buildSoundLookup();
                 ensureChannels(uAirship.getPushManager().getNotificationChannelRegistry());
                 signForUrbanConnect();
+                String id = uAirship.getChannel().getId();
+                if(!TextUtils.isEmpty(id)) {
+                    APLogger.info(TAG, "Channel Id: " + id);
+                }
             }
         });
     }
