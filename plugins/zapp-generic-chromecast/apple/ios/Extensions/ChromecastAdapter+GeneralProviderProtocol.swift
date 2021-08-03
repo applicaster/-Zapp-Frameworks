@@ -22,12 +22,8 @@ extension ChromecastAdapter: GeneralProviderProtocol {
         updateManagerState(enabled: prepared,
                            initialized: true)
 
-        EventsBus.subscribe(self,
-                            type: EventsBusType(.reachabilityChanged),
-                            handler: { _ in
-                                self.updateConnectivityState()
-                            })
-
+        subscribeToEventsBus()
+        
         completion?(true)
     }
 

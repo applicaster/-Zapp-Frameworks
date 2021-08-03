@@ -87,8 +87,9 @@ public class DidomiCMP: NSObject, GeneralCmpProviderProtocol {
         }
 
         subscribeToEventListeners()
-        
 
+        FacadeConnector.connector?.connectivity?.setNeedsRestartAfterOffline()
+        
         completion?(true)
     }
 

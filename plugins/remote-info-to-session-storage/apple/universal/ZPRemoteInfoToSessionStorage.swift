@@ -99,6 +99,8 @@ import ZappCore
         if shouldWaitForCompletion == false {
             completion?(true)
         }
+        
+        FacadeConnector.connector?.connectivity?.setNeedsRestartAfterOffline()
     }
 
     lazy var shouldWaitForCompletion: Bool = {

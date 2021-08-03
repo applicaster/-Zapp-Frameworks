@@ -9,6 +9,6 @@
 import UserNotifications
 
 import AirshipExtensions
-class NotificationService: UNNotificationServiceExtension {
+class NotificationService: UANotificationServiceExtension {
 
 }

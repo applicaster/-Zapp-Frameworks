@@ -14,17 +14,16 @@ struct RootControllerError {
     static let canNotCreateInterfaceLayer = "Can not create Interface Layer"
 }
 
+struct RootControllerStorageKeys {
+    static let appInitialCompleteLoad = "app_initialy_loaded"
+    static let shouldRestartAfterOfflineStart = "should_restart_after_offline_start"
+}
+
 public class RootController: NSObject {
     lazy var logger = Logger.getLogger(for: RootControllerLogs.subsystem)
 
     public var appDelegate: AppDelegateProtocol?
     public var appReadyForUse: Bool = false
-
-    // Properties for managing connectivity listeners
-    lazy var connectivityListeners: NSMutableArray = []
-
-    var reachabilityManager: ReachabilityManager?
-    var currentConnection: ReachabilityState = .connected([.wifi])
 
     var loadingStateMachine: LoadingStateMachine!
     public var userInterfaceLayer: UserInterfaceLayerProtocol?
@@ -33,6 +32,8 @@ public class RootController: NSObject {
     public var pluginsManager = PluginsManager()
     public let audienceManager = TrackingManager()
     public let loggerAssistance = LoggerAssistanceManager()
+    let reachabilityManager = ReachabilityManager()
+
     var splashViewController: SplashViewController?
 
     public lazy var facadeConnector: FacadeConnector = {
@@ -41,7 +42,7 @@ public class RootController: NSObject {
 
     override public init() {
         super.init()
-        reachabilityManager = ReachabilityManager(delegate: self)
+        subscribeToEventsBus()
         logger?.debugLog(template: RootControllerLogs.rootControllerCreated)
     }
 
