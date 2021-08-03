@@ -180,30 +180,27 @@ function SignInScreen(props) {
   const getSignInStatus = useCallback(async () => {
     try {
       const data = await getDeviceToken(configuration, deviceData?.device_code);
-      if (data?.access_token) {
-        logger.debug({
-          message: `Get device token complete`,
-          data: {
-            data,
-            access_token: data?.access_token,
-            signInStatusAutoupdateTimeout,
-          },
-        });
-        setSignInStatusAutoupdate(false);
-        await saveDataToStorages(data);
 
-        if (props.isPrehook) {
-          onSignedIn();
-        } else {
-          props.goToScreen(ScreenData.LOG_OUT, true);
-        }
+      if (!data.access_token || data.error) {
+        throw new Error(data);
+      }
+
+      logger.debug({
+        message: `Get device token complete`,
+        data: {
+          data,
+          access_token: data?.access_token,
+          signInStatusAutoupdateTimeout,
+        },
+      });
+
+      setSignInStatusAutoupdate(false);
+      await saveDataToStorages(data);
+
+      if (props.isPrehook) {
+        onSignedIn();
       } else {
-        logger.debug({
-          message: `Get device token complete, access token not exists`,
-          data: {
-            data,
-          },
-        });
+        props.goToScreen(ScreenData.LOG_OUT, true);
       }
     } catch (error) {
       const data = {
@@ -212,6 +209,7 @@ function SignInScreen(props) {
         signInStatusAutoupdate,
         interval: deviceData?.interval * 1000,
       };
+      
       if (mounted.current && signInStatusAutoupdate) {
         if (signInStatusAutoupdateTimeout) {
           clearTimeout(signInStatusAutoupdateTimeout);
