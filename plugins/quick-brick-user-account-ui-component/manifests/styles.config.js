@@ -17,7 +17,7 @@ const mobile = [
   {
     key: "user_image_bottom_margin",
     type: "number_input",
-    label: "Bottom Margin"
+    label: "Bottom Margin",
     label_tooltip: "Bottom margin for user image",
     initial_value: 23,
   },
@@ -206,21 +206,21 @@ const mobile = [
       {
         key: "button_1_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android"
+        label: "Title Font Android",
         label_tooltip: "Toggle title font family for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_1_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Title Font iOS"
+        label: "Title Font iOS",
         label_tooltip: " Toggle title font family for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_1_title_text_fontsize",
         type: "number_input",
-        label: "Font size"
+        label: "Font size",
         label_tooltip: "Font size toggle title",
         initial_value: 12,
       },
@@ -429,21 +429,21 @@ const mobile = [
       {
         key: "button_2_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android"
+        label: "Title Font Android",
         label_tooltip: "Font for the toggle title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_2_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Title Font iOS"
+        label: "Title Font iOS",
         label_tooltip: "Font for the toggle title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_2_title_text_fontsize",
         type: "number_input",
-        label: "Font Size"
+        label: "Font Size",
         label_tooltip: "Font size toggle title",
         initial_value: 12,
       },
@@ -465,28 +465,29 @@ const mobile = [
       {
         key: "info_label_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android"
-        label_tooltip: "Font family for the toggle component's title for Android",
+        label: "Title Font Android",
+        label_tooltip:
+          "Font family for the toggle component's title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "info_label_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Tille Font iOS"
+        label: "Tille Font iOS",
         label_tooltip: "Font family for the toggle component's title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "info_label_title_text_fontsize",
         type: "number_input",
-        label: "Font Size"
+        label: "Font Size",
         label_tooltip: "Font size for the toggle component's title",
         initial_value: "16",
       },
       {
         key: "info_label_bottom_margin",
         type: "number_input",
-        label: "Button Bottom Margin"
+        label: "Button Bottom Margin",
         label_tooltip: "Bottom margin for the component's button",
         initial_value: 5,
       },
@@ -500,21 +501,21 @@ const mobile = [
       {
         key: "info_label_description_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android"
+        label: "Title Font Android",
         label_tooltip: "Font for the toggle title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "info_label_description_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Title Font iOS"
+        label: "Title Font iOS",
         label_tooltip: "Font for the toggle title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "info_label_description_title_text_fontsize",
         type: "number_input",
-        label: "Font Size"
+        label: "Font Size",
         label_tooltip: "Font size toggle title",
         initial_value: 12,
       },
@@ -611,21 +612,21 @@ const mobile = [
       {
         key: "button_logout_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android"
+        label: "Title Font Android",
         label_tooltip: "Font for the toggle title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Title Font iOS"
+        label: "Title Font iOS",
         label_tooltip: "Font for the toggle title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_title_text_fontsize",
         type: "number_input",
-        label: "Font Size"
+        label: "Font Size",
         label_tooltip: "Font size toggle title",
         initial_value: 10,
       },
@@ -716,21 +717,21 @@ const mobile = [
       {
         key: "button_logout_big_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android"
+        label: "Title Font Android",
         label_tooltip: "Font for the toggle title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_big_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Title Font iOS"
+        label: "Title Font iOS",
         label_tooltip: "Font for the toggle title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_big_title_text_fontsize",
         type: "number_input",
-        label: "Font Size"
+        label: "Font Size",
         label_tooltip: "Font size toggle title",
         initial_value: "12",
       },
@@ -766,7 +767,7 @@ const tv = [
   {
     key: "custom_margin_top",
     type: "number_input",
-    label: "Padding"
+    label: "Padding",
     label_tooltip: "Padding top for component UI",
     initial_value: 100,
   },
@@ -779,7 +780,7 @@ const tv = [
   {
     key: "user_image_bottom_margin",
     type: "number_input",
-    label: "User Image Bottom Margin"
+    label: "User Image Bottom Margin",
     label_tooltip: "User image margin bottom",
     initial_value: 35,
   },
@@ -968,35 +969,35 @@ const tv = [
       {
         key: "button_1_title_text_font_android_tv",
         type: "android_font_selector",
-        label: "Title Font Android"
+        label: "Title Font Android",
         label_tooltip: "Font for the toggle title for Android",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_1_title_text_font_tvos",
         type: "tvos_font_selector",
-        label: "Title Font TVOS"
+        label: "Title Font TVOS",
         label_tooltip: "Font for the toggle title for TVOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_1_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
-        label: "Title Font LG TV"
+        label: "Title Font LG TV",
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_1_title_text_font_samsung_tv",
         type: "samsung_font_selector",
-        label: "Title Font Samsung TV"
+        label: "Title Font Samsung TV",
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "button_1_title_text_fontsize",
         type: "number_input",
-        label: "Font Size"
+        label: "Font Size",
         label_tooltip: "Font size toggle title",
         initial_value: 29,
       },
@@ -1205,35 +1206,35 @@ const tv = [
       {
         key: "button_2_title_text_font_android_tv",
         type: "android_font_selector",
-        label: "Title Font Android"
+        label: "Title Font Android",
         label_tooltip: "Font for the toggle title for Android TV",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_2_title_text_font_tvos",
         type: "tvos_font_selector",
-        label: "Title Font iOS"
+        label: "Title Font iOS",
         label_tooltip: "Font for the toggle title for iOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_2_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
-        label: "Title Font LG TV"
+        label: "Title Font LG TV",
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_2_title_text_font_samsung_tv",
         type: "samsung_font_selector",
-        label: "Title Font Samsung TV"
+        label: "Title Font Samsung TV",
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "button_2_title_text_fontsize",
         type: "number_input",
-        label: "Font Size"
+        label: "Font Size",
         label_tooltip: "Font size toggle title",
         initial_value: 29,
       },
@@ -1255,35 +1256,35 @@ const tv = [
       {
         key: "info_label_title_text_font_android_tv",
         type: "android_font_selector",
-        label: "Title Font Android TV"
+        label: "Title Font Android TV",
         label_tooltip: "Font for the toggle title for Android TV",
         initial_value: "Roboto-Bold",
       },
       {
         key: "info_label_title_text_font_ios",
         type: "tvos_font_selector",
-        label: "Title Font TVOS"
+        label: "Title Font TVOS",
         label_tooltip: "Font for the toggle title for TVOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "info_label_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
-        label: "Title Font LG TV"
+        label: "Title Font LG TV",
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "info_label_title_text_font_samsung_tv",
         type: "samsung_font_selector",
-        label: "Title Font Samsung TV"
+        label: "Title Font Samsung TV",
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "info_label_title_text_fontsize",
         type: "number_input",
-        label: "Font Size"
+        label: "Font Size",
         label_tooltip: "Font size for toggle title",
         initial_value: 40,
       },
@@ -1303,35 +1304,35 @@ const tv = [
       {
         key: "info_label_description_title_text_font_android_tv",
         type: "android_font_selector",
-        label: "Title Font Android TV"
+        label: "Title Font Android TV",
         label_tooltip: "Font for the toggle title for Android TV",
         initial_value: "Roboto-Bold",
       },
       {
         key: "info_label_description_title_text_font_tvos",
         type: "tvos_font_selector",
-        label: "Title Font TVOS"
+        label: "Title Font TVOS",
         label_tooltip: "Font for the toggle title for TVOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "info_label_description_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
-        label: "Title Font LG TV"
+        label: "Title Font LG TV",
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "info_label_description_title_text_font_samsung_tv",
         type: "samsung_font_selector",
-        label: "Title Font Samsung TV"
+        label: "Title Font Samsung TV",
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "info_label_description_title_text_fontsize",
         type: "number_input",
-        label: "Font Size"
+        label: "Font Size",
         label_tooltip: "Font size toggle title",
         initial_value: 35,
       },
@@ -1428,35 +1429,35 @@ const tv = [
       {
         key: "button_logout_title_text_font_android_tv",
         type: "android_font_selector",
-        label: "Title Font Android TV"
+        label: "Title Font Android TV",
         label_tooltip: "Font for the toggle title for Android TV",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_title_text_font_tvos",
         type: "tvos_font_selector",
-        label: "Title Font TVOS"
+        label: "Title Font TVOS",
         label_tooltip: "Font for the toggle title for TVOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
-        label: "Title Font LG TV"
+        label: "Title Font LG TV",
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_logout_title_text_font_samsung_tv",
         type: "samsung_font_selector",
-        label: "Title Font Samsung TV"
+        label: "Title Font Samsung TV",
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "button_logout_title_text_fontsize",
         type: "number_input",
-        label: "Font Size"
+        label: "Font Size",
         label_tooltip: "Font size toggle title",
         initial_value: 20,
       },
@@ -1547,35 +1548,35 @@ const tv = [
       {
         key: "button_logout_big_title_text_font_android_tv",
         type: "android_font_selector",
-        label: "Title Font Android TV"
+        label: "Title Font Android TV",
         label_tooltip: "Font for the toggle title for Android TV",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_big_title_text_font_tvos",
         type: "tvos_font_selector",
-        label: "Title Font TVOS"
+        label: "Title Font TVOS",
         label_tooltip: "Font for the toggle title for TVOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_big_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
-        label: "Title Font LG TV"
+        label: "Title Font LG TV",
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_logout_big_title_text_font_samsung_tv",
         type: "samsung_font_selector",
-        label: "Title Font Samsung TV"
+        label: "Title Font Samsung TV",
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "button_logout_big_title_text_fontsize",
         type: "number_input",
-        label: "Font Size"
+        label: "Font Size",
         label_tooltip: "Font size toggle title",
         initial_value: 29,
       },
