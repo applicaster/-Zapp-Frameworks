@@ -1,6 +1,6 @@
 {
   "name": "ZappAnalyticsPluginFirebase",
-  "version": "9.2.2",
+  "version": "9.2.3",
   "summary": "ZappAnalyticsPluginFirebase",
   "description": "ZappAnalyticsPluginFirebase container.",
   "homepage": "https://github.com/applicaster/Zapp-Frameworks.git",
@@ -8,7 +8,7 @@
   "authors": "Applicaster LTD.",
   "source": {
     "git": "https://github.com/applicaster/Zapp-Frameworks.git",
-    "tag": "@@applicaster/zapp-analytics-plugin-firebase/9.2.2"
+    "tag": "@@applicaster/zapp-analytics-plugin-firebase/9.2.3"
   },
   "platforms": {
     "ios": "12.0"
@@ -16,7 +16,10 @@
   "requires_arc": true,
   "static_framework": true,
   "public_header_files": "ZappAnalyticsPluginFirebase/*.h",
-  "source_files": ["ios/**/*.{swift}", "\"${PODS_ROOT}\"/Firebase/**/*.{h}"],
+  "source_files": [
+    "ios/**/*.{swift}",
+    "\"${PODS_ROOT}\"/Firebase/**/*.{h}"
+  ],
   "xcconfig": {
     "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
     "FRAMEWORK_SEARCH_PATHS": "$(inherited) \"${PODS_ROOT}\"/Firebase/**",
