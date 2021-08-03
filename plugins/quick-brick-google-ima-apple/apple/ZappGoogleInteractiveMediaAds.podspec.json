@@ -18,17 +18,13 @@
   "tvos": {
     "source_files": "universal/**/*.swift",
     "dependencies": {
-      "GoogleAds-IMA-tvOS-SDK": [
-        "= 4.3.2"
-      ]
+      "GoogleAds-IMA-tvOS-SDK": ["= 4.3.2"]
     }
   },
   "ios": {
     "source_files": "universal/**/*.swift",
     "dependencies": {
-      "GoogleAds-IMA-iOS-SDK": [
-        "= 3.12.1"
-      ]
+      "GoogleAds-IMA-iOS-SDK": ["= 3.14.4"]
     }
   },
   "dependencies": {
