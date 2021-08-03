@@ -35,8 +35,8 @@
     "quickbrick"
   ],
   "platform": "tvos_for_quickbrick",
-  "dependency_version": "0.0.6-beta.3",
-  "manifest_version": "0.0.6-beta.3",
+  "dependency_version": "0.0.6-beta.4",
+  "manifest_version": "0.0.6-beta.4",
   "api": {},
   "project_dependencies": [],
   "extra_dependencies": [],
@@ -159,12 +159,6 @@
             "key": "show_maybe_later_button",
             "type": "switch",
             "label": "Enable Action Button In Sign In Screen",
-            "initial_value": "true"
-          },
-          {
-            "key": "intro_show_maybe_later_button",
-            "type": "switch",
-            "label": "Enable Action Button In Intro Screen",
             "initial_value": "true"
           }
         ]
