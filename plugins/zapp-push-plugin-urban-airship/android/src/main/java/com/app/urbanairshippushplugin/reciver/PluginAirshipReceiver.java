@@ -71,7 +71,7 @@ public class PluginAirshipReceiver implements PushListener, NotificationListener
     public boolean onNotificationForegroundAction(@NonNull NotificationInfo notificationInfo,
                                                   @NonNull NotificationActionButtonInfo notificationActionButtonInfo) {
         String buttonId = notificationActionButtonInfo.getButtonId();
-        APLogger.info(TAG, "Notification action button opened. Button ID: " + buttonId + ". NotificationId: " + notificationInfo.getNotificationId());
+        APLogger.info(TAG, "Notification foreground action button opened. Button ID: " + buttonId + ". NotificationId: " + notificationInfo.getNotificationId());
         PushMessage message = notificationInfo.getMessage();
         onTapAnalyticsEvent(message);
         return false;
@@ -81,6 +81,8 @@ public class PluginAirshipReceiver implements PushListener, NotificationListener
     public void onNotificationBackgroundAction(@NonNull NotificationInfo notificationInfo,
                                                @NonNull NotificationActionButtonInfo notificationActionButtonInfo) {
         PushMessage message = notificationInfo.getMessage();
+        String buttonId = notificationActionButtonInfo.getButtonId();
+        APLogger.info(TAG, "Notification background action button opened. Button ID: " + buttonId + ". NotificationId: " + notificationInfo.getNotificationId());
         onTapAnalyticsEvent(message);
     }
 
