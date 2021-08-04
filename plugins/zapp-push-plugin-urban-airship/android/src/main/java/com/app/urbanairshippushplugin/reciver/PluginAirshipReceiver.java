@@ -1,12 +1,8 @@
 package com.app.urbanairshippushplugin.reciver;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.applicaster.util.APLogger;
 import com.applicaster.util.StringUtil;
@@ -25,18 +21,15 @@ import com.urbanairship.push.PushMessage;
 public class PluginAirshipReceiver implements PushListener, NotificationListener, AirshipChannelListener {
 
     private static final String TAG = "PluginAirshipReceiver";
-    private final Context mContext;
     private final DeepLinkListener mDeepLinkListener = new DeepLinkListener() {
         @Override
         public boolean onDeepLink(@NonNull String s) {
-            APLogger.info(TAG, "Handling DeepLink: " + s);
-            launchActivity(mContext.getApplicationContext(), Uri.parse(s));
-            return true;
+            APLogger.info(TAG, "Got DeepLink: " + s);
+            return false; // let UAS handle it in any case
         }
     };
 
-    public PluginAirshipReceiver(Context context) {
-        mContext = context;
+    public PluginAirshipReceiver() {
     }
 
     @Override
@@ -84,20 +77,6 @@ public class PluginAirshipReceiver implements PushListener, NotificationListener
         String buttonId = notificationActionButtonInfo.getButtonId();
         APLogger.info(TAG, "Notification background action button opened. Button ID: " + buttonId + ". NotificationId: " + notificationInfo.getNotificationId());
         onTapAnalyticsEvent(message);
-    }
-
-    private void launchActivity(@NonNull Context context, @Nullable Uri uri) {
-        Intent notificationIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-        if(null == notificationIntent){
-            // should not happen in our applications
-            notificationIntent = new Intent();
-            notificationIntent.setClassName(context, "com.applicaster.componentsapp.IntroActivity");
-        }
-        if(uri != null) {
-            notificationIntent.setData(uri);
-        }
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        context.startActivity(notificationIntent);
     }
 
     private void onTapAnalyticsEvent(PushMessage message){

@@ -95,7 +95,7 @@ public class UrbanAirshipPushProvider implements PushContract {
             public void onAirshipReady(@NonNull UAirship uAirship) {
                 PushManager pushManager = uAirship.getPushManager();
                 pushManager.setUserNotificationsEnabled(true);
-                PluginAirshipReceiver receiver = new PluginAirshipReceiver(context);
+                PluginAirshipReceiver receiver = new PluginAirshipReceiver();
                 pushManager.setNotificationListener(receiver);
                 pushManager.addPushListener(receiver);
                 uAirship.getChannel().addChannelListener(receiver);
