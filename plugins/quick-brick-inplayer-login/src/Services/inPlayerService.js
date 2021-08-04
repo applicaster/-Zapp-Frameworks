@@ -26,11 +26,19 @@ export const logger = createLogger({
 const IN_PLAYER_LAST_EMAIL_USED_KEY = "com.inplayer.lastEmailUsed";
 
 export async function setConfig(environment = "production") {
-  logger.debug({
-    message: `Set InPlayer environment: ${environment}`,
-    data: { environment: environment },
-  });
-  await InPlayer.setConfig(environment);
+  try {
+    logger.debug({
+      message: `Set InPlayer environment: ${environment}`,
+      data: { environment: environment },
+    });
+    
+    await InPlayer.setConfig(environment);
+  } catch (error) {
+    logger.debug({
+      message: `Failed to set InPlayer environment: ${environment}`,
+      data: { error },
+    });
+  }
 }
 
 export async function getAssetByExternalId(payload) {
