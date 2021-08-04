@@ -10,7 +10,7 @@ import React
 
 @objc(RNGoogleCastEventEmitter)
 open class RNEventEmitter: RCTEventEmitter {
-    public static var emitter: RCTEventEmitter!
+    public static var emitter: RCTEventEmitter?
     
     public enum Events: String, CaseIterable {
         
@@ -31,7 +31,7 @@ open class RNEventEmitter: RCTEventEmitter {
     }
     
     public static func sendEvent(for event: Events, with body: Any) {
-        emitter.sendEvent(withName: event.rawValue, body: body)
+        emitter?.sendEvent(withName: event.rawValue, body: body)
     }
     
     override init() {
