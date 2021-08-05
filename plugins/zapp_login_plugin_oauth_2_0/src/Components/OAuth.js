@@ -25,7 +25,7 @@ import {
   showAlertLogout,
   showAlertLogin,
   getRiversProp,
-  HookTypeData,
+  PresentationTypeData,
 } from "../Utils/Helpers";
 import {
   authorizeService,
@@ -53,7 +53,7 @@ const OAuth = (props) => {
   const windowWidth = useWindowDimensions().width;
   const windowHeight = useWindowDimensions().height;
   const navigator = useNavigation();
-  const [hookType, setHookType] = useState(HookTypeData.UNDEFINED);
+  const [hookType, setHookType] = useState(PresentationTypeData.UNDEFINED);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -124,7 +124,7 @@ const OAuth = (props) => {
         event
           .setMessage(`Plugin finished work`)
           .addData({
-            hook_type: HookTypeData.PLAYER_HOOK,
+            hook_type: PresentationTypeData.PLAYER_HOOK,
             is_video_entry: true,
             authenticated: authenticated,
             is_authentication_required: authenticationRequired,
@@ -133,12 +133,12 @@ const OAuth = (props) => {
         callback && callback({ success: true, error: null, payload: payload });
       } else if (oAuthConfig) {
         event
-          .setMessage(`Plugin hook_type: ${HookTypeData.PLAYER_HOOK}`)
+          .setMessage(`Plugin hook_type: ${PresentationTypeData.PLAYER_HOOK}`)
           .addData({
-            hook_type: HookTypeData.PLAYER_HOOK,
+            hook_type: PresentationTypeData.PLAYER_HOOK,
           })
           .send();
-        stillMounted && setHookType(HookTypeData.PLAYER_HOOK);
+        stillMounted && setHookType(PresentationTypeData.PLAYER_HOOK);
       } else {
         const error = Error(
           "OAuth plugin required configuration keys not defined, please check plugin configuration in Zapp"
@@ -158,84 +158,106 @@ const OAuth = (props) => {
     } else {
       if (!isHook(navigator)) {
         event
-          .setMessage(`Plugin hook_type: ${HookTypeData.USER_ACCOUNT}`)
+          .setMessage(`Plugin hook_type: ${PresentationTypeData.SCREEN}`)
           .addData({
-            hook_type: HookTypeData.USER_ACCOUNT,
+            hook_type: PresentationTypeData.SCREEN,
           })
           .send();
-        stillMounted && setHookType(HookTypeData.USER_ACCOUNT);
+        stillMounted && setHookType(PresentationTypeData.SCREEN);
       } else {
         event
-          .setMessage(`Plugin hook_type: ${HookTypeData.SCREEN_HOOK}`)
+          .setMessage(`Plugin hook_type: ${PresentationTypeData.SCREEN_HOOK}`)
           .addData({
-            hook_type: HookTypeData.SCREEN_HOOK,
+            hook_type: PresentationTypeData.SCREEN_HOOK,
           })
           .send();
-        stillMounted && setHookType(HookTypeData.SCREEN_HOOK);
+        if (authenticated) {
+          event
+            .setMessage(`Plugin finished work`)
+            .addData({
+              hook_type: PresentationTypeData.SCREEN_HOOK,
+              authenticated: authenticated,
+            })
+            .send();
+          callback && callback({ success: true, error: null, payload });
+          return;
+        }
+        stillMounted && setHookType(PresentationTypeData.SCREEN_HOOK);
       }
     }
     stillMounted && setIsUserAuthenticated(authenticated);
     stillMounted && setLoading(false);
   }, [isUserAuthenticated]);
 
-  const onPressActionButton = React.useCallback(async () => {
-    setLoading(true);
-    if (isUserAuthenticated) {
-      const success = await revokeService(oAuthConfig, session_storage_key);
-      const authenticated = await checkUserAuthorization(
-        oAuthConfig,
-        session_storage_key
-      );
+  const performLogout = React.useCallback(async () => {
+    const success = await revokeService(oAuthConfig, session_storage_key);
+    const authenticated = await checkUserAuthorization(
+      oAuthConfig,
+      session_storage_key
+    );
 
-      logger
-        .createEvent()
-        .setLevel(XRayLogLevel.debug)
-        .setMessage(`onPressActionButton: Logout Success`)
-        .addData({
-          success,
-          authenticated,
-          hookType,
-        })
-        .send();
-      showAlertLogout(success, screenLocalizations);
-      setIsUserAuthenticated(authenticated);
-    } else {
-      const success = await authorizeService(oAuthConfig, session_storage_key);
-      const authenticated = await checkUserAuthorization(
-        oAuthConfig,
-        session_storage_key
-      );
-      logger
-        .createEvent()
-        .setLevel(XRayLogLevel.debug)
-        .setMessage(`onPressActionButton: Login Success`)
-        .addData({
-          success,
-          authenticated,
-          hookType,
-        })
-        .send();
-      setIsUserAuthenticated(authenticated);
-      if (authenticated) {
-        if (hookType === HookTypeData.PLAYER_HOOK) {
-          logger
-            .createEvent()
-            .setLevel(XRayLogLevel.debug)
-            .setMessage(`onPressActionButton: OAuth finished`)
-            .addData({
-              success,
-              authenticated,
-              hookType,
-            })
-            .send();
-          callback &&
-            callback({ success: true, error: null, payload: payload });
-        } else {
-          showAlertLogin(success, screenLocalizations);
-        }
+    logger
+      .createEvent()
+      .setLevel(XRayLogLevel.debug)
+      .setMessage(`onPressActionButton: Logout Success`)
+      .addData({
+        success,
+        authenticated,
+        hookType,
+      })
+      .send();
+    performPostLogoutAction();
+    showAlertLogout(success, screenLocalizations);
+    setIsUserAuthenticated(authenticated);
+  }, [isUserAuthenticated, hookType]);
+
+  const performLogin = React.useCallback(async () => {
+    const success = await authorizeService(oAuthConfig, session_storage_key);
+    const authenticated = await checkUserAuthorization(
+      oAuthConfig,
+      session_storage_key
+    );
+    logger
+      .createEvent()
+      .setLevel(XRayLogLevel.debug)
+      .setMessage(`onPressActionButton: Login Success`)
+      .addData({
+        success,
+        authenticated,
+        hookType,
+      })
+      .send();
+    setIsUserAuthenticated(authenticated);
+    if (authenticated) {
+      if (
+        hookType === PresentationTypeData.PLAYER_HOOK ||
+        hookType === PresentationTypeData.SCREEN_HOOK
+      ) {
+        logger
+          .createEvent()
+          .setLevel(XRayLogLevel.debug)
+          .setMessage(`onPressActionButton: OAuth finished`)
+          .addData({
+            success,
+            authenticated,
+            hookType,
+          })
+          .send();
+        callback && callback({ success: true, error: null, payload: payload });
       } else {
         showAlertLogin(success, screenLocalizations);
       }
+    } else {
+      showAlertLogin(success, screenLocalizations);
+    }
+  }, [isUserAuthenticated, hookType]);
+
+  const onPressActionButton = React.useCallback(async () => {
+    setLoading(true);
+    if (isUserAuthenticated) {
+      await performLogout();
+    } else {
+      await performLogin();
     }
     setLoading(false);
   }, [isUserAuthenticated, hookType]);
@@ -248,10 +270,25 @@ const OAuth = (props) => {
     }
   };
 
+  const performPostLogoutAction = () => {
+    const logout_completion_action = props?.configuration;
+
+    switch (logout_completion_action) {
+      case "go_back":
+        navigator.goBack();
+        break;
+      case "go_home":
+        navigator.goHome();
+        break;
+      default:
+        break;
+    }
+  };
+
   const SafeArea = Platform.isTV ? View : SafeAreaView;
   return (
     <>
-      {hookType === HookTypeData.UNDEFINED ? null : (
+      {hookType === PresentationTypeData.UNDEFINED ? null : (
         <ImageBackground
           style={backgroundImageStyle(
             screenStyles,
@@ -263,16 +300,30 @@ const OAuth = (props) => {
         />
       )}
       <SafeArea style={safeAreaStyle}>
-        {hookType === HookTypeData.UNDEFINED ? null : (
+        {hookType === PresentationTypeData.UNDEFINED ? null : (
           <View style={containerStyle}>
             <BackButton
               title={back_button_text}
-              disabled={!(hookType === HookTypeData.PLAYER_HOOK || screenStyles?.back_button_force_display)}
+              disabled={
+                !(
+                  hookType === PresentationTypeData.PLAYER_HOOK ||
+                  screenStyles?.back_button_force_display
+                )
+              }
               screenStyles={screenStyles}
               onPress={onBackButton}
             />
-            <TitleLabel screenStyles={screenStyles} title={title_text} subtitle={subtitle_text} />
-            <View style={[clientLogoView.default, clientLogoView[screenStyles?.client_logo_position]]}>
+            <TitleLabel
+              screenStyles={screenStyles}
+              title={title_text}
+              subtitle={subtitle_text}
+            />
+            <View
+              style={[
+                clientLogoView.default,
+                clientLogoView[screenStyles?.client_logo_position],
+              ]}
+            >
               <ClientLogo imageSrc={screenStyles.client_logo} />
             </View>
             <ActionButton

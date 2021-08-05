@@ -1,6 +1,8 @@
 import { localStorage } from "@applicaster/zapp-react-native-bridge/ZappStorage/LocalStorage";
 import { sessionStorage } from "@applicaster/zapp-react-native-bridge/ZappStorage/SessionStorage";
-
+{
+  localStorageSetUserAccount, localStorageRemoveUserAccount;
+}
 import { parseJsonIfNeeded } from "@applicaster/zapp-react-native-utils/functionUtils";
 import {
   createLogger,
@@ -11,6 +13,7 @@ import {
 
 const namespace = "zapp_login_plugin_oauth_2_0";
 const authDataKey = "authData";
+const userAccountStorageTokenKey = "idToken";
 
 export const logger = createLogger({
   subsystem: `${BaseSubsystem}/${BaseCategories.KEYCHAIN_STORAGE}`,
@@ -31,6 +34,8 @@ export async function saveKeychainData(
     const accessToken = data?.accessToken;
     if (accessToken) {
       await sessionStorage.setItem(session_storage_key, accessToken, namespace);
+      await localStorage.setItem(session_storage_key, accessToken, namespace);
+      await localStorage.setItem(userAccountStorageTokenKey, accessToken);
     }
     logger
       .createEvent()
@@ -97,7 +102,11 @@ export async function removeKeychainData(session_storage_key = "access_token") {
       authDataKey,
       namespace
     );
+
     await sessionStorage.removeItem(session_storage_key, namespace);
+    await localStorage.removeItem(session_storage_key, namespace);
+    await localStorage.removeItem(userAccountStorageTokenKey);
+
     logger
       .createEvent()
       .setLevel(XRayLogLevel.debug)
