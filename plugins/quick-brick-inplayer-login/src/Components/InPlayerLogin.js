@@ -563,9 +563,14 @@ const InPlayerLogin = (props) => {
     const timeout = 1000;
     try {
       const didLogout = await InPlayerService.signOut();
+
       if (!didLogout) {
         navigator.goBack();
       }
+
+      await localStorageRemove("idToken");
+      await localStorageRemoveUserAccount(userAccountStorageTokenKey);
+
       setTimeout(() => {
         invokeLogoutCompleteAction();
       }, timeout);
