@@ -336,7 +336,11 @@ export async function setNewPassword({ password, token, brandingId }) {
 
 export async function signOut() {
   try {
+    await localStorageRemove("idToken");
+    await localStorageRemoveUserAccount(userAccountStorageTokenKey);
+    
     const retVal = await InPlayer.Account.signOut();
+
     await InPlayer.Account.removeToken();
     logger.debug({
       message: `InPlayer.Account.signOut >> succeed: true`,
@@ -345,16 +349,13 @@ export async function signOut() {
       },
     });
 
-    await localStorageRemove("idToken");
-    await localStorageRemoveUserAccount(userAccountStorageTokenKey);
-
     return retVal;
   } catch (error) {
-    await InPlayer.Account.removeToken();
-
     await localStorageRemove("idToken");
     await localStorageRemoveUserAccount(userAccountStorageTokenKey);
-    
+
+    await InPlayer.Account.removeToken();
+
     logger.error({
       message: `InPlayer.Account.signOut >> succeed: false, local token will be removed`,
       data: {

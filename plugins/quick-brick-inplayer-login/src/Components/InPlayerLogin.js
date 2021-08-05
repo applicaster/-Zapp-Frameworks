@@ -564,17 +564,20 @@ const InPlayerLogin = (props) => {
     try {
       const didLogout = await InPlayerService.signOut();
 
+      await localStorageRemove("idToken");
+      await localStorageRemoveUserAccount(userAccountStorageTokenKey);
+
       if (!didLogout) {
         navigator.goBack();
       }
-
-      await localStorageRemove("idToken");
-      await localStorageRemoveUserAccount(userAccountStorageTokenKey);
 
       setTimeout(() => {
         invokeLogoutCompleteAction();
       }, timeout);
     } catch (error) {
+      await localStorageRemove("idToken");
+      await localStorageRemoveUserAccount(userAccountStorageTokenKey);
+      
       setError(error);
       setTimeout(() => {
         logger.error({
