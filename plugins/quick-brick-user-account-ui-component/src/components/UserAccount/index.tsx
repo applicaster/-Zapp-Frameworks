@@ -155,11 +155,12 @@ export function UserAccount(props: Props) {
     });
 
     setIsLogedIn(logedIn);
+    ``;
   }, [button1Model, button2Model]);
 
   const accountTitles = React.useCallback(() => {
     const model = loginDataModelByToken();
-
+    console.log({ model });
     if (!model) {
       return null;
     }
@@ -261,7 +262,7 @@ export function UserAccount(props: Props) {
     return (
       <>
         <UserPhoto styles={styles} imageSrc={styles?.user_image_placeholder} />
-        {!isLogedIn && (
+        {!isLogedIn ? (
           <Button
             styleKey={login1ButtonId}
             styles={styles}
@@ -269,8 +270,8 @@ export function UserAccount(props: Props) {
             onPress={onLogin1}
             titleText={login_button_1_title_text}
           />
-        )}
-        {!isLogedIn && button_2_login_enabled && (
+        ) : null}
+        {!isLogedIn && button_2_login_enabled ? (
           <Button
             styleKey={login2ButtonId}
             styles={styles}
@@ -278,15 +279,15 @@ export function UserAccount(props: Props) {
             onPress={onLogin2}
             titleText={login_button_2_title_text}
           />
-        )}
-        {isLogedIn && (
+        ) : null}
+        {isLogedIn ? (
           <TextView
             styleKey={"info_label_description"}
             styles={styles}
             titleText={titles?.user_name_title}
           />
-        )}
-        {isLogedIn && (
+        ) : null}
+        {isLogedIn ? (
           <Button
             styleKey={logoutButtonBigId}
             styles={styles}
@@ -294,7 +295,7 @@ export function UserAccount(props: Props) {
             onPress={onLogout}
             titleText={logout_title_text}
           />
-        )}
+        ) : null}
       </>
     );
   }, [isLogedIn, button1Model, button2Model]);
