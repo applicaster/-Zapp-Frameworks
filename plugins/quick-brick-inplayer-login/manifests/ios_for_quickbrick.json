@@ -93,8 +93,8 @@
     "quickbrick"
   ],
   "platform": "ios_for_quickbrick",
-  "dependency_version": "9.0.4-beta.0",
-  "manifest_version": "9.0.4-beta.0",
+  "dependency_version": "9.0.4-beta.1",
+  "manifest_version": "9.0.4-beta.1",
   "api": {},
   "project_dependencies": [],
   "extra_dependencies": [
