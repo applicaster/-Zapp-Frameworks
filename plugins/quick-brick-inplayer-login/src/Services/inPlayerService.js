@@ -34,10 +34,12 @@ export async function setConfig(environment = "production") {
     
     await InPlayer.setConfig(environment);
   } catch (error) {
-    logger.debug({
+    logger.error({
       message: `Failed to set InPlayer environment: ${environment}`,
       data: { error },
     });
+
+    throw error;
   }
 }
 
