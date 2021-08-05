@@ -3,6 +3,8 @@ import InPlayer from "@inplayer-org/inplayer.js";
 import {
   localStorageGet,
   localStorageSet,
+  localStorageRemove,
+  localStorageRemoveUserAccount
 } from "../Services/LocalStorageService";
 
 import { externalAssetData } from "../Utils/PayloadUtils";
@@ -24,6 +26,7 @@ export const logger = createLogger({
 });
 
 const IN_PLAYER_LAST_EMAIL_USED_KEY = "com.inplayer.lastEmailUsed";
+const userAccountStorageTokenKey = "idToken";
 
 export async function setConfig(environment = "production") {
   try {
@@ -341,10 +344,17 @@ export async function signOut() {
         succeed: true,
       },
     });
+
+    await localStorageRemove("idToken");
+    await localStorageRemoveUserAccount(userAccountStorageTokenKey);
+
     return retVal;
   } catch (error) {
     await InPlayer.Account.removeToken();
 
+    await localStorageRemove("idToken");
+    await localStorageRemoveUserAccount(userAccountStorageTokenKey);
+    
     logger.error({
       message: `InPlayer.Account.signOut >> succeed: false, local token will be removed`,
       data: {
