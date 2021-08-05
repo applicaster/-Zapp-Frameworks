@@ -73,15 +73,8 @@ class OfflineAssetsBridge: NSObject, RCTBridgeModule {
         }
 
         dispatchGroup.notify(queue: .main) { [unowned self] in
-            let completedTasks = self.tasks.filter { $0.state == .completed }
-            if completedTasks.count == self.tasks.count {
-                let responseObj = completedTasks.map { ["\($0.url.absoluteString)": true] }
-                resolver(responseObj)
-            } else {
-                rejecter("some file failed",
-                         "",
-                         nil)
-            }
+            let responseObj = self.tasks.map { ["\($0.saveTo.absoluteString)": $0.state == .completed ? true : false ] }
+            resolver(responseObj)
         }
     }
 
