@@ -109,3 +109,16 @@ RCT_EXTERN_METHOD(presentLocalNotification:(NSDictionary<NSString *, id> *) payl
                       resolver:(RCTPromiseResolveBlock)resolve
                           rejecter:(RCTPromiseRejectBlock)reject);
 @end
+
+@interface RCT_EXTERN_MODULE (OfflineAssetsBridge, NSObject)
+RCT_EXTERN_METHOD(storeFiles:(NSArray *)filesList
+                      options:(NSDictionary *)options
+                          resolver:(RCTPromiseResolveBlock)resolve
+                              rejecter:(RCTPromiseRejectBlock)reject);
+RCT_EXTERN_METHOD(delete:(NSString *)path
+                      resolver:(RCTPromiseResolveBlock)resolve
+                          rejecter:(RCTPromiseRejectBlock)reject);
+
+RCT_EXTERN_METHOD(getFilesDirectory:(RCTPromiseResolveBlock)resolve
+                          rejecter:(RCTPromiseRejectBlock)reject);
+@end
