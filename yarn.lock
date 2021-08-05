@@ -288,6 +288,42 @@
     axios "^0.21.1"
     ramda "^0.26.1"
 
+"@applicaster/quick-brick-inplayer-storefront@0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@applicaster/quick-brick-inplayer-storefront/-/quick-brick-inplayer-storefront-0.0.20.tgz#b5bddf2e29174bb9f986a3eb51705779fa3f67a8"
+  integrity sha512-Flr4DBtXN7UGfUynFRlE2SzbKioIm0ibEghKEZMWtsu4qkAxuHmzFvTjKhnT9lzPjJtYjWU/n+a3hSF4Xp9XYQ==
+  dependencies:
+    "@applicaster/applicaster-storefront-component" "0.0.13"
+    "@applicaster/quick-brick-parent-lock" "*"
+    "@inplayer-org/inplayer.js" "3.11.1"
+    "@react-native-community/blur" "3.4.1"
+    axios "^0.21.1"
+    moment "^2.24.0"
+    prop-types "^15.7.2"
+    ramda "^0.26.1"
+    react-native-actionsheet "^2.4.0"
+    react-native-dropdownalert "^4.2.1"
+    react-native-keyboard-aware-scroll-view "0.9.1"
+    react-redux "^7.2.1"
+
+"@applicaster/quick-brick-inplayer@9.0.2":
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/@applicaster/quick-brick-inplayer/-/quick-brick-inplayer-9.0.2.tgz#7d22c58637ccde1d92647165d4d9ffd05ad4942c"
+  integrity sha512-RCCWe1ljXonKFcDjneEA/+i251h1xvbSWmCjUis2k8DvCRbO6v2Fu1A7HQoKFbJlK8qitwlxCwYC+DVj1vujIA==
+  dependencies:
+    "@applicaster/applicaster-account-components" "0.1.7-alpha.0"
+    "@applicaster/quick-brick-parent-lock" "*"
+    "@inplayer-org/inplayer.js" "3.11.1"
+    "@react-native-community/blur" "3.4.1"
+    axios "^0.21.1"
+    moment "^2.24.0"
+    prop-types "^15.7.2"
+    ramda "^0.26.1"
+    react-native-actionsheet "^2.4.0"
+    react-native-dropdownalert "^4.2.1"
+    react-native-keyboard-aware-scroll-view "0.9.1"
+    react-redux "^7.2.1"
+
 "@applicaster/quick-brick-list@1.4.4":
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/@applicaster/quick-brick-list/-/quick-brick-list-1.4.4.tgz#59a5cf509372005795d69f4b9e8bf0eca5196b1c"
