@@ -564,9 +564,6 @@ const InPlayerLogin = (props) => {
     try {
       const didLogout = await InPlayerService.signOut();
 
-      await localStorageRemove("idToken");
-      await localStorageRemoveUserAccount(userAccountStorageTokenKey);
-
       if (!didLogout) {
         navigator.goBack();
       }
