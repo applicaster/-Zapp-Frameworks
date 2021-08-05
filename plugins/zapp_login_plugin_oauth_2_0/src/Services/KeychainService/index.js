@@ -1,8 +1,6 @@
 import { localStorage } from "@applicaster/zapp-react-native-bridge/ZappStorage/LocalStorage";
 import { sessionStorage } from "@applicaster/zapp-react-native-bridge/ZappStorage/SessionStorage";
-{
-  localStorageSetUserAccount, localStorageRemoveUserAccount;
-}
+
 import { parseJsonIfNeeded } from "@applicaster/zapp-react-native-utils/functionUtils";
 import {
   createLogger,
