@@ -338,7 +338,7 @@ export async function signOut() {
   try {
     const retVal = await InPlayer.Account.signOut();
 
-    await InPlayer.Account.removeToken();
+    // await InPlayer.Account.removeToken();
     logger.debug({
       message: `InPlayer.Account.signOut >> succeed: true`,
       data: {
@@ -351,7 +351,7 @@ export async function signOut() {
 
     return retVal;
   } catch (error) {
-    await InPlayer.Account.removeToken();
+    // await InPlayer.Account.removeToken();
 
     await localStorageRemove("idToken");
     await localStorageRemoveUserAccount(userAccountStorageTokenKey);
