@@ -4,7 +4,8 @@ import {
   localStorageGet,
   localStorageSet,
   localStorageRemove,
-  localStorageRemoveUserAccount
+  localStorageRemoveUserAccount,
+  localStorageSetUserAccount
 } from "../Services/LocalStorageService";
 
 import { externalAssetData } from "../Utils/PayloadUtils";
@@ -67,10 +68,10 @@ export async function getAssetByExternalId(payload) {
         externalAssetId
       );
 
-      const retVal = result?.data?.id;
+      const retVal = result ?.data ?.id;
       if (retVal) {
         logger.debug({
-          message: `InPlayer.Asset.getExternalAsset Completed >> external_asset_id: ${externalAssetId}, inplayer_asset_type: ${inplayerAssetType} >> Result: inplayer_asset_id: ${retVal}, title: ${result?.title}`,
+          message: `InPlayer.Asset.getExternalAsset Completed >> external_asset_id: ${externalAssetId}, inplayer_asset_type: ${inplayerAssetType} >> Result: inplayer_asset_id: ${retVal}, title: ${result ?.title}`,
           data: {
             inplayer_asset_id: retVal,
             external_asset: result,
@@ -134,9 +135,9 @@ export async function isAuthenticated(in_player_client_id) {
       return true;
     } catch (error) {
       const res = await error.response;
-      if (res?.status === 403) {
+      if (res ?.status === 403) {
         logger.warning({
-          message: `InPlayer.Account.refreshToken >> status: ${res?.status}`,
+          message: `InPlayer.Account.refreshToken >> status: ${res ?.status}`,
           data: {
             in_player_client_id,
             is_authenticated: true,
@@ -199,7 +200,7 @@ export async function login({ email, password, clientId, referrer }) {
     const { response } = error;
 
     logger.warning({
-      message: `InPlayer.Account.signIn >> status: ${response?.status}, url: ${response?.request?.responseURL}, isAuthenticated: true, email: ${email}, password: ${password}, in_player_client_id: ${clientId}, referrer: ${referrer} `,
+      message: `InPlayer.Account.signIn >> status: ${response ?.status}, url: ${response ?.request ?.responseURL}, isAuthenticated: true, email: ${email}, password: ${password}, in_player_client_id: ${clientId}, referrer: ${referrer} `,
       data: {
         email,
         password,
@@ -246,7 +247,7 @@ export async function signUp(params) {
     return retVal;
   } catch (error) {
     logger.warning({
-      message: `InPlayer.Account.signIn >> status: ${error?.response?.status}, url: ${error?.response?.request?.responseURL}, succeed: false, fullName: ${fullName}, email: ${email}, password: ${password}, password_confirmation: ${password}, in_player_client_id: ${clientId}, referrer: ${referrer}`,
+      message: `InPlayer.Account.signIn >> status: ${error ?.response ?.status}, url: ${error ?.response ?.request ?.responseURL}, succeed: false, fullName: ${fullName}, email: ${email}, password: ${password}, password_confirmation: ${password}, in_player_client_id: ${clientId}, referrer: ${referrer}`,
       data: {
         fullName,
         email,
@@ -285,7 +286,7 @@ export async function requestPassword({ email, clientId, brandingId }) {
     return retVal;
   } catch (error) {
     logger.error({
-      message: `InPlayer.Account.requestNewPassword >> status: ${error?.response?.status}, url: ${error?.response?.request?.responseURL}, succeed: false, email: ${email}, in_player_client_id: ${clientId}`,
+      message: `InPlayer.Account.requestNewPassword >> status: ${error ?.response ?.status}, url: ${error ?.response ?.request ?.responseURL}, succeed: false, email: ${email}, in_player_client_id: ${clientId}`,
       data: {
         email,
         in_player_client_id: clientId,
@@ -321,7 +322,7 @@ export async function setNewPassword({ password, token, brandingId }) {
     });
   } catch (error) {
     logger.error({
-      message: `InPlayer.Account.setNewPassword >> status: ${error?.response?.status}, url: ${error?.response?.request?.responseURL}, succeed: false, password: ${password}, password_confirmation: ${password}`,
+      message: `InPlayer.Account.setNewPassword >> status: ${error ?.response ?.status}, url: ${error ?.response ?.request ?.responseURL}, succeed: false, password: ${password}, password_confirmation: ${password}`,
       data: {
         password,
         password_confirmation: password,
@@ -346,6 +347,11 @@ export async function signOut() {
           },
         });
       });
+
+    await localStorageSetUserAccount(
+      userAccountStorageTokenKey,
+      false
+    );
 
     await InPlayer.Account.removeToken()
       .then((data) => {
@@ -449,7 +455,7 @@ export async function validateExternalPayment({
       .setLevel(XRayLogLevel.error)
       .addData({
         error,
-        response: error?.response,
+        response: error ?.response,
       })
       .send();
     throw error;
