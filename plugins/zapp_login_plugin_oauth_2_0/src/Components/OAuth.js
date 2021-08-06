@@ -49,7 +49,6 @@ const OAuth = (props) => {
   const { callback, payload, rivers, screenData } = props;
   const presented_by_user_account =
     screenData?.presented_by_user_account || false;
-  console.log({ payload, props, presented_by_user_account });
   const localizations = getRiversProp("localizations", rivers);
   const styles = getRiversProp("styles", rivers);
 
@@ -280,7 +279,6 @@ const OAuth = (props) => {
           },
         });
         await performLogout();
-        console.log("logout finished");
         performPostLogoutAction();
         logger.debug({
           message: `invokeUserAccount: Perform Login finished`,

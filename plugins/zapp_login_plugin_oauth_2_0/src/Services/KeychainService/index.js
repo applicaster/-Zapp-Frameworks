@@ -21,7 +21,6 @@ export async function saveKeychainData(
     );
     const accessToken = data?.accessToken;
     if (accessToken) {
-      console.log({ accessToken });
       await sessionStorage.setItem(session_storage_key, accessToken, namespace);
       await localStorage.setItem(session_storage_key, accessToken, namespace);
       await localStorage.setItem(userAccountStorageTokenKey, accessToken);
