@@ -227,23 +227,17 @@ const mobile = [
     ],
   },
   {
-    key: "button_2_login_enabled",
-    label: "Switch to Enable Login Button 2",
-    type: "Switch",
-    initial_value: false,
-  },
-  {
     group: true,
     label: "Login Button 2 Styles",
     tooltip: "These fields affect login 2 button styles",
     folded: true,
-    conditional_fields: [
-      {
-        condition_value: [false],
-        key: "styles/login_button_2_enabled",
-      },
-    ],
     fields: [
+      {
+        key: "button_2_login_enabled",
+        label: "Switch to Enable Login Button 2",
+        type: "Switch",
+        initial_value: false,
+      },
       {
         key: "button_2_login_type",
         type: "select",
@@ -1004,23 +998,17 @@ const tv = [
     ],
   },
   {
-    key: "button_2_login_enabled",
-    label: "Switch to Enable Login Button 2",
-    type: "Switch",
-    initial_value: false,
-  },
-  {
     group: true,
     label: "Login Button 2 Styles",
     tooltip: "These fields affect login 2 button styles",
     folded: true,
-    conditional_fields: [
-      {
-        condition_value: [false],
-        key: "styles/login_button_2_enabled",
-      },
-    ],
     fields: [
+      {
+        key: "button_2_login_enabled",
+        label: "Switch to Enable Login Button 2",
+        type: "Switch",
+        initial_value: false,
+      },
       {
         key: "button_2_login_type",
         type: "select",

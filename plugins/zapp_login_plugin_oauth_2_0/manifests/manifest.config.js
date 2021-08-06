@@ -22,11 +22,12 @@ const baseManifest = {
       {
         type: "switch",
         label: "Show full screen",
-        tooltip: "Enabling this setting will hide both the nav bar and the menu on the screen",
+        tooltip:
+          "Enabling this setting will hide both the nav bar and the menu on the screen",
         key: "allow_screen_plugin_presentation",
         initial_value: true,
-      }
-    ]
+      },
+    ],
   },
   hooks: {
     fields: [
@@ -202,7 +203,8 @@ const stylesMobile = {
           type: "switch",
           initial_value: false,
           label: "Force display",
-          label_tooltip: "If true, then the button will always be displayed. If false, then only on the player's hook",
+          label_tooltip:
+            "If true, then the button will always be displayed. If false, then only on the player's hook",
         },
         {
           key: "back_button_position",
@@ -433,6 +435,22 @@ function createManifest({ version, platform }) {
 
   const custom_configuration_fields = [
     {
+      type: "tag_select",
+      key: "logout_completion_action",
+      tooltip_text: "Defines what action plugin should do after user log out. ",
+      options: [
+        {
+          text: "Go back to previous screen",
+          value: "go_back",
+        },
+        {
+          text: "Go back to home screen",
+          value: "go_home",
+        },
+      ],
+      initial_value: "go_back",
+    },
+    {
       key: "provider_selector",
       type: "select",
       initial_value: "aws_cognito",
@@ -548,7 +566,8 @@ function createManifest({ version, platform }) {
       type: "text_input",
       key: "clientSecret",
       label: "Client Secret",
-      tooltip_text: "Client secret to pass to token exchange requests. It is recommended not to be used in side mobile apps. Please consult your autorization provider.",
+      tooltip_text:
+        "Client secret to pass to token exchange requests. It is recommended not to be used in side mobile apps. Please consult your autorization provider.",
       default: "",
       conditional_fields: [
         {

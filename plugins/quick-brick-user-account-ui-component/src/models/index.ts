@@ -23,7 +23,7 @@ export const AdobePrimetime: LoginKeysDataModel = {
 export const Oauth2: LoginKeysDataModel = {
   title: "Oauth2",
   tokenKey: "access_token",
-  namespace: "cognito-webview-login",
+  namespace: "zapp_login_plugin_oauth_2_0",
 };
 
 export const Dummy1: LoginKeysDataModel = {

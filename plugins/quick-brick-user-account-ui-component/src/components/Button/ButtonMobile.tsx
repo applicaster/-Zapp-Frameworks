@@ -70,7 +70,6 @@ export default function ButtonMobile(props: ButtonProps) {
   });
 
   const image = { uri };
-
   return (
     <TouchableHighlight
       onPress={props?.onPress}
@@ -87,7 +86,7 @@ export default function ButtonMobile(props: ButtonProps) {
         source={image}
       >
         <Text numberOfLines={1} style={labelStyles}>
-          {props?.titleText}
+          {props?.titleText || ""}
         </Text>
       </ImageBackground>
     </TouchableHighlight>
