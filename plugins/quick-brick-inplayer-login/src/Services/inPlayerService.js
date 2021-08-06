@@ -28,6 +28,7 @@ export const logger = createLogger({
 
 const IN_PLAYER_LAST_EMAIL_USED_KEY = "com.inplayer.lastEmailUsed";
 const userAccountStorageTokenKey = "idToken";
+const localStorageTokenKey = "inplayer_token";
 
 export async function setConfig(environment = "production") {
   try {
@@ -352,6 +353,8 @@ export async function signOut() {
       userAccountStorageTokenKey,
       false
     );
+
+    await localStorageSet(localStorageTokenKey, false);
 
     await InPlayer.Account.removeToken()
       .then((data) => {
