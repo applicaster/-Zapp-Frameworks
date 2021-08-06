@@ -34,7 +34,7 @@ export async function setConfig(environment = "production") {
       message: `Set InPlayer environment: ${environment}`,
       data: { environment: environment },
     });
-    
+
     await InPlayer.setConfig(environment);
   } catch (error) {
     logger.error({
@@ -336,34 +336,48 @@ export async function setNewPassword({ password, token, brandingId }) {
 
 export async function signOut() {
   try {
-    const retVal = await InPlayer.Account.signOut();
+    const retVal = await InPlayer.Account.signOut()
+      .then((data) => {
+        logger.debug({
+          message: `InPlayer.Account.signOut >> succeed: true`,
+          data: {
+            succeed: true,
+            data
+          },
+        });
+      });
 
-    // await InPlayer.Account.removeToken();
-    logger.debug({
-      message: `InPlayer.Account.signOut >> succeed: true`,
-      data: {
-        succeed: true,
-      },
-    });
-
-    await localStorageRemove("idToken");
-    await localStorageRemoveUserAccount(userAccountStorageTokenKey);
+    await InPlayer.Account.removeToken()
+      .then((data) => {
+        logger.debug({
+          message: `InPlayer.Account.removeToken >> succeed: true`,
+          data: {
+            succeed: true,
+            data
+          },
+        });
+      });
 
     return retVal;
   } catch (error) {
-    // await InPlayer.Account.removeToken();
-
-    await localStorageRemove("idToken");
-    await localStorageRemoveUserAccount(userAccountStorageTokenKey);
-
-
-    logger.error({
-      message: `InPlayer.Account.signOut >> succeed: false, local token will be removed`,
+    logger.debug({
+      message: `InPlayer.Account.signOut >> succeed: false`,
       data: {
         succeed: false,
-        error,
+        error
       },
     });
+
+    await InPlayer.Account.removeToken()
+      .then((data) => {
+        logger.error({
+          message: `InPlayer.Account.signOut >> succeed: false, local token will be removed`,
+          data: {
+            succeed: false,
+            data,
+          },
+        });
+      });
   }
 }
 

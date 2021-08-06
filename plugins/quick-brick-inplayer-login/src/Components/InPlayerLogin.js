@@ -55,6 +55,7 @@ const getRiversProp = (key, rivers = {}, screenId = "") => {
 
 const localStorageTokenKey = "inplayer_token";
 const userAccountStorageTokenKey = "idToken";
+const zappNamespace = "applicaster.v2";
 
 const InPlayerLogin = (props) => {
   const HookTypeData = {
@@ -176,7 +177,7 @@ const InPlayerLogin = (props) => {
         });
 
         await localStorageRemove(defaultTokenKey);
-        await localStorageRemoveUserAccount(userAccountStorageTokenKey);
+        await localStorageRemoveUserAccount(userAccountStorageTokenKey, zappNamespace);
       },
     };
 
@@ -571,7 +572,7 @@ const InPlayerLogin = (props) => {
       setTimeout(() => {
         invokeLogoutCompleteAction();
       }, timeout);
-    } catch (error) {      
+    } catch (error) {
       setError(error);
       setTimeout(() => {
         logger.error({

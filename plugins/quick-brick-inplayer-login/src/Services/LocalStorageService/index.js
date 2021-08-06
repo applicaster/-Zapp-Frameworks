@@ -20,8 +20,8 @@ export async function localStorageSetUserAccount(key, value) {
   return await localStorage.setItem(key, value);
 }
 
-export async function localStorageRemoveUserAccount(key) {
-  return await localStorage.removeItem(key);
+export async function localStorageRemoveUserAccount(key, namespace) {
+  return await localStorage.removeItem(key, namespace);
 }
 
 export async function getBuildNumber() {
