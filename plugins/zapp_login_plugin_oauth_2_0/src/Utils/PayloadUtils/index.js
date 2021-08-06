@@ -46,3 +46,7 @@ export const isVideoEntry = (payload) => {
 
   return retVal;
 };
+
+export const isScreen = (payload) => {
+  return !isVideoEntry(payload);
+};

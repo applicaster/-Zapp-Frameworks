@@ -58,6 +58,7 @@ const OAuth = (props) => {
   const [loading, setLoading] = useState(true);
 
   const { callback, payload, rivers } = props;
+  console.log({ payload });
   const localizations = getRiversProp("localizations", rivers);
   const styles = getRiversProp("styles", rivers);
 
@@ -271,8 +272,9 @@ const OAuth = (props) => {
   };
 
   const performPostLogoutAction = () => {
-    const logout_completion_action = props?.configuration;
-
+    const logout_completion_action =
+      props?.configuration?.logout_completion_action;
+    console.log({ logout_completion_action });
     switch (logout_completion_action) {
       case "go_back":
         navigator.goBack();
