@@ -68,6 +68,10 @@ type ButtonProps = {
   styleKey: string;
   groupId?: string;
   containerStyle?: object;
+  focused?: boolean;
+  parentFocus?: ParentFocus;
+  nextFocusUp?: ParentFocus["nextFocusUp"];
+  nextFocusDown?: ParentFocus["nextFocusDown"];
 };
 
 type LabelStyles = {
