@@ -57,8 +57,10 @@ const OAuth = (props) => {
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const { callback, payload, rivers } = props;
-  console.log({ payload });
+  const { callback, payload, rivers, screenData } = props;
+  const presented_by_user_account =
+    screenData?.presented_by_user_account || false;
+  console.log({ payload, props, presented_by_user_account });
   const localizations = getRiversProp("localizations", rivers);
   const styles = getRiversProp("styles", rivers);
 

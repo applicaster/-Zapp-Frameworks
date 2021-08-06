@@ -155,7 +155,6 @@ export function UserAccount(props: Props) {
     });
 
     setIsLogedIn(logedIn);
-    ``;
   }, [button1Model, button2Model]);
 
   const accountTitles = React.useCallback(() => {
@@ -176,6 +175,10 @@ export function UserAccount(props: Props) {
       logout_title_text,
     };
   }, [button1Model, button2Model]);
+
+  function pushScreenPlugin(plugin) {
+    navigator.push({ ...plugin, presented_by_user_account: true });
+  }
 
   const onLogin1 = React.useCallback(async () => {
     if (debug_dummy_data_source) {
@@ -203,8 +206,6 @@ export function UserAccount(props: Props) {
       message: `Login Button 1 was clicked ${button1Model?.title}`,
       data: { button1Model, plugin },
     });
-
-    navigator.push(plugin);
   }, [button1Model]);
 
   const onLogin2 = React.useCallback(async () => {
@@ -221,8 +222,7 @@ export function UserAccount(props: Props) {
       message: `Login Button 2 was clicked ${button2Model.title}`,
       data: { button2Model, plugin },
     });
-
-    navigator.push(plugin);
+    pushScreenPlugin(plugin)
   }, [button2Model]);
 
   const onLogout = React.useCallback(async () => {
@@ -253,7 +253,7 @@ export function UserAccount(props: Props) {
       data: { button1Model, button2Model, plugin },
     });
 
-    navigator.push(plugin);
+    pushScreenPlugin(plugin)
   }, [button1Model, button2Model]);
 
   const titles = accountTitles();
