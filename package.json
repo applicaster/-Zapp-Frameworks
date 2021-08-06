@@ -46,7 +46,7 @@
     "@babel/preset-typescript": "^7.10.4",
     "@testing-library/react-native": "^7.0.2",
     "@types/react": "^16.9.34",
-    "@types/react-native": "^0.62.4",
+    "@types/react-native": "^0.63.1",
     "cli-task-runner": "^1.0.4",
     "dotenv": "^8.1.0",
     "ejs": "3.0.1",
@@ -78,7 +78,6 @@
     "yargs-parser": "^13.1.2",
     "@babel/types": "^7.10.4",
     "@types/react": "^16.9.34",
-    "@types/react-native": "^0.62.4",
     "jsrsasign": "^10.2.0",
     "hosted-git-info": "^2.8.9"
   }
