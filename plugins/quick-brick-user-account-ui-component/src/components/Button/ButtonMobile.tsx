@@ -70,7 +70,6 @@ export default function ButtonMobile(props: ButtonProps) {
   });
 
   const image = { uri };
-  console.log("Button");
   return (
     <TouchableHighlight
       onPress={props?.onPress}

@@ -19,7 +19,7 @@ export async function authorizeService(oAuthConfig, session_storage_key) {
   }
   try {
     const result = await authorize(oAuthConfig);
-    saveKeychainData(result);
+    await saveKeychainData(result);
     logger.debug({
       message: `authorizeService: Success`,
       data: { oauth_config: oAuthConfig, result, session_storage_key },
@@ -45,7 +45,7 @@ export async function refreshService(
   try {
     if (oAuthConfig && refreshToken) {
       const result = await refresh(oAuthConfig, { refreshToken });
-      saveKeychainData(result, session_storage_key);
+      await saveKeychainData(result, session_storage_key);
       logger.debug({
         message: `refreshService: Success`,
         data: { oauth_config: oAuthConfig, result, session_storage_key },

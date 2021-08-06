@@ -93,9 +93,9 @@ export function UserAccount(props: Props) {
     }
 
     return null;
-  }, [button1Model, button2Model]);
+  }, [button1Model?.token, button2Model?.token]);
 
-  async function preparePlugin() {
+  const preparePlugin = React.useCallback(async () => {
     try {
       logger.info({
         message: `preparePlugin: login button 2 is enabled: ${button_2_login_enabled}.`,
@@ -106,7 +106,6 @@ export function UserAccount(props: Props) {
         styles,
         debug_dummy_data_source
       );
-
       setButton1Model(buttonModel1);
 
       if (button_2_login_enabled) {
@@ -127,7 +126,7 @@ export function UserAccount(props: Props) {
         data: { error },
       });
     }
-  }
+  }, [isLoading, isLogedIn, button1Model, button2Model]);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -136,7 +135,6 @@ export function UserAccount(props: Props) {
 
   React.useEffect(() => {
     let logedIn = false;
-
     if (button1Model === null && button2Model === null) {
       logger.error({
         message:
@@ -159,7 +157,6 @@ export function UserAccount(props: Props) {
 
   const accountTitles = React.useCallback(() => {
     const model = loginDataModelByToken();
-    console.log({ model });
     if (!model) {
       return null;
     }
@@ -206,6 +203,7 @@ export function UserAccount(props: Props) {
       message: `Login Button 1 was clicked ${button1Model?.title}`,
       data: { button1Model, plugin },
     });
+    pushScreenPlugin(plugin);
   }, [button1Model]);
 
   const onLogin2 = React.useCallback(async () => {
@@ -222,7 +220,7 @@ export function UserAccount(props: Props) {
       message: `Login Button 2 was clicked ${button2Model.title}`,
       data: { button2Model, plugin },
     });
-    pushScreenPlugin(plugin)
+    pushScreenPlugin(plugin);
   }, [button2Model]);
 
   const onLogout = React.useCallback(async () => {
@@ -253,68 +251,70 @@ export function UserAccount(props: Props) {
       data: { button1Model, button2Model, plugin },
     });
 
-    pushScreenPlugin(plugin)
+    pushScreenPlugin(plugin);
   }, [button1Model, button2Model]);
 
   const titles = accountTitles();
-
   const renderLoginFlow = React.useCallback(() => {
+
     return (
       <>
         <UserPhoto styles={styles} imageSrc={styles?.user_image_placeholder} />
-        {!isLogedIn ? (
-          <Button
-            styleKey={login1ButtonId}
-            styles={styles}
-            id={login1ButtonId}
-            onPress={onLogin1}
-            titleText={login_button_1_title_text}
-          />
-        ) : null}
-        {!isLogedIn && button_2_login_enabled ? (
-          <Button
-            styleKey={login2ButtonId}
-            styles={styles}
-            id={login2ButtonId}
-            onPress={onLogin2}
-            titleText={login_button_2_title_text}
-          />
-        ) : null}
         {isLogedIn ? (
-          <TextView
-            styleKey={"info_label_description"}
-            styles={styles}
-            titleText={titles?.user_name_title}
-          />
-        ) : null}
-        {isLogedIn ? (
-          <Button
-            styleKey={logoutButtonBigId}
-            styles={styles}
-            id={logoutButtonId}
-            onPress={onLogout}
-            titleText={logout_title_text}
-          />
-        ) : null}
+          <>
+            <TextView
+              styleKey={"info_label_description"}
+              styles={styles}
+              titleText={titles?.user_name_title}
+            />
+            <Button
+              styleKey={logoutButtonBigId}
+              styles={styles}
+              id={logoutButtonId}
+              onPress={onLogout}
+              titleText={logout_title_text}
+            />
+          </>
+        ) : (
+          <>
+            <Button
+              styleKey={login1ButtonId}
+              styles={styles}
+              id={login1ButtonId}
+              onPress={onLogin1}
+              titleText={login_button_1_title_text}
+            />
+            {button_2_login_enabled ? (
+              <Button
+                styleKey={login2ButtonId}
+                styles={styles}
+                id={login2ButtonId}
+                onPress={onLogin2}
+                titleText={login_button_2_title_text}
+              />
+            ) : null}
+          </>
+        )}
       </>
     );
-  }, [isLogedIn, button1Model, button2Model]);
+  }, [isLogedIn, button1Model, button2Model, isLoading]);
 
   return (
     <View style={newContainerStyleStyle}>
       {isLogedIn &&
       titles?.user_name_title &&
-      titles?.subscription_expiration_title
-        ? !isLoading && (
-            <AccountInfo
-              src={styles.button_logout_background_image}
-              onLogoutPress={onLogout}
-              user_image_placeholder={styles?.user_image_placeholder}
-              styles={styles}
-              titles={titles}
-            />
-          )
-        : !isLoading && renderLoginFlow()}
+      titles?.subscription_expiration_title &&
+      !isLoading ? (
+        <AccountInfo
+          src={styles.button_logout_background_image}
+          onLogoutPress={onLogout}
+          user_image_placeholder={styles?.user_image_placeholder}
+          styles={styles}
+          titles={titles}
+        />
+      ) : (
+        renderLoginFlow()
+      )}
     </View>
   );
 }

@@ -104,7 +104,6 @@ export async function loginModel(
   keysModel: LoginKeysDataModel
 ): Promise<LoginDataModel> {
   const token = await tokenForKey(keysModel.tokenKey, keysModel.namespace);
-  console.log("loginModel", { token, keysModel });
   const userId = await itemForKey(keysModel.userIdKey, keysModel.namespace);
 
   const subscriptionPrice = await itemForKey(

@@ -71,7 +71,6 @@ const OAuth = (props) => {
 
   useLayoutEffect(() => {
     const configuration = props?.configuration;
-    addContext({ configuration, oauth_config: oAuthConfig });
 
     logger.debug({
       message: `Starting OAuth Plugin`,
@@ -119,17 +118,42 @@ const OAuth = (props) => {
 
   const invokeScreenHook = React.useCallback(
     async (authenticated) => {
-      console.log("invokeScreenHook");
+      logger.debug({
+        message: `invokeScreenHook: Start authenticated: ${authenticated}`,
+        data: {
+          authenticated,
+        },
+      });
+
       if (authenticated) {
+        logger.debug({
+          message: `invokeScreenHook: Finished authenticated: ${authenticated}, closing hook`,
+          data: {
+            authenticated,
+          },
+        });
         callback && callback({ success: true, error: null, payload: payload });
         return;
       }
 
       if (!oAuthConfig) {
+        logger.error({
+          message: `invokeScreenHook: Fail, closing hook. No oAuthConfig params. Check oAuth params in plugin config`,
+          data: {
+            authenticated,
+          },
+        });
+
         callback && callback({ success: false, error, payload });
         return;
       }
 
+      logger.debug({
+        message: `invokeScreenHook: Finished authenticated: ${authenticated}, presenting Login`,
+        data: {
+          authenticated,
+        },
+      });
       stillMounted && setIsUserAuthenticated(authenticated);
       stillMounted && setLoading(false);
     },
@@ -144,20 +168,54 @@ const OAuth = (props) => {
         testEnvironmentEnabled === "on" ||
         isAuthenticationRequired({ payload });
 
+      logger.debug({
+        message: `invokePlayerHook: Start authenticated: ${authenticated}`,
+        data: {
+          authenticated,
+          testEnvironmentEnabled,
+          authenticationRequired,
+        },
+      });
+
       if (authenticationRequired === false) {
+        logger.debug({
+          message: `invokePlayerHook: Finished authenticating not requiered, closing hook`,
+          data: {
+            authenticated,
+          },
+        });
         callback && callback({ success: true, error: null, payload: payload });
         return;
       }
 
       if (authenticated) {
+        logger.debug({
+          message: `invokePlayerHook: Finished authenticated: ${authenticated}, closing hook no login needed`,
+          data: {
+            authenticated,
+          },
+        });
         callback && callback({ success: true, error: null, payload: payload });
         return;
       }
 
       if (!oAuthConfig) {
+        logger.error({
+          message: `invokePlayerHook: Fail, closing hook. No oAuthConfig params. Check oAuth params in plugin config`,
+          data: {
+            authenticated,
+          },
+        });
         callback && callback({ success: false, error, payload });
         return;
       }
+
+      logger.debug({
+        message: `invokePlayerHook: Finished authenticated: ${authenticated}, presenting Login`,
+        data: {
+          authenticated,
+        },
+      });
 
       stillMounted && setIsUserAuthenticated(authenticated);
       stillMounted && setLoading(false);
@@ -167,7 +225,29 @@ const OAuth = (props) => {
 
   const invokeScreen = React.useCallback(
     async (authenticated) => {
-      console.log("Invoke screen");
+      logger.debug({
+        message: `invokeScreen: Start authenticated: ${authenticated}`,
+        data: {
+          authenticated,
+        },
+      });
+
+      if (!oAuthConfig) {
+        logger.error({
+          message: `invokeScreen: Fail, closing hook. No oAuthConfig params. Check oAuth params in plugin config`,
+          data: {
+            authenticated,
+          },
+        });
+        return;
+      }
+
+      logger.debug({
+        message: `invokeScreen: Finished authenticated: ${authenticated}, presenting Login`,
+        data: {
+          authenticated,
+        },
+      });
 
       stillMounted && setIsUserAuthenticated(authenticated);
       stillMounted && setLoading(false);
@@ -177,10 +257,15 @@ const OAuth = (props) => {
 
   const invokeUserAccount = React.useCallback(
     async (authenticated) => {
-      console.log("invokeUserAccount");
+      logger.debug({
+        message: `invokeUserAccount: Start authenticated: ${authenticated}`,
+        data: {
+          authenticated,
+        },
+      });
+      const logout_completion_action =
+        props?.configuration?.logout_completion_action;
       function performPostLogoutAction() {
-        const logout_completion_action =
-          props?.configuration?.logout_completion_action;
         if (logout_completion_action === "go_home") {
           navigator.goHome();
           return;
@@ -188,12 +273,37 @@ const OAuth = (props) => {
       }
 
       if (authenticated) {
-        console.log("performLogout");
+        logger.debug({
+          message: `invokeUserAccount: Perform Logout`,
+          data: {
+            authenticated,
+          },
+        });
         await performLogout();
         console.log("logout finished");
         performPostLogoutAction();
+        logger.debug({
+          message: `invokeUserAccount: Perform Login finished`,
+          data: {
+            authenticated,
+            logout_completion_action,
+          },
+        });
       } else {
+        logger.debug({
+          message: `invokeUserAccount: Perform Login`,
+          data: {
+            authenticated,
+          },
+        });
         await performLogin();
+
+        logger.debug({
+          message: `invokeUserAccount: Perform Login finished`,
+          data: {
+            authenticated,
+          },
+        });
       }
       stillMounted && setLoading(false);
       navigator.goBack();
