@@ -1,14 +1,16 @@
 import org.gradle.util.VersionNumber
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         consumerProguardFiles 'proguard-rules.pro'
     }
 
@@ -21,35 +23,22 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    packagingOptions {
-        exclude 'jsr305_annotations/Jsr305_annotations.gwt.xml'
-
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
     buildTypes {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            consumerProguardFiles 'proguard-rules.pro'
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
-}
-
-repositories {
-    jcenter()
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-    maven { url 'https://maven.google.com' }
-    maven { // Applicaster
-        credentials {
-            username System.getenv("MAVEN_USERNAME")
-            password System.getenv("MAVEN_PASSWORD")
-        }
-        url 'https://dl.bintray.com/applicaster-ltd/maven'
-    }
-    google()
 }
 
 def safeExtGet(prop, fallback) {
@@ -69,8 +58,8 @@ dependencies {
     else {
         api project(':applicaster-android-sdk')
     }
-
-    implementation 'com.adobe.marketing.mobile:analytics:1.2.6'
+    implementation 'com.adobe.marketing.mobile:sdk-core:1.8.2'
+    implementation 'com.adobe.marketing.mobile:analytics:1.2.8'
+    implementation 'com.adobe.marketing.mobile:media:2.1.2'
     implementation 'com.adobe.marketing.mobile:userprofile:1.1.0'
-    implementation 'com.adobe.marketing.mobile:sdk-core:1.6.0'
 }

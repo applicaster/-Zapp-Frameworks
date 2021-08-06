@@ -111,7 +111,7 @@ const api_apple = {
 };
 
 const api_android = {
-  class_name: "com.adobeagent.AdobeAnalyticsAgent",
+  class_name: "com.applicaster.analytics.adobe.AdobeAnalyticsAgent",
 };
 
 const api = {
