@@ -2,21 +2,11 @@ import { localStorage } from "@applicaster/zapp-react-native-bridge/ZappStorage/
 import { sessionStorage } from "@applicaster/zapp-react-native-bridge/ZappStorage/SessionStorage";
 
 import { parseJsonIfNeeded } from "@applicaster/zapp-react-native-utils/functionUtils";
-import {
-  createLogger,
-  BaseSubsystem,
-  BaseCategories,
-  XRayLogLevel,
-} from "../LoggerService";
+import { logger } from "../LoggerService";
 
 const namespace = "zapp_login_plugin_oauth_2_0";
 const authDataKey = "authData";
 const userAccountStorageTokenKey = "idToken";
-
-export const logger = createLogger({
-  subsystem: `${BaseSubsystem}/${BaseCategories.KEYCHAIN_STORAGE}`,
-  category: BaseCategories.KEYCHAIN_STORAGE,
-});
 
 export async function saveKeychainData(
   data,
@@ -31,34 +21,32 @@ export async function saveKeychainData(
     );
     const accessToken = data?.accessToken;
     if (accessToken) {
-      console.log({accessToken})
+      console.log({ accessToken });
       await sessionStorage.setItem(session_storage_key, accessToken, namespace);
       await localStorage.setItem(session_storage_key, accessToken, namespace);
       await localStorage.setItem(userAccountStorageTokenKey, accessToken);
     }
-    logger
-      .createEvent()
-      .setLevel(XRayLogLevel.debug)
-      .setMessage(`saveKeychainData: Success`)
-      .addData({
+    logger.debug({
+      message: `saveKeychainData: Success`,
+      data: {
         namespace,
         auth_data_key: authDataKey,
         session_storage_key,
-      })
-      .send();
+      },
+    });
+
     return result;
   } catch (error) {
-    logger
-      .createEvent()
-      .setLevel(XRayLogLevel.error)
-      .setMessage(`saveKeychainData: Error`)
-      .addData({
+    logger.error({
+      message: `saveKeychainData: Error`,
+      data: {
         namespace,
         auth_data_key: authDataKey,
         error,
         session_storage_key,
-      })
-      .send();
+      },
+    });
+
     return false;
   }
 }
@@ -70,27 +58,25 @@ export async function loadKeychainData() {
       namespace
     );
     const data = parseJsonIfNeeded(stringifiedData);
-    logger
-      .createEvent()
-      .setLevel(XRayLogLevel.debug)
-      .setMessage(`loadKeychainData: Success`)
-      .addData({
+    logger.debug({
+      message: `loadKeychainData: Success`,
+      data: {
         namespace,
         auth_data_key: authDataKey,
-      })
-      .send();
+      },
+    });
+
     return data;
   } catch (error) {
-    logger
-      .createEvent()
-      .setLevel(XRayLogLevel.error)
-      .setMessage(`loadKeychainData: Error`)
-      .addData({
+    logger.error({
+      message: `loadKeychainData: Error`,
+      data: {
         error,
         namespace,
         auth_data_key: authDataKey,
-      })
-      .send();
+      },
+    });
+
     return null;
   }
 }
@@ -106,28 +92,24 @@ export async function removeKeychainData(session_storage_key = "access_token") {
     await localStorage.removeItem(session_storage_key, namespace);
     await localStorage.removeItem(userAccountStorageTokenKey);
 
-    logger
-      .createEvent()
-      .setLevel(XRayLogLevel.debug)
-      .setMessage(`removeKeychainData: Success`)
-      .addData({
+    logger.debug({
+      message: `removeKeychainData: Success`,
+      data: {
         auth_data_key: authDataKey,
         namespace,
         result,
         session_storage_key,
-      })
-      .send();
+      },
+    });
   } catch (error) {
-    logger
-      .createEvent()
-      .setLevel(XRayLogLevel.error)
-      .setMessage(`removeKeychainData: Error`)
-      .addData({
+    logger.error({
+      message: `removeKeychainData: Error`,
+      data: {
         error,
         namespace,
         auth_data_key: authDataKey,
         session_storage_key,
-      })
-      .send();
+      },
+    });
   }
 }

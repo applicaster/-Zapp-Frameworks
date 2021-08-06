@@ -1,31 +1,18 @@
 import * as R from "ramda";
-import {
-  createLogger,
-  BaseSubsystem,
-  BaseCategories,
-  XRayLogLevel,
-} from "../../Services/LoggerService";
-
-export const logger = createLogger({
-  subsystem: BaseSubsystem,
-  category: BaseCategories.PAYLOAD_HELPER,
-});
+import { logger } from "../../Services/LoggerService";
 
 export const isAuthenticationRequired = ({ payload }) => {
   const requires_authentication = R.path([
     "extensions",
     "requires_authentication",
   ])(payload);
-  logger
-    .createEvent()
-    .setLevel(XRayLogLevel.debug)
-    .addData({
+  logger.debug({
+    message: `Payload entry is requires_authentication: ${requires_authentication}`,
+    data: {
       requires_authentication: requires_authentication,
-    })
-    .setMessage(
-      `Payload entry is requires_authentication: ${requires_authentication}`
-    )
-    .send();
+    },
+  });
+
   return requires_authentication ? true : false;
 };
 
@@ -35,14 +22,10 @@ export const isVideoEntry = (payload) => {
     R.path(["type", "value"])
   )(payload);
 
-  logger
-    .createEvent()
-    .setLevel(XRayLogLevel.debug)
-    .addData({
-      is_video_entry: retVal,
-    })
-    .setMessage(`Payload entry is_video_entry: ${retVal}`)
-    .send();
+  logger.debug({
+    message: `Payload entry is_video_entry: ${retVal}`,
+    data: { is_video_entry: retVal },
+  });
 
   return retVal;
 };

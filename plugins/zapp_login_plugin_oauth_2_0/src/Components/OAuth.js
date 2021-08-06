@@ -35,19 +35,8 @@ import {
 
 import { getStyles } from "../Utils/Customization";
 import { isHook } from "../Utils/UserAccount";
-import {
-  createLogger,
-  BaseSubsystem,
-  BaseCategories,
-  XRayLogLevel,
-  addContext,
-} from "../Services/LoggerService";
+import { logger } from "../Services/LoggerService";
 import { getConfig } from "../Services/Providers";
-
-export const logger = createLogger({
-  subsystem: BaseSubsystem,
-  category: BaseCategories.GENERAL,
-});
 
 const OAuth = (props) => {
   const windowWidth = useWindowDimensions().width;
@@ -83,12 +72,13 @@ const OAuth = (props) => {
   useLayoutEffect(() => {
     const configuration = props?.configuration;
     addContext({ configuration, oauth_config: oAuthConfig });
-    logger
-      .createEvent()
-      .setLevel(XRayLogLevel.debug)
-      .setMessage(`Starting OAuth Plugin`)
-      .addData({ configuration })
-      .send();
+
+    logger.debug({
+      message: `Starting OAuth Plugin`,
+      data: {
+        configuration,
+      },
+    });
 
     setupEnvironment();
     return () => {
@@ -237,16 +227,15 @@ const OAuth = (props) => {
       session_storage_key
     );
 
-    logger
-      .createEvent()
-      .setLevel(XRayLogLevel.debug)
-      .setMessage(`onPressActionButton: Logout Success`)
-      .addData({
+    logger.debug({
+      message: `onPressActionButton: Logout Success`,
+      data: {
         success,
         authenticated,
         screenType,
-      })
-      .send();
+      },
+    });
+
     showAlertLogout(success, screenLocalizations);
     setIsUserAuthenticated(authenticated);
   }, [isUserAuthenticated, screenType]);
@@ -257,29 +246,28 @@ const OAuth = (props) => {
       oAuthConfig,
       session_storage_key
     );
-    logger
-      .createEvent()
-      .setLevel(XRayLogLevel.debug)
-      .setMessage(`onPressActionButton: Login Success`)
-      .addData({
+
+    logger.debug({
+      message: `onPressActionButton: Login Success`,
+      data: {
         success,
         authenticated,
         screenType,
-      })
-      .send();
+      },
+    });
+
     setIsUserAuthenticated(authenticated);
     if (authenticated) {
       if (screenType === PresentationTypeData.SCREEN_HOOK) {
-        logger
-          .createEvent()
-          .setLevel(XRayLogLevel.debug)
-          .setMessage(`onPressActionButton: OAuth finished`)
-          .addData({
+        logger.debug({
+          message: `onPressActionButton: OAuth finished`,
+          data: {
             success,
             authenticated,
             screenType,
-          })
-          .send();
+          },
+        });
+
         callback && callback({ success: true, error: null, payload: payload });
       } else {
         showAlertLogin(success, screenLocalizations);
