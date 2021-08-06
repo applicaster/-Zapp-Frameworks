@@ -60,6 +60,14 @@ type GeneralStyles = {
   debug_dummy_data_source: string;
 };
 
+type Title = {
+  account_title: string;
+  user_name_title: string;
+  subscription_title: string;
+  subscription_expiration_title: string;
+  logout_title_text: string;
+};
+
 type ButtonProps = {
   id: string;
   onPress: () => void;
@@ -70,8 +78,20 @@ type ButtonProps = {
   containerStyle?: object;
   focused?: boolean;
   parentFocus?: ParentFocus;
-  nextFocusUp?: ParentFocus["nextFocusUp"];
-  nextFocusDown?: ParentFocus["nextFocusDown"];
+  nextFocusUp?: React.MutableRefObject<any>;
+  nextFocusDown?: React.MutableRefObject<any>;
+};
+
+type LoginProps = {
+  focused?: boolean;
+  parentFocus: ParentFocus;
+  styles: GeneralStyles;
+  isLoggedIn: boolean;
+  onLogin1: () => void;
+  onLogin2: () => void;
+  onLogout: () => void;
+  localizations: {};
+  titles: Title;
 };
 
 type LabelStyles = {

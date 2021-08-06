@@ -24,7 +24,7 @@ const componentStyles = {
 };
 // import { RiverOffsetContext } from "@applicaster/zapp-react-native-ui-components/Contexts";
 
-export default function ButtonTV(props: ButtonProps) {
+const ButtonTV = React.forwardRef((props: ButtonProps, ref) => {
   // const riverContext = React.useContext(RiverOffsetContext);
   const styles = props?.styles;
   const styleKey = props?.styleKey;
@@ -86,4 +86,6 @@ export default function ButtonTV(props: ButtonProps) {
       }}
     </Focusable>
   );
-}
+});
+
+export default ButtonTV;
