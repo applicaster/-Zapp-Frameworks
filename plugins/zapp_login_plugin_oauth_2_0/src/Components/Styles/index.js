@@ -10,14 +10,14 @@ export const safeAreaStyle = {
   backgroundColor: "clear",
 };
 
-export function backgroundImageStyle(screenStyles, hookType, width, height) {
+export function backgroundImageStyle(screenStyles, screenType, width, height) {
   return {
     flex: 1,
     width,
     height,
     resizeMode: "center",
     backgroundColor:
-      hookType === PresentationTypeData.UNDEFINED
+      screenType === PresentationTypeData.UNDEFINED
         ? "black"
         : screenStyles?.background_color,
     position: "absolute",

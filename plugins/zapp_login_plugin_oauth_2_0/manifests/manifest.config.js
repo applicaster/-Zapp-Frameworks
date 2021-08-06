@@ -447,10 +447,6 @@ function createManifest({ version, platform }) {
           text: "Go back to home screen",
           value: "go_home",
         },
-        {
-          text: "Stay on same screen",
-          value: "ignore",
-        },
       ],
       initial_value: "go_back",
     },
