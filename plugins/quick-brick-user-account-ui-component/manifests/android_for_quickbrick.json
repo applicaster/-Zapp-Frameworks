@@ -22,8 +22,8 @@
   "preload": true,
   "custom_configuration_fields": [],
   "platform": "android_for_quickbrick",
-  "dependency_version": "0.0.3",
-  "manifest_version": "0.0.3",
+  "dependency_version": "0.0.4",
+  "manifest_version": "0.0.4",
   "min_zapp_sdk": "0.1.0-alpha1",
   "styles": {
     "fields": [
@@ -280,25 +280,17 @@
         ]
       },
       {
-        "key": "button_2_login_enabled",
-        "label": "Switch to Enable Login Button 2",
-        "type": "Switch",
-        "initial_value": false
-      },
-      {
         "group": true,
         "label": "Login Button 2 Styles",
         "tooltip": "These fields affect login 2 button styles",
         "folded": true,
-        "conditional_fields": [
-          {
-            "condition_value": [
-              false
-            ],
-            "key": "styles/login_button_2_enabled"
-          }
-        ],
         "fields": [
+          {
+            "key": "button_2_login_enabled",
+            "label": "Switch to Enable Login Button 2",
+            "type": "Switch",
+            "initial_value": false
+          },
           {
             "key": "button_2_login_type",
             "type": "select",
