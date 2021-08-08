@@ -3,6 +3,7 @@
 //  ZappApple
 //
 //  Created by Alex Zchut on 23/02/2021.
+//  Copyright © 2021 Applicaster LTD. All rights reserved.
 //
 
 import Foundation

@@ -51,13 +51,13 @@
     "quickbrick"
   ],
   "platform": "ios_for_quickbrick",
-  "manifest_version": "9.2.2",
+  "manifest_version": "9.2.3",
   "extra_dependencies": [
     {
       "ZappAnalyticsPluginFirebase": ":path => './node_modules/@applicaster/zapp-analytics-plugin-firebase/apple/ZappAnalyticsPluginFirebase.podspec'"
     }
   ],
   "npm_dependencies": [
-    "@applicaster/zapp-analytics-plugin-firebase@9.2.2"
+    "@applicaster/zapp-analytics-plugin-firebase@9.2.3"
   ]
 }

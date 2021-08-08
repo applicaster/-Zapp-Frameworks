@@ -30,12 +30,12 @@ extension RootController: LoadingStateMachineDataSource {
     }
 
     func loadUserInterfaceLayerDependantPluginsGroup(_ successHandler: @escaping StateCallBack,
-                                                _ failHandler: @escaping StateCallBack) {
+                                                     _ failHandler: @escaping StateCallBack) {
         guard let manager = pluginsManager.uiLayerDependantPluginsSubManager else {
             successHandler()
             return
         }
-        
+
         manager.intializePlugins { success in
             if success == true {
                 successHandler()
@@ -132,11 +132,30 @@ extension RootController: LoadingStateMachineDataSource {
                 self.appDelegate?.handleDelayedEventsIfNeeded()
             }
 
+            // save complete loading
+            saveAppDidLoadedCompletelyIfNeeded()
+
         } else {
             // TODO: After will be added multi language support should be take from localization string
             showErrorMessage(message: "Loading failed. Please try again later")
             pluginsManager.hookFailedLoading(hooksPlugins: nil,
                                              completion: {})
         }
+    }
+
+    var appDidLoadedCompletely: Bool {
+        localStorageValue(for: RootControllerStorageKeys.appInitialCompleteLoad,
+                          namespace: nil)?.boolValue() ?? false
+    }
+
+    func saveAppDidLoadedCompletelyIfNeeded() {
+        guard appDidLoadedCompletely == false,
+              isOnline() else {
+            return
+        }
+
+        _ = localStorageSetValue(for: RootControllerStorageKeys.appInitialCompleteLoad,
+                                 value: "true",
+                                 namespace: nil)
     }
 }

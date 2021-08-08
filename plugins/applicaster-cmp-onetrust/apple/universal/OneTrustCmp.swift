@@ -115,6 +115,8 @@ public class OneTrustCmp: NSObject, GeneralCmpProviderProtocol {
             self.logger?.debugLog(message: "Initialized with status: \(status) and error \(error?.localizedDescription ?? "No error available").)")
         }
 
+        FacadeConnector.connector?.connectivity?.setNeedsRestartAfterOffline()
+        
         completion?(true)
     }
 

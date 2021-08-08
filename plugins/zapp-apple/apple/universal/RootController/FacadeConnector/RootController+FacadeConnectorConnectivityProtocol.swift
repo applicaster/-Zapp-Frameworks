@@ -12,7 +12,7 @@ extension RootController: FacadeConnectorConnnectivityProtocol {
     public func isOnline() -> Bool {
         var revValue = false
 
-        switch currentConnection {
+        switch reachabilityManager.currentConnection {
         case .connected:
             revValue = true
         default:
@@ -27,38 +27,12 @@ extension RootController: FacadeConnectorConnnectivityProtocol {
     }
 
     public func getCurrentConnectivityState() -> ConnectivityState {
-        var retValue: ConnectivityState = .cellular
-        
-        switch currentConnection {
-        case let .connected(connections):
-            if connections.contains(.cellular) {
-                retValue = .cellular
-            }
-            
-            if connections.contains(.wifi) {
-                retValue = .wifi
-            }
-        case .disconnected:
-            retValue = .offline
-        }
-        return retValue
+        return reachabilityManager.currentConnection.connectivityState
     }
 
-    public func addConnectivityListener(_ listener: ConnectivityListener) {
-        connectivityListeners.add(listener)
-    }
-
-    public func removeConnectivityListener(_ listener: ConnectivityListener) {
-        connectivityListeners.remove(listener)
-    }
-
-    @available(*, deprecated, message: "Deprecated from QB SDK 4.1.0, use EventsBus instead")
-    func updateConnectivityListeners() {
-        let currentConnectionState = getCurrentConnectivityState()
-        for listener in connectivityListeners {
-            if let connectivityListener = listener as? ConnectivityListener {
-                connectivityListener.connectivityStateChanged(currentConnectionState)
-            }
-        }
+    public func setNeedsRestartAfterOffline() {
+        _ = sessionStorageSetValue(for: RootControllerStorageKeys.shouldRestartAfterOfflineStart,
+                                   value: "true",
+                                   namespace: nil)
     }
 }

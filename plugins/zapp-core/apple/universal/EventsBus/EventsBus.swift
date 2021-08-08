@@ -177,7 +177,7 @@ public class EventsBus {
 
         shared.logger?.debugLog(message: EventsBusLogs.unsubscribed.message,
                                 category: EventsBusLogs.unsubscribed.category,
-                                data: ["topic": type,
+                                data: ["type": type,
                                        "target": String(describing: shared.getType(of: target)),
                                        "subject": subject ?? "",
                                        "source": source ?? ""])

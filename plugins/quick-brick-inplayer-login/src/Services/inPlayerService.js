@@ -26,11 +26,21 @@ export const logger = createLogger({
 const IN_PLAYER_LAST_EMAIL_USED_KEY = "com.inplayer.lastEmailUsed";
 
 export async function setConfig(environment = "production") {
-  logger.debug({
-    message: `Set InPlayer environment: ${environment}`,
-    data: { environment: environment },
-  });
-  await InPlayer.setConfig(environment);
+  try {
+    logger.debug({
+      message: `Set InPlayer environment: ${environment}`,
+      data: { environment: environment },
+    });
+    
+    await InPlayer.setConfig(environment);
+  } catch (error) {
+    logger.error({
+      message: `Failed to set InPlayer environment: ${environment}`,
+      data: { error },
+    });
+
+    throw error;
+  }
 }
 
 export async function getAssetByExternalId(payload) {
@@ -106,43 +116,56 @@ export async function getAssetByExternalId(payload) {
 
 export async function isAuthenticated(in_player_client_id) {
   try {
-    // InPlayer.Account.isAuthenticated() returns true even if token expired
-    // To handle this case InPlayer.Account.getAccount() was used
-    await InPlayer.Account.getAccountInfo();
+    try {
+      // InPlayer.Account.isAuthenticated() returns true even if token expired
+      // To handle this case InPlayer.Account.getAccount() was used
+      await InPlayer.Account.getAccountInfo();
 
-    logger.debug({
-      message: `InPlayer.Account.getAccount >> isAuthenticated: true`,
-      data: {
-        in_player_client_id,
-        is_authenticated: true,
-      },
-    });
-    return true;
-  } catch (error) {
-    const res = await error.response;
-    if (res?.status === 403) {
-      await InPlayer.Account.refreshToken(in_player_client_id);
-
-      logger.warning({
-        message: `InPlayer.Account.getAccount >> status: ${res?.status}, is_authenticated: true`,
+      logger.debug({
+        message: `InPlayer.Account.getAccount >> isAuthenticated: true`,
         data: {
           in_player_client_id,
           is_authenticated: true,
-          error,
         },
       });
       return true;
-    }
+    } catch (error) {
+      const res = await error.response;
+      if (res?.status === 403) {
+        logger.warning({
+          message: `InPlayer.Account.refreshToken >> status: ${res?.status}`,
+          data: {
+            in_player_client_id,
+            is_authenticated: true,
+            error,
+          },
+        });
+        await InPlayer.Account.refreshToken(in_player_client_id);
+        await InPlayer.Account.getAccountInfo();
 
-    logger.warning({
-      message: `InPlayer.Account.getAccount >> status: ${res?.status}, is_authenticated: false`,
+        logger.debug({
+          message: "InPlayer.Account.refreshToken success",
+          data: {
+            in_player_client_id,
+            is_authenticated: true,
+            error,
+          },
+        });
+        return true;
+      }
+
+      throw error;
+    }
+  } catch (error) {
+    logger.error({
+      message: `isAuthenticated: authentefication failed, deleting the token >> error: ${error.message}`,
       data: {
         in_player_client_id,
         is_authenticated: false,
         error,
       },
     });
-
+    InPlayer.Account.removeToken();
     return false;
   }
 }
@@ -311,7 +334,7 @@ export async function setNewPassword({ password, token, brandingId }) {
 export async function signOut() {
   try {
     const retVal = await InPlayer.Account.signOut();
-
+    await InPlayer.Account.removeToken();
     logger.debug({
       message: `InPlayer.Account.signOut >> succeed: true`,
       data: {
@@ -320,8 +343,10 @@ export async function signOut() {
     });
     return retVal;
   } catch (error) {
+    await InPlayer.Account.removeToken();
+
     logger.error({
-      message: `InPlayer.Account.signOut >> succeed: false`,
+      message: `InPlayer.Account.signOut >> succeed: false, local token will be removed`,
       data: {
         succeed: false,
         error,

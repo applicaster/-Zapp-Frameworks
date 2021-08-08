@@ -101,26 +101,6 @@ const baseManifest = {
     },
     {
       group: true,
-      label: "Chromecast",
-      tooltip: "Chromecast Settings",
-      folded: true,
-      fields: [
-        {
-          type: "text_input",
-          key: "chromecast_app_id",
-          tooltip_text: "Chromecast application ID",
-          default: "",
-        },
-        {
-          type: "hidden",
-          key: "plist.array.NSBonjourServices",
-          initial_value:
-            "_[chromecast_app_id]._googlecast._tcp, _googlecast._tcp",
-        },
-      ],
-    },
-    {
-      group: true,
       label: "Moat Analytics",
       tooltip: "Moat Analytics",
       folded: true,
@@ -186,13 +166,6 @@ const api = {
   ios_for_quickbrick: {
     class_name: "THEOplayerAdapter",
     modules: ["ZappTHEOplayer"],
-    plist: {
-      NSLocalNetworkUsageDescription:
-        "App uses the local network to discover Cast-enabled devices on your WiFi network.",
-    },
-    entitlements: {
-      "com.apple.developer.networking.wifi-info": true,
-    },
   },
   android_for_quickbrick: {
     class_name: "com.applicaster.reactnative.plugins.APReactNativeAdapter",

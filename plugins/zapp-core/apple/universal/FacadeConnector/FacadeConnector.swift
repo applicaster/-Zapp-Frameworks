@@ -48,7 +48,7 @@ import UIKit
         return connectorProvider as? FacadeConnectorLocalNotificationProtocol
     }
 
-    @objc public var connectivity: FacadeConnectorConnnectivityProtocol? {
+    public var connectivity: FacadeConnectorConnnectivityProtocol? {
         return connectorProvider as? FacadeConnectorConnnectivityProtocol
     }
     

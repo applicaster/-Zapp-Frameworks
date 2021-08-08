@@ -11,7 +11,6 @@ import ZappCore
 protocol ConnectivityProtocol {
     func isCastSessionConnected() -> Bool
     func isReachableViaWiFi() -> Bool
-    func updateConnectivityState()
     func updateCastButtonVisibility()
 }
 
@@ -23,18 +22,7 @@ extension ChromecastAdapter: ConnectivityProtocol {
     }
 
     func isReachableViaWiFi() -> Bool {
-        if let connectivity = FacadeConnector.connector?.connectivity {
-            connectivityState = connectivity.getCurrentConnectivityState()
-        }
-
         return connectivityState == .wifi
-    }
-
-    func updateConnectivityState() {
-        guard let connectivity = FacadeConnector.connector?.connectivity else {
-            return
-        }
-        connectivityState = connectivity.getCurrentConnectivityState()
     }
 
     func updateCastButtonVisibility() {
