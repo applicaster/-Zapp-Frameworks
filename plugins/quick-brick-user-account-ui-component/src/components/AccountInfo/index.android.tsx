@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { InfoView } from "../InfoView";
 import { LogoutButton } from "../LogoutButton";
 import { UserPhoto } from "../UserPhoto";
@@ -15,6 +15,9 @@ type Props = {
   };
   styles: GeneralStyles;
   src: string;
+  groupId: string;
+  parentFocus: ParentFocus;
+  focused: boolean;
 };
 
 const componentStyles = {
@@ -33,7 +36,11 @@ const componentStyles = {
 };
 
 export function AccountInfo(props: Props) {
+  const logoutButtonRef = React.useRef(null);
   const logoutButtonId = "button_logout";
+  const parentFocus = props?.parentFocus;
+  const focused = props?.focused;
+  const groupId = props?.groupId || "quick-brick-user-account-logout";
 
   const titles = props?.titles;
   const styles = props?.styles;
@@ -66,6 +73,11 @@ export function AccountInfo(props: Props) {
           <InfoView styles={styles} titles={subscriptionDataTitles} />
         )}
         <LogoutButton
+          ref={logoutButtonRef}
+          nextFocusUp={parentFocus?.nextFocusUp}
+          parentFocus={parentFocus}
+          focused={focused}
+          groupId={groupId}
           styleKey={logoutButtonId}
           onPress={props?.onLogoutPress}
           titleText={titles.logout_title_text}
