@@ -1,17 +1,15 @@
 //
-//  GemiusAnalytics+AdEvents.swift
-//  GemiusAnalytics
+//  ComScoreAnalytics+AdEvents.swift
+//  ComScoreAnalytics
 //
 //  Created by Alex Zchut on 21/06/2021.
 //  Copyright © 2021 Applicaster Ltd. All rights reserved.
 //
 
 import Foundation
-import GemiusSDK
 import ZappCore
 
-extension GemiusAnalytics {
-
+extension ComScoreAnalytics {
     func shouldHandleScreenEvents(for eventName: String, parameters: [String: NSObject]) -> Bool {
         var retValue = false
 
@@ -45,23 +43,13 @@ extension GemiusAnalytics {
             }
 
             retValue = proceedScreenEvent(eventName,
-                                          type: .EVENT_ACTION,
                                           params: params)
         }
 
         return retValue
     }
 
-    fileprivate func proceedScreenEvent(_ eventName: String, type: GEMEventType = .EVENT_FULL_PAGEVIEW, params: [String: String]) -> Bool {
-        let event = GEMAudienceEvent()
-        event.eventType = type
-        event.scriptIdentifier = scriptIdentifier
-        for (key, value) in params {
-            if key.count > 0 && value.count > 0 {
-                event.addExtraParameter(key, value: value)
-            }
-        }
-        event.send()
+    fileprivate func proceedScreenEvent(_ eventName: String, type: String = "", params: [String: String]) -> Bool {
 
         lastProceededScreenEvent = eventName
         return true

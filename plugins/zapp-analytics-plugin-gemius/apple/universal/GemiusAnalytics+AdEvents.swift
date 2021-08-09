@@ -8,16 +8,9 @@
 
 import Foundation
 import GemiusSDK
+import ZappCore
 
 extension GemiusAnalytics {
-    struct AdEvents {
-        static let adBreakBegin = "Ad Break Begin"
-        static let adBreakEnd = "Ad Break End"
-        static let adError = "Ad Error"
-        static let adBegin = "Ad Begin"
-        static let adEnd = "Ad End"
-    }
-
     struct AdEventParams {
         var breakSize: Int = 0
         var timeOffset: Double = 0.0
@@ -31,7 +24,7 @@ extension GemiusAnalytics {
         var retValue = false
 
         switch eventName {
-        case AdEvents.adBreakBegin:
+        case AdAnalyticsEvent.adBreakBegin:
             let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
             if let lastProgramID = lastProgramID {
                 gemiusPlayerObject?.program(.BREAK,
@@ -42,7 +35,7 @@ extension GemiusAnalytics {
 
             retValue = proceedAdEvent(eventName)
 
-        case AdEvents.adBegin:
+        case AdAnalyticsEvent.adBegin:
             let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
             let data = GSMAdData()
             let adEventParams = parseAdEventParams(from: parameters)
@@ -62,7 +55,7 @@ extension GemiusAnalytics {
                                         with: adEventData)
             retValue = proceedAdEvent(eventName)
 
-        case AdEvents.adEnd:
+        case AdAnalyticsEvent.adEnd:
             let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
             let adEventParams = parseAdEventParams(from: parameters)
             let adEventData = GSMEventAdData()
