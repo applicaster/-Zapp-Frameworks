@@ -320,9 +320,9 @@ const OAuth = (props) => {
     if (isScreenHook) {
       if (videoEntry) {
         stillMounted && setScreenType(PresentationTypeData.PLAYER_HOOK);
+        return;
       }
       stillMounted && setScreenType(PresentationTypeData.SCREEN_HOOK);
-
       return;
     }
     stillMounted && setScreenType(PresentationTypeData.SCREEN);
@@ -385,6 +385,27 @@ const OAuth = (props) => {
     }
   }, [isUserAuthenticated, screenType]);
 
+  function isBackButtonDisabled() {
+    const allow_screen_plugin_presentation =
+      props?.screenData?.general?.allow_screen_plugin_presentation;
+    const canGoBack = navigator.canGoBack();
+    if (
+      screenType === PresentationTypeData.SCREEN_HOOK &&
+      canGoBack === false
+    ) {
+      return true;
+    } else if (
+      allow_screen_plugin_presentation === false &&
+      canGoBack === true
+    ) {
+      return true;
+    } else if (canGoBack === false) {
+      return true;
+    }
+
+    return false;
+  }
+
   const onPressActionButton = React.useCallback(async () => {
     setLoading(true);
     if (isUserAuthenticated) {
@@ -404,17 +425,8 @@ const OAuth = (props) => {
   };
 
   const SafeArea = Platform.isTV ? View : SafeAreaView;
-  const allow_screen_plugin_presentation =
-    props?.screenData?.general?.allow_screen_plugin_presentation;
 
-  const isBackButtonDisabled =
-    !(
-      screenType === PresentationTypeData.SCREEN_HOOK ||
-      screenStyles?.back_button_force_display ||
-      navigator.canGoBack()
-    ) ||
-    (navigator.canGoBack() && allow_screen_plugin_presentation === false);
-
+  const backButtonDisabled = isBackButtonDisabled();
   return (
     <>
       {screenType === PresentationTypeData.UNDEFINED ? null : (
@@ -433,7 +445,7 @@ const OAuth = (props) => {
           <View style={containerStyle}>
             <BackButton
               title={back_button_text}
-              disabled={isBackButtonDisabled}
+              disabled={backButtonDisabled}
               screenStyles={screenStyles}
               onPress={onBackButton}
             />
