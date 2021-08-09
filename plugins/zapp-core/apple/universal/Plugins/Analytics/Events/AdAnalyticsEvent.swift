@@ -23,7 +23,12 @@ public struct AdAnalyticsEventParams {
     public var adPosition: Int = 0
     public var id: String = ""
     
-    public init() {
-        
+    public init(with parameters: [String: Any]?) {
+        self.adPosition = parameters?["Ad Position"] as? Int ?? 0
+        self.breakSize = parameters?["Ad Break Size"] as? Int ?? 0
+        self.maxDuration = parameters?["Ad Break Max Duration"] as? Double ?? 0.0
+        self.maxRemainingDuration = parameters?["maxRemainingDuration"] as? Double ?? 0.0
+        self.timeOffset = parameters?["Ad Break Time Offset"] as? Double ?? 0.0
+        self.id = parameters?["Ad Id"] as? String ?? ""
     }
 }

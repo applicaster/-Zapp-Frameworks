@@ -16,4 +16,4 @@ FOUNDATION_EXPORT const unsigned char ZappAnalyticsPluginAdobeVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <ZappAnalyticsPluginAdobe/PublicHeader.h>
 
-#import <ZappAnalyticsPluginAdobe/AdobeAnalytics.h>
+#import <ZappAnalyticsPluginAdobe/AdobeAnalyticsObjc.h>

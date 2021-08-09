@@ -1,15 +1,13 @@
 //
-//  ComScoreAnalytics+AnalyticsProviderProtocol.swift
-//  ComScoreAnalytics
+//  AnalyticsBaseProvider+AnalyticsProviderProtocol.swift
+//  ZappCore
 //
-//  Created by Alex Zchut on 08/08/2021.
-//  Copyright © 2021 Applicaster Ltd. All rights reserved.
+//  Created by Alex Zchut on 09/08/2021.
 //
 
 import Foundation
-import ZappCore
 
-extension ComScoreAnalytics: AnalyticsProviderProtocol {
+extension AnalyticsBaseProvider: AnalyticsProviderProtocol {
     public func sendEvent(_ eventName: String,
                           parameters: [String: Any]?) {
         var parametersToPass: [String: NSObject] = [:]
@@ -30,8 +28,8 @@ extension ComScoreAnalytics: AnalyticsProviderProtocol {
                         parameters: parametersToPass)
     }
 
-    @objc public func startObserveTimedEvent(_ eventName: String,
-                                             parameters: [String: Any]?) {
+    public func startObserveTimedEvent(_ eventName: String,
+                                       parameters: [String: Any]?) {
         let updatedEventName = "\(eventName).start"
 
         var parametersToPass: [String: NSObject] = [:]
@@ -58,17 +56,16 @@ extension ComScoreAnalytics: AnalyticsProviderProtocol {
 
     public func trackEvent(_ eventName: String, parameters: [String: NSObject]) {
         // Check for a valid gemius key
-        guard isDisabled == false else {
+        guard isDisabled == false,
+              let handlers = handlers else {
             return
         }
 
-        guard !shouldHandlePlayerEvents(for: eventName, parameters: parameters),
-              !shouldHandleAdEvents(for: eventName, parameters: parameters),
-              !shouldHandleScreenEvents(for: eventName, parameters: parameters) else {
-            return
+        for handler in handlers {
+            if handler.handleEvent(name: eventName, parameters: parameters) {
+                break
+            }
         }
-
-        // ignore other events
     }
 
     func trackEvent(_ eventName: String, timed: Bool) {
@@ -85,11 +82,5 @@ extension ComScoreAnalytics: AnalyticsProviderProtocol {
 
     func endTimedEvent(_ eventName: String, parameters: [String: NSObject]) {
         trackEvent(eventName, parameters: parameters)
-    }
-}
-
-extension ComScoreAnalytics {
-    func getCurrentPlayerPosition(from parameters: [String: NSObject]) -> Double {
-        return parameters["offset"] as? Double ?? 0.00
     }
 }

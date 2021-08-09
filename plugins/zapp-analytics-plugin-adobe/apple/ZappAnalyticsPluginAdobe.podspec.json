@@ -17,8 +17,7 @@
     "tag": "@@applicaster/zapp-analytics-plugin-adobe/1.2.2"
   },
   "requires_arc": true,
-  "public_header_files": "universal/**/*.h",
-  "source_files": "universal/**/*.{h,m,swift}",
+  "source_files": "universal/**/*.{swift}",
   "static_framework": true,
   "frameworks": [
     "AVFoundation"
@@ -31,23 +30,29 @@
   "tvos": {
     "dependencies": {
       "ZappAnalyticsPluginsSDK": [],
-      "ACPAnalytics": [
-        "2.5.0"
+      "AEPAnalytics": [
+        "3.0.1"
       ],
-      "ACPCore": [
-        "2.9.1"
+      "AEPLifecycle": [],
+      "AEPIdentity": [],
+      "AEPSignal": [],
+      "AEPCore": [
+        "3.2.2"
       ]
     }
   },
   "ios": {
     "dependencies": {
       "ZappAnalyticsPluginsSDK": [],
-      "ACPAnalytics": [
-        "2.5.0"
+      "AEPAnalytics": [
+        "3.0.1"
       ],
-      "ACPUserProfile": [],
-      "ACPCore": [
-        "2.9.1"
+      "AEPLifecycle": [],
+      "AEPUserProfile": [],
+      "AEPIdentity": [],
+      "AEPSignal": [],
+      "AEPCore": [
+        "3.2.2"
       ]
     }
   }
