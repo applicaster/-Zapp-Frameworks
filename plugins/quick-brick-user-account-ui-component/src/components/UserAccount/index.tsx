@@ -91,9 +91,9 @@ export function UserAccount(props: Props) {
     }
 
     return null;
-  }, [button1Model, button2Model]);
+  }, [button1Model?.token, button2Model?.token]);
 
-  async function preparePlugin() {
+  const preparePlugin = React.useCallback(async () => {
     try {
       logger.info({
         message: `preparePlugin: login button 2 is enabled: ${button_2_login_enabled}.`,
@@ -104,7 +104,6 @@ export function UserAccount(props: Props) {
         styles,
         debug_dummy_data_source
       );
-
       setButton1Model(buttonModel1);
 
       if (button_2_login_enabled) {
@@ -125,7 +124,7 @@ export function UserAccount(props: Props) {
         data: { error },
       });
     }
-  }
+  }, [isLoading, isLogedIn, button1Model, button2Model]);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -157,7 +156,6 @@ export function UserAccount(props: Props) {
 
   const accountTitles = React.useCallback(() => {
     const model = loginDataModelByToken();
-
     if (!model) {
       return null;
     }
@@ -173,6 +171,10 @@ export function UserAccount(props: Props) {
       logout_title_text,
     };
   }, [button1Model, button2Model]);
+
+  function pushScreenPlugin(plugin) {
+    navigator.push({ ...plugin, presented_by_user_account: true });
+  }
 
   const onLogin1 = React.useCallback(async () => {
     if (debug_dummy_data_source) {
@@ -200,8 +202,7 @@ export function UserAccount(props: Props) {
       message: `Login Button 1 was clicked ${button1Model?.title}`,
       data: { button1Model, plugin },
     });
-
-    navigator.push(plugin);
+    pushScreenPlugin(plugin);
   }, [button1Model]);
 
   const onLogin2 = React.useCallback(async () => {
@@ -218,8 +219,7 @@ export function UserAccount(props: Props) {
       message: `Login Button 2 was clicked ${button2Model.title}`,
       data: { button2Model, plugin },
     });
-
-    navigator.push(plugin);
+    pushScreenPlugin(plugin);
   }, [button2Model]);
 
   const onLogout = React.useCallback(async () => {
@@ -250,7 +250,7 @@ export function UserAccount(props: Props) {
       data: { button1Model, button2Model, plugin },
     });
 
-    navigator.push(plugin);
+    pushScreenPlugin(plugin);
   }, [button1Model, button2Model]);
 
   const titles = accountTitles();

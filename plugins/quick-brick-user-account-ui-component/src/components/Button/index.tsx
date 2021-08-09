@@ -3,7 +3,7 @@ import { platformSelect } from "@applicaster/zapp-react-native-utils/reactUtils"
 import ButtonMobile from "./ButtonMobile";
 import ButtonTV from "./ButtonTV";
 
-export function Button(props) {
+export function Button(props: ButtonProps) {
   const mobile = <ButtonMobile {...props} />;
   const tv = <ButtonTV {...props} />;
 

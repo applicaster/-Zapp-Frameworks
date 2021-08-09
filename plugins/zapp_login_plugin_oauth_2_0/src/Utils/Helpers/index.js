@@ -43,9 +43,10 @@ export function getRiversProp(key, rivers = {}) {
   return getPropByKey(rivers);
 }
 
-export const HookTypeData = {
+export const PresentationTypeData = {
   UNDEFINED: "Undefined",
-  PLAYER_HOOK: "PlayerHook",
   SCREEN_HOOK: "ScreenHook",
+  PLAYER_HOOK: "PlayerHook",
   USER_ACCOUNT: "UserAccount",
+  SCREEN: "Screen",
 };

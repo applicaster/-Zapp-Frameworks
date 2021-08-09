@@ -19,7 +19,7 @@
     "572a0a65373163000b000000",
     "5a364b49e03b2f000d51a0de"
   ],
-  "min_zapp_sdk": "0.1.0-alpha1",
+  "min_zapp_sdk": "8.0.0-dev",
   "deprecated_since_zapp_sdk": "",
   "unsupported_since_zapp_sdk": "",
   "preload": false,
@@ -68,10 +68,10 @@
     "quickbrick"
   ],
   "platform": "android_tv_for_quickbrick",
-  "manifest_version": "1.12.0",
+  "manifest_version": "1.14.0",
   "extra_dependencies": null,
   "npm_dependencies": [
-    "@applicaster/quick-brick-xray@1.12.0",
+    "@applicaster/quick-brick-xray@1.14.0",
     "@applicaster/x-ray@0.2.1"
   ],
   "project_dependencies": [

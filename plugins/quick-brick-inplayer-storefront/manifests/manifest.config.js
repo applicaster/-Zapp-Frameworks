@@ -1009,6 +1009,7 @@ const api = {
   web: {
     excludedNodeModules: [
       "@applicaster/applicaster-iap",
+      "@applicaster/applicaster-storefront-component",
       "react-native-dropdownalert",
       "react-native-keyboard-aware-scroll-view",
     ],
