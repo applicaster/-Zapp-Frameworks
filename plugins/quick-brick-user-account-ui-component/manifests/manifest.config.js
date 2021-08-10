@@ -21,6 +21,17 @@ const baseManifest = {
   ui_frameworks: ["quickbrick"],
   preload: true,
   custom_configuration_fields: [],
+  rules: {
+    fields: [
+      {
+        key: "hide_component_if_data_is_empty",
+        label: "Hide Component if data is empty",
+        label_tooltip: "Usually this component will have no data, so this flag ensures that it is not hidden",
+        type: "switch",
+        initial_value: false,
+      },
+    ],
+  },
 };
 
 const androidPlatforms = [
