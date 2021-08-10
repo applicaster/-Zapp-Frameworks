@@ -5,8 +5,9 @@ import com.adobe.marketing.mobile.Media
 import com.adobe.marketing.mobile.MediaConstants.StreamType
 import com.adobe.marketing.mobile.MediaConstants.VideoMetadataKeys
 import com.adobe.marketing.mobile.MediaTracker
+import com.applicaster.analytics.adapters.AnalyticsPlayerAdapter
+import com.applicaster.analytics.adapters.ParamsGetters
 import com.applicaster.analytics.adobe.AdobeAnalyticsAgent.Companion.TAG
-import com.applicaster.analytics.comscore.sdk.adapters.AnalyticsPlayerAdapter
 import com.applicaster.util.APLogger
 import java.util.*
 
@@ -113,14 +114,14 @@ class PlayerRouter : AnalyticsPlayerAdapter() {
             return
         }
 
-        val duration = getLong(params, KEY_AD_DURATION)
+        val duration = ParamsGetters.getLong(params, KEY_AD_DURATION)
 
         if (null == duration) {
             APLogger.error(TAG, "$KEY_AD_DURATION is missing in the event $AD_START_EVENT data")
             return
         }
 
-        val pos = getInt(params, KEY_AD_POSITION)
+        val pos = ParamsGetters.getInt(params, KEY_AD_POSITION)
 
         if (null == pos) {
             APLogger.warn(TAG, "$KEY_AD_POSITION is missing in the event $AD_START_EVENT data")
