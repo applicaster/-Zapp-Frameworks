@@ -69,7 +69,13 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         data.name = itemData.title
         data.duration = NSNumber(value: itemData.duration)
 
-        if let jsonString = parameters?["analyticsCustomProperties"] as? String,
+        let customProperties = "analyticsCustomProperties"
+        var jsonString = parameters?[customProperties] as? String
+        if jsonString == nil, let value = itemIntialParameters?[customProperties] as? String {
+            jsonString = value
+        }
+        
+        if let jsonString = jsonString,
            let jsonData = jsonString.data(using: String.Encoding.utf8),
            let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: AnyObject] {
             for (key, value) in jsonDictionary {

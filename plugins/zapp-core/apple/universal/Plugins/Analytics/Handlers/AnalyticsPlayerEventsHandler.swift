@@ -19,6 +19,8 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
     
     public var lastProceededEvent: String?
     public var itemData: AnalyticsPlayerObject?
+    public var itemIntialParameters: [String: Any]?
+
     var adEventsHandler: AnalyticsAdEventsHandler?
     
     public init(delegate: AnalyticsEventsHandlerDelegate?, adEventsHandler: AnalyticsAdEventsHandler?) {
@@ -40,6 +42,9 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
         }
 
         switch name {
+        case PlayerAnalyticsEvent.initial:
+            retValue = handleInitialEvent(name, parameters: parameters)
+            
         case PlayerAnalyticsEvent.created:
             retValue = handleCreateEvent(name, parameters: parameters)
 
@@ -71,6 +76,11 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
         return retValue
     }
 
+    func handleInitialEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        itemIntialParameters = parameters
+        return true
+    }
+    
     open func handleCreateEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         guard let itemId = parameters?["Item ID"] as? String,
               !itemId.isEmpty,
@@ -157,6 +167,7 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
         }
 
         lastProceededEvent = nil
+        itemIntialParameters = nil
         itemData = nil
         adEventsHandler?.lastProceededEvent = nil
         

@@ -8,6 +8,7 @@
 import Foundation
 
 public struct PlayerAnalyticsEvent {
+    public static let initial = "Play VOD Item.start"
     public static let created = "Player Created"
     public static let dismissed = "Player Closed"
     public static let play = "Player Playing"
