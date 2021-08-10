@@ -7,6 +7,7 @@
 //
 
 import AEPAnalytics
+import AEPMedia
 import AEPCore
 import AEPIdentity
 import AEPLifecycle
@@ -39,7 +40,7 @@ open class AdobeAnalytics: AnalyticsBaseProvider {
                 MobileCore.registerExtension(UserProfile.self)
             #endif
 
-            MobileCore.registerExtensions([Signal.self, Identity.self, Analytics.self, Lifecycle.self], {
+            MobileCore.registerExtensions([Signal.self, Identity.self, Analytics.self, Lifecycle.self, Media.self], {
                 #if canImport(AEPUserProfile)
                     MobileCore.registerExtension(UserProfile.self)
                 #endif

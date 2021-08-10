@@ -14,7 +14,13 @@ public struct AnalyticsPlayerObject {
     public let isLive: Bool
 }
 
-open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerProtocol {
+open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerProtocol, AnalyticsAdEventsHandlerDelegate {
+    open var externalAdsHandlingObject: AnyObject? {
+        get {
+            return nil
+        }
+    }
+
     public weak var delegate:AnalyticsEventsHandlerDelegate?
     
     public var lastProceededEvent: String?
@@ -27,6 +33,7 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
         super.init()
         self.delegate = delegate
         self.adEventsHandler = adEventsHandler
+        self.adEventsHandler?.adDelegate = self
     }
     
     open func handleEvent(name: String, parameters: [String: Any]?) -> Bool {

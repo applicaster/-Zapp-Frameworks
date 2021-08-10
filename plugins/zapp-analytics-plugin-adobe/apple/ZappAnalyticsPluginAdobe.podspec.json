@@ -33,6 +33,7 @@
       "AEPAnalytics": [
         "3.0.1"
       ],
+      "AEPMedia": [],
       "AEPLifecycle": [],
       "AEPIdentity": [],
       "AEPSignal": [],
@@ -47,6 +48,7 @@
       "AEPAnalytics": [
         "3.0.1"
       ],
+      "AEPMedia": [],
       "AEPLifecycle": [],
       "AEPUserProfile": [],
       "AEPIdentity": [],

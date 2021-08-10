@@ -16,6 +16,10 @@ public protocol AnalyticsEventsHandlerDelegate: AnyObject {
     var externalObject: AnyObject? {get set}
 }
 
+public protocol AnalyticsAdEventsHandlerDelegate: AnyObject {
+    var externalAdsHandlingObject: AnyObject? {get}
+}
+
 public protocol AnalyticsPlayerEventsHandlerProtocol: AnalyticsEventsHandlerProtocol {
     func handleCreateEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
     func handleSeekingEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
