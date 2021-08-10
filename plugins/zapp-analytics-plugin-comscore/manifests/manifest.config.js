@@ -87,7 +87,7 @@ const ui_frameworks = {
 };
 
 const min_zapp_sdk = {
-  android_for_quickbrick: "2.0.0",
+  android_for_quickbrick: "8.0.0-dev",
   ios_for_quickbrick: "2.0.2-Dev",
 };
 
