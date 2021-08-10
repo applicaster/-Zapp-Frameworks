@@ -55,6 +55,8 @@ extension ChromecastAdapter : ChromecastExtendedPlayerControlsProtocol {
             return
         }
 
+        chromecastExpandedVC.modalPresentationStyle = .fullScreen
+        
         rootVC.present(chromecastExpandedVC, animated: true, completion: nil)
     }
 
