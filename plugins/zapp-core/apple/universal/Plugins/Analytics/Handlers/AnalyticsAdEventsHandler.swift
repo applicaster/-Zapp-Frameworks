@@ -8,10 +8,10 @@
 import Foundation
 
 open class AnalyticsAdEventsHandler: NSObject, AnalyticsAdEventsHandlerProtocol {
-    weak var delegate:AnalyticsEventsHandlerDelegate?
+    public weak var delegate:AnalyticsEventsHandlerDelegate?
 
     var lastProceededEvent: String?
-    var adIsPlaying: Bool = false
+    public var adIsPlaying: Bool = false
     
     public init(delegate: AnalyticsEventsHandlerDelegate?) {
         super.init()

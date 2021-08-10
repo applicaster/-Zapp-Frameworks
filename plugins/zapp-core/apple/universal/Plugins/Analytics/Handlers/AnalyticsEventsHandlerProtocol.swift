@@ -13,6 +13,7 @@ public protocol AnalyticsEventsHandlerProtocol {
 
 public protocol AnalyticsEventsHandlerDelegate: AnyObject {
     var configurationJSON: NSDictionary? {get}
+    var externalObject: AnyObject? {get set}
 }
 
 public protocol AnalyticsPlayerEventsHandlerProtocol: AnalyticsEventsHandlerProtocol {

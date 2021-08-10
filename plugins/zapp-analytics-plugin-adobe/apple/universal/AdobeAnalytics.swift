@@ -20,7 +20,7 @@ struct AdobeAnalyticsProviderParams {
     static let productionAddId = "mobile_app_account_id_production"
 }
 
-open class AdobeAnalytics: AnalyticsBaseProvider, AnalyticsEventsHandlerDelegate {
+open class AdobeAnalytics: AnalyticsBaseProvider {
     override public var providerName: String {
         return "adobe"
     }
@@ -53,13 +53,13 @@ open class AdobeAnalytics: AnalyticsBaseProvider, AnalyticsEventsHandlerDelegate
             disable(completion: completion)
         }
     }
-    
-    open override func prepareEventsHandlers() -> [AnalyticsEventsHandlerProtocol] {
+
+    override open func prepareEventsHandlers() -> [AnalyticsEventsHandlerProtocol] {
         let adsEventsHandler = AdobeAnalyticsAdEventsHandler(delegate: self)
         return [
             AdobeAnalyticsScreenEventsHandler(delegate: self),
             AdobeAnalyticsPlayerEventsHandler(delegate: self,
-                                                 adEventsHandler: adsEventsHandler)
+                                              adEventsHandler: adsEventsHandler),
         ]
     }
 

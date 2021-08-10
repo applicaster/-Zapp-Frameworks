@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class AnalyticsBaseProvider: NSObject, PluginAdapterProtocol {
+open class AnalyticsBaseProvider: NSObject, PluginAdapterProtocol, AnalyticsEventsHandlerDelegate {
     open var configurationJSON: NSDictionary?
     public var isDisabled = false
 
@@ -17,7 +17,15 @@ open class AnalyticsBaseProvider: NSObject, PluginAdapterProtocol {
     }
 
     var handlers: [AnalyticsEventsHandlerProtocol]?
-
+    open var externalObject: AnyObject? {
+        get {
+            return nil
+        }
+        set {
+            
+        }
+    }
+    
     public required init(pluginModel: ZPPluginModel) {
         model = pluginModel
         configurationJSON = model?.configurationJSON

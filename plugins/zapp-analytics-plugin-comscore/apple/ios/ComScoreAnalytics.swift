@@ -18,15 +18,14 @@ struct ComScoreAnalyticsProviderParams {
     static let c3 = "c3"
 }
 
-open class ComScoreAnalytics: AnalyticsBaseProvider, AnalyticsEventsHandlerDelegate {
-    
-    public override var providerName: String {
+open class ComScoreAnalytics: AnalyticsBaseProvider {
+    override public var providerName: String {
         return "comscore"
     }
 
-    public override func prepareProvider(_ defaultParams: [String: Any], completion: ((Bool) -> Void)?) {
+    override public func prepareProvider(_ defaultParams: [String: Any], completion: ((Bool) -> Void)?) {
         super.prepareProvider(defaultParams, completion: completion)
-        
+
         if let customerC2 = configurationJSON?[ComScoreAnalyticsProviderParams.customerC2Key] as? String {
             var nsSite: String?
             if let value = configurationJSON?[ComScoreAnalyticsProviderParams.nsSiteKey] as? String {
@@ -60,13 +59,13 @@ open class ComScoreAnalytics: AnalyticsBaseProvider, AnalyticsEventsHandlerDeleg
             disable(completion: completion)
         }
     }
-    
-    open override func prepareEventsHandlers() -> [AnalyticsEventsHandlerProtocol] {
+
+    override open func prepareEventsHandlers() -> [AnalyticsEventsHandlerProtocol] {
         let adsEventsHandler = ComScoreAnalyticsAdEventsHandler(delegate: self)
         return [
             ComScoreAnalyticsScreenEventsHandler(delegate: self),
             ComScoreAnalyticsPlayerEventsHandler(delegate: self,
-                                                 adEventsHandler: adsEventsHandler)
+                                                 adEventsHandler: adsEventsHandler),
         ]
     }
 }

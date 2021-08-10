@@ -8,7 +8,7 @@
 import Foundation
 
 public struct AnalyticsPlayerObject {
-    public let id: String
+    public var id: String
     public let title: String
     public let duration: Int
     public let isLive: Bool
@@ -157,6 +157,7 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
         }
 
         lastProceededEvent = nil
+        itemData = nil
         adEventsHandler?.lastProceededEvent = nil
         
         return false

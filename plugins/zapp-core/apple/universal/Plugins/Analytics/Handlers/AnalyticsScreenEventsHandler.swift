@@ -8,7 +8,7 @@
 import Foundation
 
 open class AnalyticsScreenEventsHandler: NSObject, AnalyticsScreenEventsHandlerProtocol {
-    weak var delegate:AnalyticsEventsHandlerDelegate?
+    public weak var delegate:AnalyticsEventsHandlerDelegate?
     
     var lastProceededEvent: String?
 
@@ -57,19 +57,19 @@ open class AnalyticsScreenEventsHandler: NSObject, AnalyticsScreenEventsHandlerP
         return retValue
     }
 
-    public func handleHomeEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+    open func handleHomeEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return false
     }
 
-    public func handleSomeScreenEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+    open func handleSomeScreenEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return false
     }
 
-    public func handleWebPageLoadedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+    open func handleWebPageLoadedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return false
     }
 
-    public func handleTapNavbarBackButtonEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+    open func handleTapNavbarBackButtonEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return false
     }
 
