@@ -28,13 +28,13 @@ class GemiusAnalytics: AnalyticsBaseProvider {
         get {
             return gemiusPlayerObject
         }
-        set (newValue) {
+        set(newValue) {
             if let value = newValue as? GSMPlayer {
                 gemiusPlayerObject = value
             }
         }
     }
-    
+
     lazy var scriptIdentifier: String = {
         guard let scriptIdentifier = model?.configurationValue(for: GemiusAnalyticsProviderParams.scriptIdentifier) as? String else {
             return ""
@@ -71,6 +71,15 @@ class GemiusAnalytics: AnalyticsBaseProvider {
         } else {
             disable(completion: completion)
         }
+    }
+
+    override open func prepareEventsHandlers() -> [AnalyticsEventsHandlerProtocol] {
+        let adsEventsHandler = GemiusAnalyticsAdEventsHandler(delegate: self)
+        return [
+            GemiusAnalyticsScreenEventsHandler(delegate: self),
+            GemiusAnalyticsPlayerEventsHandler(delegate: self,
+                                               adEventsHandler: adsEventsHandler)
+        ]
     }
 
     fileprivate func isDebug() -> Bool {

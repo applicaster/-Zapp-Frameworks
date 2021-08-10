@@ -65,7 +65,7 @@ open class ComScoreAnalytics: AnalyticsBaseProvider {
         return [
             ComScoreAnalyticsScreenEventsHandler(delegate: self),
             ComScoreAnalyticsPlayerEventsHandler(delegate: self,
-                                                 adEventsHandler: adsEventsHandler),
+                                                 adEventsHandler: adsEventsHandler)
         ]
     }
 }

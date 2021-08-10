@@ -59,7 +59,7 @@ open class AdobeAnalytics: AnalyticsBaseProvider {
         return [
             AdobeAnalyticsScreenEventsHandler(delegate: self),
             AdobeAnalyticsPlayerEventsHandler(delegate: self,
-                                              adEventsHandler: adsEventsHandler),
+                                              adEventsHandler: adsEventsHandler)
         ]
     }
 
