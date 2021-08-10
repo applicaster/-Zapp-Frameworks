@@ -40,6 +40,5 @@ export const isAuthenticationRequired = ({ payload }) => {
 };
 
 export const isScreen = (payload) => {
-  const name = payload?.name;
   return !!payload?.name;
 };
