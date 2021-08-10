@@ -5,7 +5,9 @@ import android.content.Context
 import android.text.TextUtils
 import com.adobe.marketing.mobile.*
 import com.applicaster.analytics.BaseAnalyticsAgent
+import com.applicaster.analytics.adapters.IAnalyticsAdapter
 import com.applicaster.analytics.adobe.routers.PlayerRouter
+import com.applicaster.analytics.adobe.routers.ScreenAdapter
 import com.applicaster.util.APDebugUtil
 import com.applicaster.util.APLogger
 import com.applicaster.util.AppContext
@@ -16,7 +18,7 @@ class AdobeAnalyticsAgent : BaseAnalyticsAgent() {
     private var mobileAppAccountIdDebug: String? = null
     private var mobileAppAccountIdProduction: String? = null
 
-    private var player: PlayerRouter? = null
+    private val routers = mutableListOf<IAnalyticsAdapter>()
 
     override fun setParams(params: Map<*, *>) {
         super.setParams(params)
@@ -53,7 +55,9 @@ class AdobeAnalyticsAgent : BaseAnalyticsAgent() {
             MobileCore.start {
                 val appId = if (isDebug) mobileAppAccountIdDebug else mobileAppAccountIdProduction
                 MobileCore.configureWithAppID(appId)
-                player = PlayerRouter()
+                routers.clear()
+                routers.add(PlayerRouter())
+                routers.add(ScreenAdapter())
             }
         } catch (e: InvalidInitException) {
             APLogger.error(TAG, "Failed to initialize AdobeAnalyticsAgent", e)
@@ -62,13 +66,21 @@ class AdobeAnalyticsAgent : BaseAnalyticsAgent() {
 
     override fun logEvent(eventName: String, params: TreeMap<String, String>) {
         super.logEvent(eventName, params)
-        player?.routeEvent(eventName, params)
+        routers.any { it.routeEvent(eventName, params) }
+    }
+
+    override fun stopTrackingSession(context: Context?) {
+        super.stopTrackingSession(context)
+        routers.clear()
     }
 
     override fun resumeTracking(context: Context) {
         super.resumeTracking(context)
         MobileCore.setApplication(AppContext.get() as Application)
         MobileCore.lifecycleStart(null)
+        routers.clear()
+        routers.add(PlayerRouter())
+        routers.add(ScreenAdapter())
     }
 
     companion object {
