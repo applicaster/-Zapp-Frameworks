@@ -47,9 +47,11 @@ open class ComScoreAnalytics: AnalyticsBaseProvider {
             SCORAnalytics.configuration().addClient(with: publisherConfig)
 
             if let nsSite = nsSite {
-                SCORAnalytics.configuration().setPersistentLabelWithName(ComScoreAnalyticsProviderParams.nsSiteKey, value: nsSite)
+                SCORAnalytics.configuration().setPersistentLabelWithName(ComScoreAnalyticsProviderParams.nsSiteKey,
+                                                                         value: nsSite)
             } else if let appName = appName {
-                SCORAnalytics.configuration().setPersistentLabelWithName(ComScoreAnalyticsProviderParams.nsSiteKey, value: "app-" + appName)
+                SCORAnalytics.configuration().setPersistentLabelWithName(ComScoreAnalyticsProviderParams.nsSiteKey,
+                                                                         value: "app-" + appName)
             }
 
             SCORAnalytics.start()
