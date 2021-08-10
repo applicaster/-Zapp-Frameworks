@@ -62,12 +62,4 @@ open class AdobeAnalytics: AnalyticsBaseProvider {
                                               adEventsHandler: adsEventsHandler)
         ]
     }
-
-    fileprivate func isDebug() -> Bool {
-        guard let value = FacadeConnector.connector?.storage?.sessionStorageValue(for: "application_environment", namespace: nil) else {
-            return false
-        }
-
-        return Bool(value) ?? false
-    }
 }

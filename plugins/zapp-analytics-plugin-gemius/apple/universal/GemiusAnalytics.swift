@@ -82,14 +82,6 @@ class GemiusAnalytics: AnalyticsBaseProvider {
         ]
     }
 
-    fileprivate func isDebug() -> Bool {
-        guard let value = FacadeConnector.connector?.applicationData?.isDebugEnvironment() else {
-            return false
-        }
-
-        return Bool(value)
-    }
-
     fileprivate func saveWebViewUserAgent() {
         DispatchQueue.global(qos: .default).async {
             guard let useragent = GEMConfig.sharedInstance()?.getUA4WebView() else {

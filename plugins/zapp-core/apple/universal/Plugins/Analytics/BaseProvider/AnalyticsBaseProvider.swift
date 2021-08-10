@@ -48,3 +48,13 @@ open class AnalyticsBaseProvider: NSObject, PluginAdapterProtocol, AnalyticsEven
         isDisabled = true
     }
 }
+
+extension AnalyticsBaseProvider {
+    public func isDebug() -> Bool {
+        guard let value = FacadeConnector.connector?.applicationData?.isDebugEnvironment() else {
+            return false
+        }
+
+        return Bool(value)
+    }
+}
