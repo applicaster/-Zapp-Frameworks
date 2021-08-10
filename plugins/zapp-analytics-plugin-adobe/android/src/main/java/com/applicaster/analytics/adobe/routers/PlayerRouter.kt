@@ -74,11 +74,11 @@ class PlayerRouter : AnalyticsPlayerAdapter() {
         tracker.trackPlay()
     }
 
-    // todo: not called
-    fun onError(params: Map<String, Any>?) {
-        super.onResume(params)
+    @CallSuper
+    override fun onPlayerError(params: Map<String, Any>?) {
+        super.onPlayerError(params)
         sendPosition()
-        tracker.trackError("")
+        tracker.trackError("") // todo
     }
 
     @CallSuper
