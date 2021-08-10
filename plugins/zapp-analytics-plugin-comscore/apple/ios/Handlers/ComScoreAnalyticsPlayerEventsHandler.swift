@@ -11,8 +11,6 @@ import ZappCore
 
 class ComScoreAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
     var streamAnalyticsForContent: SCORStreamingAnalytics?
-    var lastProceededItemContentType: SCORStreamingContentType = .other
-    var lastProceededItemParams: [String: String]?
 
     struct PlayerEventsParams {
         static let programTitle = "ns_st_pr"
@@ -61,26 +59,26 @@ class ComScoreAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         let streamType = itemData.isLive ? PlayerStreamType.live.rawValue : PlayerStreamType.vod.rawValue
         params[PlayerEventsParams.streamType] = streamType
 
+        var contentType: SCORStreamingContentType = .other
         if itemData.isLive {
             params[PlayerEventsParams.playlistTitle] = streamType
-            lastProceededItemContentType = .live
+            contentType = .live
         } else {
             params[PlayerEventsParams.playlistTitle] = itemData.title
             if itemData.duration >= 600 {
-                lastProceededItemContentType = .longFormOnDemand
+                contentType = .longFormOnDemand
             } else {
-                lastProceededItemContentType = .shortFormOnDemand
+                contentType = .shortFormOnDemand
             }
         }
-        lastProceededItemParams = params
 
         // create analytics object for new item
         streamAnalyticsForContent = SCORStreamingAnalytics()
 
         // crete metadata
         let cm = SCORStreamingContentMetadata { builder in
-            builder?.setCustomLabels(self.lastProceededItemParams)
-            builder?.setMediaType(self.lastProceededItemContentType)
+            builder?.setCustomLabels(params)
+            builder?.setMediaType(contentType)
         }
         // set metadata
         streamAnalyticsForContent?.setMetadata(cm)
