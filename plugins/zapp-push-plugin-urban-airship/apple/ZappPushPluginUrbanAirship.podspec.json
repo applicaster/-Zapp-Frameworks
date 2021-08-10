@@ -17,6 +17,13 @@
   "static_framework": true,
   "default_subspecs": "Base",
   "prepare_command": "sh Scripts/prepare_service_extension.sh\nsh Scripts/prepare_content_extension.sh",
+  "testspecs": [
+    {
+      "name": "UnitTests",
+      "test_type": "unit",
+      "source_files": "tests/**"
+    }
+  ],
   "subspecs": [
     {
       "name": "Base",
@@ -28,9 +35,7 @@
         "OTHER_CFLAGS": "-fembed-bitcode"
       },
       "dependencies": {
-        "Airship": [
-          "= 14.2.0"
-        ],
+        "Airship": ["= 14.2.0"],
         "ZappPushPluginsSDK": [],
         "ZappPlugins": [],
         "ZappCore": []
@@ -45,9 +50,7 @@
         "OTHER_CFLAGS": "-fembed-bitcode"
       },
       "dependencies": {
-        "AirshipExtensions": [
-          "= 14.2.0"
-        ]
+        "AirshipExtensions": ["= 14.2.0"]
       }
     },
     {
@@ -59,9 +62,7 @@
         "OTHER_CFLAGS": "-fembed-bitcode"
       },
       "dependencies": {
-        "AirshipExtensions": [
-          "= 14.2.0"
-        ]
+        "AirshipExtensions": ["= 14.2.0"]
       }
     }
   ]
