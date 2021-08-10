@@ -136,7 +136,12 @@ class QuickBrickViewController: UIViewController, UILayerViewControllerProtocol 
             break
         case UIInterfaceOrientationMask.landscape:
             if !UIDevice.current.orientation.isLandscape {
-                forceOrientation(UIInterfaceOrientation.landscapeRight)
+                let statusBarOrientation = UIApplication.shared.statusBarOrientation
+                if statusBarOrientation == UIInterfaceOrientation.landscapeLeft {
+                    forceOrientation(UIInterfaceOrientation.landscapeLeft)
+                } else {
+                    forceOrientation(UIInterfaceOrientation.landscapeRight)
+                }
             }
             break
         case UIInterfaceOrientationMask.landscapeRight:
