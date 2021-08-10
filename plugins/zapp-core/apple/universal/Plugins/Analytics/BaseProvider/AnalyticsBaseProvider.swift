@@ -36,7 +36,7 @@ open class AnalyticsBaseProvider: NSObject, PluginAdapterProtocol, AnalyticsEven
     }
     
     open func prepareEventsHandlers() -> [AnalyticsEventsHandlerProtocol] {
-        return []
+        fatalError("Must override this method to create events handlers for this provider")
     }
 
     open func disable(completion: ((Bool) -> Void)?) {
