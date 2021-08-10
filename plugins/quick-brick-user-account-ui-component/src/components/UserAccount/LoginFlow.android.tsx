@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { useLocalizedStrings } from "@applicaster/zapp-react-native-utils/localizationUtils";
 import { useFocusManager } from "@applicaster/zapp-react-native-utils/focusManager";
-
+import { useInitialFocus } from "@applicaster/zapp-react-native-utils/focusManager";
 import Button from "../Button/ButtonTV";
 import { UserPhoto } from "../UserPhoto";
 import { TextView } from "../TextView";
@@ -38,11 +38,7 @@ export const LoginFlow = React.forwardRef((props: LoginProps, ref) => {
     localizations,
   });
 
-  const { setFocus } = useFocusManager();
-
-  React.useEffect(() => {
-    setFocus(login1ButtonRef);
-  }, []);
+  useInitialFocus(props?.focused, login1ButtonRef);
 
   return (
     <>
