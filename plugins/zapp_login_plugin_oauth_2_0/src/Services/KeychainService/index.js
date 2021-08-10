@@ -7,6 +7,8 @@ import { logger } from "../LoggerService";
 const namespace = "zapp_login_plugin_oauth_2_0";
 const authDataKey = "authData";
 const userAccountStorageTokenKey = "idToken";
+// We use different to able to have always same key for user account
+const local_storage_key = "access_token";
 
 export async function saveKeychainData(
   data,
@@ -22,7 +24,7 @@ export async function saveKeychainData(
     const accessToken = data?.accessToken;
     if (accessToken) {
       await sessionStorage.setItem(session_storage_key, accessToken, namespace);
-      await localStorage.setItem(session_storage_key, accessToken, namespace);
+      await localStorage.setItem(local_storage_key, accessToken, namespace);
       await localStorage.setItem(userAccountStorageTokenKey, accessToken);
     }
     logger.debug({
@@ -88,7 +90,7 @@ export async function removeKeychainData(session_storage_key = "access_token") {
     );
 
     await sessionStorage.removeItem(session_storage_key, namespace);
-    await localStorage.removeItem(session_storage_key, namespace);
+    await localStorage.removeItem(local_storage_key, namespace);
     await localStorage.removeItem(userAccountStorageTokenKey);
 
     logger.debug({
