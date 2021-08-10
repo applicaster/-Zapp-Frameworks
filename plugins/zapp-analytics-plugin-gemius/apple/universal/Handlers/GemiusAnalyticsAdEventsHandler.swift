@@ -6,21 +6,21 @@
 //
 
 import Foundation
-import ZappCore
 import GemiusSDK
+import ZappCore
 
 class GemiusAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
-    
     var gemiusPlayerObject: GSMPlayer? {
-        return self.delegate?.externalObject as? GSMPlayer
+        return delegate?.externalObject as? GSMPlayer
     }
+
     var lastProgramID: String?
-    
-    override func handleAdBreakBeginEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
+
+    override func handleAdBreakBeginEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         guard super.handleAdBreakBeginEvent(eventName, parameters: parameters) == false else {
             return true
         }
-        
+
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         if let lastProgramID = lastProgramID {
             gemiusPlayerObject?.program(.BREAK,
@@ -28,11 +28,11 @@ class GemiusAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
                                         atOffset: NSNumber(value: currentPlayerPosition),
                                         with: nil)
         }
-        
+
         return proceedEvent(eventName)
     }
-    
-    override func handleAdBeginEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
+
+    override func handleAdBeginEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         guard super.handleAdBeginEvent(eventName, parameters: parameters) == false else {
             return true
         }
@@ -54,15 +54,15 @@ class GemiusAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
                                     forAd: adEventParams.id,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: adEventData)
-        
+
         return proceedEvent(eventName)
     }
-    
-    override func handleAdEndEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
+
+    override func handleAdEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         guard super.handleAdEndEvent(eventName, parameters: parameters) == false else {
             return true
         }
-        
+
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         let adEventParams = AdAnalyticsEventParams(with: parameters)
         let adEventData = GSMEventAdData()
@@ -78,7 +78,7 @@ class GemiusAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
                                     with: adEventData)
         return proceedEvent(eventName)
     }
-    
+
     fileprivate func getCurrentPlayerPosition(from parameters: [String: Any]?) -> Double {
         return parameters?["offset"] as? Double ?? 0.00
     }

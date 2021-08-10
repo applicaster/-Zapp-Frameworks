@@ -16,7 +16,7 @@ class GemiusAnalyticsScreenEventsHandler: AnalyticsScreenEventsHandler {
         }
         return identifier
     }()
-    
+
     override func handleSomeScreenEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return proceedScreenEvent(eventName,
                                   parameters: parameters)
@@ -42,7 +42,7 @@ class GemiusAnalyticsScreenEventsHandler: AnalyticsScreenEventsHandler {
         guard let parameters = parameters as? [String: String] else {
             return false
         }
-        
+
         let event = GEMAudienceEvent()
         event.eventType = type
         event.scriptIdentifier = scriptIdentifier
