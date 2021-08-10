@@ -80,6 +80,7 @@ type ButtonProps = {
   parentFocus?: ParentFocus;
   nextFocusUp?: React.MutableRefObject<any>;
   nextFocusDown?: React.MutableRefObject<any>;
+  shouldUsePreferredFocus?: boolean;
 };
 
 type LoginProps = {

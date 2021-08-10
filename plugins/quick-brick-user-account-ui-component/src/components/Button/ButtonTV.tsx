@@ -38,6 +38,8 @@ const ButtonTV = React.forwardRef((props: ButtonProps, ref) => {
       id={`${groupId}-${id}`}
       groupId={groupId}
       onPress={props?.onPress}
+      ref={ref}
+      shouldUsePreferredFocus={props.shouldUsePreferredFocus}
     >
       {(focused) => {
         const containerStyle: any = {
