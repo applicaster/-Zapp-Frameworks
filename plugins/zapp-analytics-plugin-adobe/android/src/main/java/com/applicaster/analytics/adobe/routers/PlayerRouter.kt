@@ -26,6 +26,7 @@ class PlayerRouter : AnalyticsPlayerAdapter() {
     override fun onStart(params: Map<String, Any>?) {
         super.onStart(params)
         tracker = Media.createTracker()
+        adBreakPos = 1L
 
         val mediaObject = Media.createMediaObject(
                 getName(),
