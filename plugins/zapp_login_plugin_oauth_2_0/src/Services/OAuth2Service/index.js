@@ -19,6 +19,7 @@ export async function authorizeService(oAuthConfig, session_storage_key) {
   }
   try {
     const result = await authorize(oAuthConfig);
+
     await saveKeychainData(result);
     logger.debug({
       message: `authorizeService: Success`,
@@ -135,7 +136,7 @@ export async function checkUserAuthorization(oAuthConfig, session_storage_key) {
     const accessTokenExpirationDate = data?.accessTokenExpirationDate;
     const refreshToken = data?.refreshToken;
 
-    if (idToken && accessTokenExpirationDate && oAuthConfig) {
+    if (accessTokenExpirationDate && oAuthConfig) {
       if (isTokenValid(accessTokenExpirationDate)) {
         logger.debug({
           message: `checkUserAuthorization: Is user authorized: true`,
@@ -187,7 +188,7 @@ export async function checkUserAuthorization(oAuthConfig, session_storage_key) {
       }
     } else {
       logger.debug({
-        message: `checkUserAuthorization: idToken, accessTokenExpirationDate or oAuthConfig not exist`,
+        message: `checkUserAuthorization:  accessTokenExpirationDate or oAuthConfig not exist`,
         data: {
           oauth_config: oAuthConfig,
           id_token: idToken,

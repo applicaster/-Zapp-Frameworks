@@ -124,7 +124,7 @@ export function UserAccount(props: Props) {
         data: { error },
       });
     }
-  }, [isLoading, isLogedIn, button1Model, button2Model]);
+  }, [isLoading, isLoggedIn, button1Model, button2Model]);
 
   React.useEffect(() => {
     setIsLoading(true);

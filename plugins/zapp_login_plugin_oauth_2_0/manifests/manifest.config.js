@@ -680,7 +680,7 @@ function createManifest({ version, platform }) {
       key: "session_storage_key",
       label: "Session Storage Key",
       tooltip_text:
-        "Session storage key that will be used to save oauth token data. This is used to fetch data, please verify with your DSP developer in case you wish to change it.",
+        "Session storage key that will be used to save oauth token data. This is used to fetch data, please verify with your DSP developer in case you wish to change it. The keys is stored under the namespace. Namespace: zapp_login_plugin_oauth_2_0",
       default: "access_token",
     },
     {

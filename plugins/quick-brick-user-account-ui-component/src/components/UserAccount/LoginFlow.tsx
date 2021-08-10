@@ -15,14 +15,14 @@ const ID = {
 };
 
 export const LoginFlow = (props: LoginProps) => {
-  const styles = props ?.styles;
-  const isLoggedIn = props ?.isLoggedIn;
-  const onLogin1 = props ?.onLogin1;
-  const onLogin2 = props ?.onLogin2;
-  const onLogout = props ?.onLogout;
-  const localizations = props ?.localizations;
-  const titles = props ?.titles;
-  const button_2_login_enabled = styles ?.button_2_login_enabled;
+  const styles = props?.styles;
+  const isLoggedIn = props?.isLoggedIn;
+  const onLogin1 = props?.onLogin1;
+  const onLogin2 = props?.onLogin2;
+  const onLogout = props?.onLogout;
+  const localizations = props?.localizations;
+  const titles = props?.titles;
+  const button_2_login_enabled = styles?.button_2_login_enabled;
 
   const {
     logout_title_text = "Logout",
@@ -34,13 +34,13 @@ export const LoginFlow = (props: LoginProps) => {
 
   return (
     <>
-      <UserPhoto styles={styles} imageSrc={styles ?.user_image_placeholder} />
+      <UserPhoto styles={styles} imageSrc={styles?.user_image_placeholder} />
       {isLoggedIn ? (
-          <FocusableGroup id={ID.groupId} shouldUsePreferredFocus={true}>
+        <FocusableGroup id={ID.groupId} shouldUsePreferredFocus={true}>
           <TextView
             styleKey={"info_label_description"}
             styles={styles}
-            titleText={titles ?.user_name_title}
+            titleText={titles?.user_name_title}
           />
           <Button
             styleKey={ID.logoutButtonBigId}
@@ -51,15 +51,13 @@ export const LoginFlow = (props: LoginProps) => {
           />
         </FocusableGroup>
       ) : (
-          <FocusableGroup id={ID.groupId} shouldUsePreferredFocus={true}>
-            <Button
+        <FocusableGroup id={ID.groupId} shouldUsePreferredFocus={true}>
+          <Button
               styleKey={ID.login1ButtonId}
               styles={styles}
               id={ID.login1ButtonId}
               onPress={onLogin1}
               titleText={login_button_1_title_text}
-              groupId={ID.groupId}
-              shouldUsePreferredFocus={true}
             />
             {button_2_login_enabled ? (
               <Button
@@ -70,8 +68,8 @@ export const LoginFlow = (props: LoginProps) => {
                 titleText={login_button_2_title_text}
               />
             ) : null}
-          </FocusableGroup>
-        )}
+        </FocusableGroup>
+      )}
     </>
   );
 };

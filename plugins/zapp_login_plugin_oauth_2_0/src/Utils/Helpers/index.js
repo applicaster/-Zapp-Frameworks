@@ -46,7 +46,6 @@ export function getRiversProp(key, rivers = {}) {
 export const PresentationTypeData = {
   UNDEFINED: "Undefined",
   SCREEN_HOOK: "ScreenHook",
-  PLAYER_HOOK: "PlayerHook",
   USER_ACCOUNT: "UserAccount",
   SCREEN: "Screen",
 };
