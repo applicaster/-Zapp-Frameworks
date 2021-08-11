@@ -48,7 +48,7 @@ class GemiusAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         adEventData.autoPlay = true
         adEventData.adPosition = NSNumber(value: adEventParams.adPosition)
         adEventData.breakSize = NSNumber(value: adEventParams.breakSize)
-        adIsPlaying = true
+        shouldBlockParentHandler = true
         gemiusPlayerObject?.adEvent(.PLAY,
                                     forProgram: lastProgramID,
                                     forAd: adEventParams.id,
@@ -69,7 +69,7 @@ class GemiusAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         adEventData.autoPlay = true
         adEventData.adPosition = NSNumber(value: adEventParams.adPosition)
         adEventData.breakSize = NSNumber(value: adEventParams.breakSize)
-        adIsPlaying = false
+        shouldBlockParentHandler = false
 
         gemiusPlayerObject?.adEvent(.COMPLETE,
                                     forProgram: lastProgramID,

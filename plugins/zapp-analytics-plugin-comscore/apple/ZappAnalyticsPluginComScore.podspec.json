@@ -23,7 +23,7 @@
     "SWIFT_VERSION": "5.1"
   },
   "dependencies": {
-    "ZappAnalyticsPluginsSDK": [],
+    "ZappCore": [],
     "ComScore": [
       "~> 6.8.1"
     ]

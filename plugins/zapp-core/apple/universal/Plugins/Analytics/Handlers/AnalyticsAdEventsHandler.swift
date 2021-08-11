@@ -7,26 +7,15 @@
 
 import Foundation
 
-open class AnalyticsAdEventsHandler: NSObject, AnalyticsAdEventsHandlerProtocol {
-    public weak var delegate:AnalyticsEventsHandlerDelegate?
-    public weak var adDelegate:AnalyticsAdEventsHandlerDelegate?
+open class AnalyticsAdEventsHandler: AnalyticsBaseEventsHandler, AnalyticsAdEventsHandlerProtocol {
     
-    var lastProceededEvent: String?
-    public var adIsPlaying: Bool = false
-    
-    public init(delegate: AnalyticsEventsHandlerDelegate?) {
-        super.init()
-        self.delegate = delegate
-    }
-    
-    public func handleEvent(name: String, parameters: [String: Any]?) -> Bool {
-        var retValue = false
-
-        // skip same event
-        guard name != lastProceededEvent else {
+    public override func handleEvent(name: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleEvent(name: name, parameters: parameters) == false else {
             return true
         }
-
+        
+        var retValue = false
+        
         switch name {
         case AdAnalyticsEvent.adBreakBegin:
             retValue = handleAdBreakBeginEvent(name, parameters: parameters)
@@ -67,10 +56,5 @@ open class AnalyticsAdEventsHandler: NSObject, AnalyticsAdEventsHandlerProtocol 
 
     open func handleAdErrorEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return false
-    }
-
-    public func proceedEvent(_ eventName: String) -> Bool {
-        lastProceededEvent = eventName
-        return true
     }
 }

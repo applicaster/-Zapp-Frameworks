@@ -73,12 +73,10 @@ class GemiusAnalytics: AnalyticsBaseProvider {
         }
     }
 
-    override open func prepareEventsHandlers() -> [AnalyticsEventsHandlerProtocol] {
-        let adsEventsHandler = GemiusAnalyticsAdEventsHandler(delegate: self)
+    override open func prepareEventsHandlers() -> [AnalyticsBaseEventsHandler] {
         return [
             GemiusAnalyticsScreenEventsHandler(delegate: self),
-            GemiusAnalyticsPlayerEventsHandler(delegate: self,
-                                               adEventsHandler: adsEventsHandler)
+            GemiusAnalyticsPlayerEventsHandler(delegate: self)
         ]
     }
 

@@ -41,6 +41,10 @@ class ComScoreAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         delegate?.configurationJSON?[ComScoreAnalyticsProviderParams.c3] as? String ?? ""
     }()
 
+    open override func prepareChildEventsHandlers() -> [AnalyticsBaseEventsHandler] {
+        []
+    }
+    
     override func handleCreateEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         guard super.handleCreateEvent(eventName, parameters: parameters) == false else {
             return true

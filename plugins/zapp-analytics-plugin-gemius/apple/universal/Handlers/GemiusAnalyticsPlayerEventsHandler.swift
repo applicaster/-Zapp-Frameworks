@@ -56,6 +56,12 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         return parameters?["offset"] as? Double ?? 0.00
     }
 
+    open override func prepareChildEventsHandlers() -> [AnalyticsBaseEventsHandler] {
+        [
+            GemiusAnalyticsAdEventsHandler(delegate: self)
+        ]
+    }
+    
     override func handleCreateEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         guard super.handleCreateEvent(eventName, parameters: parameters) == false else {
             return true
@@ -195,5 +201,20 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
         return true
+    }
+}
+
+extension GemiusAnalyticsPlayerEventsHandler: AnalyticsEventsHandlerDelegate {
+    public var configurationJSON: NSDictionary? {
+        return nil
+    }
+
+    public var externalObject: AnyObject? {
+        get {
+            return gemiusPlayerObject
+        }
+        set {
+            
+        }
     }
 }

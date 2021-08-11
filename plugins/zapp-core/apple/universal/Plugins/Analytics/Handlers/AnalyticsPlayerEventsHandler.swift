@@ -14,44 +14,36 @@ public struct AnalyticsPlayerObject {
     public let isLive: Bool
 }
 
-open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerProtocol, AnalyticsAdEventsHandlerDelegate {
-    open var externalAdsHandlingObject: AnyObject? {
-        get {
-            return nil
-        }
-    }
-
-    public weak var delegate:AnalyticsEventsHandlerDelegate?
-    
-    public var lastProceededEvent: String?
+open class AnalyticsPlayerEventsHandler: AnalyticsBaseEventsHandler, AnalyticsPlayerEventsHandlerProtocol {
     public var itemData: AnalyticsPlayerObject?
     public var itemIntialParameters: [String: Any]?
+    var childHandlers: [AnalyticsBaseEventsHandler]?
 
-    var adEventsHandler: AnalyticsAdEventsHandler?
-    
-    public init(delegate: AnalyticsEventsHandlerDelegate?, adEventsHandler: AnalyticsAdEventsHandler?) {
-        super.init()
-        self.delegate = delegate
-        self.adEventsHandler = adEventsHandler
-        self.adEventsHandler?.adDelegate = self
+    override public init(delegate: AnalyticsEventsHandlerDelegate?) {
+        super.init(delegate: delegate)
+        childHandlers = prepareChildEventsHandlers()
     }
-    
-    open func handleEvent(name: String, parameters: [String: Any]?) -> Bool {
-        var retValue = false
 
-        // skip same event
-        guard name != lastProceededEvent else {
+    open func prepareChildEventsHandlers() -> [AnalyticsBaseEventsHandler] {
+        fatalError("Must override this method to create child events handlers for this handler")
+    }
+
+    override public func handleEvent(name: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleEvent(name: name, parameters: parameters) == false else {
             return true
         }
-        
-        guard adEventsHandler?.handleEvent(name: name, parameters: parameters) == false else {
+
+        var retValue = false
+
+        // try handle event by child handlers
+        guard handleEventByChildHandlers(name: name, parameters: parameters) == false else {
             return true
         }
 
         switch name {
         case PlayerAnalyticsEvent.initial:
             retValue = handleInitialEvent(name, parameters: parameters)
-            
+
         case PlayerAnalyticsEvent.created:
             retValue = handleCreateEvent(name, parameters: parameters)
 
@@ -87,7 +79,7 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
         itemIntialParameters = parameters
         return true
     }
-    
+
     open func handleCreateEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         guard let itemId = parameters?["Item ID"] as? String,
               !itemId.isEmpty,
@@ -121,7 +113,7 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
     }
 
     open func handleSeekingEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard adEventsHandler?.adIsPlaying == false else {
+        guard !isBlockedByChildHandler else {
             return true
         }
 
@@ -129,7 +121,7 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
     }
 
     open func handleSeekEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard adEventsHandler?.adIsPlaying == false else {
+        guard !isBlockedByChildHandler else {
             return true
         }
 
@@ -137,7 +129,7 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
     }
 
     open func handleBufferEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard adEventsHandler?.adIsPlaying == false else {
+        guard !isBlockedByChildHandler else {
             return true
         }
 
@@ -145,7 +137,7 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
     }
 
     open func handlePauseEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard adEventsHandler?.adIsPlaying == false else {
+        guard !isBlockedByChildHandler else {
             return true
         }
 
@@ -153,7 +145,7 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
     }
 
     open func handlePlayEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard adEventsHandler?.adIsPlaying == false else {
+        guard !isBlockedByChildHandler else {
             return true
         }
 
@@ -161,7 +153,7 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
     }
 
     open func handleEndedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard adEventsHandler?.adIsPlaying == false else {
+        guard !isBlockedByChildHandler else {
             return true
         }
 
@@ -169,20 +161,35 @@ open class AnalyticsPlayerEventsHandler: NSObject, AnalyticsPlayerEventsHandlerP
     }
 
     open func handleDismissEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard adEventsHandler?.adIsPlaying == false else {
+        guard !isBlockedByChildHandler else {
             return true
         }
 
         lastProceededEvent = nil
         itemIntialParameters = nil
         itemData = nil
-        adEventsHandler?.lastProceededEvent = nil
-        
+
         return false
     }
+}
 
-    public func proceedEvent(_ eventName: String) -> Bool {
-        lastProceededEvent = eventName
-        return true
+extension AnalyticsPlayerEventsHandler {
+    fileprivate func getChildHandlers() -> [AnalyticsBaseEventsHandler] {
+        return childHandlers ?? []
+    }
+
+    fileprivate func handleEventByChildHandlers(name: String, parameters: [String: Any]?) -> Bool {
+        var retValue = false
+        for handler in getChildHandlers() {
+            if handler.handleEvent(name: name, parameters: parameters) {
+                retValue = true
+                break
+            }
+        }
+        return retValue
+    }
+    
+    var isBlockedByChildHandler: Bool {
+        return getChildHandlers().filter(\.shouldBlockParentHandler).count > 0
     }
 }

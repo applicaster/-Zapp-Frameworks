@@ -62,12 +62,11 @@ open class ComScoreAnalytics: AnalyticsBaseProvider {
         }
     }
 
-    override open func prepareEventsHandlers() -> [AnalyticsEventsHandlerProtocol] {
-        let adsEventsHandler = ComScoreAnalyticsAdEventsHandler(delegate: self)
+    override open func prepareEventsHandlers() -> [AnalyticsBaseEventsHandler] {
         return [
             ComScoreAnalyticsScreenEventsHandler(delegate: self),
-            ComScoreAnalyticsPlayerEventsHandler(delegate: self,
-                                                 adEventsHandler: adsEventsHandler)
+            ComScoreAnalyticsPlayerEventsHandler(delegate: self),
+            ComScoreAnalyticsAdEventsHandler(delegate: self)
         ]
     }
 }

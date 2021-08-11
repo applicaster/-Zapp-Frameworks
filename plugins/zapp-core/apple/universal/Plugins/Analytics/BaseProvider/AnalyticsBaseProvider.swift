@@ -16,7 +16,7 @@ open class AnalyticsBaseProvider: NSObject, PluginAdapterProtocol, AnalyticsEven
         return "\(self)"
     }
 
-    var handlers: [AnalyticsEventsHandlerProtocol]?
+    var handlers: [AnalyticsBaseEventsHandler]?
     open var externalObject: AnyObject? {
         get {
             return nil
@@ -25,6 +25,7 @@ open class AnalyticsBaseProvider: NSObject, PluginAdapterProtocol, AnalyticsEven
             
         }
     }
+    
     
     public required init(pluginModel: ZPPluginModel) {
         model = pluginModel
@@ -35,7 +36,7 @@ open class AnalyticsBaseProvider: NSObject, PluginAdapterProtocol, AnalyticsEven
         handlers = prepareEventsHandlers()
     }
     
-    open func prepareEventsHandlers() -> [AnalyticsEventsHandlerProtocol] {
+    open func prepareEventsHandlers() -> [AnalyticsBaseEventsHandler] {
         fatalError("Must override this method to create events handlers for this provider")
     }
 

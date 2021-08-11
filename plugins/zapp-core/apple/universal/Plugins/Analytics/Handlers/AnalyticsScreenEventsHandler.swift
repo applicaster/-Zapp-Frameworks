@@ -7,23 +7,14 @@
 
 import Foundation
 
-open class AnalyticsScreenEventsHandler: NSObject, AnalyticsScreenEventsHandlerProtocol {
-    public weak var delegate:AnalyticsEventsHandlerDelegate?
-    
-    var lastProceededEvent: String?
+open class AnalyticsScreenEventsHandler: AnalyticsBaseEventsHandler, AnalyticsScreenEventsHandlerProtocol {
 
-    public init(delegate: AnalyticsEventsHandlerDelegate?) {
-        super.init()
-        self.delegate = delegate
-    }
-    
-    open func handleEvent(name: String, parameters: [String: Any]?) -> Bool {
-        var retValue = false
-
-        // skip same event
-        guard name != lastProceededEvent else {
+    public override func handleEvent(name: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleEvent(name: name, parameters: parameters) == false else {
             return true
         }
+
+        var retValue = false
 
         if name.contains(ScreenAnalyticsEvent.home) {
             let params = ["Screen": "Home"]
@@ -71,10 +62,5 @@ open class AnalyticsScreenEventsHandler: NSObject, AnalyticsScreenEventsHandlerP
 
     open func handleTapNavbarBackButtonEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return false
-    }
-
-    public func proceedEvent(_ eventName: String) -> Bool {
-        lastProceededEvent = eventName
-        return true
     }
 }

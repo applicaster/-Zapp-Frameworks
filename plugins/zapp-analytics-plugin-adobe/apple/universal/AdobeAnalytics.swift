@@ -55,12 +55,10 @@ open class AdobeAnalytics: AnalyticsBaseProvider {
         }
     }
 
-    override open func prepareEventsHandlers() -> [AnalyticsEventsHandlerProtocol] {
-        let adsEventsHandler = AdobeAnalyticsAdEventsHandler(delegate: self)
+    override open func prepareEventsHandlers() -> [AnalyticsBaseEventsHandler] {
         return [
             AdobeAnalyticsScreenEventsHandler(delegate: self),
-            AdobeAnalyticsPlayerEventsHandler(delegate: self,
-                                              adEventsHandler: adsEventsHandler)
+            AdobeAnalyticsPlayerEventsHandler(delegate: self)
         ]
     }
 }
