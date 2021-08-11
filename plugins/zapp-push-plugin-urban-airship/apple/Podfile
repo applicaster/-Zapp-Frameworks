@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-platform :ios, '11.0'
+platform :ios, '12.0'
 install! 'cocoapods', :share_schemes_for_development_pods => true
 project '../../../localProject/apple/FrameworksApp.xcodeproj'
 
@@ -20,7 +20,10 @@ target 'FrameworksApp' do
   use_frameworks!
 
   pod 'ZappPushPluginUrbanAirship', path: './ZappPushPluginUrbanAirship.podspec', testspecs: ['UnitTests']
+  pod 'ZappPushPluginsSDK', path: '../../zapp-push-plugins/apple/ZappPushPluginsSDK.podspec'
+  pod 'ZappPlugins', :git => 'https://github.com/applicaster/ZappPlugins.2.0-iOS', :tag => '12.0.0'
   pod 'ZappCore', path: '../../zapp-core/apple/ZappCore.podspec'
+  pod 'XrayLogger', :path => '../../../node_modules/@applicaster/x-ray/apple/XrayLogger.podspec'
 
   target 'FrameworksAppTests' do
     inherit! :search_paths
