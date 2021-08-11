@@ -15,9 +15,11 @@ class AdobeAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
             return true
         }
 
+        let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
+
         let adBreakObject = Media.createAdBreakObjectWith(name: "adbreak-name",
                                                           position: 1,
-                                                          startTime: 0)
+                                                          startTime: currentPlayerPosition)
 
         let videoMetadata: [String: String] = [:]
 

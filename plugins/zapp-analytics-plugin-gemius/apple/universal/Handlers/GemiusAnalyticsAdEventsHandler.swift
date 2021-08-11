@@ -78,8 +78,4 @@ class GemiusAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
                                     with: adEventData)
         return proceedEvent(eventName)
     }
-
-    fileprivate func getCurrentPlayerPosition(from parameters: [String: Any]?) -> Double {
-        return parameters?["offset"] as? Double ?? 0.00
-    }
 }

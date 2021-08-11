@@ -58,3 +58,9 @@ open class AnalyticsAdEventsHandler: AnalyticsBaseEventsHandler, AnalyticsAdEven
         return false
     }
 }
+
+extension AnalyticsAdEventsHandler {
+    public func getCurrentPlayerPosition(from parameters: [String: Any]?) -> Double {
+        return parameters?["offset"] as? Double ?? 0.00
+    }
+}
