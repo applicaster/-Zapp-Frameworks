@@ -10,7 +10,7 @@ platform :ios do
       workspace: "LocalProject/Apple/FrameworksApp/FrameworksApp.xcworkspace",
       scheme: ENV['SCHEME_NAME'],
       output_directory: "CircleArtifacts/test-results",
-      device: "iPhone 7",
+      device: "iPhone 12",
       code_coverage: true
     )
   end
