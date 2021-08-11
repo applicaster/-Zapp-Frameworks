@@ -45,31 +45,33 @@ class ComScoreAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         []
     }
     
-    override func handleCreateEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleCreateEvent(eventName, parameters: parameters) == false else {
+    override func handlePlayerPresentedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handlePlayerPresentedEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
-        guard let itemData = itemData else {
+        guard let playedMedia = playedMedia else {
             return false
         }
 
         var params: [String: String] = PlayerEventsParams.baseParams
-        params[PlayerEventsParams.itemId] = itemData.id
-        params[PlayerEventsParams.duration] = "\(itemData.duration * 1000)"
+        params[PlayerEventsParams.itemId] = playedMedia.mediaId
+        params[PlayerEventsParams.duration] = "\(playedMedia.duration * 1000)"
         params[ComScoreAnalyticsProviderParams.publisherName] = publisherName
         params[ComScoreAnalyticsProviderParams.c3] = c3
 
-        let streamType = itemData.isLive ? PlayerStreamType.live.rawValue : PlayerStreamType.vod.rawValue
+        let isLive = playedMedia.streamType == .live
+        
+        let streamType = isLive ? PlayerStreamType.live.rawValue : PlayerStreamType.vod.rawValue
         params[PlayerEventsParams.streamType] = streamType
 
         var contentType: SCORStreamingContentType = .other
-        if itemData.isLive {
+        if isLive {
             params[PlayerEventsParams.playlistTitle] = streamType
             contentType = .live
         } else {
-            params[PlayerEventsParams.playlistTitle] = itemData.title
-            if itemData.duration >= 600 {
+            params[PlayerEventsParams.playlistTitle] = playedMedia.name
+            if playedMedia.duration >= 600 {
                 contentType = .longFormOnDemand
             } else {
                 contentType = .shortFormOnDemand
@@ -90,8 +92,8 @@ class ComScoreAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         return proceedEvent(eventName)
     }
     
-    override func handleSeekingEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
-        guard super.handleSeekingEvent(eventName, parameters: parameters) == false else {
+    override func handleSeekStartEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
+        guard super.handleSeekStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
         streamAnalyticsForContent?.notifySeekStart()
@@ -99,8 +101,8 @@ class ComScoreAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         return proceedEvent(eventName)
     }
     
-    override func handleSeekEndEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
-        guard super.handleSeekEndEvent(eventName, parameters: parameters) == false else {
+    override func handleSeekCompleteEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
+        guard super.handleSeekCompleteEvent(eventName, parameters: parameters) == false else {
             return true
         }
         streamAnalyticsForContent?.notifyPlay()
@@ -108,11 +110,20 @@ class ComScoreAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         return proceedEvent(eventName)
     }
     
-    override func handleBufferEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
-        guard super.handleBufferEvent(eventName, parameters: parameters) == false else {
+    override func handleBufferStartEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
+        guard super.handleBufferStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
         streamAnalyticsForContent?.notifyBufferStart()
+        
+        return proceedEvent(eventName)
+    }
+    
+    override func handleBufferCompleteEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
+        guard super.handleBufferCompleteEvent(eventName, parameters: parameters) == false else {
+            return true
+        }
+        streamAnalyticsForContent?.notifyBufferStop()
         
         return proceedEvent(eventName)
     }
@@ -131,17 +142,13 @@ class ComScoreAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
             return true
         }
         
-        if lastProceededEvent == PlayerAnalyticsEvent.buffering {
-            streamAnalyticsForContent?.notifyBufferStop()
-        }
-
         streamAnalyticsForContent?.notifyPlay()
         
         return proceedEvent(eventName)
     }
     
-    override func handleEndedEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
-        guard super.handleEndedEvent(eventName, parameters: parameters) == false else {
+    override func handlePlaybackCompleteEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
+        guard super.handlePlaybackCompleteEvent(eventName, parameters: parameters) == false else {
             return true
         }
         streamAnalyticsForContent?.notifyEnd()
@@ -149,8 +156,8 @@ class ComScoreAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         return proceedEvent(eventName)
     }
 
-    override func handleDismissEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
-        guard super.handleEndedEvent(eventName, parameters: parameters) == false else {
+    override func handlePlayerClosedEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
+        guard super.handlePlayerClosedEvent(eventName, parameters: parameters) == false else {
             return true
         }
         

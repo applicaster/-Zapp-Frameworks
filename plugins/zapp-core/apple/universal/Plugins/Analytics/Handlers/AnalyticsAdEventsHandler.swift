@@ -8,7 +8,7 @@
 import Foundation
 
 open class AnalyticsAdEventsHandler: AnalyticsBaseEventsHandler, AnalyticsAdEventsHandlerProtocol {
-    
+    public var adBreakCounter: Int = 0
     public override func handleEvent(name: String, parameters: [String: Any]?) -> Bool {
         guard super.handleEvent(name: name, parameters: parameters) == false else {
             return true
@@ -17,17 +17,17 @@ open class AnalyticsAdEventsHandler: AnalyticsBaseEventsHandler, AnalyticsAdEven
         var retValue = false
         
         switch name {
-        case AdAnalyticsEvent.adBreakBegin:
-            retValue = handleAdBreakBeginEvent(name, parameters: parameters)
+        case AdAnalyticsEvent.adBreakStart:
+            retValue = handleAdBreakStartEvent(name, parameters: parameters)
 
-        case AdAnalyticsEvent.adBreakEnd:
-            retValue = handleAdBreakEndEvent(name, parameters: parameters)
+        case AdAnalyticsEvent.adBreakCompleted:
+            retValue = handleAdBreakCompletedEvent(name, parameters: parameters)
 
-        case AdAnalyticsEvent.adBegin:
-            retValue = handleAdBeginEvent(name, parameters: parameters)
+        case AdAnalyticsEvent.adStart:
+            retValue = handleAdStartEvent(name, parameters: parameters)
 
-        case AdAnalyticsEvent.adEnd:
-            retValue = handleAdEndEvent(name, parameters: parameters)
+        case AdAnalyticsEvent.adComplete:
+            retValue = handleAdCompleteEvent(name, parameters: parameters)
 
         case AdAnalyticsEvent.adError:
             retValue = handleAdErrorEvent(name, parameters: parameters)
@@ -38,19 +38,20 @@ open class AnalyticsAdEventsHandler: AnalyticsBaseEventsHandler, AnalyticsAdEven
         return retValue
     }
 
-    open func handleAdBreakBeginEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+    open func handleAdBreakStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        adBreakCounter+=1
         return false
     }
 
-    open func handleAdBreakEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+    open func handleAdBreakCompletedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return false
     }
 
-    open func handleAdBeginEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+    open func handleAdStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return false
     }
 
-    open func handleAdEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+    open func handleAdCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return false
     }
 

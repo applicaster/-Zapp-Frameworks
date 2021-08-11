@@ -8,11 +8,14 @@
 import Foundation
 
 public struct AdAnalyticsEvent {
-    public static let adBreakBegin = "Ad Break Begin"
-    public static let adBreakEnd = "Ad Break End"
-    public static let adError = "Ad Error"
-    public static let adBegin = "Ad Begin"
-    public static let adEnd = "Ad End"
+    public static let adBreakStart = "Player: Ad Break Start"
+    public static let adBreakCompleted = "Player: Ad Break Completed"
+    public static let adSkip = "Player: Ad Skip"
+    public static let adStart = "Player: Ad Start"
+    public static let adComplete = "Player: Ad Complete"
+    public static let adError = "Player: Ad Error"
+    public static let adRequest = "Player: Ad Request"
+    public static let adClicked = "Player: Ad Clicked"
 }
 
 public struct AdAnalyticsEventParams {

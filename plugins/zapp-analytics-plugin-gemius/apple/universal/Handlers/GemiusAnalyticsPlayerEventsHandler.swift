@@ -12,7 +12,8 @@ import ZappCore
 class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
     var playbackStalled: Bool = false
     let playerId = "GemiusAnalytics"
-
+    var mediaId: String = ""
+    
     var gemiusPlayerObject: GSMPlayer? {
         get {
             return self.delegate?.externalObject as? GSMPlayer
@@ -62,26 +63,22 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         ]
     }
     
-    override func handleCreateEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleCreateEvent(eventName, parameters: parameters) == false else {
+    override func handlePlayerPresentedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handlePlayerPresentedEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
-        guard var itemData = itemData else {
+        guard let playedMedia = playedMedia else {
             return false
         }
 
         let data = GSMProgramData()
-        data.name = itemData.title
-        data.duration = NSNumber(value: itemData.duration)
+        data.name = playedMedia.name
+        data.duration = NSNumber(value: playedMedia.duration)
 
         let customProperties = "analyticsCustomProperties"
-        var jsonString = parameters?[customProperties] as? String
-        if jsonString == nil, let value = itemIntialParameters?[customProperties] as? String {
-            jsonString = value
-        }
-        
-        if let jsonString = jsonString,
+        mediaId = playedMedia.mediaId
+        if let jsonString = parameters?[customProperties] as? String,
            let jsonData = jsonString.data(using: String.Encoding.utf8),
            let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: AnyObject] {
             for (key, value) in jsonDictionary {
@@ -89,7 +86,7 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
                 case GemiusCustomParams.sc:
                     // update id
                     if let value = jsonDictionary[key] as? String {
-                        itemData.id = value
+                        mediaId = value
                     }
                 case GemiusCustomParams.sct:
                     // update name
@@ -120,32 +117,32 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
                                        with: nil)
 
         // set program data
-        gemiusPlayerObject?.newProgram(itemData.id, with: data)
+        gemiusPlayerObject?.newProgram(mediaId, with: data)
 
         return proceedEvent(eventName)
     }
 
-    override func handleSeekingEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleSeekingEvent(eventName, parameters: parameters) == false else {
+    override func handleSeekStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleSeekStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.SEEK,
-                                    forProgram: itemData?.id,
+                                    forProgram: mediaId,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
         return proceedEvent(eventName)
     }
 
-    override func handleBufferEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleBufferEvent(eventName, parameters: parameters) == false else {
+    override func handleBufferStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleBufferStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.BUFFER,
-                                    forProgram: itemData?.id,
+                                    forProgram: mediaId,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
         return proceedEvent(eventName)
@@ -158,7 +155,7 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
 
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.PAUSE,
-                                    forProgram: itemData?.id,
+                                    forProgram: mediaId,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
         return proceedEvent(eventName)
@@ -171,35 +168,37 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
 
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.PLAY,
-                                    forProgram: itemData?.id,
+                                    forProgram: mediaId,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
         return proceedEvent(eventName)
     }
 
-    override func handleEndedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleEndedEvent(eventName, parameters: parameters) == false else {
+    override func handlePlaybackCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handlePlaybackCompleteEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.COMPLETE,
-                                    forProgram: itemData?.id,
+                                    forProgram: mediaId,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
         return proceedEvent(eventName)
     }
 
-    override func handleDismissEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleDismissEvent(eventName, parameters: parameters) == false else {
+    override func handlePlayerClosedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handlePlayerClosedEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.CLOSE,
-                                    forProgram: itemData?.id,
+                                    forProgram: mediaId,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
+        
+        mediaId = ""
         return true
     }
 }

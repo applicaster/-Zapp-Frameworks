@@ -18,38 +18,51 @@ class AdobeAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         ]
     }
     
-    override func handleCreateEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleCreateEvent(eventName, parameters: parameters) == false else {
+    override func handleSessionStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleSessionStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
-        guard let itemData = itemData else {
+        guard let playedMedia = playedMedia else {
             return false
         }
 
         tracker = Media.createTracker()
 
-        let streamType = itemData.isLive ? MediaConstants.StreamType.LIVE : MediaConstants.StreamType.VOD
+        let streamType = playedMedia.streamType == .live ? MediaConstants.StreamType.LIVE : MediaConstants.StreamType.VOD
         let mediaType = MediaType.Video
 
-        guard let mediaObject = Media.createMediaObjectWith(name: itemData.title,
-                                                            id: itemData.id,
-                                                            length: Double(itemData.duration),
+        guard let mediaObject = Media.createMediaObjectWith(name: playedMedia.name,
+                                                            id: playedMedia.mediaId,
+                                                            length: Double(playedMedia.duration),
                                                             streamType: streamType,
                                                             mediaType: mediaType) else { return false }
 
-        let videoMetadata: [String: String] = [:]
-        // Sample implementation for using video standard metadata keys
-//        videoMetadata[MediaConstants.VideoMetadataKeys.SHOW] = "Sample show"
-//        videoMetadata[MediaConstants.VideoMetadataKeys.SEASON] = "Sample season"
-
-        tracker?.trackSessionStart(info: mediaObject, metadata: videoMetadata)
+        var metadata: [String: String] = [:]
+        if let videoProperties = playedMedia.videoProperties {
+            metadata[MediaConstants.VideoMetadataKeys.SHOW] = videoProperties.showName
+            metadata[MediaConstants.VideoMetadataKeys.GENRE] = videoProperties.genre
+            metadata[MediaConstants.VideoMetadataKeys.NETWORK] = videoProperties.network
+            metadata[MediaConstants.VideoMetadataKeys.RATING] = videoProperties.rating
+            metadata[MediaConstants.VideoMetadataKeys.SEASON] = videoProperties.seasonName
+            metadata[MediaConstants.VideoMetadataKeys.SHOW_TYPE] = videoProperties.showType
+            metadata[MediaConstants.VideoMetadataKeys.STREAM_FORMAT] = videoProperties.streamFormat
+        }
+        else if let audioProperties = playedMedia.audioProperties {
+            metadata[MediaConstants.AudioMetadataKeys.ALBUM] = audioProperties.album
+            metadata[MediaConstants.AudioMetadataKeys.ARTIST] = audioProperties.artist
+            metadata[MediaConstants.AudioMetadataKeys.AUTHOR] = audioProperties.author
+            metadata[MediaConstants.AudioMetadataKeys.LABEL] = audioProperties.label
+            metadata[MediaConstants.AudioMetadataKeys.PUBLISHER] = audioProperties.publisher
+            metadata[MediaConstants.AudioMetadataKeys.STATION] = audioProperties.station
+        }
+        tracker?.trackSessionStart(info: mediaObject, metadata: metadata)
 
         return proceedEvent(eventName)
     }
 
-    override func handleSeekingEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleSeekingEvent(eventName, parameters: parameters) == false else {
+    override func handleSeekStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleSeekStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
         tracker?.trackEvent(event: .SeekStart, info: nil, metadata: nil)
@@ -57,8 +70,8 @@ class AdobeAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         return proceedEvent(eventName)
     }
 
-    override func handleSeekEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleSeekEndEvent(eventName, parameters: parameters) == false else {
+    override func handleSeekCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleSeekCompleteEvent(eventName, parameters: parameters) == false else {
             return true
         }
         tracker?.trackEvent(event: .SeekComplete, info: nil, metadata: nil)
@@ -66,11 +79,20 @@ class AdobeAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         return proceedEvent(eventName)
     }
 
-    override func handleBufferEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleBufferEvent(eventName, parameters: parameters) == false else {
+    override func handleBufferStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleBufferStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
         tracker?.trackEvent(event: .BufferStart, info: nil, metadata: nil)
+
+        return proceedEvent(eventName)
+    }
+    
+    override func handleBufferCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleBufferCompleteEvent(eventName, parameters: parameters) == false else {
+            return true
+        }
+        tracker?.trackEvent(event: .BufferComplete, info: nil, metadata: nil)
 
         return proceedEvent(eventName)
     }
@@ -89,17 +111,13 @@ class AdobeAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
             return true
         }
 
-        if lastProceededEvent == PlayerAnalyticsEvent.buffering {
-            tracker?.trackEvent(event: .BufferComplete, info: nil, metadata: nil)
-        }
-
         tracker?.trackPlay()
 
         return proceedEvent(eventName)
     }
 
-    override func handleEndedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleEndedEvent(eventName, parameters: parameters) == false else {
+    override func handleSessionEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleSessionEndEvent(eventName, parameters: parameters) == false else {
             return true
         }
         tracker?.trackComplete()
@@ -107,8 +125,8 @@ class AdobeAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         return proceedEvent(eventName)
     }
 
-    override func handleDismissEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleEndedEvent(eventName, parameters: parameters) == false else {
+    override func handlePlayerClosedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handlePlayerClosedEvent(eventName, parameters: parameters) == false else {
             return true
         }
 

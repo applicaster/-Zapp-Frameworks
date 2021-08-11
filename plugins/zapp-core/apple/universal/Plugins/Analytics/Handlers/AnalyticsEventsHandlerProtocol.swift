@@ -17,14 +17,22 @@ public protocol AnalyticsEventsHandlerDelegate: AnyObject {
 }
 
 public protocol AnalyticsPlayerEventsHandlerProtocol: AnalyticsEventsHandlerProtocol {
-    func handleCreateEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
-    func handleSeekingEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
-    func handleSeekEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
-    func handleBufferEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
-    func handlePauseEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handlePlayerPresentedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handlePlayerClosedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
     func handlePlayEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
-    func handleEndedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
-    func handleDismissEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handlePauseEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleSeekStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleSeekCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleSessionStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleSessionEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleBufferStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleBufferCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handlePlaybackCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handlePlaybackErrorEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handlePlaybackStopEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handlePlayNextEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handlePlayPreviousEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+
 }
 
 public protocol AnalyticsScreenEventsHandlerProtocol: AnalyticsEventsHandlerProtocol {
@@ -35,9 +43,9 @@ public protocol AnalyticsScreenEventsHandlerProtocol: AnalyticsEventsHandlerProt
 }
 
 public protocol AnalyticsAdEventsHandlerProtocol: AnalyticsEventsHandlerProtocol {
-    func handleAdBreakBeginEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
-    func handleAdBreakEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
-    func handleAdBeginEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
-    func handleAdEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleAdBreakStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleAdBreakCompletedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleAdStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleAdCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
     func handleAdErrorEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
 }

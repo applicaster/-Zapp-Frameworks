@@ -8,16 +8,21 @@
 import Foundation
 
 public struct PlayerAnalyticsEvent {
-    public static let initial = "Play VOD Item.start"
-    public static let created = "Player Created"
-    public static let dismissed = "Player Closed"
-    public static let play = "Player Playing"
-    public static let resume = "Player Resume"
-    public static let paused = "Player Pause"
-    public static let seeking = "Player Seek"
-    public static let seeked = "Player Seek End"
-    public static let ended = "Player Ended"
-    public static let buffering = "Player Buffering"
-    public static let entryLoaded = "Media Entry Load"
-    public static let videoLoaded = "Player Loaded Video"
+    public static let playerPresented = "Player: Presented"
+    public static let playerClosed = "Player: Closed"
+    public static let sessionEnd = "Player: Session End"
+    public static let sessionStart = "Player: Session Start"
+
+    public static let play = "Player: Play"
+    public static let pause = "Player: Pause"
+    public static let complete = "Player: Complete"
+    public static let error = "Player: Error"
+    public static let bufferStart = "Player: Buffer Start"
+    public static let bufferComplete = "Player: Buffer Complete"
+    public static let seekStart = "Player: Seek Start"
+    public static let seekComplete = "Player: Seek Complete"
+    
+    public static let stop = "Player: Stop"
+    public static let next = "Player: Next"
+    public static let previous = "Player: Previous"
 }

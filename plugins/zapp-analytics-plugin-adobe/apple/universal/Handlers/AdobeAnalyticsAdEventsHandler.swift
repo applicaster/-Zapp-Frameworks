@@ -10,15 +10,15 @@ import Foundation
 import ZappCore
 
 class AdobeAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
-    override func handleAdBreakBeginEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleAdBreakBeginEvent(eventName, parameters: parameters) == false else {
+    override func handleAdBreakStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleAdBreakStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
 
         let adBreakObject = Media.createAdBreakObjectWith(name: "adbreak-name",
-                                                          position: 1,
+                                                          position: adBreakCounter,
                                                           startTime: currentPlayerPosition)
 
         let videoMetadata: [String: String] = [:]
@@ -28,8 +28,8 @@ class AdobeAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         return proceedEvent(eventName)
     }
 
-    override func handleAdBreakEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleAdBreakEndEvent(eventName, parameters: parameters) == false else {
+    override func handleAdBreakCompletedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleAdBreakCompletedEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
@@ -40,14 +40,14 @@ class AdobeAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         return proceedEvent(eventName)
     }
 
-    override func handleAdBeginEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleAdBeginEvent(eventName, parameters: parameters) == false else {
+    override func handleAdStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleAdStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
         let adObject = Media.createAdObjectWith(name: "ad-name",
                                                 id: UUID().uuidString,
-                                                position: 1,
+                                                position: adBreakCounter,
                                                 length: 0)
 
         let videoMetadata: [String: String] = [:]
@@ -59,8 +59,8 @@ class AdobeAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         return proceedEvent(eventName)
     }
 
-    override func handleAdEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleAdEndEvent(eventName, parameters: parameters) == false else {
+    override func handleAdCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleAdCompleteEvent(eventName, parameters: parameters) == false else {
             return true
         }
 

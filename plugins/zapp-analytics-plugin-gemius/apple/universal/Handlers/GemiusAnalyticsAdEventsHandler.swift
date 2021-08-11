@@ -16,8 +16,8 @@ class GemiusAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
 
     var lastProgramID: String?
 
-    override func handleAdBreakBeginEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleAdBreakBeginEvent(eventName, parameters: parameters) == false else {
+    override func handleAdBreakStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleAdBreakStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
@@ -32,8 +32,8 @@ class GemiusAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         return proceedEvent(eventName)
     }
 
-    override func handleAdBeginEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleAdBeginEvent(eventName, parameters: parameters) == false else {
+    override func handleAdStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleAdStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
@@ -58,8 +58,8 @@ class GemiusAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         return proceedEvent(eventName)
     }
 
-    override func handleAdEndEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        guard super.handleAdEndEvent(eventName, parameters: parameters) == false else {
+    override func handleAdCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleAdCompleteEvent(eventName, parameters: parameters) == false else {
             return true
         }
 

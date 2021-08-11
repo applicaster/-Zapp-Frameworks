@@ -12,8 +12,8 @@ import ComScore
 class ComScoreAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
     var streamAnalyticsForAds: SCORStreamingAnalytics?
 
-    override func handleAdBeginEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
-        guard super.handleAdBeginEvent(eventName, parameters: parameters) == false else {
+    override func handleAdStartEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
+        guard super.handleAdStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
         
@@ -35,8 +35,8 @@ class ComScoreAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         return proceedEvent(eventName)
     }
     
-    override func handleAdEndEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
-        guard super.handleAdBeginEvent(eventName, parameters: parameters) == false else {
+    override func handleAdCompleteEvent(_ eventName: String, parameters: [String : Any]?) -> Bool {
+        guard super.handleAdStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
         streamAnalyticsForAds?.notifyEnd()
