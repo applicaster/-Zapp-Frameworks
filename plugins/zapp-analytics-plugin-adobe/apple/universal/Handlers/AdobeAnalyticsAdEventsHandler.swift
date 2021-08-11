@@ -16,7 +16,7 @@ class AdobeAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         }
 
         let adBreakObject = Media.createAdBreakObjectWith(name: "adbreak-name",
-                                                          position: 0,
+                                                          position: 1,
                                                           startTime: 0)
 
         let videoMetadata: [String: String] = [:]
@@ -45,7 +45,7 @@ class AdobeAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
 
         let adObject = Media.createAdObjectWith(name: "ad-name",
                                                 id: UUID().uuidString,
-                                                position: 0,
+                                                position: 1,
                                                 length: 0)
 
         let videoMetadata: [String: String] = [:]
