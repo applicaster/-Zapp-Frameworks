@@ -36,7 +36,7 @@ export const LoginFlow = (props: LoginProps) => {
     <>
       <UserPhoto styles={styles} imageSrc={styles?.user_image_placeholder} />
       {isLoggedIn ? (
-        <FocusableGroup id={ID.groupId} shouldUsePreferredFocus={true}>
+        <FocusableGroup id={ID.groupId} shouldUsePreferredFocus preferredFocus>
           <TextView
             styleKey={"info_label_description"}
             styles={styles}
@@ -48,16 +48,20 @@ export const LoginFlow = (props: LoginProps) => {
             id={ID.logoutButtonId}
             onPress={onLogout}
             titleText={logout_title_text}
+            groupId={ID.groupId}
+            shouldUsePreferredFocus
           />
         </FocusableGroup>
       ) : (
-        <FocusableGroup id={ID.groupId} shouldUsePreferredFocus={true}>
+        <FocusableGroup id={ID.groupId} shouldUsePreferredFocus preferredFocus>
           <Button
               styleKey={ID.login1ButtonId}
               styles={styles}
               id={ID.login1ButtonId}
               onPress={onLogin1}
               titleText={login_button_1_title_text}
+              groupId={ID.groupId}
+              shouldUsePreferredFocus
             />
             {button_2_login_enabled ? (
               <Button
@@ -66,6 +70,8 @@ export const LoginFlow = (props: LoginProps) => {
                 id={ID.login2ButtonId}
                 onPress={onLogin2}
                 titleText={login_button_2_title_text}
+                groupId={ID.groupId}
+                shouldUsePreferredFocus
               />
             ) : null}
         </FocusableGroup>
