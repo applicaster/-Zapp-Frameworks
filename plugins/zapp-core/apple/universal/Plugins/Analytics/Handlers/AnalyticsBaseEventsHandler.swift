@@ -31,7 +31,6 @@ open class AnalyticsBaseEventsHandler: NSObject, AnalyticsEventsHandlerProtocol 
     
     open func proceedEvent(_ eventName: String) -> Bool {
         lastProceededEvent = eventName
-        print("lastProceededEvent: \(eventName)")
         return true
     }
 }
