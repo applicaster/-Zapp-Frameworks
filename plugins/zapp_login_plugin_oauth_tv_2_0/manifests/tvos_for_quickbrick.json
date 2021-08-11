@@ -35,8 +35,8 @@
     "quickbrick"
   ],
   "platform": "tvos_for_quickbrick",
-  "dependency_version": "0.0.5",
-  "manifest_version": "0.0.5",
+  "dependency_version": "0.0.6-beta.3",
+  "manifest_version": "0.0.6-beta.3",
   "api": {},
   "project_dependencies": [],
   "extra_dependencies": [],
@@ -114,13 +114,13 @@
             "key": "background_color",
             "type": "color_picker",
             "label": "Background color",
-            "initial_value": "#f1f1f1FF"
+            "initial_value": "#ff161B29"
           },
           {
             "key": "background_color_prehook",
             "type": "color_picker",
-            "label": "Background color",
-            "initial_value": "#00000000"
+            "label": "Background color prehook",
+            "initial_value": "#ff161B29"
           },
           {
             "key": "client_logo",
@@ -130,16 +130,42 @@
             "placeholder": "W 350 x H 350px"
           },
           {
+            "key": "background_image",
+            "type": "uploader",
+            "label": "Background Image",
+            "label_tooltip": "Background image. Dimension 1920x1080 pixels.",
+            "placeholder": "W 1920 x H 1080px"
+          },
+          {
+            "key": "logout_icon",
+            "type": "uploader",
+            "label": "Logout screen icon",
+            "label_tooltip": "Logout icon. Dimension 500x500 pixels.",
+            "placeholder": "W 500 x H 500px"
+          },
+          {
             "key": "activity_indicator_color",
             "type": "color_picker",
             "label": "Activity indicator color",
-            "initial_value": "#525A5CFF"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "line_separator_color",
             "type": "color_picker",
             "label": "Sign in screen verticall separator",
-            "initial_value": "#979797"
+            "initial_value": "#ff161B29"
+          },
+          {
+            "key": "show_maybe_later_button",
+            "type": "switch",
+            "label": "Enable Action Button In Sign In Screen",
+            "initial_value": "true"
+          },
+          {
+            "key": "intro_show_maybe_later_button",
+            "type": "switch",
+            "label": "Enable Action Button In Intro Screen",
+            "initial_value": "true"
           }
         ]
       },
@@ -164,7 +190,7 @@
             "key": "title_font_size",
             "type": "number_input",
             "label": "Font size",
-            "initial_value": 42
+            "initial_value": 50
           },
           {
             "key": "title_font_color",
@@ -201,7 +227,7 @@
             "key": "text_font_color",
             "type": "color_picker",
             "label": "Color",
-            "initial_value": "#525A5C"
+            "initial_value": "#ffffffff"
           }
         ]
       },
@@ -226,13 +252,13 @@
             "key": "text_url_font_size",
             "type": "number_input",
             "label": "Font size",
-            "initial_value": 20
+            "initial_value": 34
           },
           {
             "key": "text_url_font_color",
             "type": "color_picker",
             "label": "Color",
-            "initial_value": "#525A5C"
+            "initial_value": "#ffffffff"
           }
         ]
       },
@@ -257,13 +283,13 @@
             "key": "text_code_font_size",
             "type": "number_input",
             "label": "Font size",
-            "initial_value": 20
+            "initial_value": 96
           },
           {
             "key": "text_code_font_color",
             "type": "color_picker",
             "label": "Color",
-            "initial_value": "#525A5C"
+            "initial_value": "#ffffffff"
           }
         ]
       },
@@ -288,31 +314,61 @@
             "key": "action_button_font_size",
             "type": "number_input",
             "label": "Font size",
-            "initial_value": 15
+            "initial_value": 32
           },
           {
             "key": "action_button_font_color",
             "type": "color_picker",
             "label": "Color",
-            "initial_value": "#5D5D5DFF"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "action_button_font_color_focused",
             "type": "color_picker",
             "label": "Color Focused",
-            "initial_value": "#ffffffff"
+            "initial_value": "#ff8F9198"
           },
           {
             "key": "action_button_background_color",
             "type": "color_picker",
             "label": "Background color",
-            "initial_value": "#D8D8D8ff"
+            "initial_value": "#ff161B29"
           },
           {
             "key": "action_button_background_color_focused",
             "type": "color_picker",
             "label": "Background color focused",
-            "initial_value": "#0081C8FF"
+            "initial_value": "#ffCFD1D4"
+          },
+          {
+            "key": "action_button_round",
+            "type": "switch",
+            "label": "Enable round buttons",
+            "initial_value": "true"
+          },
+          {
+            "key": "action_button_border_color",
+            "type": "color_picker",
+            "label": "Border Color",
+            "initial_value": "#ffffffff"
+          },
+          {
+            "key": "action_button_border_color_focused",
+            "type": "color_picker",
+            "label": "Border Color Focused",
+            "initial_value": "#ffCFD1D4"
+          },
+          {
+            "key": "action_button_border_size",
+            "type": "number_input",
+            "label": "Border size",
+            "initial_value": 5
+          },
+          {
+            "key": "action_button_shadow",
+            "type": "switch",
+            "label": "Enable shadow",
+            "initial_value": "false"
           }
         ]
       }
@@ -358,7 +414,7 @@
       {
         "key": "sing_in_title",
         "label": "Sign in screen title",
-        "initial_value": "SIGN IN INTO YOUR APPLICATION ACCOUNT"
+        "initial_value": "Connect Your Account"
       },
       {
         "key": "sign_in_go_to_title",
@@ -368,7 +424,7 @@
       {
         "key": "sign_in_activation_code_title",
         "label": "Activation code label",
-        "initial_value": "Enter the activation code below"
+        "initial_value": "Enter the activation code below:"
       },
       {
         "key": "sign_in_support_title",
@@ -379,6 +435,11 @@
         "key": "sign_in_support_link",
         "label": "support link",
         "initial_value": "google.com"
+      },
+      {
+        "key": "sign_in_qr_text",
+        "label": "QR Support Text",
+        "initial_value": "Or scan the QR Code"
       },
       {
         "key": "sing_out",

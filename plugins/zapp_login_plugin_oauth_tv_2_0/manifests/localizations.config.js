@@ -43,7 +43,7 @@ const common = [
   {
     key: "sing_in_title",
     label: "Sign in screen title",
-    initial_value: "SIGN IN INTO YOUR APPLICATION ACCOUNT",
+    initial_value: "Connect Your Account",
   },
   {
     key: "sign_in_go_to_title",
@@ -53,7 +53,7 @@ const common = [
   {
     key: "sign_in_activation_code_title",
     label: "Activation code label",
-    initial_value: "Enter the activation code below",
+    initial_value: "Enter the activation code below:",
   },
   {
     key: "sign_in_support_title",
@@ -64,6 +64,11 @@ const common = [
     key: "sign_in_support_link",
     label: "support link",
     initial_value: "google.com",
+  },
+  {
+    key: "sign_in_qr_text",
+    label: "QR Support Text",
+    initial_value: "Or scan the QR Code",
   },
   // Sign Out
   {

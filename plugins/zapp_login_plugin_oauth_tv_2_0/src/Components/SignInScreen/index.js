@@ -32,7 +32,12 @@ function SignInScreen(props) {
     onMenuButtonClicked,
   } = props;
 
-  const { activity_indicator_color, line_separator_color } = screenStyles;
+  const {
+    activity_indicator_color,
+    line_separator_color,
+    action_button_show
+  } = screenStyles;
+
   const styles = {
     container: {
       flex: 1,
@@ -41,29 +46,28 @@ function SignInScreen(props) {
     title: {
       ...mapKeyToStyle("title", screenStyles),
       fontWeight: "bold",
-      marginBottom: 110,
+      marginBottom: 60,
+      alignSelf: "flex-start",
     },
     text: {
       ...mapKeyToStyle("text", screenStyles),
-      marginBottom: 20,
+      marginBottom: 10,
     },
     url: {
       ...mapKeyToStyle("text_url", screenStyles),
       fontWeight: "bold",
-      marginBottom: 60,
+      marginBottom: 20
     },
     columnsContainer: {
       width: 1110,
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "row",
-      paddingTop: 30,
     },
     bottomText: {
       width: 1110,
-      alignItems: "center",
-      justifyContent: "center",
       paddingTop: 80,
+      paddingBottom: 10
     },
     leftColumn: {
       flex: 1,
@@ -71,7 +75,7 @@ function SignInScreen(props) {
       alignItems: "flex-start",
       borderRightColor: line_separator_color,
       borderRightWidth: 2,
-      minHeight: 330,
+      minHeight: 410,
     },
     rightColumn: {
       flex: 1,
@@ -79,7 +83,7 @@ function SignInScreen(props) {
       alignItems: "flex-end",
       borderLeftColor: line_separator_color,
       borderLeftWidth: 2,
-      minHeight: 330,
+      minHeight: 410,
     },
     loadContainer: {
       width: 300,
@@ -100,6 +104,17 @@ function SignInScreen(props) {
       justifyContent: "center",
       alignItems: "center",
     },
+    supportContainer: {
+      justifyContent: "flex-start",
+      alignItems: "flex-start",
+    },
+    qrContainer: {
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    qrText: {
+      marginTop: 10
+    }
   };
 
   const {
@@ -109,6 +124,7 @@ function SignInScreen(props) {
     sign_in_activation_code_title,
     sign_in_support_title,
     sign_in_support_link,
+    sign_in_qr_text
   } = screenLocalizations;
 
   const clearAllTimeouts = useCallback(() => {
@@ -218,11 +234,11 @@ function SignInScreen(props) {
       }
     }
   }, [
-    deviceData,
-    signInStatusAutoupdate,
-    signInStatusAutoupdateTimeout,
-    callback,
-  ]);
+      deviceData,
+      signInStatusAutoupdate,
+      signInStatusAutoupdateTimeout,
+      callback,
+    ]);
 
   useLayoutEffect(() => {
     loadDeviceData();
@@ -315,10 +331,10 @@ function SignInScreen(props) {
                 />
               </View>
             ) : (
-              <Text style={styles.pinCode} adjustsFontSizeToFit>
-                {deviceData?.user_code}
-              </Text>
-            )}
+                <Text style={styles.pinCode} adjustsFontSizeToFit>
+                  {deviceData?.user_code}
+                </Text>
+              )}
           </View>
           <View style={styles.rightColumn}>
             {loading ? (
@@ -329,30 +345,37 @@ function SignInScreen(props) {
                 />
               </View>
             ) : deviceData?.verification_uri ? (
-              <QRCode url={deviceData?.verification_uri} />
+              <View style={styles.qrContainer}>
+                <QRCode url={deviceData?.verification_uri} />
+                <Text style={[styles.text, styles.qrText]} adjustsFontSizeToFit>
+                  {sign_in_qr_text}
+                </Text>
+              </View>
             ) : null}
           </View>
         </View>
-        <View style={styles.bottomText}>
-          <Text style={styles.text}>
-            {sign_in_support_title}
-            <Text style={[styles.text, { color: "#525A5C", marginLeft: 32 }]}>
-              {` ${sign_in_support_link}`}
+        <View style={styles.supportContainer}>
+          <View style={styles.bottomText}>
+            <Text style={styles.text}>
+              {sign_in_support_title}
+              <Text style={[styles.text]}>
+                {` ${sign_in_support_link}`}
+              </Text>
             </Text>
-          </Text>
+          </View>
+          {isPrehook && action_button_show && (
+            <Button
+              screenStyles={screenStyles}
+              label={sing_in_later}
+              onPress={onMaybeLaterPress}
+              preferredFocus={true}
+              groupId={groupId}
+              style={styles.focusContainer}
+              buttonRef={skipButton}
+              id={"skip-sign-in"}
+            />
+          )}
         </View>
-        {isPrehook && (
-          <Button
-            screenStyles={screenStyles}
-            label={sing_in_later}
-            onPress={onMaybeLaterPress}
-            preferredFocus={true}
-            groupId={groupId}
-            style={styles.focusContainer}
-            buttonRef={skipButton}
-            id={"skip-sign-in"}
-          />
-        )}
       </View>
     </Layout>
   );
