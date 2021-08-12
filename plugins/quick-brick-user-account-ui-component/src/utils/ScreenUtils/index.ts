@@ -1,15 +1,3 @@
-export function screenFromRivers(data: ScreenData): ZappRiver {
-  const values: ZappRiver[] = Object.values(data.rivers);
-  const screenId = data?.loginDataModel?.keysModel?.screenId;
-  const pluginIdentifier = data?.loginDataModel?.keysModel?.namespace;
-
-  const river = values.find((item) => {
-    return findRiver(item, pluginIdentifier, screenId);
-  });
-
-  return river;
-}
-
 function findRiver(
   riverItem: ZappRiver,
   pluginIdentifier: string,
@@ -30,4 +18,16 @@ function findRiver(
   }
 
   return screenId ? riverItem.id === screenId : true;
+}
+
+export function screenFromRivers(data: ScreenData): ZappRiver {
+  const values: ZappRiver[] = Object.values(data.rivers);
+  const screenId = data?.loginDataModel?.keysModel?.screenId;
+  const pluginIdentifier = data?.loginDataModel?.keysModel?.namespace;
+
+  const river = values.find((item) => {
+    return findRiver(item, pluginIdentifier, screenId);
+  });
+
+  return river;
 }

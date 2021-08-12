@@ -20,15 +20,15 @@ references:
 
   install_node: &install_node
     run:
-      name: install node@12.0.0
+      name: install node@12.13.0
       command: |
         set +e
         touch $BASH_ENV
         curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
         echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
         echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-        echo nvm install 12.0.0 >> $BASH_ENV
-        echo nvm alias default 12.0.0 >> $BASH_ENV
+        echo nvm install 12.13.0 >> $BASH_ENV
+        echo nvm alias default 12.13.0 >> $BASH_ENV
 
   whitch_ruby: &whitch_ruby
     run:
@@ -196,7 +196,7 @@ jobs:
   apple_unit_tests:
     <<: *defaults
     macos:
-      xcode: "12.4.0"
+      xcode: "12.5.0"
     resource_class: large
     environment:
       HOMEBREW_NO_AUTO_UPDATE: "1"

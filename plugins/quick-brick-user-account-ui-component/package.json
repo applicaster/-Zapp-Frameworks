@@ -1,6 +1,6 @@
 {
   "name": "@applicaster/quick-brick-user-account-ui-component",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "author": "Zapp Team",
   "license": "ISC",
   "description": "User Account Component",
@@ -25,7 +25,12 @@
   "applicaster": {
     "supportedPlatforms": [
       "ios_for_quickbrick",
-      "android_for_quickbrick"
+      "android_for_quickbrick",
+      "tvos_for_quickbrick",
+      "android_tv_for_quickbrick",
+      "amazon_fire_tv_for_quickbrick",
+      "samsung_tv",
+      "lg_tv"
     ],
     "zappOwnerAccountId": "5e12fac7666333000ec0f8ab"
   }

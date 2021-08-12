@@ -1,15 +1,4 @@
-import {
-  createLogger,
-  BaseSubsystem,
-  ProvidersCategories,
-  XRayLogLevel,
-  BaseCategories,
-} from "../../LoggerService";
-
-export const logger = createLogger({
-  subsystem: `${BaseSubsystem}/${BaseCategories.PROVIDER_SERVICE}`,
-  category: ProvidersCategories.OAUTH_SERVICE,
-});
+import { logger } from "../../LoggerService";
 
 export const AWSCognito = {
   getConfig({ configuration }) {
@@ -29,15 +18,10 @@ export const AWSCognito = {
       };
       return oAuthConfig;
     } else {
-      logger
-        .createEvent()
-        .setLevel(XRayLogLevel.error)
-        .setMessage(
-          `configFromPlugin: Reuired keys not exist clientId, redirectUrl, domainName`
-        )
-        .addData({ configuration })
-        .send();
-
+      logger.error({
+        message: `configFromPlugin: Reuired keys not exist clientId, redirectUrl, domainName`,
+        data: { configuration },
+      });
       return null;
     }
   },

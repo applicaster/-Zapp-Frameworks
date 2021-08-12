@@ -1,4 +1,4 @@
-import { HookTypeData } from "../../Utils/Helpers";
+import { PresentationTypeData } from "../../Utils/Helpers";
 
 export const containerStyle = {
   flex: 1,
@@ -10,14 +10,14 @@ export const safeAreaStyle = {
   backgroundColor: "clear",
 };
 
-export function backgroundImageStyle(screenStyles, hookType, width, height) {
+export function backgroundImageStyle(screenStyles, screenType, width, height) {
   return {
     flex: 1,
     width,
     height,
     resizeMode: "center",
     backgroundColor:
-      hookType === HookTypeData.UNDEFINED
+      screenType === PresentationTypeData.UNDEFINED
         ? "black"
         : screenStyles?.background_color,
     position: "absolute",
@@ -37,5 +37,5 @@ export const clientLogoView = {
   },
   middle: {
     rop: 230,
-  }
+  },
 };

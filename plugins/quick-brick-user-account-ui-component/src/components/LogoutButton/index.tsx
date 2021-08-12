@@ -1,96 +1,21 @@
-import * as React from "react";
-import {
-  ImageBackground,
-  TouchableHighlight,
-  Text,
-  StyleSheet,
-} from "react-native";
-import { handleStyleType } from "../../utils";
+import React from "react";
 import { platformSelect } from "@applicaster/zapp-react-native-utils/reactUtils";
+import { Button } from "../Button";
 
-type Props = {
-  id: string;
-  onPress: () => void;
-  titleText: string;
-  styles: ButtonStyles;
-  src: string;
-};
+const stylesMobile = { height: 22, width: 99 };
+const stylesTV = { height: 52, width: 250 };
 
-const componentStyles = StyleSheet.create({
-  containerStyle: {
-    height: 22,
-    width: 99,
-    flexDirection: "row",
-  },
-  flexOne: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  labelStyles: {
-    textAlign: "center",
-    justifyContent: "center",
-  },
-});
+export function LogoutButton(props) {
+  const mobile = <Button {...props} propsContainerStyle={stylesMobile} />;
+  const tv = <Button {...props} propsContainerStyle={stylesTV} />;
 
-export function LogoutButton(props: Props) {
-  const [isUnderlay, setIsUnderlay] = React.useState(false);
-
-  function onShowUnderlay() {
-    setIsUnderlay(true);
-  }
-
-  function onHideUnderlay() {
-    setIsUnderlay(false);
-  }
-
-  const propsContainerStyle = props?.styles?.containerStyle;
-  const propsLabelStyles = props?.styles?.labelStyles;
-  const containerStyle = {
-    ...componentStyles.containerStyle,
-    backgroundColor: propsContainerStyle?.background_color,
-    borderRadius: Number(propsContainerStyle?.radius),
-    borderColor: isUnderlay
-      ? propsContainerStyle?.border_underlay_color
-      : propsContainerStyle?.border_color,
-    borderWidth: isUnderlay
-      ? Number(propsContainerStyle?.border_underlay)
-      : Number(propsContainerStyle?.border),
-  };
-  const background_underlay_color =
-    propsContainerStyle?.background_underlay_color;
-
-  const labelStyles = {
-    ...componentStyles.labelStyles,
-    color: isUnderlay
-      ? propsLabelStyles?.title_underlay_color
-      : propsLabelStyles?.title_color,
-    fontSize: handleStyleType(propsLabelStyles?.title_text_fontsize),
-    fontFamily: platformSelect({
-      ios: propsLabelStyles?.title_text_font_ios,
-      android: propsLabelStyles?.title_text_font_android,
-    }),
-  };
-  const image = { uri: props?.src };
-
-  return (
-    <TouchableHighlight
-      onPress={props?.onPress}
-      testID={`${props?.id}`}
-      style={containerStyle}
-      onHideUnderlay={onHideUnderlay}
-      onShowUnderlay={onShowUnderlay}
-      underlayColor={background_underlay_color}
-      accessible={false}
-    >
-      <ImageBackground
-        imageStyle={{ resizeMode: "stretch" }}
-        style={componentStyles.flexOne}
-        source={image}
-      >
-        <Text numberOfLines={1} style={labelStyles}>
-          {props?.titleText}
-        </Text>
-      </ImageBackground>
-    </TouchableHighlight>
-  );
+  return platformSelect({
+    tvos: tv,
+    ios: mobile,
+    android: mobile,
+    android_tv: tv,
+    web: tv,
+    samsung_tv: tv,
+    lg_tv: tv,
+  });
 }
