@@ -139,7 +139,7 @@ class AdobeAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
 
 extension AdobeAnalyticsPlayerEventsHandler: AnalyticsEventsHandlerDelegate {
     public var configurationJSON: NSDictionary? {
-        return nil
+        return delegate?.configurationJSON
     }
 
     public var externalObject: AnyObject? {

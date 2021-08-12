@@ -205,7 +205,7 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
 
 extension GemiusAnalyticsPlayerEventsHandler: AnalyticsEventsHandlerDelegate {
     public var configurationJSON: NSDictionary? {
-        return nil
+        return delegate?.configurationJSON
     }
 
     public var externalObject: AnyObject? {
