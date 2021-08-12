@@ -98,13 +98,7 @@ const stylesTv = {
           type: "switch",
           label: "Enable Action Button In Sign In Screen",
           initial_value: "true",
-        },
-        {
-          key: "intro_show_maybe_later_button",
-          type: "switch",
-          label: "Enable Action Button In Intro Screen",
-          initial_value: "true",
-        },
+        }
       ],
     },
     {

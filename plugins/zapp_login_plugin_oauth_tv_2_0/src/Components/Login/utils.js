@@ -21,7 +21,6 @@ export const getRiversProp = (key, rivers = {}, screenId = "") => {
 
 export const ScreenData = {
   UNDEFINED: "Undefined",
-  INTRO: "Intro",
   LOG_IN: "Login",
   LOG_OUT: "Logout",
   LOADING: "Loading",
