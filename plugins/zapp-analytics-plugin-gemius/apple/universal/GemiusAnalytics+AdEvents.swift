@@ -33,7 +33,8 @@ extension GemiusAnalytics {
         switch eventName {
         case AdEvents.adBreakBegin:
             let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
-            if let lastProgramID = lastProgramID {
+            if currentPlayerPosition > 0,
+               let lastProgramID = lastProgramID {
                 gemiusPlayerObject?.program(.BREAK,
                                             forProgram: lastProgramID,
                                             atOffset: NSNumber(value: currentPlayerPosition),
