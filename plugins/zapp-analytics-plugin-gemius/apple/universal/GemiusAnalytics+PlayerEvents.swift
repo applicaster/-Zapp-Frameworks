@@ -56,11 +56,12 @@ extension GemiusAnalytics {
         case PlayerEvents.dismissed:
             retValue = handleDismissEvent(eventName, parameters: parameters)
 
-        case PlayerEvents.play, PlayerEvents.resume, PlayerEvents.seeked:
-            retValue = handlePlayEvent(eventName, parameters: parameters)
+        //Removed as per SBS request to stop passing play/pause events
+//        case PlayerEvents.play, PlayerEvents.resume, PlayerEvents.seeked:
+//            retValue = handlePlayEvent(eventName, parameters: parameters)
 
-        case PlayerEvents.paused:
-            retValue = handlePauseEvent(eventName, parameters: parameters)
+//        case PlayerEvents.paused:
+//            retValue = handlePauseEvent(eventName, parameters: parameters)
 
         case PlayerEvents.seeking:
             retValue = handleSeekingEvent(eventName, parameters: parameters)
