@@ -101,12 +101,16 @@ class PlayerAdapter(playerID: String,
 
     override fun onPause(params: Map<String, Any>?) {
         super.onPause(params)
-        reportEvent(Player.EventType.PAUSE)
+        if(reportPauseResume) {
+            reportEvent(Player.EventType.PAUSE)
+        }
     }
 
     override fun onResume(params: Map<String, Any>?) {
         super.onResume(params)
-        reportEvent(Player.EventType.PLAY)
+        if(reportPauseResume) {
+            reportEvent(Player.EventType.PLAY)
+        }
     }
 
     override fun onBuffering(params: Map<String, Any>?) {
@@ -116,7 +120,10 @@ class PlayerAdapter(playerID: String,
 
     override fun onAdBreakStart(params: Map<String, Any>?) {
         super.onAdBreakStart(params)
-        reportEvent(Player.EventType.BREAK)
+        // pre-roll is not reported as AdBreak
+        // todo: also don't report on postroll
+        if(0 != position?.toInt())
+            reportEvent(Player.EventType.BREAK)
     }
 
     override fun onAdBreakEnd(params: Map<String, Any>?) {
@@ -183,6 +190,10 @@ class PlayerAdapter(playerID: String,
     }
 
     companion object {
+        // Gemius requested to not report these
+        // we can make it a setting later
+        private const val reportPauseResume = false
+
         private val whitelistedKeys = setOf(
                 "_SC",
                 "_SCT",
