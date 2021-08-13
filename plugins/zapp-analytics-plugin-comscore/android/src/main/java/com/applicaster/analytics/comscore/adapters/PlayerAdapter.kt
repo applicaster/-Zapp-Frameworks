@@ -87,8 +87,8 @@ class PlayerAdapter() : AnalyticsPlayerAdapter() {
             else -> builder.length(d * 1000L)
         }
 
-        when(getLong(params, KEY_AD_BREAK_OFFSET)) {
-            null -> APLogger.warn(TAG, "$KEY_AD_BREAK_OFFSET is missing in the event $AD_START_EVENT data")
+        when(getLong(params, KEY_AD_BREAK_START_TIME)) {
+            null -> APLogger.warn(TAG, "$KEY_AD_BREAK_START_TIME is missing in the event $AD_START_EVENT data")
             0L -> builder.mediaType(AdvertisementType.ON_DEMAND_PRE_ROLL)
             -1L -> builder.mediaType(AdvertisementType.ON_DEMAND_POST_ROLL)
             else -> builder.mediaType(AdvertisementType.ON_DEMAND_MID_ROLL)
