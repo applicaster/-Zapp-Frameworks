@@ -1,6 +1,6 @@
 package com.applicaster.analytics.gemius
 
-import com.applicaster.analytics.adapters.AnalyticsPlayerAdapter
+import com.applicaster.analytics.gemius.adapters.AnalyticsPlayerAdapter
 import com.applicaster.util.APLogger
 import com.applicaster.util.AppContext
 import com.gemius.sdk.stream.*
@@ -124,16 +124,21 @@ class PlayerAdapter(playerID: String,
     override fun onAdBreakStart(params: Map<String, Any>?) {
         super.onAdBreakStart(params)
         // pre-roll is not reported as AdBreak
-        if(0 != position?.toInt())
-            reportEvent(Player.EventType.BREAK)
-
-        //todo: also don't report on postroll
+        if(0 == position?.toInt()) {
+            return
+        }
+        // todo: fix missing param KEY_AD_BREAK_OFFSET in RN and remove check above
+        getLong(params, KEY_AD_BREAK_OFFSET)?.let {
+            if(0L == it || -1L == it) {
+                return
+            }
+        }
+        reportEvent(Player.EventType.BREAK)
     }
 
     override fun onAdBreakEnd(params: Map<String, Any>?) {
         super.onAdBreakEnd(params)
         // not reported
-        // todo: probably report play
     }
 
     override fun onAdStart(params: Map<String, Any>?) {
@@ -198,10 +203,6 @@ class PlayerAdapter(playerID: String,
 
     companion object {
 
-        // Gemius requested to not report these
-        // we can make it a setting later
-        private const val reportPauseResume = true
-
         private val whitelistedKeys = setOf(
                 "_SC",
                 "_SCT",
@@ -217,5 +218,14 @@ class PlayerAdapter(playerID: String,
                 "tv",
                 "se",
                 "URL_alias")
+
+        fun getLong(params: Map<String, Any>?, key: String): Long? {
+            if(null == params) return null
+            return when (val d = params[key]) {
+                is String -> d.toFloat().toLong()
+                is Number -> d.toLong()
+                else -> null
+            }
+        }
     }
 }
