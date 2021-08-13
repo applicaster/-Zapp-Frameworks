@@ -13,12 +13,13 @@ class PlayerAdapter(playerID: String,
 
     private val player: Player = Player(playerID, hitCollectorHost, gemiusID, PlayerData())
     private var idOverride: String? = null
-
     init {
         player.setContext(AppContext.get())
     }
 
     override fun getId(): String = idOverride ?: super.getId()
+
+    private var isPlaying: Boolean = false // hack to suppress excessive play events
 
     override fun onStart(params: Map<String, Any>?) {
         super.onStart(params)
@@ -91,22 +92,28 @@ class PlayerAdapter(playerID: String,
 
     override fun onPlay(params: Map<String, Any>?) {
         super.onPlay(params)
+        if(isPlaying) return
         reportEvent(Player.EventType.PLAY)
+        isPlaying = true
     }
 
     override fun onStop(params: Map<String, Any>?) {
         super.onStop(params)
+        isPlaying = false
         reportEvent(Player.EventType.CLOSE) // stop is close for us
     }
 
     override fun onPause(params: Map<String, Any>?) {
         super.onPause(params)
+        isPlaying = false
         reportEvent(Player.EventType.PAUSE)
     }
 
     override fun onResume(params: Map<String, Any>?) {
         super.onResume(params)
+        if(isPlaying) return
         reportEvent(Player.EventType.PLAY)
+        isPlaying = true
     }
 
     override fun onBuffering(params: Map<String, Any>?) {
@@ -116,12 +123,17 @@ class PlayerAdapter(playerID: String,
 
     override fun onAdBreakStart(params: Map<String, Any>?) {
         super.onAdBreakStart(params)
-        reportEvent(Player.EventType.BREAK)
+        // pre-roll is not reported as AdBreak
+        if(0 != position?.toInt())
+            reportEvent(Player.EventType.BREAK)
+
+        //todo: also don't report on postroll
     }
 
     override fun onAdBreakEnd(params: Map<String, Any>?) {
         super.onAdBreakEnd(params)
         // not reported
+        // todo: probably report play
     }
 
     override fun onAdStart(params: Map<String, Any>?) {
@@ -168,12 +180,14 @@ class PlayerAdapter(playerID: String,
 
     override fun onSeek(params: Map<String, Any>?) {
         super.onSeek(params)
+        isPlaying = false
         reportEvent(Player.EventType.SEEK)
     }
 
     override fun onSeekEnd(params: Map<String, Any>?) {
         // Gemius requires Play event after seek
         super.onSeekEnd(params)
+        isPlaying = true // event is received when we are already playing after the seek
         reportEvent(Player.EventType.PLAY)
     }
 
@@ -183,6 +197,11 @@ class PlayerAdapter(playerID: String,
     }
 
     companion object {
+
+        // Gemius requested to not report these
+        // we can make it a setting later
+        private const val reportPauseResume = true
+
         private val whitelistedKeys = setOf(
                 "_SC",
                 "_SCT",
