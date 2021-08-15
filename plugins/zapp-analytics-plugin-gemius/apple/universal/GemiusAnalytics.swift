@@ -32,8 +32,6 @@ class GemiusAnalytics: NSObject, PluginAdapterProtocol {
     }
 
     var isDisabled = false
-    var isPlaying = false
-    var onMidroll = false
     
     var playerRateObserverPointerString: UInt?
 
@@ -57,6 +55,8 @@ class GemiusAnalytics: NSObject, PluginAdapterProtocol {
     var lastProceededPlayerEvent: String?
     var lastProceededAdEvent: String?
     var lastProceededScreenEvent: String?
+    var contentIsPlaying = false
+    var onMidroll = false
 
     public required init(pluginModel: ZPPluginModel) {
         model = pluginModel

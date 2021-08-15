@@ -139,7 +139,7 @@ extension GemiusAnalytics {
         
         // set program data
         gemiusPlayerObject?.newProgram(lastProgramID, with: data)
-        isPlaying = false
+        contentIsPlaying = false
         onMidroll = false
         
         return proceedPlayerEvent(eventName)
@@ -155,7 +155,7 @@ extension GemiusAnalytics {
                                     forProgram: lastProgramID,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
-        isPlaying = false
+        contentIsPlaying = false
         return proceedPlayerEvent(eventName)
     }
 
@@ -182,7 +182,7 @@ extension GemiusAnalytics {
                                     forProgram: lastProgramID,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
-        isPlaying = false
+        contentIsPlaying = false
         return proceedPlayerEvent(eventName)
     }
 
@@ -191,7 +191,7 @@ extension GemiusAnalytics {
             return true
         }
         
-        guard isPlaying == false else {
+        guard contentIsPlaying == false else {
             return true
         }
         
@@ -200,7 +200,7 @@ extension GemiusAnalytics {
                                     forProgram: lastProgramID,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
-        isPlaying = true
+        contentIsPlaying = true
         return proceedPlayerEvent(eventName)
     }
     
