@@ -50,11 +50,12 @@ extension GemiusAnalytics {
             }
 
             let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
-            gemiusPlayerObject?.program(.PLAY,
-                                        forProgram: lastProgramID,
-                                        atOffset: NSNumber(value: currentPlayerPosition),
-                                        with: nil)
-
+            if currentPlayerPosition > 0 {
+                gemiusPlayerObject?.program(.PLAY,
+                                            forProgram: lastProgramID,
+                                            atOffset: NSNumber(value: currentPlayerPosition),
+                                            with: nil)
+            }
             retValue = proceedAdEvent(eventName)
 
         case AdEvents.adBegin:
