@@ -56,12 +56,11 @@ extension GemiusAnalytics {
         case PlayerEvents.dismissed:
             retValue = handleDismissEvent(eventName, parameters: parameters)
 
-        //Removed as per SBS request to stop passing play/pause events
-//        case PlayerEvents.play, PlayerEvents.resume, PlayerEvents.seeked:
-//            retValue = handlePlayEvent(eventName, parameters: parameters)
+        case PlayerEvents.play, PlayerEvents.resume, PlayerEvents.seeked:
+            retValue = handlePlayEvent(eventName, parameters: parameters)
 
-//        case PlayerEvents.paused:
-//            retValue = handlePauseEvent(eventName, parameters: parameters)
+        case PlayerEvents.paused:
+            retValue = handlePauseEvent(eventName, parameters: parameters)
 
         case PlayerEvents.seeking:
             retValue = handleSeekingEvent(eventName, parameters: parameters)
@@ -140,7 +139,9 @@ extension GemiusAnalytics {
         
         // set program data
         gemiusPlayerObject?.newProgram(lastProgramID, with: data)
-
+        isPlaying = false
+        onMidroll = false
+        
         return proceedPlayerEvent(eventName)
     }
 
@@ -154,6 +155,7 @@ extension GemiusAnalytics {
                                     forProgram: lastProgramID,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
+        isPlaying = false
         return proceedPlayerEvent(eventName)
     }
 
@@ -180,6 +182,7 @@ extension GemiusAnalytics {
                                     forProgram: lastProgramID,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
+        isPlaying = false
         return proceedPlayerEvent(eventName)
     }
 
@@ -188,11 +191,16 @@ extension GemiusAnalytics {
             return true
         }
         
+        guard isPlaying == false else {
+            return true
+        }
+        
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.PLAY,
                                     forProgram: lastProgramID,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
+        isPlaying = true
         return proceedPlayerEvent(eventName)
     }
     

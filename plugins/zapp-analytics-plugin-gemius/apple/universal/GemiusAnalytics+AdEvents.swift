@@ -39,7 +39,21 @@ extension GemiusAnalytics {
                                             forProgram: lastProgramID,
                                             atOffset: NSNumber(value: currentPlayerPosition),
                                             with: nil)
+                onMidroll = true
             }
+
+            retValue = proceedAdEvent(eventName)
+
+        case AdEvents.adBreakEnd:
+            if onMidroll {
+                onMidroll = false
+            }
+
+            let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
+            gemiusPlayerObject?.program(.PLAY,
+                                        forProgram: lastProgramID,
+                                        atOffset: NSNumber(value: currentPlayerPosition),
+                                        with: nil)
 
             retValue = proceedAdEvent(eventName)
 

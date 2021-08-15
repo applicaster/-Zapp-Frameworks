@@ -32,8 +32,9 @@ class GemiusAnalytics: NSObject, PluginAdapterProtocol {
     }
 
     var isDisabled = false
-    var playbackStalled: Bool = false
-    public var playerPlugin: PlayerProtocol?
+    var isPlaying = false
+    var onMidroll = false
+    
     var playerRateObserverPointerString: UInt?
 
     lazy var scriptIdentifier: String = {
