@@ -32,14 +32,14 @@
   "manifest_version": "0.6.0",
   "extra_dependencies": [
     {
-      "GemiusAnalytics": ":path => './node_modules/@applicaster/zapp-analytics-plugin-gemius/apple/ZappAnalyticsPluginGemius.podspec'"
+      "GemiusAnalytics": ":path => './node_modules/@applicaster/zapp-analytics-plugin-gemius/apple/GemiusAnalytics.podspec'"
     }
   ],
   "api": {
     "require_startup_execution": false,
     "class_name": "GemiusAnalytics",
     "modules": [
-      "ZappAnalyticsPluginGemius"
+      "GemiusAnalytics"
     ]
   },
   "targets": [

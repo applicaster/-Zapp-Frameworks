@@ -55,7 +55,7 @@ const min_zapp_sdk = {
 const extra_dependencies_apple = [
   {
     GemiusAnalytics:
-      ":path => './node_modules/@applicaster/zapp-analytics-plugin-gemius/apple/ZappAnalyticsPluginGemius.podspec'",
+      ":path => './node_modules/@applicaster/zapp-analytics-plugin-gemius/apple/GemiusAnalytics.podspec'",
   },
 ];
 
@@ -84,7 +84,7 @@ const api_android = {
 const api_apple = {
   require_startup_execution: false,
   class_name: "GemiusAnalytics",
-  modules: ["ZappAnalyticsPluginGemius"]
+  modules: ["GemiusAnalytics"]
 };
 
 const api = {
