@@ -20,6 +20,8 @@ const IntroScreen = (props) => {
     onSignedIn,
   } = props;
 
+  const { intro_show_maybe_later_button } = screenStyles;
+
   const signInButton = useRef(null);
   const laterButton = useRef(null);
   const {
@@ -28,6 +30,7 @@ const IntroScreen = (props) => {
     sing_in_button,
     sing_in_later,
   } = screenLocalizations;
+  
   useEffect(() => {
     if (forceFocus) {
       goToScreen(null, false, true);
@@ -86,7 +89,7 @@ const IntroScreen = (props) => {
             nextFocusLeft={parentFocus ? parentFocus.nextFocusLeft : null}
             nextFocusDown={isPrehook ? laterButton : null}
           />
-          {isPrehook && (
+          {isPrehook && intro_show_maybe_later_button && (
             <Button
               screenStyles={screenStyles}
               label={sing_in_later}

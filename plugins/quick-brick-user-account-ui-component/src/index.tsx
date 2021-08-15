@@ -1,5 +1,5 @@
 /// <reference types="@applicaster/applicaster-types" />
-
+import * as R from "ramda";
 import { UserAccount } from "./components/UserAccount";
 import { withNavigator } from "@applicaster/zapp-react-native-ui-components/Decorators/Navigator/";
 import { connectToStore } from "@applicaster/zapp-react-native-redux";
@@ -9,8 +9,6 @@ import {
   HorizontalScrollContext,
   ScreenScrollingContext,
 } from "@applicaster/zapp-react-native-ui-components/Contexts";
-
-import * as R from "ramda";
 
 const reduxConnector = connectToStore(R.pick(["rivers"]));
 
@@ -22,15 +20,7 @@ const UserAccountComponent = R.compose(
   HorizontalScrollContext.withConsumer
 )(UserAccount);
 
-export default UserAccountComponent;
-// export default ZappUIComponent({
-//   Component: UserAccountComponent,
-//   options: { skipOnLoadFinished: true, allowsEmptyDataSource: true },
-// });
-
-// `;
-// import { HorizontalListLayout } from "./HorizontalListLayout";
-// export default ZappUIComponent({
-//   Component: HorizontalListLayout,
-//   options: { skipOnLoadFinished: true },
-// });
+export default ZappUIComponent({
+  Component: UserAccountComponent,
+  options: { skipOnLoadFinished: true, allowsEmptyDataSource: true },
+});

@@ -1,14 +1,14 @@
 import * as React from "react";
-import { View, StyleSheet, NativeModules } from "react-native";
+import { View } from "react-native";
+
 import { useTheme } from "@applicaster/zapp-react-native-utils/theme";
 import { useLocalizedStrings } from "@applicaster/zapp-react-native-utils/localizationUtils";
+
 import { AccountInfo } from "../AccountInfo";
-import { Button } from "../Button";
-import { UserPhoto } from "../UserPhoto";
+import { LoginFlow } from "./LoginFlow";
 import { logger } from "../../services/LoggerService";
 import { getSubscriptionData } from "./Utils";
 import { loginModelButton1, loginModelButton2 } from "../../utils/DataUtils";
-import { TextView } from "../TextView";
 import { screenFromRivers } from "../../utils/ScreenUtils";
 import { ScreenLayoutContext } from "@applicaster/zapp-react-native-ui-components/Contexts/ScreenLayoutContext";
 import {
@@ -16,7 +16,6 @@ import {
   mimicLoginForDummy2,
   mimicLogout,
 } from "../../debug/Stubs";
-// NativeModules.DevSettings.setIsDebuggingRemotely(true);
 type Props = {
   component: {
     id: string;
@@ -29,26 +28,28 @@ type Props = {
   rivers: any;
   navigator: any;
   onLoadFinished: any;
+  focused: boolean;
+  parentFocus: ParentFocus;
 };
 
 const componentStyles = {
-  // eslint-disable-next-line react-native/no-color-literals
   containerStyle: {
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    minHeight: 400,
   },
 };
 
 export function UserAccount(props: Props) {
-  const login1ButtonId = "button_1";
-  const login2ButtonId = "button_2";
-  const logoutButtonId = "button_logout";
-  const logoutButtonBigId = "button_logout_big";
+  const groupId = "quick-brick-user-account-comp";
 
+  const focused = props?.focused;
+  const parentFocus = props?.parentFocus;
   const screenLayout = React.useContext(ScreenLayoutContext);
-  const [isLogedIn, setIsLogedIn] = React.useState(false);
+
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const [button1Model, setButton1Model] =
@@ -75,12 +76,9 @@ export function UserAccount(props: Props) {
 
   const {
     account_title = "Account",
-    user_name_title = "User",
     subscription_title = "Subscription",
     subscription_expiration_title = "- renews",
     logout_title_text = "Logout",
-    login_button_1_title_text = "Login 1",
-    login_button_2_title_text = "Login 2",
   } = useLocalizedStrings({
     localizations,
   });
@@ -126,7 +124,7 @@ export function UserAccount(props: Props) {
         data: { error },
       });
     }
-  }, [isLoading, isLogedIn, button1Model, button2Model]);
+  }, [isLoading, isLoggedIn, button1Model, button2Model]);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -134,7 +132,8 @@ export function UserAccount(props: Props) {
   }, [navigator.previousAction]);
 
   React.useEffect(() => {
-    let logedIn = false;
+    let loggedIn = false;
+
     if (button1Model === null && button2Model === null) {
       logger.error({
         message:
@@ -142,9 +141,9 @@ export function UserAccount(props: Props) {
         data: { localizations, styles },
       });
     } else if (button1Model && button1Model?.token) {
-      logedIn = true;
+      loggedIn = true;
     } else if (button2Model && button2Model?.token) {
-      logedIn = true;
+      loggedIn = true;
     }
 
     logger.debug({
@@ -152,7 +151,7 @@ export function UserAccount(props: Props) {
       data: { button1Model, button2Model },
     });
 
-    setIsLogedIn(logedIn);
+    setIsLoggedIn(loggedIn);
   }, [button1Model, button2Model]);
 
   const accountTitles = React.useCallback(() => {
@@ -255,66 +254,38 @@ export function UserAccount(props: Props) {
   }, [button1Model, button2Model]);
 
   const titles = accountTitles();
-  const renderLoginFlow = React.useCallback(() => {
-
-    return (
-      <>
-        <UserPhoto styles={styles} imageSrc={styles?.user_image_placeholder} />
-        {isLogedIn ? (
-          <>
-            <TextView
-              styleKey={"info_label_description"}
-              styles={styles}
-              titleText={titles?.user_name_title}
-            />
-            <Button
-              styleKey={logoutButtonBigId}
-              styles={styles}
-              id={logoutButtonId}
-              onPress={onLogout}
-              titleText={logout_title_text}
-            />
-          </>
-        ) : (
-          <>
-            <Button
-              styleKey={login1ButtonId}
-              styles={styles}
-              id={login1ButtonId}
-              onPress={onLogin1}
-              titleText={login_button_1_title_text}
-            />
-            {button_2_login_enabled ? (
-              <Button
-                styleKey={login2ButtonId}
-                styles={styles}
-                id={login2ButtonId}
-                onPress={onLogin2}
-                titleText={login_button_2_title_text}
-              />
-            ) : null}
-          </>
-        )}
-      </>
-    );
-  }, [isLogedIn, button1Model, button2Model, isLoading]);
 
   return (
     <View style={newContainerStyleStyle}>
-      {isLogedIn &&
+      {isLoggedIn &&
       titles?.user_name_title &&
-      titles?.subscription_expiration_title &&
-      !isLoading ? (
-        <AccountInfo
-          src={styles.button_logout_background_image}
-          onLogoutPress={onLogout}
-          user_image_placeholder={styles?.user_image_placeholder}
-          styles={styles}
-          titles={titles}
-        />
-      ) : (
-        renderLoginFlow()
-      )}
+      titles?.subscription_expiration_title
+        ? !isLoading && (
+            <AccountInfo
+              src={styles.button_logout_background_image}
+              onLogoutPress={onLogout}
+              user_image_placeholder={styles?.user_image_placeholder}
+              styles={styles}
+              titles={titles}
+            />
+          )
+        : !isLoading && (
+  
+            <LoginFlow
+              {...{
+                styles,
+                isLoggedIn,
+                onLogin1,
+                onLogin2,
+                groupId,
+                localizations,
+                titles,
+                onLogout,
+                focused,
+                parentFocus,
+              }}
+            />
+          )}
     </View>
   );
 }

@@ -12,20 +12,24 @@ export const logger = createLogger({
 });
 
 export const isAuthenticationRequired = ({ payload }) => {
-  const requires_authentication = R.path([
+  const authPath = payload.extensions 
+  ? [
     "extensions",
     "requires_authentication",
-  ])(payload);
-  logger
-    .createEvent()
-    .setLevel(XRayLogLevel.debug)
-    .addData({
-      requires_authentication: requires_authentication,
-    })
-    .setMessage(
-      `Payload entry is requires_authentication: ${requires_authentication}`
-    )
-    .send();
+  ]
+  : [
+    "parent",
+    "extensions",
+    "requires_authentication",
+  ]
+  
+  const requires_authentication = R.path(authPath)(payload);
+
+  logger.debug({
+    message: `setupEnvironment: Hook finished, no authentefication required, skipping`,
+    data: { requires_authentication }
+  });
+
   return requires_authentication ? true : false;
 };
 
@@ -35,14 +39,10 @@ export const isVideoEntry = (payload) => {
     R.path(["type", "value"])
   )(payload);
 
-  logger
-    .createEvent()
-    .setLevel(XRayLogLevel.debug)
-    .addData({
-      is_video_entry: retVal,
-    })
-    .setMessage(`Payload entry is_video_entry: ${retVal}`)
-    .send();
+  logger.debug({
+    message: `Payload entry is_video_entry: ${retVal}`,
+    data: { is_video_entry: retVal }
+  });
 
   return retVal;
 };

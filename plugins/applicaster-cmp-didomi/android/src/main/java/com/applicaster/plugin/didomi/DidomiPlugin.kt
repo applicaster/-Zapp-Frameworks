@@ -181,6 +181,13 @@ class DidomiPlugin : GenericPluginI
 
     override fun presentStartupNotice(activity: Activity, listener: IUserConsent.IListener) {
         Didomi.getInstance().apply {
+            if(!isReady) {
+                APLogger.warn(TAG, "Didomi has failed to initialize, probably first launch in offline mode")
+                //todo: extract constant or better entire method
+                SessionStorage.set("should_restart_after_offline_start", "true")
+                listener.onComplete()
+                return
+            }
             if (!shouldConsentBeCollected()) {
                 APLogger.info(TAG, "User consent was already requested or not needed")
                 storeConsent() // update values just in case

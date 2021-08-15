@@ -1,43 +1,70 @@
 import React, { Component } from "react";
 import { TVEventHandlerComponent } from "@applicaster/zapp-react-native-tvos-ui-components/Components/TVEventHandlerComponent";
-import { Dimensions, View, Image } from "react-native";
+import { Dimensions, View, Image, ImageBackground } from "react-native";
 
 const noop = () => null;
 const { height } = Dimensions.get("window");
 
 class Layout extends Component {
-  render() {
+  
+  renderChildren() {
     const {
-      background_color,
-      background_color_prehook,
       client_logo,
     } = this.props.screenStyles;
 
     return (
+      <>
+        {this.props.isPrehook && (
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.logo}
+              resizeMode="contain"
+              source={{
+                uri: client_logo,
+              }}
+            />
+          </View>
+        )}
+        <View style={styles.subContainer}>{this.props.children}</View>
+      </>
+    )
+  }
+
+  renderContent() {
+    const {
+      background_color,
+      background_color_prehook,
+      background_image,
+    } = this.props.screenStyles;
+
+    if (background_image) {
+      return (
+        <ImageBackground source={{ uri: background_image }} resizeMode="cover" style={styles.container}>
+          {this.renderChildren()}
+        </ImageBackground>
+      )
+    }
+
+    return (
+      <View
+        style={{
+          ...styles.container,
+          backgroundColor: this.props.isPrehook
+            ? background_color
+            : background_color_prehook,
+        }}
+      >
+        {this.renderChildren()}
+      </View>
+    )
+  }
+
+  render() {
+    return (
       <TVEventHandlerComponent
         tvEventHandler={this.props.tvEventHandler || noop}
       >
-        <View
-          style={{
-            ...styles.container,
-            backgroundColor: this.props.isPrehook
-              ? background_color
-              : background_color_prehook,
-          }}
-        >
-          {this.props.isPrehook && (
-            <View style={styles.logoContainer}>
-              <Image
-                style={styles.logo}
-                resizeMode="contain"
-                source={{
-                  uri: client_logo,
-                }}
-              />
-            </View>
-          )}
-          <View style={styles.subContainer}>{this.props.children}</View>
-        </View>
+        {this.renderContent()}
       </TVEventHandlerComponent>
     );
   }
