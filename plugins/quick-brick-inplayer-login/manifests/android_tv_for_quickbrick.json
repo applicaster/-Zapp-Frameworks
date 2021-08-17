@@ -93,8 +93,8 @@
     "quickbrick"
   ],
   "platform": "android_tv_for_quickbrick",
-  "dependency_version": "9.0.3",
-  "manifest_version": "9.0.3",
+  "dependency_version": "9.0.5-beta.0",
+  "manifest_version": "9.0.5-beta.0",
   "api": {
     "class_name": "com.applicaster.reactnative.plugins.APReactNativeAdapter",
     "react_packages": [
@@ -181,13 +181,13 @@
             "key": "login_title_fontsize",
             "type": "number_input",
             "label_tooltip": "Font Size for Login Title Text.",
-            "initial_value": "60"
+            "initial_value": "50"
           },
           {
             "key": "login_title_fontcolor",
             "type": "color_picker_rgba",
             "label_tooltip": "Font Color for Login Title Text.",
-            "initial_value": "#545A5C"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "main_description_font_tvos",
@@ -205,13 +205,13 @@
             "key": "main_description_fontsize",
             "type": "number_input",
             "label_tooltip": "Font Size for Main Description Text.",
-            "initial_value": "38"
+            "initial_value": "32"
           },
           {
             "key": "main_description_fontcolor",
             "type": "color_picker_rgba",
             "label_tooltip": "Font Color for Main Description Text.",
-            "initial_value": "#545A5C"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "optional_instructions_1_font_tvos",
@@ -229,7 +229,7 @@
             "key": "optional_instructions_1_fontsize",
             "type": "number_input",
             "label_tooltip": "Font Size for Optional Instructions 1 Text.",
-            "initial_value": "26"
+            "initial_value": "24"
           },
           {
             "key": "optional_instructions_1_fontcolor",
@@ -253,7 +253,7 @@
             "key": "optional_instructions_2_fontsize",
             "type": "number_input",
             "label_tooltip": "Font Size for Optional Instructions 2 Text.",
-            "initial_value": "26"
+            "initial_value": "24"
           },
           {
             "key": "optional_instructions_2_fontcolor",
@@ -273,49 +273,49 @@
             "type": "color_picker_rgba",
             "label": "Email Input Background Color",
             "label_tooltip": "Background Color for the Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "email_input_background_focused",
             "type": "color_picker_rgba",
             "label": "Email Input Background Color (focused)",
             "label_tooltip": "Background Color for the Focused Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "email_input_background_filled",
             "type": "color_picker_rgba",
             "label": "Email Input Background Color (filled)",
             "label_tooltip": "Background Color for the Filled Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "email_input_border_color",
             "type": "color_picker_rgba",
             "label": "Email Input Border Color",
             "label_tooltip": "Border Color for the Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "email_input_border_color_focused",
             "type": "color_picker_rgba",
             "label": "Email Input Border Color (focused)",
             "label_tooltip": "Border Color for the Focused Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "email_input_border_color_filled",
             "type": "color_picker_rgba",
             "label": "Email Input Border Color (filled)",
             "label_tooltip": "Border Color for the Filled Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "email_input_placeholder_color",
             "type": "color_picker_rgba",
             "label": "Email Input Placeholder Color (filled)",
             "label_tooltip": "Color for the Email Input Placeholder.",
-            "initial_value": "#9B9B9B"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "email_input_font_tvos",
@@ -339,56 +339,56 @@
             "key": "email_input_fontcolor",
             "type": "color_picker_rgba",
             "label_tooltip": "Font Color for Email Input Field.",
-            "initial_value": "#9B9B9B"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "password_input_background",
             "type": "color_picker_rgba",
             "label": "Password Input Background Color",
             "label_tooltip": "Background Color for the Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "password_input_background_focused",
             "type": "color_picker_rgba",
             "label": "Password Input Background Color (focused)",
             "label_tooltip": "Background Color for the Focused Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "password_input_background_filled",
             "type": "color_picker_rgba",
             "label": "Password Input Background Color (filled)",
             "label_tooltip": "Background Color for the Filled Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "password_input_border_color",
             "type": "color_picker_rgba",
             "label": "Password Input Border Color",
             "label_tooltip": "Border Color for the Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "password_input_border_color_focused",
             "type": "color_picker_rgba",
             "label": "Password Input Border Color (focused)",
             "label_tooltip": "Border Color for the Focused Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "password_input_border_color_filled",
             "type": "color_picker_rgba",
             "label": "Password Input Border Color (filled)",
             "label_tooltip": "Border Color for the Filled Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "password_input_placeholder_color",
             "type": "color_picker_rgba",
             "label": "Password Input Placeholder Color",
             "label_tooltip": "Color for the Password Input Placeholder.",
-            "initial_value": "#9B9B9B"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "password_input_font_tvos",
@@ -412,21 +412,21 @@
             "key": "password_input_fontcolor",
             "type": "color_picker_rgba",
             "label_tooltip": "Font Color for Password Input Field.",
-            "initial_value": "#9B9B9B"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "login_action_button_background",
             "type": "color_picker_rgba",
             "label": "Login Action Button Background Color",
             "label_tooltip": "Background Color for the Login Action Button.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "login_action_button_background_focused",
             "type": "color_picker_rgba",
             "label": "Login Action Button Focused Background Color",
             "label_tooltip": "Background Color for the Login Action Button",
-            "initial_value": "rgba(93, 2, 13, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "login_action_button_font_tvos",
@@ -444,26 +444,26 @@
             "key": "login_action_button_fontsize",
             "type": "number_input",
             "label_tooltip": "Font Size for Login Action Button Text.",
-            "initial_value": "40"
+            "initial_value": "36"
           },
           {
             "key": "login_action_button_border_radius",
             "type": "number_input",
             "label": "Login Action Button Corner Radius",
             "label_tooltip": "Corner radius for a login button.",
-            "initial_value": "5"
+            "initial_value": "100"
           },
           {
             "key": "login_action_button_fontcolor",
             "type": "color_picker_rgba",
             "label_tooltip": "Font Color for Login Action Button Text.",
-            "initial_value": "#545A5C"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "login_action_button_fontcolor_focused",
             "type": "color_picker_rgba",
             "label_tooltip": "Font Color for Focused Login Action Button Text.",
-            "initial_value": "#545A5C"
+            "initial_value": "#909197ff"
           },
           {
             "key": "enable_skip_functionality",
@@ -737,14 +737,14 @@
             "type": "color_picker_rgba",
             "label": "Sign Up Action Button Background Color",
             "label_tooltip": "Background Color for the Sign Up Action Button.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "signup_action_button_background_focused",
             "type": "color_picker_rgba",
             "label": "Sign Up Action Button Focused Background Color",
             "label_tooltip": "Background Color for the Sign Up Action Button",
-            "initial_value": "rgba(93, 2, 13, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "signup_action_button_font_tvos",
@@ -762,75 +762,75 @@
             "key": "signup_action_button_fontsize",
             "type": "number_input",
             "label_tooltip": "Font Size for Sign Up Action Button Text.",
-            "initial_value": "40"
+            "initial_value": "36"
           },
           {
             "key": "signup_action_button_border_radius",
             "type": "number_input",
             "label": "Sign Up Action Button Corner Radius",
             "label_tooltip": "Corner radius for a Sign Up button.",
-            "initial_value": "5"
+            "initial_value": "100"
           },
           {
             "key": "signup_action_button_fontcolor",
             "type": "color_picker_rgba",
             "label_tooltip": "Font Color for Sign Up Action Button Text.",
-            "initial_value": "#545A5C"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "signup_action_button_fontcolor_focused",
             "type": "color_picker_rgba",
             "label_tooltip": "Font Color for Focused Sign Up Action Button Text.",
-            "initial_value": "#545A5C"
+            "initial_value": "#909197ff"
           },
           {
             "key": "signup_password_input_background",
             "type": "color_picker_rgba",
             "label": "Password Input Background Color",
             "label_tooltip": "Background Color for the Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "signup_password_input_background_focused",
             "type": "color_picker_rgba",
             "label": "Password Input Background Color (focused)",
             "label_tooltip": "Background Color for the Focused Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "signup_password_input_background_filled",
             "type": "color_picker_rgba",
             "label": "Password Input Background Color (filled)",
             "label_tooltip": "Background Color for the Filled Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "signup_password_input_border_color",
             "type": "color_picker_rgba",
             "label": "Password Input Border Color",
             "label_tooltip": "Border Color for the Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "signup_password_input_border_color_focused",
             "type": "color_picker_rgba",
             "label": "Password Input Border Color (focused)",
             "label_tooltip": "Border Color for the Focused Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "signup_password_input_border_color_filled",
             "type": "color_picker_rgba",
             "label": "Password Input Border Color (filled)",
             "label_tooltip": "Border Color for the Filled Password Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "signup_password_input_placeholder_color",
             "type": "color_picker_rgba",
             "label": "Password Input Placeholder Color",
             "label_tooltip": "Color for the Password Input Placeholder.",
-            "initial_value": "#9B9B9B"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "signup_password_input_font_tvos",
@@ -854,56 +854,56 @@
             "key": "signup_password_input_fontcolor",
             "type": "color_picker_rgba",
             "label_tooltip": "Font Color for Password Input Field.",
-            "initial_value": "#9B9B9B"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "signup_full_name_input_background",
             "type": "color_picker_rgba",
             "label": "Full Name Input Background Color",
             "label_tooltip": "Background Color for the Full Name Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "signup_full_name_input_background_focused",
             "type": "color_picker_rgba",
             "label": "Full Name Input Background Color (focused)",
             "label_tooltip": "Background Color for the Focused Full Name Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "signup_full_name_input_background_filled",
             "type": "color_picker_rgba",
             "label": "Full Name Input Background Color (filled)",
             "label_tooltip": "Background Color for the Filled Full Name Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "signup_full_name_input_border_color",
             "type": "color_picker_rgba",
             "label": "Full Name Input Border Color",
             "label_tooltip": "Border Color for the Full Name Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "signup_full_name_input_border_color_focused",
             "type": "color_picker_rgba",
             "label": "Full Name Input Border Color (focused)",
             "label_tooltip": "Border Color for the Focused Full Name Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "signup_full_name_input_border_color_filled",
             "type": "color_picker_rgba",
             "label": "Full Name Input Border Color (filled)",
             "label_tooltip": "Border Color for the Filled Full Name Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "signup_full_name_input_placeholder_color",
             "type": "color_picker_rgba",
             "label": "Full Name Input Placeholder Color",
             "label_tooltip": "Color for the Full Name Input Placeholder.",
-            "initial_value": "#9B9B9B"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "signup_full_name_input_font_tvos",
@@ -927,56 +927,56 @@
             "key": "signup_full_name_input_fontcolor",
             "type": "color_picker_rgba",
             "label_tooltip": "Font Color for Full Name Input Field.",
-            "initial_value": "#9B9B9B"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "signup_email_input_background",
             "type": "color_picker_rgba",
             "label": "Email Input Background Color",
             "label_tooltip": "Background Color for the Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "signup_email_input_background_focused",
             "type": "color_picker_rgba",
             "label": "Email Input Background Color (focused)",
             "label_tooltip": "Background Color for the Focused Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "signup_email_input_background_filled",
             "type": "color_picker_rgba",
             "label": "Email Input Background Color (filled)",
             "label_tooltip": "Background Color for the Filled Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#161B29FF"
           },
           {
             "key": "signup_email_input_border_color",
             "type": "color_picker_rgba",
             "label": "Email Input Border Color",
             "label_tooltip": "Border Color for the Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "signup_email_input_border_color_focused",
             "type": "color_picker_rgba",
             "label": "Email Input Border Color (focused)",
             "label_tooltip": "Border Color for the Focused Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "signup_email_input_border_color_filled",
             "type": "color_picker_rgba",
             "label": "Email Input Border Color (filled)",
             "label_tooltip": "Border Color for the Filled Email Input.",
-            "initial_value": "rgba(39, 218, 134, 1)"
+            "initial_value": "#D0D1D4ff"
           },
           {
             "key": "signup_email_input_placeholder_color",
             "type": "color_picker_rgba",
             "label": "Email Input Placeholder Color",
             "label_tooltip": "Color for the Email Input Placeholder.",
-            "initial_value": "#9B9B9B"
+            "initial_value": "#ffffffff"
           },
           {
             "key": "signup_email_input_font_tvos",
@@ -1000,7 +1000,7 @@
             "key": "signup_email_input_fontcolor",
             "type": "color_picker_rgba",
             "label_tooltip": "Font Color for Email Input Field.",
-            "initial_value": "#9B9B9B"
+            "initial_value": "#ffffffff"
           }
         ]
       }
