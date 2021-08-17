@@ -80,17 +80,3 @@ class AdobeAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         return retValue
     }
 }
-
-extension AdobeAnalyticsPlayerEventsHandler: AnalyticsEventsHandlerDelegate {
-    public var configurationJSON: NSDictionary? {
-        return delegate?.configurationJSON
-    }
-
-    public var externalObject: AnyObject? {
-        get {
-            return nil
-        }
-        set {
-        }
-    }
-}
