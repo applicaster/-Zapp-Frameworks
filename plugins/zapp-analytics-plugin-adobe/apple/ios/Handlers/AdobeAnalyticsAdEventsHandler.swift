@@ -3,6 +3,7 @@
 //  ZappAnalyticsPluginAdobe
 //
 //  Created by Alex Zchut on 10/08/2021.
+//  Copyright © 2021 Applicaster. All rights reserved.
 //
 
 import AEPMedia

@@ -3,11 +3,12 @@
 //  ZappAnalyticsPluginAdobe
 //
 //  Created by Alex Zchut on 10/08/2021.
+//  Copyright © 2021 Applicaster. All rights reserved.
 //
 
+import ACPCore
 import Foundation
 import ZappCore
-import AEPCore
 
 class AdobeAnalyticsScreenEventsHandler: AnalyticsScreenEventsHandler {
     override func handleSomeScreenEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
@@ -35,7 +36,7 @@ class AdobeAnalyticsScreenEventsHandler: AnalyticsScreenEventsHandler {
             return false
         }
 
-        MobileCore.track(state: eventName, data: parameters)
+        ACPCore.trackState(eventName, data: parameters)
 
         return super.proceedEvent(eventName)
     }
