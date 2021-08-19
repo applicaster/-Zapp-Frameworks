@@ -55,7 +55,7 @@ const OAuth = (props) => {
   const screenStyles = getStyles(styles);
   const screenLocalizations = getLocalizations(localizations);
   const oAuthConfig = getConfig({ configuration: props?.configuration });
-  const session_storage_key = props?.session_storage_key;
+  const session_storage_key = props?.configuration?.session_storage_key;
   const isScreenHook = isHook(navigator);
 
   const {
