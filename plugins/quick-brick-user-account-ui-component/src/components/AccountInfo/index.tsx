@@ -3,6 +3,8 @@ import { View, StyleSheet } from "react-native";
 import { InfoView } from "../InfoView";
 import { LogoutButton } from "../LogoutButton";
 import { UserPhoto } from "../UserPhoto";
+import { FocusableGroup } from "@applicaster/zapp-react-native-ui-components/Components/FocusableGroup";
+
 type Props = {
   onLogoutPress: () => void;
   user_image_placeholder: string;
@@ -34,6 +36,7 @@ const componentStyles = {
 
 export function AccountInfo(props: Props) {
   const logoutButtonId = "button_logout";
+  const groupId = "quick-brick-user-account-login";
 
   const titles = props?.titles;
   const styles = props?.styles;
@@ -65,13 +68,17 @@ export function AccountInfo(props: Props) {
         {subscriptionDataTitles.description_text && (
           <InfoView styles={styles} titles={subscriptionDataTitles} />
         )}
-        <LogoutButton
-          styleKey={logoutButtonId}
-          onPress={props?.onLogoutPress}
-          titleText={titles.logout_title_text}
-          styles={styles}
-          id={logoutButtonId}
-        />
+        <FocusableGroup id={groupId} shouldUsePreferredFocus={true}>
+            <LogoutButton
+                styleKey={logoutButtonId}
+                onPress={props?.onLogoutPress}
+                titleText={titles.logout_title_text}
+                styles={styles}
+                id={logoutButtonId}
+                groupId={groupId}
+                shouldUsePreferredFocus={true}
+            />
+        </FocusableGroup>
       </View>
     </View>
   );

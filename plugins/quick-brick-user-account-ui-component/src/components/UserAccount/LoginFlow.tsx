@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useLocalizedStrings } from "@applicaster/zapp-react-native-utils/localizationUtils";
+import { FocusableGroup } from "@applicaster/zapp-react-native-ui-components/Components/FocusableGroup";
 
 import { Button } from "../Button";
 import { UserPhoto } from "../UserPhoto";
@@ -35,7 +36,7 @@ export const LoginFlow = (props: LoginProps) => {
     <>
       <UserPhoto styles={styles} imageSrc={styles?.user_image_placeholder} />
       {isLoggedIn ? (
-        <>
+        <FocusableGroup id={ID.groupId} shouldUsePreferredFocus preferredFocus>
           <TextView
             styleKey={"info_label_description"}
             styles={styles}
@@ -47,27 +48,33 @@ export const LoginFlow = (props: LoginProps) => {
             id={ID.logoutButtonId}
             onPress={onLogout}
             titleText={logout_title_text}
+            groupId={ID.groupId}
+            shouldUsePreferredFocus
           />
-        </>
+        </FocusableGroup>
       ) : (
-        <>
+        <FocusableGroup id={ID.groupId} shouldUsePreferredFocus preferredFocus>
           <Button
-            styleKey={ID.login1ButtonId}
-            styles={styles}
-            id={ID.login1ButtonId}
-            onPress={onLogin1}
-            titleText={login_button_1_title_text}
-          />
-          {button_2_login_enabled ? (
-            <Button
-              styleKey={ID.login2ButtonId}
+              styleKey={ID.login1ButtonId}
               styles={styles}
-              id={ID.login2ButtonId}
-              onPress={onLogin2}
-              titleText={login_button_2_title_text}
+              id={ID.login1ButtonId}
+              onPress={onLogin1}
+              titleText={login_button_1_title_text}
+              groupId={ID.groupId}
+              shouldUsePreferredFocus
             />
-          ) : null}
-        </>
+            {button_2_login_enabled ? (
+              <Button
+                styleKey={ID.login2ButtonId}
+                styles={styles}
+                id={ID.login2ButtonId}
+                onPress={onLogin2}
+                titleText={login_button_2_title_text}
+                groupId={ID.groupId}
+                shouldUsePreferredFocus
+              />
+            ) : null}
+        </FocusableGroup>
       )}
     </>
   );
