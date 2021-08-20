@@ -14,10 +14,14 @@ class PlayerAdapter() : AnalyticsPlayerAdapter() {
 
     override fun onStart(params: Map<String, Any>?) {
         super.onStart(params)
+
+        val isAudio = params?.get(KEY_MEDIA_TYPE) == VAL_MEDIA_TYPE_AUDIO
+
         // todo: check if audio only
         contentMetadata = ContentMetadata.Builder()
                 .episodeTitle(getName())
                 .uniqueId(getId())
+                .classifyAsAudioStream(isAudio)
                 .apply { duration?.let { length(it * 1000L) } }
                 .build()
         streamingAnalytics.setMetadata(contentMetadata)
