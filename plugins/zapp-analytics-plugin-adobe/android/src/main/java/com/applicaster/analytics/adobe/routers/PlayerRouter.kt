@@ -2,6 +2,7 @@ package com.applicaster.analytics.adobe.routers
 
 import androidx.annotation.CallSuper
 import com.adobe.marketing.mobile.Media
+import com.adobe.marketing.mobile.MediaConstants
 import com.adobe.marketing.mobile.MediaConstants.StreamType
 import com.adobe.marketing.mobile.MediaConstants.VideoMetadataKeys
 import com.adobe.marketing.mobile.MediaTracker
@@ -18,21 +19,32 @@ class PlayerRouter : AnalyticsPlayerAdapter() {
     private var adBreakObject: HashMap<String, Any>? = null
     private var adInfo: HashMap<String, Any>? = null
     private var isLive = false
-    private var isVideo = true
 
-    private var adBreakPos = 1L
+    private var adBreakIndex = 1L
 
     @CallSuper
     override fun onStart(params: Map<String, Any>?) {
         super.onStart(params)
         tracker = Media.createTracker()
-        adBreakPos = 1L
+        adBreakIndex = 1L
+
+        val isVideo = params?.get(KEY_MEDIA_TYPE) != VAL_MEDIA_TYPE_AUDIO
+
+        val streamType = when(params?.get(KEY_MEDIA_STREAM_TYPE)){
+            null -> StreamType.VOD
+            VAL_MEDIA_STREAM_TYPE_VOD -> StreamType.VOD
+            VAL_MEDIA_STREAM_TYPE_LIVE -> StreamType.LIVE
+            VAL_MEDIA_STREAM_TYPE_LINEAR -> StreamType.LINEAR
+            else -> StreamType.VOD
+        }
+
+        isLive = StreamType.LIVE == streamType
 
         val mediaObject = Media.createMediaObject(
                 getName(),
                 getId(),
                 duration!!.toDouble(),
-                if(isLive) StreamType.LIVE else StreamType.VOD, // todo: other types
+                streamType,
                 if(isVideo) Media.MediaType.Video else Media.MediaType.Audio)
 
         val mediaMetadata = HashMap<String, String>()
@@ -85,8 +97,8 @@ class PlayerRouter : AnalyticsPlayerAdapter() {
     override fun onAdBreakStart(params: Map<String, Any>?) {
         super.onAdBreakStart(params)
         adBreakObject = Media.createAdBreakObject(
-                "adbreak-$adBreakPos", // todo: name is missing
-                adBreakPos++, // for now count there
+                "adbreak-$adBreakIndex", // todo: name is missing
+                adBreakIndex++, // for now count there
                 position!!.toDouble())
         sendPosition()
         tracker.trackEvent(Media.Event.AdBreakStart, adBreakObject, null)
@@ -129,7 +141,18 @@ class PlayerRouter : AnalyticsPlayerAdapter() {
             return
         }
 
-        adInfo = Media.createAdObject(id, id, pos.toLong(), duration.toDouble())
+        val info = Media.createAdObject(id, id, pos.toLong(), duration.toDouble())
+
+        params.apply {
+            get(KEY_AD_CREATIVE_ID)?.let {
+                info[MediaConstants.AdMetadataKeys.CREATIVE_ID] = it
+            }
+            get(KEY_AD_CREATIVE_URL)?.let {
+                info[MediaConstants.AdMetadataKeys.CREATIVE_URL] = it
+            }
+        }
+
+        adInfo = info
         sendPosition()
         tracker.trackEvent(Media.Event.AdStart, adInfo, null)
     }
