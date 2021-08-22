@@ -14,7 +14,7 @@ const ID = {
   groupId: "quick-brick-user-account-login",
 };
 
-export const LoginFlow = React.forwardRef((props, ref) => {
+export const LoginFlow = React.forwardRef((props: LoginProps, ref) => {
   const login1ButtonRef = React.useRef(null);
   const login2ButtonRef = React.useRef(null);
   const logoutButtonRef = React.useRef(null);
