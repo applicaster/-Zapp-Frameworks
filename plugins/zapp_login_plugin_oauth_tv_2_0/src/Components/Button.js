@@ -1,8 +1,9 @@
 import * as React from "react";
+import { View, Text, Platform } from "react-native";
 import { FocusableGroup } from "@applicaster/zapp-react-native-ui-components/Components/FocusableGroup";
 import { Focusable } from "@applicaster/zapp-react-native-ui-components/Components/Focusable";
-import { View, Text, Platform } from "react-native";
 import { mapKeyToStyle } from "../Utils/Customization";
+
 export default function Button(props) {
   const {
     id,
@@ -22,9 +23,14 @@ export default function Button(props) {
     action_button_background_color_focused,
     action_button_font_color,
     action_button_font_color_focused,
+    action_button_round,
+    action_button_border_color,
+    action_button_border_color_focused,
+    action_button_border_size,
+    action_button_shadow
   } = screenStyles;
 
-  const button = {
+  let button = {
     width: 600,
     height: 80,
     backgroundColor: action_button_background_color,
@@ -32,6 +38,36 @@ export default function Button(props) {
     alignItems: "center",
     marginBottom: 20,
   };
+
+  if (action_button_round) {
+    button = {
+      ...button,
+      borderRadius: 80,
+      borderWidth: action_button_border_size,
+      borderColor: action_button_border_color
+    }
+  }
+
+  let focusedButton = {
+    ...button,
+    backgroundColor: action_button_background_color_focused,
+    borderColor: action_button_border_color_focused
+  }
+
+  if (action_button_shadow) {
+    focusedButton = {
+      ...focusedButton,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 6,
+      },
+      width: 650,
+      shadowOpacity: 0.37,
+      shadowRadius: 7.49,
+      elevation: 12,
+    }
+  }
 
   const buttonText = {
     fontSize: 24,
@@ -42,19 +78,7 @@ export default function Button(props) {
 
   const styles = {
     focused: {
-      button: {
-        ...button,
-        backgroundColor: action_button_background_color_focused,
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 6,
-        },
-        width: 650,
-        shadowOpacity: 0.37,
-        shadowRadius: 7.49,
-        elevation: 12,
-      },
+      button: focusedButton,
       buttonText: {
         ...buttonText,
         color: action_button_font_color_focused,

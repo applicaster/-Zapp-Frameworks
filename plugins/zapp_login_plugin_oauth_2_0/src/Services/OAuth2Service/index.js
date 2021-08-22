@@ -20,7 +20,7 @@ export async function authorizeService(oAuthConfig, session_storage_key) {
   try {
     const result = await authorize(oAuthConfig);
 
-    await saveKeychainData(result);
+    await saveKeychainData(result, session_storage_key);
     logger.debug({
       message: `authorizeService: Success`,
       data: { oauth_config: oAuthConfig, result, session_storage_key },

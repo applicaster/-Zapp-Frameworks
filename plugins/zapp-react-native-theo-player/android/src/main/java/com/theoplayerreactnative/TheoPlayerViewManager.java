@@ -26,6 +26,7 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.theoplayer.android.api.THEOplayerConfig;
 import com.theoplayer.android.api.THEOplayerView;
+import com.theoplayer.android.api.ads.AdPreloadType;
 import com.theoplayer.android.api.ads.AdsConfiguration;
 import com.theoplayer.android.api.ads.GoogleImaConfiguration;
 import com.theoplayer.android.api.cast.CastStrategy;
@@ -150,6 +151,7 @@ public class TheoPlayerViewManager extends SimpleViewManager<THEOplayerView> imp
         */
         THEOplayerConfig playerConfig = new THEOplayerConfig.Builder()
                 .ads(new AdsConfiguration.Builder()
+                        .preload(AdPreloadType.NONE) // bug in IMA+THEO, temporary disable
                         .googleImaConfiguration(new GoogleImaConfiguration.Builder()
                                 .useNativeIma(true)
                                 .build())
