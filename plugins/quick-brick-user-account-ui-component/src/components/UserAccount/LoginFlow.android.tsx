@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { useLocalizedStrings } from "@applicaster/zapp-react-native-utils/localizationUtils";
-import { useFocusManager } from "@applicaster/zapp-react-native-utils/focusManager";
 import { useInitialFocus } from "@applicaster/zapp-react-native-utils/focusManager";
 import Button from "../Button/ButtonTV";
 import { UserPhoto } from "../UserPhoto";
@@ -15,7 +14,7 @@ const ID = {
   groupId: "quick-brick-user-account-login",
 };
 
-export const LoginFlow = React.forwardRef((props: LoginProps, ref) => {
+export const LoginFlow = React.forwardRef((props, ref) => {
   const login1ButtonRef = React.useRef(null);
   const login2ButtonRef = React.useRef(null);
   const logoutButtonRef = React.useRef(null);
@@ -38,7 +37,8 @@ export const LoginFlow = React.forwardRef((props: LoginProps, ref) => {
     localizations,
   });
 
-  useInitialFocus(props?.focused, login1ButtonRef);
+  
+  useInitialFocus(props?.focused, isLoggedIn ? logoutButtonRef : login1ButtonRef);
 
   return (
     <>
@@ -59,7 +59,7 @@ export const LoginFlow = React.forwardRef((props: LoginProps, ref) => {
         />
       )}
 
-      {!isLoggedIn && button_2_login_enabled && (
+      {!isLoggedIn && Boolean(button_2_login_enabled) && (
         <Button
           ref={login2ButtonRef}
           nextFocusUp={login1ButtonRef}
