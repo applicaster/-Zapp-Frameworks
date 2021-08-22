@@ -20,8 +20,8 @@ public class EventsBusType: CustomStringConvertible {
         switch type {
         case let .analytics(value):
             result += "analytics." + value.rawValue
-        case let .playerAd(value):
-            result += "playerAd." + value.rawValue
+        case let .player(value):
+            result += "player." + value.rawValue
         default:
             result += type.rawValue
             break

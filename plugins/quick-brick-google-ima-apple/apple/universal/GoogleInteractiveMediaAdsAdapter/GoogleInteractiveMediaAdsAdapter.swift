@@ -132,7 +132,7 @@ import ZappCore
     }
 
     func resumePlayback() {
-        EventsBus.post(EventsBus.Event(type: EventsBusType(.playerAd(.adBreakEnd)),
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adBreakEnd)),
                                        source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
                                        data: [
                                            "content": urlTagData?.content ?? [:],
@@ -147,7 +147,7 @@ import ZappCore
     }
 
     func pausePlayback() {
-        EventsBus.post(EventsBus.Event(type: EventsBusType(.playerAd(.adBreakBegin)),
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adBreakBegin)),
                                        source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
                                        data: [
                                            "content": urlTagData?.content ?? [:],

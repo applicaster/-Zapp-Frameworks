@@ -27,7 +27,7 @@ extension GoogleInteractiveMediaAdsAdapter: IMAAdsManagerDelegate {
             }
             postrollCompletion?(true)
         case .SKIPPED:
-            EventsBus.post(EventsBus.Event(type: EventsBusType(.playerAd(.adSkip)),
+            EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adSkip)),
                                            source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
                                            data: [
                                                "content": urlTagData?.content ?? [:],
@@ -43,7 +43,7 @@ extension GoogleInteractiveMediaAdsAdapter: IMAAdsManagerDelegate {
 
     public func adsManagerDidRequestContentPause(_ adsManager: IMAAdsManager!) {
         delegate?.advertisementWillPresented(provider: self)
-        EventsBus.post(EventsBus.Event(type: EventsBusType(.playerAd(.adBegin)),
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adBegin)),
                                        source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
                                        data: [
                                            "content": urlTagData?.content ?? [:],
@@ -57,7 +57,7 @@ extension GoogleInteractiveMediaAdsAdapter: IMAAdsManagerDelegate {
 
     public func adsManager(_ adsManager: IMAAdsManager!, didReceive error: IMAAdError!) {
         delegate?.advertisementFailedToLoad(provider: self)
-        EventsBus.post(EventsBus.Event(type: EventsBusType(.playerAd(.adError)),
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adError)),
                                        source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
                                        data: [
                                            "content": urlTagData?.content ?? [:],
@@ -77,7 +77,7 @@ extension GoogleInteractiveMediaAdsAdapter: IMAAdsManagerDelegate {
 
     public func adsManagerDidRequestContentResume(_ adsManager: IMAAdsManager!) {
         delegate?.advertisementWillDismissed(provider: self)
-        EventsBus.post(EventsBus.Event(type: EventsBusType(.playerAd(.adEnd)),
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adEnd)),
                                        source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
                                        data: [
                                            "content": urlTagData?.content ?? [:],
@@ -90,7 +90,7 @@ extension GoogleInteractiveMediaAdsAdapter: IMAAdsManagerDelegate {
     }
 
     public func adsManager(_ adsManager: IMAAdsManager!, adDidProgressToTime mediaTime: TimeInterval, totalTime: TimeInterval) {
-        EventsBus.post(EventsBus.Event(type: EventsBusType(.playerAd(.adProgress)),
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adProgress)),
                                        source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
                                        data: [
                                            "progress": mediaTime,

@@ -13,7 +13,7 @@ public enum EventsBusPredefinedType {
     case testEvent
     case reachabilityChanged
     case analytics(_ subtype: EventsBusTypeAnalyticsSubtype)
-    case playerAd(_ subtype: EventsBusTypePlayerAdSubtype)
+    case player(_ subtype: EventsBusTypePlayerSubtype)
 
     case msAppCenterCheckUpdates
     case forceAppReload
