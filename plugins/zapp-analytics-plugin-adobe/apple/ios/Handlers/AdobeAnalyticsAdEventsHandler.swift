@@ -35,8 +35,8 @@ class AdobeAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         }
 
         delegate?.externalObject?.trackEvent(event: .AdBreakComplete,
-                                                          info: nil,
-                                                          metadata: nil)
+                                             info: nil,
+                                             metadata: nil)
 
         return proceedEvent(eventName)
     }
@@ -54,8 +54,8 @@ class AdobeAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         let videoMetadata: [String: String] = [:]
 
         delegate?.externalObject?.trackEvent(event: .AdStart,
-                                                          info: adObject,
-                                                          metadata: videoMetadata)
+                                             info: adObject,
+                                             metadata: videoMetadata)
 
         return proceedEvent(eventName)
     }
@@ -66,8 +66,8 @@ class AdobeAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
         }
 
         delegate?.externalObject?.trackEvent(event: .AdComplete,
-                                                          info: nil,
-                                                          metadata: nil)
+                                             info: nil,
+                                             metadata: nil)
 
         return proceedEvent(eventName)
     }
