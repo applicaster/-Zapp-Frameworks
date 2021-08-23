@@ -1,6 +1,6 @@
 {
   "name": "@applicaster/quick-brick-inplayer",
-  "version": "9.0.3",
+  "version": "9.0.5-beta.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@applicaster/applicaster-account-components": "0.1.7-alpha.0",
+    "@applicaster/applicaster-account-components": "0.1.8",
     "@applicaster/quick-brick-parent-lock": "*",
     "@inplayer-org/inplayer.js": "3.11.1",
     "@react-native-community/blur": "3.4.1",
