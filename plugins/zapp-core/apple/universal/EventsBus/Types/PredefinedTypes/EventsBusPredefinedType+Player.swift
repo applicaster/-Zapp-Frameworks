@@ -10,6 +10,7 @@ import Foundation
 public enum EventsBusTypePlayerSubtype: String {
     case undefined
     case presented
+    case readyForDisplay
     case seekComplete
     case seekStart
     case sessionWillEnd

@@ -119,10 +119,6 @@ import ZappCore
         avPlayer?.addObserver(self, forKeyPath: MediaAdsConstants.playerPlaybackRate, options: NSKeyValueObservingOptions.new, context: nil)
     }
 
-    func removeRateObserver() {
-        avPlayer?.removeObserver(self, forKeyPath: MediaAdsConstants.playerPlaybackRate, context: nil)
-    }
-
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == MediaAdsConstants.playerPlaybackRate {
             if let player = avPlayer, player.rate > 0 && isPlaybackPaused {
