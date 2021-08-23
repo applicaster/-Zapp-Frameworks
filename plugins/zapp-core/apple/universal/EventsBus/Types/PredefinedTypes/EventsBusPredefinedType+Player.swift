@@ -16,6 +16,8 @@ public enum EventsBusTypePlayerSubtype: String {
     case sessionDidEnd
     case sessionWillStart
     case sessionDidStart
+    case videoResume
+    case videoStalled
     case videoEnd
     case videoError
     case videoWillLoad
