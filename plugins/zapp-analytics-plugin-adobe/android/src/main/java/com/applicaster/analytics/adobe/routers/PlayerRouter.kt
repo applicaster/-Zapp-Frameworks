@@ -23,8 +23,8 @@ class PlayerRouter : AnalyticsPlayerAdapter() {
     private var adBreakIndex = 1L
 
     @CallSuper
-    override fun onStart(params: Map<String, Any>?) {
-        super.onStart(params)
+    override fun onPresent(params: Map<String, Any>?) {
+        super.onPresent(params)
         tracker = Media.createTracker()
         adBreakIndex = 1L
 
@@ -60,8 +60,8 @@ class PlayerRouter : AnalyticsPlayerAdapter() {
     }
 
     @CallSuper
-    override fun onStop(params: Map<String, Any>?) {
-        super.onStop(params)
+    override fun onClose(params: Map<String, Any>?) {
+        super.onClose(params)
         sendPosition()
         tracker.trackSessionEnd()
     }
