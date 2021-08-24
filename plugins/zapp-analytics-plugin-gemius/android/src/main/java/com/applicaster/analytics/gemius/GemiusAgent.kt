@@ -1,7 +1,7 @@
 package com.applicaster.analytics.gemius
 
 import com.applicaster.analytics.BaseAnalyticsAgent
-import com.applicaster.analytics.adapters.IAnalyticsAdapter
+import com.applicaster.analytics.gemius.adapters.IAnalyticsAdapter
 import com.applicaster.session.SessionStorage
 import com.applicaster.util.APDebugUtil
 import com.applicaster.util.APLogger
