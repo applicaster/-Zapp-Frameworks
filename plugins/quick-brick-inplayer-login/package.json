@@ -1,6 +1,6 @@
 {
   "name": "@applicaster/quick-brick-inplayer",
-  "version": "9.0.5-beta.1",
+  "version": "9.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
