@@ -12,8 +12,8 @@ class PlayerAdapter() : AnalyticsPlayerAdapter() {
     private var contentMetadata: ContentMetadata? = null
     private val streamingAnalytics: StreamingAnalytics = StreamingAnalytics()
 
-    override fun onStart(params: Map<String, Any>?) {
-        super.onStart(params)
+    override fun onPresent(params: Map<String, Any>?) {
+        super.onPresent(params)
 
         val isAudio = params?.get(KEY_MEDIA_TYPE) == VAL_MEDIA_TYPE_AUDIO
 
@@ -40,8 +40,8 @@ class PlayerAdapter() : AnalyticsPlayerAdapter() {
         }
     }
 
-    override fun onStop(params: Map<String, Any>?) {
-        super.onStop(params)
+    override fun onClose(params: Map<String, Any>?) {
+        super.onClose(params)
         streamingAnalytics.notifyEnd()
     }
 
