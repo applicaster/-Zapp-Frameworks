@@ -52,7 +52,7 @@ def safeExtGet(prop, fallback) {
 dependencies {
     // Applicaster SDK
     if (!findProject(':applicaster-android-sdk') || project.hasProperty('forceClosedDependencies')) {
-        def sdkVersion = safeExtGet('applicaster_android_sdk_core_version', '8.0.0')
+        def sdkVersion = safeExtGet('applicaster_android_sdk_core_version', '8.5.0')
         api ("com.applicaster:applicaster-android-sdk-core:${sdkVersion}")
     }
     else {
