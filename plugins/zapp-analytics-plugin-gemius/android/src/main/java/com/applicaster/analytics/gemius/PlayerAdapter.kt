@@ -20,8 +20,8 @@ class PlayerAdapter(playerID: String,
 
     override fun getId(): String = idOverride ?: super.getId()
 
-    override fun onStart(params: Map<String, Any>?) {
-        super.onStart(params)
+    override fun onPresent(params: Map<String, Any>?) {
+        super.onPresent(params)
 
         idOverride = null
 
@@ -94,8 +94,8 @@ class PlayerAdapter(playerID: String,
         reportEvent(Player.EventType.PLAY)
     }
 
-    override fun onStop(params: Map<String, Any>?) {
-        super.onStop(params)
+    override fun onClose(params: Map<String, Any>?) {
+        super.onClose(params)
         reportEvent(Player.EventType.CLOSE) // stop is close for us
     }
 
