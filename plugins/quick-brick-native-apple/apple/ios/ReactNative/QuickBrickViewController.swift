@@ -75,24 +75,7 @@ class QuickBrickViewController: UIViewController, UILayerViewControllerProtocol 
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        var orientation = 0;
-    
-        switch UIDevice.current.orientation{
-        case .portrait:
-            orientation = 1
-        case .landscapeRight:
-            orientation = 2
-        case .landscapeLeft:
-            orientation = 4
-        case .portraitUpsideDown:
-            orientation = 8
-        default:
-            orientation = 0
-        }
-    
-        if(orientation != 0) {
-            ReactNativeEventEmitter.orientationChange(orientation: orientation)
-        }
+        ReactNativeEventEmitter.orientationChange(toOrientation: UIDevice.current.orientation)
     }
 
     private func mapOrientation(_ orientation: Int) -> UIInterfaceOrientationMask {
