@@ -23,6 +23,19 @@
     react-native-keyboard-aware-scroll-view "0.9.1"
     react-redux "^7.2.1"
 
+"@applicaster/applicaster-account-components@0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@applicaster/applicaster-account-components/-/applicaster-account-components-0.1.8.tgz#93e4bfcbf0b576c93f4da4524301f952998b6765"
+  integrity sha512-FNnIZm3lPOFO7lHHqF+B94yfRA1W+zjpt6yUxHc7RBfyHz+i/U7fd49DBaEhDunmbKs19bhDnRenurX49ZYzZg==
+  dependencies:
+    "@applicaster/quick-brick-parent-lock" "*"
+    axios "^0.21.1"
+    moment "^2.24.0"
+    prop-types "^15.7.2"
+    ramda "^0.26.1"
+    react-native-keyboard-aware-scroll-view "0.9.1"
+    react-redux "^7.2.1"
+
 "@applicaster/applicaster-storefront-component@0.0.10":
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/@applicaster/applicaster-storefront-component/-/applicaster-storefront-component-0.0.10.tgz#314378f493f6a2b40122774b5c031a7f9d672aa3"
