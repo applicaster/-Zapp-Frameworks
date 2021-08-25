@@ -57,11 +57,6 @@ extension PlayerDependantPluginsManager: PlayerObserverProtocol {
         // provider should call player.pluggablePlayerResume() when finished its operations
         var shouldContinuePlaying = true
 
-        // should continue on first iteration when providers are not yet created
-        guard providers(playerPlugin: player) == nil else {
-            return shouldContinuePlaying
-        }
-
         createProvidersIfNeeded(with: player)
 
         if let providers = providers(playerPlugin: player) {
