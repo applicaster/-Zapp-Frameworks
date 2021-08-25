@@ -17,6 +17,7 @@ class QuickBrickViewController: UIViewController, UILayerViewControllerProtocol 
     }
 
     lazy var logger = Logger.getLogger(for: QuickBrickViewControllerLogs.subsystem)
+    var currentOrientation = UIDevice.current.orientation;
 
     var orientationStack = [UIInterfaceOrientationMask.all]
     var orientationMask: UIInterfaceOrientationMask = QuickBrickViewController.initialOrientationMask
@@ -75,7 +76,13 @@ class QuickBrickViewController: UIViewController, UILayerViewControllerProtocol 
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        ReactNativeEventEmitter.orientationChange(toOrientation: UIDevice.current.orientation)
+        ReactNativeEventEmitter.orientationChange(toOrientation: UIDevice.current.orientation, fromOrientation: currentOrientation)
+        currentOrientation = UIDevice.current.orientation
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      currentOrientation = UIDevice.current.orientation;
     }
 
     private func mapOrientation(_ orientation: Int) -> UIInterfaceOrientationMask {
