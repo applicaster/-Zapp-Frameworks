@@ -109,3 +109,7 @@ RCT_EXTERN_METHOD(presentLocalNotification:(NSDictionary<NSString *, id> *) payl
                       resolver:(RCTPromiseResolveBlock)resolve
                           rejecter:(RCTPromiseRejectBlock)reject);
 @end
+
+@interface RCT_EXTERN_MODULE (ReactNativeEventEmitter, RCTEventEmitter)
+RCT_EXTERN_METHOD(supportedEvents)
+@end
