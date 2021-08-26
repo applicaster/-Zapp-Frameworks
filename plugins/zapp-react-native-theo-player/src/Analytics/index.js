@@ -132,9 +132,9 @@ export class AnalyticsTracker {
     const { currentTime } = state;
 
     const payload = {
-      "Item ID": this.handleId(event, state, entry),
+      "Item ID": entry.id,
       "Item Name": title,
-      "Item Duration": this.handleDuration(event, state, entry),
+      "Item Duration": this.state.contentDuration,
       offset: currentTime,
       analyticsCustomProperties: JSON.stringify(
         extensions["analyticsCustomProperties"]
@@ -166,55 +166,6 @@ export class AnalyticsTracker {
     }
 
     return payload;
-  }
-
-  handleDuration(event, state, entry) {
-    let duration;
-
-    const {
-      adBreakDuration,
-      adDuration,
-      duration: nativeEventDuration,
-    } = state;
-
-    const { duration: entryDuration } = entry.extensions;
-
-    const adEvents = {
-      "Ad Break Begin": adBreakDuration,
-      "Ad Break End": adBreakDuration,
-      "Ad Begin": adDuration,
-      "Ad End": adDuration,
-      "Ad Error": adDuration,
-    };
-
-    if (adEvents[event]) {
-      duration = adEvents[event];
-    }
-
-    if (!adEvents[event]) {
-      duration = nativeEventDuration || entryDuration;
-    }
-
-    return duration;
-  }
-
-  handleId(event, state, entry) {
-    const { adId } = state;
-
-    const { id: entryId } = entry;
-
-    const noIdEvents = ["Ad Break Started", "Ad Break Ended"];
-    if (noIdEvents.includes(event)) {
-      return null;
-    }
-
-    const adEvents = {
-      "Ad Begin": adId,
-      "Ad End": adId,
-      "Ad Error": adId,
-    };
-
-    return adEvents[event] || entryId;
   }
 
   handleChange(state) {

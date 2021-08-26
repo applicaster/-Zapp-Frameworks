@@ -93,6 +93,7 @@ type State = {
   canplay: boolean;
   currentTime: number;
   duration: number;
+  contentDuration: number;
   adBreakOffset: number;
   adBreakDuration: number;
   adDuration: number;
@@ -146,6 +147,7 @@ export default class THEOPlayer extends Component<Props, State> {
       adBreakDuration: 0,
       adDuration: 0,
       duration: 0,
+      contentDuration: 0,
       currentTime: 0,
       adId: "",
       adData: {},
@@ -364,7 +366,11 @@ export default class THEOPlayer extends Component<Props, State> {
       },
     });
 
-    this.setState({ duration });
+    if(this.state.adBegin) {
+      this.setState({ duration, adDuration: duration });
+    } else {
+      this.setState({ duration, contentDuration: duration });
+    }
     this.props.onLoad({ duration, currentTime: 0 });
   };
 
