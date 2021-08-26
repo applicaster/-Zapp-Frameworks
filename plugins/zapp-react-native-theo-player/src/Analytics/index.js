@@ -129,12 +129,12 @@ export class AnalyticsTracker {
   getAnalyticPayload(entry, state, event) {
     const { title, extensions } = entry;
 
-    const { currentTime } = state;
+    const { currentTime, contentDuration } = state;
 
     const payload = {
       "Item ID": entry.id,
       "Item Name": title,
-      "Item Duration": this.state.contentDuration,
+      "Item Duration": contentDuration,
       offset: currentTime,
       analyticsCustomProperties: JSON.stringify(
         extensions["analyticsCustomProperties"]
