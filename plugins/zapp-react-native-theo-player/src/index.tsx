@@ -22,7 +22,6 @@ import THEOplayerView from "./THEOplayerView";
 import { getIMAData } from "./Services/GoogleIMA";
 import { getDRMData } from "./Services/DRM";
 import { EVENTS } from "./Utils/const";
-import { duration } from "moment";
 
 console.disableYellowBox = true;
 
