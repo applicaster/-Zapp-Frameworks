@@ -129,13 +129,13 @@ export class AnalyticsTracker {
   getAnalyticPayload(entry, state, event) {
     const { title, extensions } = entry;
 
-    const { currentTime, contentDuration } = state;
+    const { contentPosition, contentDuration } = state;
 
     const payload = {
       "Item ID": entry.id,
       "Item Name": title,
       "Item Duration": contentDuration,
-      offset: currentTime,
+      "Item Position": contentPosition,
       analyticsCustomProperties: JSON.stringify(
         extensions["analyticsCustomProperties"]
       ),
@@ -146,7 +146,7 @@ export class AnalyticsTracker {
 
   addNativeData(payload, event, state) {
     const adEvents = [
-      EVENTS.adBreakBegin,
+      EVENTS.adBreakStarted,
       EVENTS.adBreakEnd,
       EVENTS.adBegin,
       EVENTS.adEnd,
@@ -212,14 +212,14 @@ export class AnalyticsTracker {
     return adBreakBegin;
   }
 
-  handleAdBreakEnd(adBreakBegin) {
-    if (adBreakBegin) {
+  handleAdBreakEnd(adBreakEnd) {
+    if (adBreakEnd) {
       this.playerEvents.adBreakBegin = false;
       this.playerEvents.adBreakEnd = true;
       this.playerEvents.paused = false;
     }
 
-    return adBreakBegin;
+    return adBreakEnd;
   }
 
   handleLoadedVideo(loadedVideo) {
@@ -247,6 +247,7 @@ export class AnalyticsTracker {
     if (!adBreakBegin && resume) {
       this.playerEvents.resume = true;
       this.playerEvents.paused = false;
+      this.playerEvents.playing = true;
     }
 
     return !adBreakBegin && resume;

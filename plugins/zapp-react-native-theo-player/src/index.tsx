@@ -93,6 +93,7 @@ type State = {
   currentTime: number;
   duration: number;
   contentDuration: number;
+  contentPosition: number;
   adBreakOffset: number;
   adBreakDuration: number;
   adDuration: number;
@@ -147,6 +148,7 @@ export default class THEOPlayer extends Component<Props, State> {
       adDuration: 0,
       duration: 0,
       contentDuration: 0,
+      contentPosition: 0,
       currentTime: 0,
       adId: "",
       adData: {},
@@ -261,7 +263,11 @@ export default class THEOPlayer extends Component<Props, State> {
     const { currentTime } = nativeEvent;
     this.props?.onProgress && this.props?.onProgress({ currentTime });
     this.props?.onTimeUpdate && this.props?.onTimeUpdate({ currentTime });
-    this.setState({ currentTime });
+    if(this.state.adBegin){
+      this.setState({ currentTime });
+    } else {
+      this.setState({ currentTime, contentPosition: currentTime });
+    }
   };
 
   onPlayerRateChange = ({ nativeEvent }) => {};
