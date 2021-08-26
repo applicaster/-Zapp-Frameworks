@@ -366,9 +366,10 @@ export default class THEOPlayer extends Component<Props, State> {
     });
 
     if(this.state.adBegin) {
-      this.setState({ duration, adDuration: duration });
+      this.setState({ adDuration: duration, duration: duration });
     } else {
-      this.setState({ duration, contentDuration: duration });
+      var contentDuration = duration > 0 ? duration : this.state.contentDuration;
+      this.setState({ contentDuration, duration });
     }
     this.props.onLoad({ duration, currentTime: 0 });
   };
