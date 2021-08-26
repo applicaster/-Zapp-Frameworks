@@ -93,6 +93,7 @@ type State = {
   canplay: boolean;
   currentTime: number;
   duration: number;
+  adBreakOffset: number;
   adBreakDuration: number;
   adDuration: number;
   adId: string;
@@ -165,6 +166,7 @@ export default class THEOPlayer extends Component<Props, State> {
       playerClosed: false,
       buffering: false,
       isContinueWatchingTimeSet: false,
+      adBreakOffset: 0,
     };
   }
 
@@ -395,7 +397,7 @@ export default class THEOPlayer extends Component<Props, State> {
   };
 
   onAdBreakBegin = ({ nativeEvent }) => {
-    const { maxDuration } = nativeEvent;
+    const { maxDuration, timeOffset } = nativeEvent;
     logger.info({
       message: "onAdBreakBegin:",
       data: {
@@ -408,6 +410,7 @@ export default class THEOPlayer extends Component<Props, State> {
       adBreakEnd: false,
       adBreakDuration: maxDuration,
       adData: nativeEvent,
+      adBreakOffset: timeOffset, 
     });
   };
 

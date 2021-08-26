@@ -146,11 +146,11 @@ export class AnalyticsTracker {
 
   addNativeData(payload, event, state) {
     const adEvents = [
-      "Ad Break Started",
-      "Ad Break Ended",
-      "Ad Begin",
-      "Ad End",
-      "Ad Error",
+      EVENTS.adBreakBegin,
+      EVENTS.adBreakEnd,
+      EVENTS.adBegin,
+      EVENTS.adEnd,
+      EVENTS.adError,
     ];
 
     if (adEvents.includes(event) && state.adData) {
@@ -159,7 +159,7 @@ export class AnalyticsTracker {
         "Ad Id": state.adData.id,
         "Ad Duration": state.adData.duration, // Single ad duration
         "Ad Position": state.adData.adPosition, // Ad index in slot: 0, 1, 2 etc
-        "Ad Break Time Offset": state.adData.timeOffset, // Ad break position in timeline
+        "Ad Break Time Offset": state.adBreakOffset, // Ad break position in timeline
         "Ad Break Size": state.adData.breakSize, // Ads count in the break: 1, 2, 3, etc
         "Ad Break Max Duration": state.adData.maxDuration, // Total ad break max duration
       };
@@ -180,8 +180,8 @@ export class AnalyticsTracker {
     const { duration: entryDuration } = entry.extensions;
 
     const adEvents = {
-      "Ad Break Started": adBreakDuration,
-      "Ad Break Ended": adBreakDuration,
+      "Ad Break Begin": adBreakDuration,
+      "Ad Break End": adBreakDuration,
       "Ad Begin": adDuration,
       "Ad End": adDuration,
       "Ad Error": adDuration,
