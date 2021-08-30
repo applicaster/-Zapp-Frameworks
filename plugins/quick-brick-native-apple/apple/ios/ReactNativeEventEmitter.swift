@@ -33,23 +33,3 @@ open class ReactNativeEventEmitter: RCTEventEmitter {
   }
 }
 
-extension UIDeviceOrientation {
-  func mapOrientation() -> Int {
-    var orientation = 0
-    
-    switch self{
-      case .portrait:
-        orientation = 1
-      case .landscapeRight:
-        orientation = 2
-      case .landscapeLeft:
-        orientation = 4
-      case .portraitUpsideDown:
-        orientation = 8
-      default:
-        orientation = 0
-    }
-    
-    return orientation
-  }
-}
