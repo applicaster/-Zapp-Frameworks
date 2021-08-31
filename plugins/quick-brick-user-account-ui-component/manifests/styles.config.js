@@ -5,7 +5,6 @@ const mobile = [
     key: "custom_margin_top",
     type: "number_input",
     label: "Top Padding",
-    label_tooltip: "Set this value will add padding on top of the component",
     initial_value: 0,
   },
   {
@@ -665,7 +664,6 @@ const tv = [
     key: "custom_margin_top",
     type: "number_input",
     label: "Top Padding",
-    label_tooltip: "Set this value will add padding on top of the component",
     initial_value: 100,
   },
   {
