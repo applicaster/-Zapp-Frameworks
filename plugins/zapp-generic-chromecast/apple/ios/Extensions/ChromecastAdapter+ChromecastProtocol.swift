@@ -254,10 +254,7 @@ extension ChromecastAdapter: ChromecastProtocol {
     }
     
     fileprivate func createButtonIfNeeded(frame: CGRect) {
-        guard castButton == nil else {
-            return
-        }
-        
+
         let button = createChromecastButton(frame: frame)
         
         // catch tap event for analytics
