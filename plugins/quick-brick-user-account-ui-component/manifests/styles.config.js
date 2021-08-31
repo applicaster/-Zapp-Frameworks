@@ -69,7 +69,7 @@ const mobile = [
         initial_value: "",
         label: "Plugin Namespace",
         tooltip:
-          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or the logout when user will click the logout button. Consult with support or your plugin developer.",
+          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or to logout when user will click the logout button. Consult with support or your plugin developer.",
         placeholder: "Custom plugin namespace",
         conditional_fields: [
           {
@@ -247,7 +247,7 @@ const mobile = [
         initial_value: "",
         label: "Plugin Namespace",
         tooltip:
-          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or the logout when user will click the logout button. Consult with support or your plugin developer.",
+          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or to logout when user will click the logout button. Consult with support or your plugin developer.",
         placeholder: "Custom plugin namespace",
         conditional_fields: [
           {
@@ -729,7 +729,7 @@ const tv = [
         label: "Plugin Namespace",
         placeholder: "Custom plugin namespace",
         tooltip:
-          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or the logout when user will click the logout button. Consult with support or your plugin developer.",
+          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or to logout when user will click the logout button. Consult with support or your plugin developer.",
         placeholder: "Custom plugin namespace",
         conditional_fields: [
           {
@@ -924,7 +924,7 @@ const tv = [
         initial_value: "",
         label: "Plugin Namespace",
         tooltip:
-          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or the logout when user will click the logout button. Consult with support or your plugin developer.",
+          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or to logout when user will click the logout button. Consult with support or your plugin developer.",
         placeholder: "Custom plugin namespace",
         conditional_fields: [
           {
