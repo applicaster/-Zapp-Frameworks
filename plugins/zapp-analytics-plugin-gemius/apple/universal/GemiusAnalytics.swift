@@ -64,7 +64,7 @@ class GemiusAnalytics: NSObject, PluginAdapterProtocol {
     var lastProceededScreenEvent: String?
     var contentIsPlaying = false
     var breakType:BreakType = .undefined
-    var isCompleteReported:Bool = false
+    var isCompleteReported = false
     
     public required init(pluginModel: ZPPluginModel) {
         model = pluginModel
