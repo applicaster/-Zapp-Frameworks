@@ -17,7 +17,6 @@ const componentStyles = {
     marginRight: 57,
     marginLeft: 57,
     marginBottom: 12,
-    flex: 1,
     flexDirection: "row",
   },
   flexOne: {

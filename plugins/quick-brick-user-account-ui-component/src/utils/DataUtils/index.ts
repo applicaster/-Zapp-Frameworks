@@ -75,15 +75,23 @@ async function tokenForKey(
 }
 
 function loginModelKeys(data: LoginData): LoginKeysDataModel {
+  const screenId = data.customScreenId;
+
   switch (data.loginType) {
     case LoginModelsType.Inplayer:
-      return Inplayer;
+      return { ...Inplayer, screenId };
     case LoginModelsType.Cleeng:
-      return Cleeng;
+      return {
+        ...Cleeng,
+        screenId,
+      };
     case LoginModelsType.AdobePrimetime:
-      return AdobePrimetime;
+      return {
+        ...AdobePrimetime,
+        screenId: data.customScreenId,
+      };
     case LoginModelsType.Oauth2:
-      return Oauth2;
+      return { ...Oauth2, screenId };
     case LoginModelsType.Other:
       return {
         title: "Other",
@@ -93,7 +101,7 @@ function loginModelKeys(data: LoginData): LoginKeysDataModel {
         subscriptionPriceKey: data.customSubscriptionPriceKey,
         subscriptionRenewsDateKey: data.customSubscriptionRenewsDateKey,
         userPhotoUrlKey: data.customUserPhotoUrlKey,
-        screenId: data.customScreenId,
+        screenId,
       };
     default:
       break;
