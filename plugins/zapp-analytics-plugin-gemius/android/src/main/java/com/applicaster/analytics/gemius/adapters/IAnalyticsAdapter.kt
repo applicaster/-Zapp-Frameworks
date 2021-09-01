@@ -1,4 +1,4 @@
-package com.applicaster.analytics.adapters
+package com.applicaster.analytics.gemius.adapters
 
 import java.util.*
 
