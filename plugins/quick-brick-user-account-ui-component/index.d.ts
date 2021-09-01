@@ -81,6 +81,7 @@ type ButtonProps = {
   nextFocusUp?: React.MutableRefObject<any>;
   nextFocusDown?: React.MutableRefObject<any>;
   shouldUsePreferredFocus?: boolean;
+  ref?: any
 };
 
 type LoginProps = {
