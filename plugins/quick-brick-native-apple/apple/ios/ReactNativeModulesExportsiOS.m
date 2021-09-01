@@ -25,3 +25,8 @@ RCT_EXTERN_METHOD(getRegisteredTags:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject);
 
 @end
+
+@interface RCT_EXTERN_MODULE (ReactNativeEventEmitter, RCTEventEmitter)
+RCT_EXTERN_METHOD(supportedEvents)
+@end
+
