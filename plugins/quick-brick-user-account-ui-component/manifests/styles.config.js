@@ -197,7 +197,7 @@ const mobile = [
       {
         key: "button_2_login_enabled",
         label: "Switch to Enable Login Button 2",
-        type: "Switch",
+        type: "switch",
         initial_value: false,
       },
       {
@@ -874,7 +874,7 @@ const tv = [
       {
         key: "button_2_login_enabled",
         label: "Switch to Enable Login Button 2",
-        type: "Switch",
+        type: "switch",
         initial_value: false,
       },
       {

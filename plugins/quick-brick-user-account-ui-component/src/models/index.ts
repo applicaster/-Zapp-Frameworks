@@ -16,8 +16,8 @@ export const Cleeng: LoginKeysDataModel = {
 
 export const AdobePrimetime: LoginKeysDataModel = {
   title: "AdobePrimetime",
-  tokenKey: "inplayer_token",
-  namespace: "quick-brick-inplayer",
+  tokenKey: "adobeMediaToken",
+  namespace: "adobe-primetime-auth-qb",
 };
 
 export const Oauth2: LoginKeysDataModel = {
