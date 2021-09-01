@@ -16,11 +16,12 @@ public struct AnalyticsPlayerMediaObject {
     public let playerType: String
     public var videoProperties: PlayerMediaVideoProperties?
     public var audioProperties: PlayerMediaAudioProperties?
-
+    public var progress: Int
     public init(parameters: [String: Any]?) {
         name = parameters?["name"] as? String ?? ""
         mediaId = parameters?["media_id"] as? String ?? ""
         duration = parameters?["duration"] as? Int ?? 0
+        progress = parameters?["progress"] as? Int ?? 0
         streamType = PlayerMediaStreamType(rawValue: parameters?["stream_type"] as? String ?? "") ?? .undefined
         mediaType = PlayerMediaType(rawValue: parameters?["media_type"] as? String ?? "") ?? .undefined
         playerType = parameters?["player_type"] as? String ?? ""
@@ -34,6 +35,13 @@ public struct AnalyticsPlayerMediaObject {
         default:
             break
         }
+    }
+    
+    public var completePercentage: Double {
+        guard duration > 0 else {
+            return 0.0
+        }
+        return Double(progress)/Double(duration)
     }
 }
 

@@ -1,6 +1,6 @@
 package com.applicaster.analytics.gemius
 
-import com.applicaster.analytics.adapters.AnalyticsPlayerAdapter
+import com.applicaster.analytics.gemius.adapters.AnalyticsPlayerAdapter
 import com.applicaster.util.APLogger
 import com.applicaster.util.AppContext
 import com.gemius.sdk.stream.*
@@ -13,12 +13,13 @@ class PlayerAdapter(playerID: String,
 
     private val player: Player = Player(playerID, hitCollectorHost, gemiusID, PlayerData())
     private var idOverride: String? = null
-
     init {
         player.setContext(AppContext.get())
     }
-
     override fun getId(): String = idOverride ?: super.getId()
+
+    private var isPlaying: Boolean = false // hack to suppress excessive play events
+    private var onMidRoll: Boolean = false // hack to report play after midroll
 
     override fun onStart(params: Map<String, Any>?) {
         super.onStart(params)
@@ -30,6 +31,9 @@ class PlayerAdapter(playerID: String,
         pdata.duration = duration?.toInt()
         // todo: need to determine type
         pdata.programType = ProgramData.ProgramType.VIDEO
+
+        onMidRoll = false
+        isPlaying = false
 
         var id = super.getId()
 
@@ -81,7 +85,8 @@ class PlayerAdapter(playerID: String,
         player.newProgram(id, pdata)
     }
 
-    private fun reportEvent(event: Player.EventType) {
+    private fun reportEvent(event: Player.EventType, sender: String) {
+        APLogger.debug(GemiusAgent.TAG, "Reporting event $event at $position from $sender")
         player.programEvent(
                 getId(),
                 position?.toInt() ?: 0,
@@ -91,37 +96,57 @@ class PlayerAdapter(playerID: String,
 
     override fun onPlay(params: Map<String, Any>?) {
         super.onPlay(params)
-        reportEvent(Player.EventType.PLAY)
+        if(isPlaying) return
+        reportEvent(Player.EventType.PLAY, "onPlay")
+        isPlaying = true
     }
 
     override fun onStop(params: Map<String, Any>?) {
         super.onStop(params)
-        reportEvent(Player.EventType.CLOSE) // stop is close for us
+        isPlaying = false
+        reportEvent(Player.EventType.CLOSE, "onStop") // stop is close for us
     }
 
     override fun onPause(params: Map<String, Any>?) {
         super.onPause(params)
-        reportEvent(Player.EventType.PAUSE)
+        isPlaying = false
+        reportEvent(Player.EventType.PAUSE, "onPause")
     }
 
     override fun onResume(params: Map<String, Any>?) {
         super.onResume(params)
-        reportEvent(Player.EventType.PLAY)
+        if(isPlaying) return
+        reportEvent(Player.EventType.PLAY, "onResume")
+        isPlaying = true
     }
 
     override fun onBuffering(params: Map<String, Any>?) {
         super.onBuffering(params)
-        reportEvent(Player.EventType.BUFFER)
+        reportEvent(Player.EventType.BUFFER, "onBuffering")
     }
 
     override fun onAdBreakStart(params: Map<String, Any>?) {
         super.onAdBreakStart(params)
-        reportEvent(Player.EventType.BREAK)
+        // pre-roll is not reported as AdBreak
+        if(0 == position?.toInt()) {
+            return
+        }
+        // todo: fix missing param KEY_AD_BREAK_OFFSET in RN and remove check above
+        getLong(params, KEY_AD_BREAK_OFFSET)?.let {
+            if(0L == it || -1L == it) {
+                return
+            }
+        }
+        onMidRoll = true
+        reportEvent(Player.EventType.BREAK, "onAdBreakStart")
     }
 
     override fun onAdBreakEnd(params: Map<String, Any>?) {
         super.onAdBreakEnd(params)
-        // not reported
+        if(onMidRoll) {
+            onMidRoll = false
+            reportEvent(Player.EventType.PLAY, "onAdBreakEnd")
+        }
     }
 
     override fun onAdStart(params: Map<String, Any>?) {
@@ -141,7 +166,7 @@ class PlayerAdapter(playerID: String,
         player.newAd(id, adata)
         player.adEvent(
                 getId(),
-                id, position?.toInt(),
+                id, position?.toInt(), // todo: wrong position received there
                 Player.EventType.PLAY,
                 EventAdData().apply {
                     autoPlay = true // all our ads are autoplay I assume
@@ -151,6 +176,7 @@ class PlayerAdapter(playerID: String,
                         else -> APLogger.warn(GemiusAgent.TAG, "$KEY_AD_BREAK_SIZE is missing in the event $AD_START_EVENT data")
                     }
                 })
+        APLogger.debug(GemiusAgent.TAG, "Reporting Ad event ${Player.EventType.PLAY} at $position")
     }
 
     override fun onAdEnd(params: Map<String, Any>?) {
@@ -161,28 +187,32 @@ class PlayerAdapter(playerID: String,
         player.adEvent(
                 getId(),
                 id,
-                position?.toInt(),
+                position?.toInt(), // todo: wrong position received there
                 Player.EventType.COMPLETE,
                 null)
+        APLogger.debug(GemiusAgent.TAG, "Reporting Ad event ${Player.EventType.COMPLETE} at $position")
     }
 
     override fun onSeek(params: Map<String, Any>?) {
         super.onSeek(params)
-        reportEvent(Player.EventType.SEEK)
+        isPlaying = false
+        reportEvent(Player.EventType.SEEK, "onSeek")
     }
 
     override fun onSeekEnd(params: Map<String, Any>?) {
         // Gemius requires Play event after seek
         super.onSeekEnd(params)
-        reportEvent(Player.EventType.PLAY)
+        isPlaying = true // event is received when we are already playing after the seek
+        reportEvent(Player.EventType.PLAY, "onSeekEnd")
     }
 
     override fun onComplete(params: Map<String, Any>?) {
         super.onComplete(params)
-        reportEvent(Player.EventType.COMPLETE)
+        reportEvent(Player.EventType.COMPLETE, "onComplete")
     }
 
     companion object {
+
         private val whitelistedKeys = setOf(
                 "_SC",
                 "_SCT",
@@ -198,5 +228,14 @@ class PlayerAdapter(playerID: String,
                 "tv",
                 "se",
                 "URL_alias")
+
+        fun getLong(params: Map<String, Any>?, key: String): Long? {
+            if(null == params) return null
+            return when (val d = params[key]) {
+                is String -> d.toFloat().toLong()
+                is Number -> d.toLong()
+                else -> null
+            }
+        }
     }
 }

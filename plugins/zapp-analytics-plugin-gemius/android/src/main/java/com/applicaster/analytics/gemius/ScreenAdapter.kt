@@ -1,6 +1,6 @@
 package com.applicaster.analytics.gemius
 
-import com.applicaster.analytics.adapters.AnalyticsScreenAdapter
+import com.applicaster.analytics.gemius.adapters.AnalyticsScreenAdapter
 import com.applicaster.util.AppContext
 import com.gemius.sdk.audience.AudienceEvent
 import com.gemius.sdk.audience.BaseEvent
