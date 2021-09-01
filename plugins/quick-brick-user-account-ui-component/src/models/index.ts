@@ -26,6 +26,12 @@ export const Oauth2: LoginKeysDataModel = {
   namespace: "zapp_login_plugin_oauth_2_0",
 };
 
+export const Oauth2TV: LoginKeysDataModel = {
+  title: "Oauth2TV",
+  tokenKey: "access_token",
+  namespace: "zapp_login_plugin_oauth_tv_2_0",
+};
+
 export const Dummy1: LoginKeysDataModel = {
   title: "Dummy1",
   tokenKey: "access_token",
