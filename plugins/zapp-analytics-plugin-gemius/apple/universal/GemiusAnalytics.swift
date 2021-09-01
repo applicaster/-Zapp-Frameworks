@@ -15,6 +15,13 @@ class GemiusAnalytics: NSObject, PluginAdapterProtocol {
     open var providerProperties: [String: NSObject] = [:]
     open var configurationJSON: NSDictionary?
 
+    enum BreakType {
+        case undefined
+        case midroll
+        case preroll
+        case postroll
+    }
+    
     struct Params {
         static let scriptIdentifier = "script_identifier"
         static let hitCollectorHost = "hit_collector_host"
@@ -32,8 +39,7 @@ class GemiusAnalytics: NSObject, PluginAdapterProtocol {
     }
 
     var isDisabled = false
-    var playbackStalled: Bool = false
-    public var playerPlugin: PlayerProtocol?
+    
     var playerRateObserverPointerString: UInt?
 
     lazy var scriptIdentifier: String = {
@@ -56,7 +62,10 @@ class GemiusAnalytics: NSObject, PluginAdapterProtocol {
     var lastProceededPlayerEvent: String?
     var lastProceededAdEvent: String?
     var lastProceededScreenEvent: String?
-
+    var contentIsPlaying = false
+    var breakType:BreakType = .undefined
+    var isCompleteReported:Bool = false
+    
     public required init(pluginModel: ZPPluginModel) {
         model = pluginModel
         configurationJSON = model?.configurationJSON
