@@ -91,6 +91,24 @@ extension GemiusAnalytics: AnalyticsProviderProtocol {
 
 extension GemiusAnalytics {
     func getCurrentPlayerPosition(from parameters: [String: NSObject]) -> Double {
-        return parameters["offset"] as? Double ?? 0.00
+        return parameters["Item Position"] as? Double ?? 0.00
+    }
+    
+    func getCurrentItemDuration(from parameters: [String: NSObject]) -> Double {
+        let key = "Item Duration"
+        var value:Double = 0
+        if let duration = parameters[key] as? String {
+            value = Double(duration) ?? 0.00
+        }
+        else if let duration = parameters[key] as? Double {
+            value = duration
+        }
+        return value
+    }
+    
+    func isEndOfPlayback(accordingTo parameters: [String: NSObject]) -> Bool {
+        let position = getCurrentPlayerPosition(from: parameters)
+        let duration = getCurrentItemDuration(from: parameters)
+        return position >= duration
     }
 }

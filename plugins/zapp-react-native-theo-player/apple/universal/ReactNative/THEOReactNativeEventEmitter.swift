@@ -1,8 +1,8 @@
 import Foundation
 import React
 
-@objc(ReactNativeEventEmitter)
-class ReactNativeEventEmitter: RCTEventEmitter {
+@objc(THEOReactNativeEventEmitter)
+class THEOReactNativeEventEmitter: RCTEventEmitter {
 
   var hasListeners : Bool = false
 
@@ -11,7 +11,7 @@ class ReactNativeEventEmitter: RCTEventEmitter {
 
   override init() {
     super.init()
-    print("ReactNativeEventEmitter init")
+    print("THEOReactNativeEventEmitter init")
     EventEmitter.sharedInstance.registerEventEmitter(eventEmitter: self)
   }
 
@@ -32,7 +32,7 @@ class ReactNativeEventEmitter: RCTEventEmitter {
 
   // Will be called when this module's first listener is added.
   override func startObserving() {
-    print("ReactNativeEventEmitter startObserving")
+    print("THEOReactNativeEventEmitter startObserving")
 
     hasListeners = true
 
@@ -42,7 +42,7 @@ class ReactNativeEventEmitter: RCTEventEmitter {
 
   // Will be called when this module's last listener is removed, or on dealloc.
   override func stopObserving() {
-    print("ReactNativeEventEmitter stopObserving")
+    print("THEOReactNativeEventEmitter stopObserving")
 
     hasListeners = false
 
@@ -54,7 +54,7 @@ class ReactNativeEventEmitter: RCTEventEmitter {
   }
 
   override func addListener(_ eventName: String!) {
-    print("ReactNativeEventEmitter addListener: ", eventName)
+    print("THEOReactNativeEventEmitter addListener: ", eventName)
 
     if EventEmitter.sharedInstance.addEventListener(eventName: eventName) {
       allEvents.append(eventName)
