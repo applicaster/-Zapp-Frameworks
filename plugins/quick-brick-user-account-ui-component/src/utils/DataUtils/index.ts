@@ -4,6 +4,7 @@ import {
   Cleeng,
   AdobePrimetime,
   Oauth2,
+  Oauth2TV,
   Dummy1,
   Dummy2,
 } from "../../models";
@@ -13,6 +14,7 @@ enum LoginModelsType {
   Cleeng = "cleeng",
   AdobePrimetime = "adobe_primetime",
   Oauth2 = "oauth_2",
+  Oauth2TV = "oauth_2_tv",
   Other = "other",
 }
 
@@ -92,6 +94,8 @@ function loginModelKeys(data: LoginData): LoginKeysDataModel {
       };
     case LoginModelsType.Oauth2:
       return { ...Oauth2, screenId };
+    case LoginModelsType.Oauth2TV:
+      return { ...Oauth2TV, screenId };
     case LoginModelsType.Other:
       return {
         title: "Other",
