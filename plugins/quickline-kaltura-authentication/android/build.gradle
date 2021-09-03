@@ -4,11 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 31
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -27,7 +28,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
@@ -40,6 +41,14 @@ dependencies {
     else {
         api project(':applicaster-android-sdk')
     }
+
+    //coroutines // todo: use constants
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+
+    def retrofit2Version = '2.6.3' // todo: use constants
+    api "com.squareup.retrofit2:retrofit:${retrofit2Version}"
+    api "com.squareup.retrofit2:converter-gson:${retrofit2Version}"
 
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.appcompat:appcompat:1.3.1'
