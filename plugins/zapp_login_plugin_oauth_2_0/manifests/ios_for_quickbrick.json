@@ -45,8 +45,8 @@
     "quickbrick"
   ],
   "platform": "ios_for_quickbrick",
-  "dependency_version": "0.1.8",
-  "manifest_version": "0.1.8",
+  "dependency_version": "0.1.9",
+  "manifest_version": "0.1.9",
   "api": {},
   "project_dependencies": [],
   "extra_dependencies": [
@@ -64,7 +64,7 @@
   "npm_dependencies": [
     "@react-native-community/blur@3.4.1",
     "react-native-app-auth@6.0.1",
-    "@applicaster/zapp_login_plugin_oauth_2_0@0.1.8"
+    "@applicaster/zapp_login_plugin_oauth_2_0@0.1.9"
   ],
   "custom_configuration_fields": [
     {
