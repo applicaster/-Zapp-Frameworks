@@ -89,6 +89,10 @@ const OAuth = (props) => {
   }, [screenType]);
 
   const invokeScreenType = React.useCallback(async () => {
+    if (screenType === PresentationTypeData.UNDEFINED) {
+      return;
+    }
+
     const authenticated = await checkUserAuthorization(
       oAuthConfig,
       session_storage_key
