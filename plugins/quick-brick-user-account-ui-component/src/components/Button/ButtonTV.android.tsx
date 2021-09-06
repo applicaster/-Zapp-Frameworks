@@ -30,7 +30,7 @@ const componentStyles = {
   imageStyle: { resizeMode: "stretch" },
 };
 
-const ButtonTV = React.forwardRef((props: ButtonProps, ref) => {
+const ButtonTV = (props: ButtonProps) => {
   const groupId = props?.groupId;
   const id = props?.id;
   const nextFocusDown = props?.nextFocusDown;
@@ -73,7 +73,7 @@ const ButtonTV = React.forwardRef((props: ButtonProps, ref) => {
 
   return (
     <Focusable
-      ref={ref}
+      ref={props.buttonRef}
       id={`${groupId}-${id}`}
       groupId={groupId}
       onPress={onPress}
@@ -99,8 +99,6 @@ const ButtonTV = React.forwardRef((props: ButtonProps, ref) => {
       }}
     </Focusable>
   );
-});
-
-ButtonTV.displayName = "ButtonTV";
+};
 
 export default ButtonTV;
