@@ -10,9 +10,10 @@ import com.applicaster.plugin_manager.GenericPluginI
 import com.applicaster.plugin_manager.Plugin
 import com.applicaster.plugin_manager.hook.ApplicationLoaderHookUpI
 import com.applicaster.plugin_manager.hook.HookListener
-import com.applicaster.quickline.auth.kaltura.IKalturaAPI
 import com.applicaster.quickline.auth.kaltura.KalturaFlows
+import com.applicaster.storage.LocalStorage
 import com.applicaster.util.APLogger
+import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,7 +24,8 @@ import java.net.URL
 
 class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
 
-    private var partnerId: Long = IKalturaAPI.partnerId
+    // todo: remove default values
+    private var partnerId: Long = 3223L
     private var kalturaAPIEndpoint: String = KalturaFlows.KalturaEndpoint
 
     @WorkerThread
@@ -42,7 +44,7 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
             APLogger.info(TAG, "Successful login")
             showSuccessScreen(activity, ks, listener)
         } catch (e: Exception) {
-            showErrorScreen(activity, e.message!!)
+            showErrorScreen(activity, e.message!!, e)
             // do not finish the hook
         }
     }
@@ -55,22 +57,8 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
         val verifyUserUrl = jo.getString("verifyUserUrl")
         val contractId = jo.getString("contractId")
 
-        val kalturaAPI = KalturaFlows.makeKalturaAPI(kalturaAPIEndpoint)
-
-        // send to Kaltura and get response
-        val session = KalturaFlows.login(kalturaAPI, contractId, verifyUserUrl, uuid, partnerId)
-
-        if (null == session) {
-            throw RuntimeException("Failed to obtain session")
-        }
-
-        // todo: store (good for a week)
-        val sessionKS = session.ks!!
-
-        // todo: store (needed to renew ks)
-        val addAppToken = KalturaFlows.addAppToken(kalturaAPI, sessionKS)
-
-        return sessionKS
+        // send to Kaltura and get response, verifyUserUrl is used as password
+        return loginPasswordRegistration(contractId, verifyUserUrl, uuid)
     }
 
     @WorkerThread
@@ -80,15 +68,55 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
         val session = KalturaFlows.login(kalturaAPI, username, password, uuid, partnerId)
             ?: throw RuntimeException("Failed to obtain session")
 
-        // todo: store (good for a week)
+        // ks is good for a week
         val sessionKS = session.ks!!
+        LocalStorage.set(KEY_KS, sessionKS, PluginId)
 
-        // todo: store (needed to renew ks)
+        // needed to renew ks
         val appToken = KalturaFlows.addAppToken(kalturaAPI, sessionKS)
+        LocalStorage.storeObject(KEY_APP_TOKEN, appToken, PluginId)
 
-        KalturaFlows.renewKS(kalturaAPI, appToken, uuid, partnerId)
+        // uncomment for testing
+        // KalturaFlows.renewKS(kalturaAPI, appToken, uuid, partnerId)
 
         return sessionKS
+    }
+
+    private fun tryRenew(
+        activity: Activity,
+        listener: HookListener,
+        errorMessage: String,
+        uuid: String
+    ) {
+        try {
+            val appToken = LocalStorage.restoreObject(
+                KEY_APP_TOKEN,
+                KalturaFlows.AppToken::class.java,
+                PluginId
+            )
+            if (null == appToken) {
+                showErrorScreen(activity, errorMessage)
+                return
+            }
+            GlobalScope.launch(Dispatchers.IO) {
+                val kalturaAPI = KalturaFlows.makeKalturaAPI(kalturaAPIEndpoint)
+                val ks = KalturaFlows.renewKS(kalturaAPI, appToken, uuid, partnerId)
+                if (null != ks) {
+                    LocalStorage.set(KEY_KS, ks, PluginId)
+                    listener.onHookFinished()
+                } else {
+                    showErrorScreen(activity, "Failed to renew KS")
+                }
+            }
+        } catch (e: JsonSyntaxException) {
+            // broken or incompatible token
+            LocalStorage.remove(KEY_APP_TOKEN, PluginId)
+            showErrorScreen(activity, "Failed to deserialize appToken", e)
+        } catch (e: Exception) {
+            // do not remove token, can be network error
+            // todo: handle different errors
+            showErrorScreen(activity, "Failed to renew KS", e)
+        }
     }
 
     private fun showSuccessScreen(
@@ -106,9 +134,10 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
 
     private fun showErrorScreen(
         activity: Activity,
-        message: String
+        message: String,
+        e: Exception? = null
     ) {
-        APLogger.error(TAG, message)
+        APLogger.error(TAG, message, e)
         activity.runOnUiThread {
             AlertDialog.Builder(activity)
                 .setTitle(message)
@@ -159,6 +188,7 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
     }
 
     override fun executeOnApplicationReady(context: Context, listener: HookListener) {
+        // todo: check if values has changed, then rerun the flows if needed
         listener.onHookFinished()
     }
 
@@ -172,17 +202,20 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
         }
 
         val uri = activity.intent.data
-        if (null == uri) {
-            showErrorScreen(activity, "Intent url is missing")
-            return
-        }
+        APLogger.info(TAG, "Intent url $uri")
 
-        if (!uri.toString().startsWith(URLMask)) {
-            showErrorScreen(activity, "Intent missing or incorrect")
+
+        val uuid = UUIDUtil.getUUID()
+
+        if (null == uri) {
+            tryRenew(activity, listener, "Intent url is missing", uuid)
             return // do not finish the hook
         }
 
-        val uuid = UUIDUtil.getUUID()
+        if (!uri.toString().startsWith(URLMask)) {
+            tryRenew(activity, listener, "Intent uri is incorrect", uuid)
+            return // do not finish the hook
+        }
 
         GlobalScope.launch(Dispatchers.IO) {
             runInitialFlow(activity, uri, listener, uuid)
@@ -192,8 +225,12 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
     companion object {
 
         private const val TAG = "QuickLineAuth"
+        private const val PluginId = "quickline-kaltura-authentication"
 
-        //todo: add better URL complience check
+        private const val KEY_APP_TOKEN = "appToken"
+        private const val KEY_KS = "ks"
+
+        //todo: add better URL compliance check
         private const val URLMask =
             "https://canary-preprod.qltv.quickline.ch/login/v001/chmedia/trustedLogin"
 
