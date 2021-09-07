@@ -1,3 +1,5 @@
+import org.gradle.util.VersionNumber
+
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
@@ -32,10 +34,18 @@ android {
     }
 }
 
+def safeExtGetVersion(prop, fallback) {
+    def ver = rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+    if (VersionNumber.parse(fallback) > VersionNumber.parse(ver)) {
+        throw new Exception("Version mismatch for $prop: $ver found, at least $fallback required")
+    }
+    return ver
+}
+
 dependencies {
     // Applicaster SDK
     if (!findProject(':applicaster-android-sdk') || project.hasProperty('forceClosedDependencies')) {
-        def sdkVersion = safeExtGet('applicaster_android_sdk_core_version', '8.4.0')
+        def sdkVersion = safeExtGetVersion('applicaster_android_sdk_core_version', '8.4.0')
         api ("com.applicaster:applicaster-android-sdk-core:${sdkVersion}")
     }
     else {
