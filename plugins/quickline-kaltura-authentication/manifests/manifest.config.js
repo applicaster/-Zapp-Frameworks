@@ -5,7 +5,7 @@ const baseManifest = {
   author_email: "zapp@applicaster.com",
   name: "Quickline Kaltura Auth",
   description: "Perform Kaltura device registration on Quickline TV Box",
-  type: "general",
+  type: "login",
   screen: false,
   react_native: true, // needed to trigger install
   ui_builder_support: true,
