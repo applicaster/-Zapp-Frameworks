@@ -6,8 +6,11 @@ import android.net.Uri
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AlertDialog
 import com.applicaster.identityservice.UUIDUtil
+import com.applicaster.plugin_manager.GenericPluginI
+import com.applicaster.plugin_manager.Plugin
 import com.applicaster.plugin_manager.hook.ApplicationLoaderHookUpI
 import com.applicaster.plugin_manager.hook.HookListener
+import com.applicaster.quickline.auth.kaltura.IKalturaAPI
 import com.applicaster.quickline.auth.kaltura.KalturaFlows
 import com.applicaster.util.APLogger
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +21,10 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class QuickLineAuth : ApplicationLoaderHookUpI {
+class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
+
+    private var partnerId: Long = IKalturaAPI.partnerId
+    private var kalturaAPIEndpoint: String = KalturaFlows.KalturaEndpoint
 
     @WorkerThread
     private fun runInitialFlow(
@@ -49,10 +55,10 @@ class QuickLineAuth : ApplicationLoaderHookUpI {
         val verifyUserUrl = jo.getString("verifyUserUrl")
         val contractId = jo.getString("contractId")
 
-        val kalturaAPI = KalturaFlows.makeKalturaAPI()
+        val kalturaAPI = KalturaFlows.makeKalturaAPI(kalturaAPIEndpoint)
 
         // send to Kaltura and get response
-        val session = KalturaFlows.login(kalturaAPI, contractId, verifyUserUrl, uuid)
+        val session = KalturaFlows.login(kalturaAPI, contractId, verifyUserUrl, uuid, partnerId)
 
         if (null == session) {
             throw RuntimeException("Failed to obtain session")
@@ -69,9 +75,9 @@ class QuickLineAuth : ApplicationLoaderHookUpI {
 
     @WorkerThread
     fun loginPasswordRegistration(username: String, password: String, uuid: String): String {
-        val kalturaAPI = KalturaFlows.makeKalturaAPI()
+        val kalturaAPI = KalturaFlows.makeKalturaAPI(kalturaAPIEndpoint)
 
-        val session = KalturaFlows.login(kalturaAPI, username, password, uuid)
+        val session = KalturaFlows.login(kalturaAPI, username, password, uuid, partnerId)
             ?: throw RuntimeException("Failed to obtain session")
 
         // todo: store (good for a week)
@@ -80,7 +86,7 @@ class QuickLineAuth : ApplicationLoaderHookUpI {
         // todo: store (needed to renew ks)
         val appToken = KalturaFlows.addAppToken(kalturaAPI, sessionKS)
 
-        KalturaFlows.renewKS(kalturaAPI, appToken, uuid)
+        KalturaFlows.renewKS(kalturaAPI, appToken, uuid, partnerId)
 
         return sessionKS
     }
@@ -111,8 +117,45 @@ class QuickLineAuth : ApplicationLoaderHookUpI {
         }
     }
 
-    override fun setPluginConfigurationParams(params: MutableMap<Any?, Any?>?) {
+    override fun setPluginModel(plugin: Plugin) {
+        val config = plugin.getConfiguration()
 
+        // Partner ID
+        config["kaltura_partner_id"].let {
+            if (null == it || !it.isJsonPrimitive) {
+                APLogger.error(
+                    TAG,
+                    "Required plugin configuration parameter 'kaltura_partner_id' is missing or invalid"
+                )
+                return@let
+            }
+            partnerId = it.asLong // will do string->long cast if needed
+        }
+
+        // Kaltura endpoint
+        config["kaltura_api_endpoint"].let {
+            if (null == it || !it.isJsonPrimitive) {
+                APLogger.error(
+                    TAG,
+                    "Required plugin configuration parameter 'kaltura_api_endpoint' is missing or not string"
+                )
+                return@let
+            }
+            kalturaAPIEndpoint = it.asString
+            if (kalturaAPIEndpoint.isEmpty()) {
+                APLogger.error(
+                    TAG,
+                    "Required plugin configuration parameter 'kaltura_api_endpoint' has empty value, setting to default"
+                )
+                kalturaAPIEndpoint = KalturaFlows.KalturaEndpoint
+            } else if (!kalturaAPIEndpoint.endsWith("/")) {
+                kalturaAPIEndpoint += "/" // OkHttp requires base url to end with "/"
+            }
+        }
+    }
+
+    override fun setPluginConfigurationParams(params: MutableMap<Any?, Any?>?) {
+        // deprecated
     }
 
     override fun executeOnApplicationReady(context: Context, listener: HookListener) {
@@ -150,7 +193,7 @@ class QuickLineAuth : ApplicationLoaderHookUpI {
 
         private const val TAG = "QuickLineAuth"
 
-        //todo: better URL check
+        //todo: add better URL complience check
         private const val URLMask =
             "https://canary-preprod.qltv.quickline.ch/login/v001/chmedia/trustedLogin"
 
@@ -166,4 +209,5 @@ class QuickLineAuth : ApplicationLoaderHookUpI {
             }
         }
     }
+
 }

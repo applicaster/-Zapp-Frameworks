@@ -27,7 +27,7 @@ interface IKalturaAPI {
 
     companion object {
         const val API_VERSION = "6.5.0.29184"
-        const val partnerId = 3223 // todo: move it from here
+        const val partnerId = 3223L // todo: remove it from here
         val defaultAppTokenRequest = mapOf(
             "objectType" to "KalturaAppToken",
             "sessionDuration" to "86400",

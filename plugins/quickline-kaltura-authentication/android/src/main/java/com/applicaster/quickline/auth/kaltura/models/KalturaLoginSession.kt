@@ -3,7 +3,7 @@ package com.applicaster.quickline.auth.kaltura.models
 import com.applicaster.quickline.auth.kaltura.IKalturaAPI
 
 data class LoginRequest(
-    val partnerId: Int,
+    val partnerId: Long,
     val username: String,
     val password: String,
     val uuid: String,
@@ -23,7 +23,7 @@ data class KalturaLoginResponse(
 )
 
 data class AnonymousLoginRequest(
-    val partnerId: Int,
+    val partnerId: Long,
     val apiVersion: String = IKalturaAPI.API_VERSION
 )
 

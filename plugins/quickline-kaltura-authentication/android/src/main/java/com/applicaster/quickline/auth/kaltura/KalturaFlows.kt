@@ -15,11 +15,12 @@ object KalturaFlows {
         kalturaAPI: IKalturaAPI,
         username: String,
         password: String,
-        uuid: String
+        uuid: String,
+        partnerId: Long
     ): KalturaLoginSession? {
         val loginResponse = kalturaAPI.loginOTT(
             LoginRequest(
-                IKalturaAPI.partnerId,
+                partnerId,
                 username,
                 password,
                 uuid
@@ -62,9 +63,10 @@ object KalturaFlows {
     fun renewKS(
         kalturaAPI: IKalturaAPI,
         appToken: AppToken,
-        uuid: String
+        uuid: String,
+        partnerId: Long
     ): String? {
-        val loginResponse = kalturaAPI.loginOTTAnonymous(AnonymousLoginRequest(IKalturaAPI.partnerId)).execute()
+        val loginResponse = kalturaAPI.loginOTTAnonymous(AnonymousLoginRequest(partnerId)).execute()
         if (!loginResponse.isSuccessful) {
             throw Exception(loginResponse.errorBody().toString())
         }
@@ -93,10 +95,10 @@ object KalturaFlows {
     }
 
 
-    fun makeKalturaAPI(): IKalturaAPI =
+    fun makeKalturaAPI(endpoint: String): IKalturaAPI =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(KalturaEndpoint)
+            .baseUrl(endpoint)
             .build()
             .create(IKalturaAPI::class.java)
 
