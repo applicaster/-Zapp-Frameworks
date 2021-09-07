@@ -42,7 +42,7 @@ fun LocalStorage.storeLong(
 
 fun LocalStorage.restoreLong(
     key: String,
-    namespace: String? = null,
+    namespace: String? = null
 ): Long? = restoreString(key, namespace)?.toLong()
 
 fun LocalStorage.storeObject(
@@ -61,7 +61,7 @@ fun LocalStorage.storeObject(
 fun <T> LocalStorage.restoreObject(
     key: String,
     cls: Class<T>,
-    namespace: String? = null,
+    namespace: String? = null
 ): T? where T : Any? {
     val value = restoreString(key, namespace) ?: return null
     return Gson().fromJson(value, cls)
