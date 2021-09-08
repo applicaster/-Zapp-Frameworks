@@ -54,7 +54,7 @@ fun LocalStorage.storeObject(
         removeItem(key, namespace)
     } else {
         val json = Gson().toJson(value)
-        storeString(json, namespace)
+        storeString(key, json, namespace)
     }
 }
 

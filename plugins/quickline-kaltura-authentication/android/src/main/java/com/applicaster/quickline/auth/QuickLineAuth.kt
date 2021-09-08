@@ -29,6 +29,23 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
     private var kalturaAPIEndpoint: String = KalturaFlows.KalturaEndpoint
 
     @WorkerThread
+    private fun testLogin(
+        activity: Activity,
+        listener: HookListener,
+        username: String,
+        password: String,
+        uuid: String
+    ) {
+        try {
+            loginPasswordRegistration(username, password, uuid)
+            activity.intent.data = null
+            listener.onHookFinished()
+        } catch (e: Exception) {
+            showErrorScreen(activity, "test login failed", e)
+        }
+    }
+
+    @WorkerThread
     private fun runInitialFlow(
         activity: Activity,
         uri: Uri,
@@ -204,12 +221,23 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
         val uri = activity.intent.data
         APLogger.info(TAG, "Intent url $uri")
 
-
         val uuid = UUIDUtil.getUUID()
 
         if (null == uri) {
             tryRenew(activity, listener, "Intent url is missing", uuid)
             return // do not finish the hook
+        }
+
+        if (uri.toString().startsWith(TestURLMask)) {
+            GlobalScope.launch(Dispatchers.IO) {
+                val username = uri.getQueryParameter("username")
+                val password = uri.getQueryParameter("password")
+                val uuid = uri.getQueryParameter("uuid")
+                if(null != username && null != password && null != uuid) {
+                    testLogin(activity, listener, username, password, uuid)
+                }
+            }
+            return
         }
 
         if (!uri.toString().startsWith(URLMask)) {
@@ -234,6 +262,8 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
         private const val URLMask =
             "https://canary-preprod.qltv.quickline.ch/login/v001/chmedia/trustedLogin"
 
+        private const val TestURLMask = "oneplus://testLogin"
+
         private const val KalturaOTTUrl = "https://3223.frs1.ott.kaltura.com/"
 
         private fun fetchUrl(url: String): String {
@@ -245,6 +275,7 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
                 }
             }
         }
+
     }
 
 }
