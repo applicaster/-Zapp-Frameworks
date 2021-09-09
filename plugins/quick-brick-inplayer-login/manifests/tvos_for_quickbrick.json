@@ -93,8 +93,8 @@
     "quickbrick"
   ],
   "platform": "tvos_for_quickbrick",
-  "dependency_version": "9.0.5",
-  "manifest_version": "9.0.5",
+  "dependency_version": "9.0.10",
+  "manifest_version": "9.0.10",
   "api": {},
   "project_dependencies": [],
   "extra_dependencies": [
