@@ -16,14 +16,20 @@ export const Cleeng: LoginKeysDataModel = {
 
 export const AdobePrimetime: LoginKeysDataModel = {
   title: "AdobePrimetime",
-  tokenKey: "inplayer_token",
-  namespace: "quick-brick-inplayer",
+  tokenKey: "adobeMediaToken",
+  namespace: "adobe-primetime-auth-qb",
 };
 
 export const Oauth2: LoginKeysDataModel = {
   title: "Oauth2",
   tokenKey: "access_token",
   namespace: "zapp_login_plugin_oauth_2_0",
+};
+
+export const Oauth2TV: LoginKeysDataModel = {
+  title: "Oauth2TV",
+  tokenKey: "access_token",
+  namespace: "zapp_login_plugin_oauth_tv_2_0",
 };
 
 export const Dummy1: LoginKeysDataModel = {

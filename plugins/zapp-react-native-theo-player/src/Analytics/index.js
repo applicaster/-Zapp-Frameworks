@@ -129,13 +129,13 @@ export class AnalyticsTracker {
   getAnalyticPayload(entry, state, event) {
     const { title, extensions } = entry;
 
-    const { currentTime } = state;
+    const { contentPosition, contentDuration } = state;
 
     const payload = {
-      "Item ID": this.handleId(event, state, entry),
+      "Item ID": entry.id,
       "Item Name": title,
-      "Item Duration": this.handleDuration(event, state, entry),
-      offset: currentTime,
+      "Item Duration": contentDuration,
+      "Item Position": contentPosition,
       analyticsCustomProperties: JSON.stringify(
         extensions["analyticsCustomProperties"]
       ),
@@ -146,11 +146,11 @@ export class AnalyticsTracker {
 
   addNativeData(payload, event, state) {
     const adEvents = [
-      "Ad Break Started",
-      "Ad Break Ended",
-      "Ad Begin",
-      "Ad End",
-      "Ad Error",
+      EVENTS.adBreakStarted,
+      EVENTS.adBreakEnd,
+      EVENTS.adBegin,
+      EVENTS.adEnd,
+      EVENTS.adError,
     ];
 
     if (adEvents.includes(event) && state.adData) {
@@ -159,62 +159,13 @@ export class AnalyticsTracker {
         "Ad Id": state.adData.id,
         "Ad Duration": state.adData.duration, // Single ad duration
         "Ad Position": state.adData.adPosition, // Ad index in slot: 0, 1, 2 etc
-        "Ad Break Time Offset": state.adData.timeOffset, // Ad break position in timeline
+        "Ad Break Time Offset": state.adBreakOffset, // Ad break position in timeline
         "Ad Break Size": state.adData.breakSize, // Ads count in the break: 1, 2, 3, etc
         "Ad Break Max Duration": state.adData.maxDuration, // Total ad break max duration
       };
     }
 
     return payload;
-  }
-
-  handleDuration(event, state, entry) {
-    let duration;
-
-    const {
-      adBreakDuration,
-      adDuration,
-      duration: nativeEventDuration,
-    } = state;
-
-    const { duration: entryDuration } = entry.extensions;
-
-    const adEvents = {
-      "Ad Break Started": adBreakDuration,
-      "Ad Break Ended": adBreakDuration,
-      "Ad Begin": adDuration,
-      "Ad End": adDuration,
-      "Ad Error": adDuration,
-    };
-
-    if (adEvents[event]) {
-      duration = adEvents[event];
-    }
-
-    if (!adEvents[event]) {
-      duration = nativeEventDuration || entryDuration;
-    }
-
-    return duration;
-  }
-
-  handleId(event, state, entry) {
-    const { adId } = state;
-
-    const { id: entryId } = entry;
-
-    const noIdEvents = ["Ad Break Started", "Ad Break Ended"];
-    if (noIdEvents.includes(event)) {
-      return null;
-    }
-
-    const adEvents = {
-      "Ad Begin": adId,
-      "Ad End": adId,
-      "Ad Error": adId,
-    };
-
-    return adEvents[event] || entryId;
   }
 
   handleChange(state) {
@@ -261,14 +212,14 @@ export class AnalyticsTracker {
     return adBreakBegin;
   }
 
-  handleAdBreakEnd(adBreakBegin) {
-    if (adBreakBegin) {
+  handleAdBreakEnd(adBreakEnd) {
+    if (adBreakEnd) {
       this.playerEvents.adBreakBegin = false;
       this.playerEvents.adBreakEnd = true;
       this.playerEvents.paused = false;
     }
 
-    return adBreakBegin;
+    return adBreakEnd;
   }
 
   handleLoadedVideo(loadedVideo) {
@@ -296,6 +247,7 @@ export class AnalyticsTracker {
     if (!adBreakBegin && resume) {
       this.playerEvents.resume = true;
       this.playerEvents.paused = false;
+      this.playerEvents.playing = true;
     }
 
     return !adBreakBegin && resume;

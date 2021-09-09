@@ -7,7 +7,7 @@ class EventEmitter {
   public static var sharedInstance = EventEmitter()
 
   // ReactNativeEventEmitter is instantiated by React Native with the bridge.
-  private static var eventEmitter: ReactNativeEventEmitter!
+  private static var eventEmitter: THEOReactNativeEventEmitter!
   private static var player: THEOplayer!
 
   private var listeners: [String: EventListener] = [:]
@@ -15,7 +15,7 @@ class EventEmitter {
   private init() {}
 
   // When React Native instantiates the emitter it is registered here.
-  func registerEventEmitter(eventEmitter: ReactNativeEventEmitter) {
+  func registerEventEmitter(eventEmitter: THEOReactNativeEventEmitter) {
     EventEmitter.eventEmitter = eventEmitter
   }
 

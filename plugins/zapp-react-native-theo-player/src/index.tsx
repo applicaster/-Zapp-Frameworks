@@ -22,7 +22,6 @@ import THEOplayerView from "./THEOplayerView";
 import { getIMAData } from "./Services/GoogleIMA";
 import { getDRMData } from "./Services/DRM";
 import { EVENTS } from "./Utils/const";
-import { duration } from "moment";
 
 console.disableYellowBox = true;
 
@@ -93,6 +92,9 @@ type State = {
   canplay: boolean;
   currentTime: number;
   duration: number;
+  contentDuration: number;
+  contentPosition: number;
+  adBreakOffset: number;
   adBreakDuration: number;
   adDuration: number;
   adId: string;
@@ -145,6 +147,8 @@ export default class THEOPlayer extends Component<Props, State> {
       adBreakDuration: 0,
       adDuration: 0,
       duration: 0,
+      contentDuration: 0,
+      contentPosition: 0,
       currentTime: 0,
       adId: "",
       adData: {},
@@ -165,6 +169,7 @@ export default class THEOPlayer extends Component<Props, State> {
       playerClosed: false,
       buffering: false,
       isContinueWatchingTimeSet: false,
+      adBreakOffset: 0,
     };
   }
 
@@ -258,7 +263,11 @@ export default class THEOPlayer extends Component<Props, State> {
     const { currentTime } = nativeEvent;
     this.props?.onProgress && this.props?.onProgress({ currentTime });
     this.props?.onTimeUpdate && this.props?.onTimeUpdate({ currentTime });
-    this.setState({ currentTime });
+    if(this.state.adBegin){
+      this.setState({ currentTime });
+    } else {
+      this.setState({ currentTime, contentPosition: currentTime });
+    }
   };
 
   onPlayerRateChange = ({ nativeEvent }) => {};
@@ -362,7 +371,12 @@ export default class THEOPlayer extends Component<Props, State> {
       },
     });
 
-    this.setState({ duration });
+    if(this.state.adBegin) {
+      this.setState({ adDuration: duration, duration: duration });
+    } else {
+      var contentDuration = duration > 0 ? duration : this.state.contentDuration;
+      this.setState({ contentDuration, duration });
+    }
     this.props.onLoad({ duration, currentTime: 0 });
   };
 
@@ -395,7 +409,7 @@ export default class THEOPlayer extends Component<Props, State> {
   };
 
   onAdBreakBegin = ({ nativeEvent }) => {
-    const { maxDuration } = nativeEvent;
+    const { maxDuration, timeOffset } = nativeEvent;
     logger.info({
       message: "onAdBreakBegin:",
       data: {
@@ -408,6 +422,7 @@ export default class THEOPlayer extends Component<Props, State> {
       adBreakEnd: false,
       adBreakDuration: maxDuration,
       adData: nativeEvent,
+      adBreakOffset: timeOffset, 
     });
   };
 
