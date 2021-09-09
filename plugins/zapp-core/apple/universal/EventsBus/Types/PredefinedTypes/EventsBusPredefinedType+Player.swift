@@ -35,6 +35,7 @@ public enum EventsBusTypePlayerSubtype: String {
     case adProgress
     case adError
     case adRequest
+    case adClicked
     
     public var value: String {
         return rawValue
