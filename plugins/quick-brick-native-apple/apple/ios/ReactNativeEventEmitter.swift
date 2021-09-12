@@ -14,7 +14,7 @@ open class ReactNativeEventEmitter: RCTEventEmitter {
   public static var emitter: RCTEventEmitter!
   
   public static func orientationChange(toOrientation: UIDeviceOrientation, fromOrientation: UIDeviceOrientation) {
-    if (toOrientation.rawValue > 0 && fromOrientation.rawValue > 0) {
+    if (toOrientation.rawValue > 0) {
       emitter.sendEvent(withName: "orientationChange", body: ["toOrientation": toOrientation.mapOrientation(), "fromOrientation": fromOrientation.mapOrientation()])
     }
   }
