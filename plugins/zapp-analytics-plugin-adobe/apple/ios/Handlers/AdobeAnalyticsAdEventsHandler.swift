@@ -71,4 +71,16 @@ class AdobeAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
 
         return proceedEvent(eventName)
     }
+
+    override func handleAdSkipEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        guard super.handleAdSkipEvent(eventName, parameters: parameters) == false else {
+            return true
+        }
+
+        delegate?.externalObject?.trackEvent(event: .AdSkip,
+                                             info: nil,
+                                             metadata: nil)
+
+        return proceedEvent(eventName)
+    }
 }
