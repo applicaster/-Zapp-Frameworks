@@ -148,6 +148,8 @@ export async function checkUserAuthorization(oAuthConfig, session_storage_key) {
           },
         });
 
+        await saveKeychainData(data, session_storage_key);
+
         return true;
       } else {
         if (refreshToken) {

@@ -16,17 +16,38 @@ class GemiusAnalyticsAdEventsHandler: AnalyticsAdEventsHandler {
 
     var lastProgramID: String?
 
+    enum BreakType {
+        case undefined
+        case midroll
+        case preroll
+        case postroll
+    }
+
+    var breakType: BreakType = .undefined
+
     override func handleAdBreakStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         guard super.handleAdBreakStartEvent(eventName, parameters: parameters) == false else {
             return true
         }
 
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
-        if let lastProgramID = lastProgramID {
+        if currentPlayerPosition == 0 {
+            breakType = .preroll
+        } else if isEndOfPlayback(accordingTo: parameters),
+                  let lastProgramID = lastProgramID {
+            gemiusPlayerObject?.program(.COMPLETE,
+                                        forProgram: lastProgramID,
+                                        atOffset: NSNumber(value: currentPlayerPosition),
+                                        with: nil)
+            delegate?.isCompleteReported = true
+            breakType = .postroll
+        } else if currentPlayerPosition > 0,
+                  let lastProgramID = lastProgramID {
             gemiusPlayerObject?.program(.BREAK,
                                         forProgram: lastProgramID,
                                         atOffset: NSNumber(value: currentPlayerPosition),
                                         with: nil)
+            breakType = .midroll
         }
 
         return proceedEvent(eventName)

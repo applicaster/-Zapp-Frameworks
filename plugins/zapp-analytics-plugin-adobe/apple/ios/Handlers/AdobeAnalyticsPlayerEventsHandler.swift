@@ -13,6 +13,15 @@ import ZappCore
 class AdobeAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
     var tracker: MediaTracker?
 
+    override var externalObject: AnyObject? {
+        get {
+            return tracker
+        }
+        set {
+            
+        }
+    }
+    
     open override func prepareChildEventsHandlers() -> [AnalyticsBaseEventsHandler] {
         [
             AdobeAnalyticsAdEventsHandler(delegate: self)
@@ -135,20 +144,5 @@ class AdobeAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
         tracker = nil
 
         return proceedEvent(eventName)
-    }
-}
-
-extension AdobeAnalyticsPlayerEventsHandler: AnalyticsEventsHandlerDelegate {
-    public var configurationJSON: NSDictionary? {
-        return delegate?.configurationJSON
-    }
-
-    public var externalObject: AnyObject? {
-        get {
-            return tracker
-        }
-        set {
-            
-        }
     }
 }

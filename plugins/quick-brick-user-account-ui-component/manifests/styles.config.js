@@ -197,7 +197,7 @@ const mobile = [
       {
         key: "button_2_login_enabled",
         label: "Switch to Enable Login Button 2",
-        type: "Switch",
+        type: "switch",
         initial_value: false,
       },
       {
@@ -692,7 +692,7 @@ const tv = [
           { text: "Inplayer", value: "in_player" },
           { text: "Cleeng", value: "cleeng" },
           { text: "Adobe primetime", value: "adobe_primetime" },
-          { text: "Oauth2", value: "oauth_2" },
+          { text: "Oauth2", value: "oauth_2_tv" },
           { text: "Other", value: "other" },
         ],
         initial_value: "oauth_2",
@@ -874,7 +874,7 @@ const tv = [
       {
         key: "button_2_login_enabled",
         label: "Switch to Enable Login Button 2",
-        type: "Switch",
+        type: "switch",
         initial_value: false,
       },
       {
@@ -884,7 +884,7 @@ const tv = [
           { text: "Inplayer", value: "in_player" },
           { text: "Cleeng", value: "cleeng" },
           { text: "Adobe primetime", value: "adobe_primetime" },
-          { text: "Oauth2", value: "oauth_2" },
+          { text: "Oauth2", value: "oauth_2_tv" },
           { text: "Other", value: "other" },
         ],
         initial_value: "oauth_2",

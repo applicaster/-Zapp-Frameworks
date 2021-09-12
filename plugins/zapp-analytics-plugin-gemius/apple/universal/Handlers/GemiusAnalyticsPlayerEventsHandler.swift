@@ -13,13 +13,14 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
     var playbackStalled: Bool = false
     let playerId = "GemiusAnalytics"
     var mediaId: String = ""
-    
+    var contentIsPlaying = false
+
     var gemiusPlayerObject: GSMPlayer? {
         get {
-            return self.delegate?.externalObject as? GSMPlayer
+            return self.externalObject as? GSMPlayer
         }
         set(newValue) {
-            self.delegate?.externalObject = newValue
+            self.externalObject = newValue
         }
     }
 
@@ -54,15 +55,15 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
     }
 
     func getCurrentPlayerPosition(from parameters: [String: Any]?) -> Double {
-        return parameters?["offset"] as? Double ?? 0.00
+        return parameters?["Item Position"] as? Double ?? 0.00
     }
 
-    open override func prepareChildEventsHandlers() -> [AnalyticsBaseEventsHandler] {
+    override open func prepareChildEventsHandlers() -> [AnalyticsBaseEventsHandler] {
         [
-            GemiusAnalyticsAdEventsHandler(delegate: self)
+            GemiusAnalyticsAdEventsHandler(delegate: self),
         ]
     }
-    
+
     override func handlePlayerPresentedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         guard super.handlePlayerPresentedEvent(eventName, parameters: parameters) == false else {
             return true
@@ -118,7 +119,8 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
 
         // set program data
         gemiusPlayerObject?.newProgram(mediaId, with: data)
-
+        contentIsPlaying = false
+        isCompleteReported = false
         return proceedEvent(eventName)
     }
 
@@ -132,6 +134,7 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
                                     forProgram: mediaId,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
+        contentIsPlaying = false
         return proceedEvent(eventName)
     }
 
@@ -158,6 +161,7 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
                                     forProgram: mediaId,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
+        contentIsPlaying = false
         return proceedEvent(eventName)
     }
 
@@ -166,16 +170,25 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
             return true
         }
 
+        guard contentIsPlaying == false else {
+            return true
+        }
+
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.PLAY,
                                     forProgram: mediaId,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
+        contentIsPlaying = true
         return proceedEvent(eventName)
     }
 
     override func handlePlaybackCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         guard super.handlePlaybackCompleteEvent(eventName, parameters: parameters) == false else {
+            return true
+        }
+
+        guard isCompleteReported == false else {
             return true
         }
 
@@ -197,23 +210,8 @@ class GemiusAnalyticsPlayerEventsHandler: AnalyticsPlayerEventsHandler {
                                     forProgram: mediaId,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
-        
+
         mediaId = ""
         return true
-    }
-}
-
-extension GemiusAnalyticsPlayerEventsHandler: AnalyticsEventsHandlerDelegate {
-    public var configurationJSON: NSDictionary? {
-        return delegate?.configurationJSON
-    }
-
-    public var externalObject: AnyObject? {
-        get {
-            return gemiusPlayerObject
-        }
-        set {
-            
-        }
     }
 }

@@ -76,7 +76,7 @@ class GemiusAnalytics: AnalyticsBaseProvider {
     override open func prepareEventsHandlers() -> [AnalyticsBaseEventsHandler] {
         return [
             GemiusAnalyticsScreenEventsHandler(delegate: self),
-            GemiusAnalyticsPlayerEventsHandler(delegate: self)
+            GemiusAnalyticsPlayerEventsHandler(delegate: self),
         ]
     }
 

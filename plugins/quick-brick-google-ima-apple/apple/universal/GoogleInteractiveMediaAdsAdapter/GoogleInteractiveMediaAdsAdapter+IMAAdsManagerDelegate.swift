@@ -31,11 +31,16 @@ extension GoogleInteractiveMediaAdsAdapter: IMAAdsManagerDelegate {
                                            source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
                                            data: [
                                                "content": urlTagData?.content ?? [:],
-
                                            ]))
             if let playerPlugin = playerPlugin {
                 FacadeConnector.connector?.playerDependant?.playerAdSkiped(player: playerPlugin)
             }
+        case .TAPPED:
+            EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adClicked)),
+                                           source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
+                                           data: [
+                                               "content": urlTagData?.content ?? [:],
+                                           ]))
         default:
             return
         }

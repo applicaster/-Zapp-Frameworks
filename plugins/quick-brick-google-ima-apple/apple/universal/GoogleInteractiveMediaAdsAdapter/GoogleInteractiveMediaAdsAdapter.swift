@@ -214,6 +214,12 @@ import ZappCore
 
             // Storing accessibility identifier for UI automation tests needs
             advAccessibilityIdentifier = adUrl
+            
+            EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adRequest)),
+                                           source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
+                                           data: [
+                                               "content": urlTagData?.content ?? [:],
+                                           ]))
         }
     }
 }

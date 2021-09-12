@@ -11,6 +11,7 @@ class PlayerAdapter(playerID: String,
                     hitCollectorHost: String,
                     gemiusID: String) : AnalyticsPlayerAdapter() {
 
+
     private val player: Player = Player(playerID, hitCollectorHost, gemiusID, PlayerData())
     private var idOverride: String? = null
     init {
@@ -19,7 +20,8 @@ class PlayerAdapter(playerID: String,
     override fun getId(): String = idOverride ?: super.getId()
 
     private var isPlaying: Boolean = false // hack to suppress excessive play events
-    private var onMidRoll: Boolean = false // hack to report play after midroll
+    private var breakType: BreakType? = null
+    private var isCompleteReported = false // Gemius wants Complete before postroll
 
     override fun onStart(params: Map<String, Any>?) {
         super.onStart(params)
@@ -32,8 +34,8 @@ class PlayerAdapter(playerID: String,
         // todo: need to determine type
         pdata.programType = ProgramData.ProgramType.VIDEO
 
-        onMidRoll = false
         isPlaying = false
+        isCompleteReported = false
 
         var id = super.getId()
 
@@ -86,7 +88,7 @@ class PlayerAdapter(playerID: String,
     }
 
     private fun reportEvent(event: Player.EventType, sender: String) {
-        APLogger.debug(GemiusAgent.TAG, "Reporting event $event at $position from $sender")
+        APLogger.debug(GemiusAgent.TAG, "Reporting event $event at $position of $duration from $sender")
         player.programEvent(
                 getId(),
                 position?.toInt() ?: 0,
@@ -127,26 +129,40 @@ class PlayerAdapter(playerID: String,
 
     override fun onAdBreakStart(params: Map<String, Any>?) {
         super.onAdBreakStart(params)
-        // pre-roll is not reported as AdBreak
+        // pre-roll and post roll are not reported as AdBreak
+
         if(0 == position?.toInt()) {
             return
         }
-        // todo: fix missing param KEY_AD_BREAK_OFFSET in RN and remove check above
         getLong(params, KEY_AD_BREAK_OFFSET)?.let {
             if(0L == it || -1L == it) {
-                return
+                breakType = BreakType.pre
+                return@onAdBreakStart
+            }
+            // theo reports postroll at duration time
+            duration?.let { d: Long ->
+                if(d > 0 && it >= d) {
+                    breakType = BreakType.post
+                    isCompleteReported = true
+                    reportEvent(Player.EventType.COMPLETE, "onAdBreakStart")
+                    return@onAdBreakStart
+                }
             }
         }
-        onMidRoll = true
+        breakType = BreakType.mid
         reportEvent(Player.EventType.BREAK, "onAdBreakStart")
+    }
+
+    enum class BreakType {
+        pre, mid, post
     }
 
     override fun onAdBreakEnd(params: Map<String, Any>?) {
         super.onAdBreakEnd(params)
-        if(onMidRoll) {
-            onMidRoll = false
+        if(breakType != BreakType.post) {
             reportEvent(Player.EventType.PLAY, "onAdBreakEnd")
         }
+        breakType = null
     }
 
     override fun onAdStart(params: Map<String, Any>?) {
@@ -176,7 +192,7 @@ class PlayerAdapter(playerID: String,
                         else -> APLogger.warn(GemiusAgent.TAG, "$KEY_AD_BREAK_SIZE is missing in the event $AD_START_EVENT data")
                     }
                 })
-        APLogger.debug(GemiusAgent.TAG, "Reporting Ad event ${Player.EventType.PLAY} at $position")
+        APLogger.debug(GemiusAgent.TAG, "Reporting Ad event ${Player.EventType.PLAY} at $position of $duration")
     }
 
     override fun onAdEnd(params: Map<String, Any>?) {
@@ -190,7 +206,7 @@ class PlayerAdapter(playerID: String,
                 position?.toInt(), // todo: wrong position received there
                 Player.EventType.COMPLETE,
                 null)
-        APLogger.debug(GemiusAgent.TAG, "Reporting Ad event ${Player.EventType.COMPLETE} at $position")
+        APLogger.debug(GemiusAgent.TAG, "Reporting Ad event ${Player.EventType.COMPLETE} at $position of $duration")
     }
 
     override fun onSeek(params: Map<String, Any>?) {
@@ -208,7 +224,9 @@ class PlayerAdapter(playerID: String,
 
     override fun onComplete(params: Map<String, Any>?) {
         super.onComplete(params)
-        reportEvent(Player.EventType.COMPLETE, "onComplete")
+        if(!isCompleteReported) {
+            reportEvent(Player.EventType.COMPLETE, "onComplete")
+        }
     }
 
     companion object {
