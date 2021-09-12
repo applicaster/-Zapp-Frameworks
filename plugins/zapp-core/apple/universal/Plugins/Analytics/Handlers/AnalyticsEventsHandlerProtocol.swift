@@ -12,8 +12,10 @@ public protocol AnalyticsEventsHandlerProtocol {
 }
 
 public protocol AnalyticsEventsHandlerDelegate: AnyObject {
-    var configurationJSON: NSDictionary? {get}
-    var externalObject: AnyObject? {get set}
+    var configurationJSON: NSDictionary? { get }
+    var externalObject: AnyObject? { get set }
+
+    var isCompleteReported: Bool { get set }
 }
 
 public protocol AnalyticsPlayerEventsHandlerProtocol: AnalyticsEventsHandlerProtocol {
@@ -32,7 +34,6 @@ public protocol AnalyticsPlayerEventsHandlerProtocol: AnalyticsEventsHandlerProt
     func handlePlaybackStopEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
     func handlePlayNextEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
     func handlePlayPreviousEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
-
 }
 
 public protocol AnalyticsScreenEventsHandlerProtocol: AnalyticsEventsHandlerProtocol {
@@ -48,4 +49,7 @@ public protocol AnalyticsAdEventsHandlerProtocol: AnalyticsEventsHandlerProtocol
     func handleAdStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
     func handleAdCompleteEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
     func handleAdErrorEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleAdClickedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleAdSkipEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+    func handleAdRequestEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
 }

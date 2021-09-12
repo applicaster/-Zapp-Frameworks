@@ -8,6 +8,7 @@
 import Foundation
 
 open class AnalyticsBaseProvider: NSObject, PluginAdapterProtocol, AnalyticsEventsHandlerDelegate {
+    
     open var configurationJSON: NSDictionary?
     public var isDisabled = false
 
@@ -26,6 +27,7 @@ open class AnalyticsBaseProvider: NSObject, PluginAdapterProtocol, AnalyticsEven
         }
     }
     
+    public var isCompleteReported: Bool = false
     
     public required init(pluginModel: ZPPluginModel) {
         model = pluginModel
