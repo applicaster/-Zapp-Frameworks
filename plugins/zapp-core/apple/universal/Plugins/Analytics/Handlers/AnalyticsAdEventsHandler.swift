@@ -83,6 +83,23 @@ open class AnalyticsAdEventsHandler: AnalyticsBaseEventsHandler, AnalyticsAdEven
 
 extension AnalyticsAdEventsHandler {
     public func getCurrentPlayerPosition(from parameters: [String: Any]?) -> Double {
-        return parameters?["offset"] as? Double ?? 0.00
+        return parameters?["Item Position"] as? Double ?? 0.00
+    }
+
+    public func getCurrentItemDuration(from parameters: [String: Any]?) -> Double {
+        let key = "Item Duration"
+        var value: Double = 0
+        if let duration = parameters?[key] as? String {
+            value = Double(duration) ?? 0.00
+        } else if let duration = parameters?[key] as? Double {
+            value = duration
+        }
+        return value
+    }
+
+    public func isEndOfPlayback(accordingTo parameters: [String: Any]?) -> Bool {
+        let position = getCurrentPlayerPosition(from: parameters)
+        let duration = getCurrentItemDuration(from: parameters)
+        return position >= duration
     }
 }

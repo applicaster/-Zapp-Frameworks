@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class AnalyticsPlayerEventsHandler: AnalyticsBaseEventsHandler, AnalyticsPlayerEventsHandlerProtocol {
+open class AnalyticsPlayerEventsHandler: AnalyticsBaseEventsHandler, AnalyticsPlayerEventsHandlerProtocol, AnalyticsEventsHandlerDelegate {
     public var playedMedia: AnalyticsPlayerMediaObject?
     var childHandlers: [AnalyticsBaseEventsHandler]?
 
@@ -194,6 +194,29 @@ open class AnalyticsPlayerEventsHandler: AnalyticsBaseEventsHandler, AnalyticsPl
 
     open func handlePlayPreviousEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return false
+    }
+
+    // MARK: - AnalyticsEventsHandlerDelegate
+
+    open var isCompleteReported: Bool {
+        get {
+            return delegate?.isCompleteReported ?? false
+        }
+        set(newValue) {
+            delegate?.isCompleteReported = newValue
+        }
+    }
+
+    open var configurationJSON: NSDictionary? {
+        return delegate?.configurationJSON
+    }
+
+    open var externalObject: AnyObject? {
+        get {
+            return delegate?.externalObject
+        }
+        set {
+        }
     }
 }
 
