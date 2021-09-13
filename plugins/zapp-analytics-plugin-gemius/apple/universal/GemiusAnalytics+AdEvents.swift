@@ -33,13 +33,39 @@ extension GemiusAnalytics {
         switch eventName {
         case AdEvents.adBreakBegin:
             let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
-            if let lastProgramID = lastProgramID {
+            if currentPlayerPosition == 0 {
+                breakType = .preroll
+            } else if isEndOfPlayback(accordingTo: parameters),
+                      let lastProgramID = lastProgramID {
+                gemiusPlayerObject?.program(.COMPLETE,
+                                            forProgram: lastProgramID,
+                                            atOffset: NSNumber(value: currentPlayerPosition),
+                                            with: nil)
+                isCompleteReported = true
+                breakType = .postroll
+            } else if currentPlayerPosition > 0,
+                      let lastProgramID = lastProgramID {
                 gemiusPlayerObject?.program(.BREAK,
                                             forProgram: lastProgramID,
                                             atOffset: NSNumber(value: currentPlayerPosition),
                                             with: nil)
+                breakType = .midroll
             }
 
+            retValue = proceedAdEvent(eventName)
+
+        case AdEvents.adBreakEnd:
+            guard breakType != .postroll else {
+                return false
+            }
+
+            let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
+            if currentPlayerPosition > 0 {
+                gemiusPlayerObject?.program(.PLAY,
+                                            forProgram: lastProgramID,
+                                            atOffset: NSNumber(value: currentPlayerPosition),
+                                            with: nil)
+            }
             retValue = proceedAdEvent(eventName)
 
         case AdEvents.adBegin:

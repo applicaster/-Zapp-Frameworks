@@ -23,21 +23,20 @@ extension GemiusAnalytics {
         static let entryLoaded = "Media Entry Load"
         static let videoLoaded = "Player Loaded Video"
     }
-    
+
     struct GemiusCustomParams {
         static let sc = "_SC"
         static let sct = "_SCT"
         static let scd = "_SCD"
-
     }
-    
+
     fileprivate var skipKeys: [String] {
         return [
             "video_subtype",
             "video_type",
             GemiusCustomParams.sc,
             GemiusCustomParams.scd,
-            GemiusCustomParams.sct
+            GemiusCustomParams.sct,
         ]
     }
 
@@ -67,10 +66,10 @@ extension GemiusAnalytics {
 
         case PlayerEvents.ended:
             retValue = handleEndedEvent(eventName, parameters: parameters)
-            
+
         case PlayerEvents.buffering:
             retValue = handleBufferEvent(eventName, parameters: parameters)
-            
+
         default:
             break
         }
@@ -86,7 +85,6 @@ extension GemiusAnalytics {
 
         lastProgramID = itemId
 
-
         let data = GSMProgramData()
 
         // set item title
@@ -95,8 +93,9 @@ extension GemiusAnalytics {
         }
 
         // set item duration
-        if let duration = parameters["Item Duration"] as? String {
-            data.duration = NSNumber(value: Int(duration) ?? 0)
+        let duration = getCurrentItemDuration(from: parameters)
+        if duration > 0 {
+            data.duration = NSNumber(value: duration)
         }
 
         if let jsonString = parameters["analyticsCustomProperties"] as? String,
@@ -105,25 +104,25 @@ extension GemiusAnalytics {
             for (key, value) in jsonDictionary {
                 switch key {
                 case GemiusCustomParams.sc:
-                    //update id
+                    // update id
                     if let value = jsonDictionary[key] as? String {
                         lastProgramID = value
                     }
                 case GemiusCustomParams.sct:
-                    //update name
+                    // update name
                     if let value = jsonDictionary[key] as? String {
                         data.name = value
                     }
                 case GemiusCustomParams.scd:
-                    //update duration
+                    // update duration
                     if let value = jsonDictionary[key] as? Int {
                         data.duration = NSNumber(value: value)
                     }
                 default:
                     break
                 }
-                
-                if self.skipKeys.contains(key) == false {
+
+                if skipKeys.contains(key) == false {
                     data.addCustomParameter(key, value: "\(value)")
                 }
             }
@@ -136,10 +135,11 @@ extension GemiusAnalytics {
                                        withHost: hitCollectorHost,
                                        withGemiusID: scriptIdentifier,
                                        with: nil)
-        
+
         // set program data
         gemiusPlayerObject?.newProgram(lastProgramID, with: data)
-
+        contentIsPlaying = false
+        isCompleteReported = false
         return proceedPlayerEvent(eventName)
     }
 
@@ -147,12 +147,13 @@ extension GemiusAnalytics {
         guard adIsPlaying == false else {
             return true
         }
-        
+
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.SEEK,
                                     forProgram: lastProgramID,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
+        contentIsPlaying = false
         return proceedPlayerEvent(eventName)
     }
 
@@ -160,7 +161,7 @@ extension GemiusAnalytics {
         guard adIsPlaying == false else {
             return true
         }
-        
+
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.BUFFER,
                                     forProgram: lastProgramID,
@@ -173,12 +174,13 @@ extension GemiusAnalytics {
         guard adIsPlaying == false else {
             return true
         }
-        
+
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.PAUSE,
                                     forProgram: lastProgramID,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
+        contentIsPlaying = false
         return proceedPlayerEvent(eventName)
     }
 
@@ -186,20 +188,25 @@ extension GemiusAnalytics {
         guard adIsPlaying == false else {
             return true
         }
-        
+
+        guard contentIsPlaying == false else {
+            return true
+        }
+
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.PLAY,
                                     forProgram: lastProgramID,
                                     atOffset: NSNumber(value: currentPlayerPosition),
                                     with: nil)
+        contentIsPlaying = true
         return proceedPlayerEvent(eventName)
     }
-    
+
     func handleEndedEvent(_ eventName: String, parameters: [String: NSObject]) -> Bool {
-        guard adIsPlaying == false else {
+        guard adIsPlaying == false, isCompleteReported == false else {
             return true
         }
-        
+
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.COMPLETE,
                                     forProgram: lastProgramID,
@@ -212,7 +219,7 @@ extension GemiusAnalytics {
         guard adIsPlaying == false else {
             return true
         }
-        
+
         let currentPlayerPosition = getCurrentPlayerPosition(from: parameters)
         gemiusPlayerObject?.program(.CLOSE,
                                     forProgram: lastProgramID,

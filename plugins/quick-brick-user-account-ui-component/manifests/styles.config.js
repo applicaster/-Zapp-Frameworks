@@ -5,7 +5,6 @@ const mobile = [
     key: "custom_margin_top",
     type: "number_input",
     label: "Top Padding",
-    label_tooltip: "Top padding top for component",
     initial_value: 0,
   },
   {
@@ -17,14 +16,14 @@ const mobile = [
   {
     key: "user_image_bottom_margin",
     type: "number_input",
-    label: "Bottom Margin",
+    label: "User Image Bottom Margin",
     label_tooltip: "Bottom margin for user image",
     initial_value: 23,
   },
   {
     group: true,
     label: "Login Button 1 Styles",
-    tooltip: "These fields affect Login 1 Button styles",
+    tooltip: "Use these fields to customize Login button #1",
     folded: true,
     fields: [
       {
@@ -37,9 +36,11 @@ const mobile = [
           { text: "Oauth2", value: "oauth_2" },
           { text: "Other", value: "other" },
         ],
-        initial_value: "in_player",
+        initial_value: "oauth_2",
         mandatory: true,
         label: "Select Login Type",
+        tooltip:
+          "Select the Login provider you would like to connect to the login button",
         placeholder: "Select login type",
       },
       {
@@ -56,16 +57,19 @@ const mobile = [
       },
       {
         key: "button_1_custom_screen_id",
-        type: "text_input",
+        type: "screen_selector",
         initial_value: "",
-        label: "Screen ID for Plugin (optional)",
-        placeholder: "Custom plugin namespace",
+        tooltip:
+          "In case you have more then one screen of the same provider, select which screen the button will open",
+        label: "Screen",
       },
       {
         key: "button_1_custom_namespace",
         type: "text_input",
         initial_value: "",
-        label: "Custom Plugin Namespace",
+        label: "Plugin Namespace",
+        tooltip:
+          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or to logout when user will click the logout button. Consult with support or your plugin developer.",
         placeholder: "Custom plugin namespace",
         conditional_fields: [
           {
@@ -77,8 +81,10 @@ const mobile = [
       {
         key: "button_1_custom_token_key",
         type: "text_input",
+        tooltip:
+          "When choosing a provider that is not in the list, you will need to provide the token key. This key will be used to detremine if a user is logged in or not",
         initial_value: "",
-        label: "Custom Plugin Token Key",
+        label: "Plugin Token Key",
         placeholder: "Custom plugin token key",
         conditional_fields: [
           {
@@ -91,46 +97,9 @@ const mobile = [
         key: "button_1_custom_user_id_key",
         type: "text_input",
         initial_value: "",
-        label: "Custom User ID Key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_1_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_1_custom_subscription_price_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_1_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_1_custom_subscription_renews_date_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_1_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_1_custom_user_photo_url_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
+        label: "User ID Key",
+        tooltip:
+          "When choosing a provider that is not in the list, providing this value will provide the component the user ID to present.",
         placeholder: "Custom user ID key",
         conditional_fields: [
           {
@@ -179,49 +148,42 @@ const mobile = [
         key: "button_1_background_color",
         type: "color_picker_rgba",
         label: "Background Color",
-        label_tooltip: "Background color for the toggle component",
         initial_value: "rgba(255,255,255,1)",
       },
       {
         key: "button_1_background_color_focused",
         type: "color_picker_rgba",
         label: "Background Focused Color",
-        label_tooltip: "Background focused color for the toggle component",
         initial_value: "rgba(255,255,255,1)",
       },
       {
         key: "button_1_title_color",
         type: "color_picker_rgba",
         label: "Title Color",
-        label_tooltip: "Title color for the toggle component",
         initial_value: "#161b29FF",
       },
       {
         key: "button_1_title_color_focused",
         type: "color_picker_rgba",
         label: "Title Focused Color",
-        label_tooltip: "Title focused color for the toggle component",
         initial_value: "#161b29FF",
       },
       {
         key: "button_1_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android",
-        label_tooltip: "Toggle title font family for Android",
+        label: "Android Title Font",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_1_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Title Font iOS",
-        label_tooltip: " Toggle title font family for iOS",
+        label: "iOS Title Font",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_1_title_text_fontsize",
         type: "number_input",
         label: "Font size",
-        label_tooltip: "Font size toggle title",
         initial_value: 12,
       },
     ],
@@ -229,13 +191,13 @@ const mobile = [
   {
     group: true,
     label: "Login Button 2 Styles",
-    tooltip: "These fields affect login 2 button styles",
+    tooltip: "Use these fields to customize Login button #2",
     folded: true,
     fields: [
       {
         key: "button_2_login_enabled",
         label: "Switch to Enable Login Button 2",
-        type: "Switch",
+        type: "switch",
         initial_value: false,
       },
       {
@@ -248,7 +210,7 @@ const mobile = [
           { text: "Oauth2", value: "oauth_2" },
           { text: "Other", value: "other" },
         ],
-        initial_value: "in_player",
+        initial_value: "oauth_2",
         mandatory: true,
         label: "Select Login Type",
         placeholder: "Select login type",
@@ -267,10 +229,11 @@ const mobile = [
       },
       {
         key: "button_2_custom_screen_id",
-        type: "text_input",
+        type: "screen_selector",
         initial_value: "",
-        label: "Screen ID for Pluin (optional)",
-        placeholder: "Custom plugin namespace",
+        tooltip:
+          "In case you have more then one screen of the same provider, select which screen the button will open",
+        label: "Screen",
         conditional_fields: [
           {
             condition_value: ["other"],
@@ -282,7 +245,9 @@ const mobile = [
         key: "button_2_custom_namespace",
         type: "text_input",
         initial_value: "",
-        label: "Custom Plugin Namespace",
+        label: "Plugin Namespace",
+        tooltip:
+          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or to logout when user will click the logout button. Consult with support or your plugin developer.",
         placeholder: "Custom plugin namespace",
         conditional_fields: [
           {
@@ -294,8 +259,10 @@ const mobile = [
       {
         key: "button_2_custom_token_key",
         type: "text_input",
+        tooltip:
+          "When choosing a provider that is not in the list, you will need to provide the token key. This key will be used to detremine if a user is logged in or not",
         initial_value: "",
-        label: "Custom Plugin Token Key",
+        label: "Plugin Token Key",
         placeholder: "Custom plugin token key",
         conditional_fields: [
           {
@@ -308,46 +275,9 @@ const mobile = [
         key: "button_2_custom_user_id_key",
         type: "text_input",
         initial_value: "",
-        label: "Custom User ID Key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_2_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_2_custom_subscription_price_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_2_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_2_custom_subscription_renews_date_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_2_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_2_custom_user_photo_url_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
+        label: "User ID Key",
+        tooltip:
+          "When choosing a provider that is not in the list, providing this value will provide the component the user ID to present.",
         placeholder: "Custom user ID key",
         conditional_fields: [
           {
@@ -396,49 +326,42 @@ const mobile = [
         key: "button_2_background_color",
         type: "color_picker_rgba",
         label: "Background Color",
-        label_tooltip: "Background color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_2_background_color_focused",
         type: "color_picker_rgba",
         label: "Background Focused Color",
-        label_tooltip: "Background focused color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_2_title_color",
         type: "color_picker_rgba",
         label: "Title Color",
-        label_tooltip: "Title color for the toggle component",
         initial_value: "#161b29FF",
       },
       {
         key: "button_2_title_color_focused",
         type: "color_picker_rgba",
         label: "Title Focused Color",
-        label_tooltip: "Title focused color for the toggle component",
         initial_value: "#161b29FF",
       },
       {
         key: "button_2_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android",
-        label_tooltip: "Font for the toggle title for Android",
+        label: "Android Title Font",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_2_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Title Font iOS",
-        label_tooltip: "Font for the toggle title for iOS",
+        label: "iOS Title Font",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_2_title_text_fontsize",
         type: "number_input",
         label: "Font Size",
-        label_tooltip: "Font size toggle title",
         initial_value: 12,
       },
     ],
@@ -453,64 +376,56 @@ const mobile = [
         key: "info_label_title_color",
         type: "color_picker_rgba",
         label: "Title Color",
-        label_tooltip: "Color for the toggle component's title",
         initial_value: "#ffffffff",
       },
       {
         key: "info_label_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android",
-        label_tooltip:
-          "Font family for the toggle component's title for Android",
+        label: "Android Title Font",
         initial_value: "Roboto-Bold",
       },
       {
         key: "info_label_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Tille Font iOS",
-        label_tooltip: "Font family for the toggle component's title for iOS",
+        label: "iOS Title Font",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "info_label_title_text_fontsize",
         type: "number_input",
         label: "Font Size",
-        label_tooltip: "Font size for the toggle component's title",
-        initial_value: "16",
+        label_tooltip: "Font size for the title",
+        initial_value: 16,
       },
       {
         key: "info_label_bottom_margin",
         type: "number_input",
         label: "Button Bottom Margin",
-        label_tooltip: "Bottom margin for the component's button",
+        label_tooltip: "Bottom margin for button",
         initial_value: 5,
       },
       {
         key: "info_label_description_title_color",
         type: "color_picker_rgba",
-        label: "Title Color",
-        label_tooltip: "Title color for the toggle component",
+        label: "Description Color",
         initial_value: "#161b29B3",
       },
       {
         key: "info_label_description_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android",
-        label_tooltip: "Font for the toggle title for Android",
+        label: "Android Description Font",
         initial_value: "Roboto-Bold",
       },
       {
         key: "info_label_description_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Title Font iOS",
-        label_tooltip: "Font for the toggle title for iOS",
+        label: "iOS Description Font",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "info_label_description_title_text_fontsize",
         type: "number_input",
-        label: "Font Size",
-        label_tooltip: "Font size toggle title",
+        label: "Description Font Size",
         initial_value: 12,
       },
       {
@@ -586,42 +501,36 @@ const mobile = [
         key: "button_logout_background_color_focused",
         type: "color_picker_rgba",
         label: "Background Focused Color",
-        label_tooltip: "Background focused color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_logout_title_color",
         type: "color_picker_rgba",
         label: "Title Color",
-        label_tooltip: "Title color for the toggle component",
         initial_value: "#979797FF",
       },
       {
         key: "button_logout_title_color_focused",
         type: "color_picker_rgba",
         label: "Title Focused Color",
-        label_tooltip: "Title focused color for the toggle component",
         initial_value: "#979797FF",
       },
       {
         key: "button_logout_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android",
-        label_tooltip: "Font for the toggle title for Android",
+        label: "Android Title Font",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Title Font iOS",
-        label_tooltip: "Font for the toggle title for iOS",
+        label: "iOS Title Font",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_title_text_fontsize",
         type: "number_input",
         label: "Font Size",
-        label_tooltip: "Font size toggle title",
         initial_value: 10,
       },
     ],
@@ -684,49 +593,42 @@ const mobile = [
         key: "button_logout_big_background_color",
         type: "color_picker_rgba",
         label: "Background Color",
-        label_tooltip: "Background color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_logout_big_background_color_focused",
         type: "color_picker_rgba",
         label: "Background Focused Color",
-        label_tooltip: "Background focused color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_logout_big_title_color",
         type: "color_picker_rgba",
         label: "Title Color",
-        label_tooltip: "Title color for the toggle component",
         initial_value: "#979797FF",
       },
       {
         key: "button_logout_big_title_color_focused",
         type: "color_picker_rgba",
         label: "Title Focused Color",
-        label_tooltip: "Title focused color for the toggle component",
         initial_value: "#979797FF",
       },
       {
         key: "button_logout_big_title_text_font_android",
         type: "android_font_selector",
-        label: "Title Font Android",
-        label_tooltip: "Font for the toggle title for Android",
+        label: "Android Title Font",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_big_title_text_font_ios",
         type: "ios_font_selector",
-        label: "Title Font iOS",
-        label_tooltip: "Font for the toggle title for iOS",
+        label: "iOS Title Font",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_big_title_text_fontsize",
         type: "number_input",
         label: "Font Size",
-        label_tooltip: "Font size toggle title",
         initial_value: "12",
       },
     ],
@@ -761,8 +663,7 @@ const tv = [
   {
     key: "custom_margin_top",
     type: "number_input",
-    label: "Padding",
-    label_tooltip: "Padding top for component UI",
+    label: "Top Padding",
     initial_value: 100,
   },
   {
@@ -775,13 +676,13 @@ const tv = [
     key: "user_image_bottom_margin",
     type: "number_input",
     label: "User Image Bottom Margin",
-    label_tooltip: "User image margin bottom",
+    label_tooltip: "Bottom margin for user image",
     initial_value: 35,
   },
   {
     group: true,
     label: "Login Button 1 Styles",
-    tooltip: "These fields affect login 1 button styles",
+    tooltip: "Use these fields to customize Login button #1",
     folded: true,
     fields: [
       {
@@ -791,11 +692,13 @@ const tv = [
           { text: "Inplayer", value: "in_player" },
           { text: "Cleeng", value: "cleeng" },
           { text: "Adobe primetime", value: "adobe_primetime" },
-          { text: "Oauth2", value: "oauth_2" },
+          { text: "Oauth2", value: "oauth_2_tv" },
           { text: "Other", value: "other" },
         ],
-        initial_value: "in_player",
+        initial_value: "oauth_2",
         mandatory: true,
+        tooltip:
+          "Select the Login provider you would like to connect to the login button",
         label: "Select Login Type",
         placeholder: "Select login type",
       },
@@ -813,16 +716,20 @@ const tv = [
       },
       {
         key: "button_1_custom_screen_id",
-        type: "text_input",
+        type: "screen_selector",
         initial_value: "",
-        label: "Screen ID for Plugin (optional)",
-        placeholder: "Custom plugin namespace",
+        label: "Screen",
+        tooltip:
+          "In case you have more then one screen of the same provider, select which screen the button will open",
       },
       {
         key: "button_1_custom_namespace",
         type: "text_input",
         initial_value: "",
-        label: "Custom Plugin Namespace",
+        label: "Plugin Namespace",
+        placeholder: "Custom plugin namespace",
+        tooltip:
+          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or to logout when user will click the logout button. Consult with support or your plugin developer.",
         placeholder: "Custom plugin namespace",
         conditional_fields: [
           {
@@ -834,8 +741,10 @@ const tv = [
       {
         key: "button_1_custom_token_key",
         type: "text_input",
+        tooltip:
+          "When choosing a provider that is not in the list, you will need to provide the token key. This key will be used to detremine if a user is logged in or not",
         initial_value: "",
-        label: "Custom Plugin Token Key",
+        label: "Plugin Token Key",
         placeholder: "Custom plugin token key",
         conditional_fields: [
           {
@@ -848,46 +757,9 @@ const tv = [
         key: "button_1_custom_user_id_key",
         type: "text_input",
         initial_value: "",
-        label: "Custom user ID key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_1_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_1_custom_subscription_price_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_1_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_1_custom_subscription_renews_date_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_1_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_1_custom_user_photo_url_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
+        label: "User ID Key",
+        tooltip:
+          "When choosing a provider that is not in the list, providing this value will provide the component the user ID to present.",
         placeholder: "Custom user ID key",
         conditional_fields: [
           {
@@ -936,28 +808,24 @@ const tv = [
         key: "button_1_background_color",
         type: "color_picker_rgba",
         label: "Background Color",
-        label_tooltip: "Background color for the toggle component",
         initial_value: "rgba(255,255,255,1)",
       },
       {
         key: "button_1_background_color_focused",
         type: "color_picker_rgba",
         label: "Background Focused Color",
-        label_tooltip: "Background focused color for the toggle component",
         initial_value: "rgba(255,255,255,1)",
       },
       {
         key: "button_1_title_color",
         type: "color_picker_rgba",
         label: "Title Color",
-        label_tooltip: "Title color for the toggle component",
         initial_value: "#161b29FF",
       },
       {
         key: "button_1_title_color_focused",
         type: "color_picker_rgba",
         label: "Title Focused Color",
-        label_tooltip: "Title focused color for the toggle component",
         initial_value: "#161b29FF",
       },
       {
@@ -970,21 +838,21 @@ const tv = [
       {
         key: "button_1_title_text_font_tvos",
         type: "tvos_font_selector",
-        label: "Title Font TVOS",
+        label: "TVOS Title Font",
         label_tooltip: "Font for the toggle title for TVOS",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_1_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
-        label: "Title Font LG TV",
+        label: "LG TV Title Font",
         label_tooltip: "Font for the toggle title for LG TV",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_1_title_text_font_samsung_tv",
         type: "samsung_font_selector",
-        label: "Title Font Samsung TV",
+        label: "Samsung TV Title Font",
         label_tooltip: "Font for the toggle title for Samsung TV",
         initial_value: "SamsungOneUI-Bold",
       },
@@ -1000,13 +868,13 @@ const tv = [
   {
     group: true,
     label: "Login Button 2 Styles",
-    tooltip: "These fields affect login 2 button styles",
+    tooltip: "Use these fields to customize Login button #2",
     folded: true,
     fields: [
       {
         key: "button_2_login_enabled",
         label: "Switch to Enable Login Button 2",
-        type: "Switch",
+        type: "switch",
         initial_value: false,
       },
       {
@@ -1016,10 +884,10 @@ const tv = [
           { text: "Inplayer", value: "in_player" },
           { text: "Cleeng", value: "cleeng" },
           { text: "Adobe primetime", value: "adobe_primetime" },
-          { text: "Oauth2", value: "oauth_2" },
+          { text: "Oauth2", value: "oauth_2_tv" },
           { text: "Other", value: "other" },
         ],
-        initial_value: "in_player",
+        initial_value: "oauth_2",
         mandatory: true,
         label: "Select Login Type",
         placeholder: "Select login type",
@@ -1038,10 +906,11 @@ const tv = [
       },
       {
         key: "button_2_custom_screen_id",
-        type: "text_input",
+        type: "screen_selector",
         initial_value: "",
-        label: "Screen ID for Pluin (optional)",
-        placeholder: "Custom plugin namespace",
+        tooltip:
+          "In case you have more then one screen of the same provider, select which screen the button will open",
+        label: "Screen",
         conditional_fields: [
           {
             condition_value: ["other"],
@@ -1053,7 +922,9 @@ const tv = [
         key: "button_2_custom_namespace",
         type: "text_input",
         initial_value: "",
-        label: "Custom Plugin Namespace",
+        label: "Plugin Namespace",
+        tooltip:
+          "When choosing a provider that is not in the list, you will need to provide the plugin namespace. This will be used to trigger the screen when user will click the login button, or to logout when user will click the logout button. Consult with support or your plugin developer.",
         placeholder: "Custom plugin namespace",
         conditional_fields: [
           {
@@ -1065,8 +936,10 @@ const tv = [
       {
         key: "button_2_custom_token_key",
         type: "text_input",
+        tooltip:
+          "When choosing a provider that is not in the list, you will need to provide the token key. This key will be used to detremine if a user is logged in or not",
         initial_value: "",
-        label: "Custom Plugin Token Key",
+        label: "Plugin Token Key",
         placeholder: "Custom plugin token key",
         conditional_fields: [
           {
@@ -1079,46 +952,9 @@ const tv = [
         key: "button_2_custom_user_id_key",
         type: "text_input",
         initial_value: "",
-        label: "Custom User ID Key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_2_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_2_custom_subscription_price_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_2_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_2_custom_subscription_renews_date_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
-        placeholder: "Custom user ID key",
-        conditional_fields: [
-          {
-            condition_value: ["other"],
-            key: "styles/button_2_login_type",
-          },
-        ],
-      },
-      {
-        key: "button_2_custom_user_photo_url_key",
-        type: "text_input",
-        initial_value: "",
-        label: "Custom User ID Key",
+        label: "User ID Key",
+        tooltip:
+          "When choosing a provider that is not in the list, providing this value will provide the component the user ID to present.",
         placeholder: "Custom user ID key",
         conditional_fields: [
           {
@@ -1167,63 +1003,54 @@ const tv = [
         key: "button_2_background_color",
         type: "color_picker_rgba",
         label: "Background Color",
-        label_tooltip: "Background color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_2_background_color_focused",
         type: "color_picker_rgba",
         label: "Focused Background Color",
-        label_tooltip: "Background focused color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_2_title_color",
         type: "color_picker_rgba",
         label: "Title Color",
-        label_tooltip: "Title color for the toggle component",
         initial_value: "#161b29FF",
       },
       {
         key: "button_2_title_color_focused",
         type: "color_picker_rgba",
         label: "Title Focused Color",
-        label_tooltip: "Title focused color for the toggle component",
         initial_value: "#161b29FF",
       },
       {
         key: "button_2_title_text_font_android_tv",
         type: "android_font_selector",
-        label: "Title Font Android",
-        label_tooltip: "Font for the toggle title for Android TV",
+        label: "Android Title Font",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_2_title_text_font_tvos",
         type: "tvos_font_selector",
-        label: "Title Font iOS",
-        label_tooltip: "Font for the toggle title for iOS",
+        label: "tvOS Title Font",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_2_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
-        label: "Title Font LG TV",
-        label_tooltip: "Font for the toggle title for LG TV",
+        label: "LG TV Title Font",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_2_title_text_font_samsung_tv",
         type: "samsung_font_selector",
-        label: "Title Font Samsung TV",
-        label_tooltip: "Font for the toggle title for Samsung TV",
+        label: "Samsung TV Title Font",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "button_2_title_text_fontsize",
         type: "number_input",
         label: "Font Size",
-        label_tooltip: "Font size toggle title",
         initial_value: 29,
       },
     ],
@@ -1238,7 +1065,6 @@ const tv = [
         key: "info_label_title_color",
         type: "color_picker_rgba",
         label: "Title Color",
-        label_tooltip: "Title color for the toggle component",
         initial_value: "#ffffffff",
       },
       {
@@ -1273,7 +1099,6 @@ const tv = [
         key: "info_label_title_text_fontsize",
         type: "number_input",
         label: "Font Size",
-        label_tooltip: "Font size for toggle title",
         initial_value: 40,
       },
       {
@@ -1285,43 +1110,37 @@ const tv = [
       {
         key: "info_label_description_title_color",
         type: "color_picker_rgba",
-        label: "Title Color",
-        label_tooltip: "Title color for the toggle component",
+        label: "Description Color",
         initial_value: "#161b29B3",
       },
       {
         key: "info_label_description_title_text_font_android_tv",
         type: "android_font_selector",
-        label: "Title Font Android TV",
-        label_tooltip: "Font for the toggle title for Android TV",
+        label: "Android TV Description Font",
         initial_value: "Roboto-Bold",
       },
       {
         key: "info_label_description_title_text_font_tvos",
         type: "tvos_font_selector",
-        label: "Title Font TVOS",
-        label_tooltip: "Font for the toggle title for TVOS",
+        label: "TVOS Description Font",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "info_label_description_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
-        label: "Title Font LG TV",
-        label_tooltip: "Font for the toggle title for LG TV",
+        label: "LG TV Description Font",
         initial_value: "Museo-Bold",
       },
       {
         key: "info_label_description_title_text_font_samsung_tv",
         type: "samsung_font_selector",
-        label: "Title Font Samsung TV",
-        label_tooltip: "Font for the toggle title for Samsung TV",
+        label: "Samsung TV Description Font",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "info_label_description_title_text_fontsize",
         type: "number_input",
         label: "Font Size",
-        label_tooltip: "Font size toggle title",
         initial_value: 35,
       },
       {
@@ -1390,63 +1209,54 @@ const tv = [
         key: "button_logout_background_color",
         type: "color_picker_rgba",
         label: "Background Color",
-        label_tooltip: "Background color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_logout_background_color_focused",
         type: "color_picker_rgba",
         label: "Background Focused Color",
-        label_tooltip: "Background focused color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_logout_title_color",
         type: "color_picker_rgba",
         label: "Title Color",
-        label_tooltip: "Title color for the toggle component",
         initial_value: "#979797FF",
       },
       {
         key: "button_logout_title_color_focused",
         type: "color_picker_rgba",
         label: "Title Focused Color",
-        label_tooltip: "Title focused color for the toggle component",
         initial_value: "#979797FF",
       },
       {
         key: "button_logout_title_text_font_android_tv",
         type: "android_font_selector",
-        label: "Title Font Android TV",
-        label_tooltip: "Font for the toggle title for Android TV",
+        label: "Android TV Title Font",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_title_text_font_tvos",
         type: "tvos_font_selector",
-        label: "Title Font TVOS",
-        label_tooltip: "Font for the toggle title for TVOS",
+        label: "TVOS Title Font",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
-        label: "Title Font LG TV",
-        label_tooltip: "Font for the toggle title for LG TV",
+        label: "LG TV Title Font",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_logout_title_text_font_samsung_tv",
         type: "samsung_font_selector",
-        label: "Title Font Samsung TV",
-        label_tooltip: "Font for the toggle title for Samsung TV",
+        label: "Samsung TV Title Font",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "button_logout_title_text_fontsize",
         type: "number_input",
         label: "Font Size",
-        label_tooltip: "Font size toggle title",
         initial_value: 20,
       },
     ],
@@ -1509,63 +1319,54 @@ const tv = [
         key: "button_logout_big_background_color",
         type: "color_picker_rgba",
         label: "Background Color",
-        label_tooltip: "Background color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_logout_big_background_color_focused",
         type: "color_picker_rgba",
         label: "Background Focused Color",
-        label_tooltip: "Background focused color for the toggle component",
         initial_value: "rgba(255,255,255,0)",
       },
       {
         key: "button_logout_big_title_color",
         type: "color_picker_rgba",
         label: "Title Color",
-        label_tooltip: "Title color for the toggle component",
         initial_value: "#979797FF",
       },
       {
         key: "button_logout_big_title_color_focused",
         type: "color_picker_rgba",
         label: "Title Focused Color",
-        label_tooltip: "Title focused color for the toggle component",
         initial_value: "#979797FF",
       },
       {
         key: "button_logout_big_title_text_font_android_tv",
         type: "android_font_selector",
-        label: "Title Font Android TV",
-        label_tooltip: "Font for the toggle title for Android TV",
+        label: "Android TV Title Font",
         initial_value: "Roboto-Bold",
       },
       {
         key: "button_logout_big_title_text_font_tvos",
         type: "tvos_font_selector",
-        label: "Title Font TVOS",
-        label_tooltip: "Font for the toggle title for TVOS",
+        label: "TVOS Title Font",
         initial_value: "HelveticaNeue-Bold",
       },
       {
         key: "button_logout_big_title_text_font_lg_tv",
         type: "lg_tv_font_selector",
-        label: "Title Font LG TV",
-        label_tooltip: "Font for the toggle title for LG TV",
+        label: "LG TV Title Font",
         initial_value: "Museo-Bold",
       },
       {
         key: "button_logout_big_title_text_font_samsung_tv",
         type: "samsung_font_selector",
-        label: "Title Font Samsung TV",
-        label_tooltip: "Font for the toggle title for Samsung TV",
+        label: "Samsung TV Title Font",
         initial_value: "SamsungOneUI-Bold",
       },
       {
         key: "button_logout_big_title_text_fontsize",
         type: "number_input",
         label: "Font Size",
-        label_tooltip: "Font size toggle title",
         initial_value: 29,
       },
     ],

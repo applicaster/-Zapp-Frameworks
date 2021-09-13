@@ -255,37 +255,51 @@ export function UserAccount(props: Props) {
 
   const titles = accountTitles();
 
+  const renderLoginFlow = () => {
+    if (!isLoading) {
+      return (
+        <LoginFlow
+          {...{
+            styles,
+            isLoggedIn,
+            onLogin1,
+            onLogin2,
+            groupId,
+            localizations,
+            titles,
+            onLogout,
+            focused,
+            parentFocus,
+          }}
+        />
+      );
+    }
+    return null;
+  };
+
+  const renderAccountInfo = () => {
+    if (!isLoading) {
+      return (
+        <AccountInfo
+          src={styles.button_logout_background_image}
+          onLogoutPress={onLogout}
+          user_image_placeholder={styles?.user_image_placeholder}
+          styles={styles}
+          titles={titles}
+        />
+      );
+      return null;
+    }
+  };
+
+  const shouldPresentAccountInfo =
+    isLoggedIn &&
+    titles?.user_name_title &&
+    titles?.subscription_expiration_title;
+
   return (
     <View style={newContainerStyleStyle}>
-      {isLoggedIn &&
-      titles?.user_name_title &&
-      titles?.subscription_expiration_title
-        ? !isLoading && (
-            <AccountInfo
-              src={styles.button_logout_background_image}
-              onLogoutPress={onLogout}
-              user_image_placeholder={styles?.user_image_placeholder}
-              styles={styles}
-              titles={titles}
-            />
-          )
-        : !isLoading && (
-  
-            <LoginFlow
-              {...{
-                styles,
-                isLoggedIn,
-                onLogin1,
-                onLogin2,
-                groupId,
-                localizations,
-                titles,
-                onLogout,
-                focused,
-                parentFocus,
-              }}
-            />
-          )}
+      {shouldPresentAccountInfo ? renderAccountInfo() : renderLoginFlow()}
     </View>
   );
 }

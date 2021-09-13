@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     marginRight: 250,
   },
   singUpControls: {
-    marginTop: 270,
+    marginTop: 20,
     width: 556,
   },
   contentWrapper: {

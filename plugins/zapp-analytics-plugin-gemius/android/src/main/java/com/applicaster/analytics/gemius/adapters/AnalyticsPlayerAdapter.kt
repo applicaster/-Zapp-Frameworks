@@ -1,4 +1,4 @@
-package com.applicaster.analytics.adapters
+package com.applicaster.analytics.gemius.adapters
 
 import androidx.annotation.CallSuper
 import java.util.*
@@ -20,14 +20,14 @@ open class AnalyticsPlayerAdapter : IAnalyticsAdapter {
     open fun onStart(params: Map<String, Any>?) {
         cleanData()
         data = params
-        duration = parseDuration()
+        updateDuration(params)
         isStarted = true
     }
 
     @CallSuper
     open fun onLoaded(params: Map<String, Any>?) {
         updatePosition(params)
-        duration = parseDuration()
+        updateDuration(params)
     }
 
     @CallSuper
@@ -38,6 +38,7 @@ open class AnalyticsPlayerAdapter : IAnalyticsAdapter {
     @CallSuper
     open fun onPlay(params: Map<String, Any>?) {
         updatePosition(params)
+        updateDuration(params)
     }
 
     @CallSuper
@@ -53,11 +54,13 @@ open class AnalyticsPlayerAdapter : IAnalyticsAdapter {
     @CallSuper
     open fun onAdBreakStart(params: Map<String, Any>?) {
         updatePosition(params)
+        updateDuration(params)
     }
 
     @CallSuper
     open fun onAdBreakEnd(params: Map<String, Any>?) {
         updatePosition(params)
+        updateDuration(params)
     }
 
     @CallSuper
@@ -142,12 +145,14 @@ open class AnalyticsPlayerAdapter : IAnalyticsAdapter {
 
     fun getType() : String? = data?.get(KEY_TYPE) as String?
 
-    private fun parseDuration() : Long? {
-        return when(val length = data?.get(KEY_DURATION)){
+    private fun updateDuration(params: Map<String, Any>?) {
+        when (val length = params?.get(KEY_DURATION)) {
             null -> null
             is String -> length.toDouble().toLong() // can contain .
             is Number -> length as Long
             else -> null
+        }?.let {
+            if (it > 0) duration = it
         }
     }
 
@@ -214,7 +219,7 @@ open class AnalyticsPlayerAdapter : IAnalyticsAdapter {
         const val KEY_AD_BREAK_MAX_DURATION = "Ad Break Max Duration" // Total ad break max duration
 
         const val KEY_DURATION = "Item Duration"
-        const val KEY_POSITION = "offset" // must be Position or something like that
+        const val KEY_POSITION = "Item Position"
         const val KEY_CUSTOM_PROPERTIES = "analyticsCustomProperties"
     }
 }

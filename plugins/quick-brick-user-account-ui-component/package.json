@@ -1,13 +1,13 @@
 {
   "name": "@applicaster/quick-brick-user-account-ui-component",
-  "version": "0.0.5",
+  "version": "0.1.5",
   "author": "Zapp Team",
   "license": "ISC",
   "description": "User Account Component",
   "main": "lib/index.js",
   "types": "index.d.ts",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "ramda": "^0.26.1",
     "react-redux": "^7.2.1"
   },
