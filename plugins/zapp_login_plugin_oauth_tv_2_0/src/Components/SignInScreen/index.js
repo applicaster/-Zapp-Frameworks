@@ -12,7 +12,6 @@ import QRCode from "../QRCode";
 import Layout from "../Layout";
 import { mapKeyToStyle } from "../../Utils/Customization";
 import { getDevicePin, getDeviceToken } from "../../Services/OAuth2Service";
-import { ScreenData } from "../Login/utils";
 
 const logger = createLogger({
   subsystem: BaseSubsystem,
@@ -200,7 +199,7 @@ function SignInScreen(props) {
       if (props.isPrehook) {
         onSignedIn();
       } else {
-        props.goToScreen(ScreenData.LOG_OUT, true);
+        props.navigator.goBack();
       }
     } catch (error) {
       const data = {
