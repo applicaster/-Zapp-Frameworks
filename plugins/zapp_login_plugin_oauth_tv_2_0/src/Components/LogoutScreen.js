@@ -3,9 +3,7 @@ import { View, Text, Platform, Image } from "react-native";
 import { useInitialFocus } from "@applicaster/zapp-react-native-utils/focusManager";
 import Button from "./Button";
 import Layout from "./Layout";
-import { pleaseLogOut } from "../Services/OAuth2Service";
 import { mapKeyToStyle } from "../Utils/Customization";
-import { showAlert, ScreenData } from "./Login/utils";
 import {
   removeDataFromStorages,
   storageGet,
@@ -16,11 +14,6 @@ import {
   BaseSubsystem,
   BaseCategories,
 } from "../Services/LoggerService";
-
-const logger = createLogger({
-  subsystem: BaseSubsystem,
-  category: BaseCategories.GENERAL,
-});
 
 const LogoutScreen = (props) => {
   const {
@@ -33,6 +26,7 @@ const LogoutScreen = (props) => {
     screenLocalizations,
     configuration,
     isPrehook,
+    onLogout,
   } = props;
 
   const { sing_out, sing_out_url_text, sing_out_url } = screenLocalizations;
@@ -89,27 +83,6 @@ const LogoutScreen = (props) => {
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-      const accessToken = await storageGet(AuthDataKeys.access_token);
-      await pleaseLogOut(configuration, accessToken);
-      await removeDataFromStorages();
-      goToScreen(ScreenData.LOG_IN);
-      logger.debug({
-        message: "handleSignOut: Sign out complete",
-      });
-    } catch (error) {
-      logger.debug({
-        message: "handleSignOut: error",
-        data: { error },
-      });
-      showAlert(
-        screenLocalizations?.general_error_title,
-        screenLocalizations?.general_error_message
-      );
-    }
-  };
-
   if (Platform.OS === "android") {
     useInitialFocus(forceFocus || focused, signoutButton);
   }
@@ -136,7 +109,7 @@ const LogoutScreen = (props) => {
         <Button
           screenStyles={screenStyles}
           label={sing_out}
-          onPress={() => handleSignOut()}
+          onPress={() => onLogout()}
           preferredFocus={true}
           groupId={groupId}
           style={styles.buttonContainer}
