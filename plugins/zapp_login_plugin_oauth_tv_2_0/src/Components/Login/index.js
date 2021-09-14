@@ -16,6 +16,9 @@ import {
 } from "./utils";
 import { BaseSubsystem, BaseCategories } from "../../Services/LoggerService";
 import { pleaseLogOut } from "../../Services/OAuth2Service";
+import {
+  removeDataFromStorages
+} from "../../Services/StorageService";
 import { getStyles } from "../../Utils/Customization";
 import { getLocalizations } from "../../Utils/Localizations";
 import { isAuthenticationRequired } from "../../Utils/PayloadUtils";
@@ -94,9 +97,11 @@ export const OAuth = (props) => {
       
       await removeDataFromStorages();
 
+      navigator.goBack();
+
       showAlert(
-        screenLocalizations?.general_error_title,
-        screenLocalizations?.general_error_message
+        localizations?.general_error_title,
+        localizations?.general_error_message
       );
     }
   };
@@ -150,7 +155,7 @@ export const OAuth = (props) => {
           }
         } else {
           // await removeDataFromStorages();
-          
+
           mounted.current && setScreen(ScreenData.LOG_IN);
         }
       }
