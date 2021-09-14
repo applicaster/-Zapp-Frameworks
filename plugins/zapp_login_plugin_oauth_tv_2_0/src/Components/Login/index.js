@@ -15,6 +15,7 @@ import {
   refreshToken,
 } from "./utils";
 import { BaseSubsystem, BaseCategories } from "../../Services/LoggerService";
+import { pleaseLogOut } from "../../Services/OAuth2Service";
 import { getStyles } from "../../Utils/Customization";
 import { getLocalizations } from "../../Utils/Localizations";
 import { isAuthenticationRequired } from "../../Utils/PayloadUtils";
@@ -121,7 +122,7 @@ export const OAuth = (props) => {
               callback &&
               callback({ success: true, error: null, payload });
           } else {
-            mounted.current && setScreen(ScreenData.LOG_OUT);
+            handleSignOut();
           }
         } else {
           // await removeDataFromStorages();
@@ -216,6 +217,30 @@ export const OAuth = (props) => {
       }
     }
 
+    const handleSignOut = async () => {
+      try {
+        const accessToken = await storageGet(AuthDataKeys.access_token);
+        await pleaseLogOut(configuration, accessToken);
+        await removeDataFromStorages();
+        goToScreen(ScreenData.LOG_IN);
+        logger.debug({
+          message: "handleSignOut: Sign out complete",
+        });
+      } catch (error) {
+        logger.debug({
+          message: "handleSignOut: error",
+          data: { error },
+        });
+        
+        await removeDataFromStorages();
+  
+        showAlert(
+          screenLocalizations?.general_error_title,
+          screenLocalizations?.general_error_message
+        );
+      }
+    };
+
     switch (screen) {
       case ScreenData.LOADING: {
         return <LoadingScreen {...screenOptions} />;
@@ -230,6 +255,7 @@ export const OAuth = (props) => {
             parentFocus={parentFocus}
             focused={focused}
             forceFocus={forceFocus}
+            onLogout={handleSignOut}
           />
         );
       }
@@ -243,6 +269,7 @@ export const OAuth = (props) => {
             onSignedIn={onSignedIn}
             onMenuButtonClicked={onMenuButtonClickedSignIn}
             onMaybeLater={onMaybeLater}
+            navigator={navigator}
           />
         );
       }
