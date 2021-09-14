@@ -17,7 +17,9 @@ import {
 import { BaseSubsystem, BaseCategories } from "../../Services/LoggerService";
 import { pleaseLogOut } from "../../Services/OAuth2Service";
 import {
-  removeDataFromStorages
+  removeDataFromStorages,
+  storageGet,
+  AuthDataKeys
 } from "../../Services/StorageService";
 import { getStyles } from "../../Utils/Customization";
 import { getLocalizations } from "../../Utils/Localizations";
@@ -98,7 +100,6 @@ export const OAuth = (props) => {
       await removeDataFromStorages();
 
       navigator.goBack();
-
       showAlert(
         localizations?.general_error_title,
         localizations?.general_error_message
