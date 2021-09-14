@@ -77,6 +77,30 @@ export const OAuth = (props) => {
     };
   }, []);
 
+  const handleSignOut = async () => {
+    try {
+      const accessToken = await storageGet(AuthDataKeys.access_token);
+      await pleaseLogOut(configuration, accessToken);
+      await removeDataFromStorages();
+      goToScreen(ScreenData.LOG_IN);
+      logger.debug({
+        message: "handleSignOut: Sign out complete",
+      });
+    } catch (error) {
+      logger.debug({
+        message: "handleSignOut: error",
+        data: { error },
+      });
+      
+      await removeDataFromStorages();
+
+      showAlert(
+        screenLocalizations?.general_error_title,
+        screenLocalizations?.general_error_message
+      );
+    }
+  };
+
   async function setupEnvironment() {
     try {
       const playerHook = isPlayerHook(props?.payload);
@@ -216,30 +240,6 @@ export const OAuth = (props) => {
         }
       }
     }
-
-    const handleSignOut = async () => {
-      try {
-        const accessToken = await storageGet(AuthDataKeys.access_token);
-        await pleaseLogOut(configuration, accessToken);
-        await removeDataFromStorages();
-        goToScreen(ScreenData.LOG_IN);
-        logger.debug({
-          message: "handleSignOut: Sign out complete",
-        });
-      } catch (error) {
-        logger.debug({
-          message: "handleSignOut: error",
-          data: { error },
-        });
-        
-        await removeDataFromStorages();
-  
-        showAlert(
-          screenLocalizations?.general_error_title,
-          screenLocalizations?.general_error_message
-        );
-      }
-    };
 
     switch (screen) {
       case ScreenData.LOADING: {
