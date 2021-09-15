@@ -172,6 +172,11 @@ extension ReactNativeManager: QuickBrickManagerDelegate {
         }
     }
 
+
+    public func setPrefersHomeIndicatorAutoHidden(_ payload: Dictionary<String, Any>) {
+        FacadeConnector.connector?.uiLayer?.setPrefersHomeIndicatorAutoHidden(autoHidden: payload["autoHidden"] as? Bool ?? true)
+    }
+
     public func allowOrientationForScreen(_ payload: Dictionary<String, Any>) {
         if let qbViewController = reactNativeViewController() as? QuickBrickViewController, let orientation = payload["orientation"] as? Int {
             qbViewController.allowOrientationForScreen(orientation)
