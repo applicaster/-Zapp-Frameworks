@@ -49,11 +49,11 @@ class APLoggerAdapter : IAPLogger {
     }
 
     override fun error(tag: String, msg: String, t: Throwable?, data: Map<String, Any>?) =
-            when (data) {
-                null -> error(tag, msg, t)
-                else -> when (t) {
-                    null -> error(tag, msg)
-                    else -> logger.e(tag).exception(t).message(msg)
-                }
+        when (data) {
+            null -> error(tag, msg, t)
+            else -> when (t) {
+                null -> error(tag, msg, data)
+                else -> logger.e(tag).exception(t).putData(data).message(msg)
             }
+        }
 }
