@@ -23,6 +23,7 @@ enum Events: String {
     case releaseOrientationsForScreen
     case idleTimerDisabled
     case forceAppReload
+    case setPrefersHomeIndicatorAutoHidden
 
     /**
      invokes the event handler for a given event
@@ -43,6 +44,8 @@ enum Events: String {
             manager.idleTimerDisabled(payload)
         case .forceAppReload:
             manager.forceAppReload()
+        case .setPrefersHomeIndicatorAutoHidden:
+          manager.setPrefersHomeIndicatorAutoHidden(payload)
         }
     }
 }
@@ -73,6 +76,8 @@ enum Events: String {
     func releaseOrientationForScreen()
 
     func idleTimerDisabled(_ payload: Dictionary<String, Any>)
+
+    func setPrefersHomeIndicatorAutoHidden(_ payload: Dictionary<String, Any>)
 
     func forceAppReload()
 }
