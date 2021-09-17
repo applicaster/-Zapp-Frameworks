@@ -74,7 +74,6 @@ export async function getDeviceToken(oAuthConfig, device_code) {
         tokenEndPoint,
         oAuthConfig,
         device_code,
-        response,
         newData,
       },
     });
