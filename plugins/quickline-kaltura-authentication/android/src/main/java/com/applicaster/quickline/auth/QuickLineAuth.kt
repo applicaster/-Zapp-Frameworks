@@ -11,6 +11,7 @@ import com.applicaster.plugin_manager.Plugin
 import com.applicaster.plugin_manager.hook.ApplicationLoaderHookUpI
 import com.applicaster.plugin_manager.hook.HookListener
 import com.applicaster.quickline.auth.kaltura.KalturaFlows
+import com.applicaster.quickline.auth.ui.AuthErrorActivity
 import com.applicaster.storage.LocalStorage
 import com.applicaster.util.APLogger
 import com.google.gson.JsonSyntaxException
@@ -156,10 +157,8 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
     ) {
         APLogger.error(TAG, message, e)
         activity.runOnUiThread {
-            AlertDialog.Builder(activity)
-                .setTitle(message)
-                .setPositiveButton(android.R.string.ok) { _, _ -> activity.finish() }
-                .show()
+            AuthErrorActivity.show(activity,message, e?.message ?: "")
+            activity.finish() // make sure to finish main activity
         }
     }
 
