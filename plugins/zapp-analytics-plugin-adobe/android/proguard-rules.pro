@@ -19,7 +19,7 @@
     <init>(...);
 }
 
--keep public class com.adobeagent.AdobeAnalyticsAgent {
+-keep public class com.applicaster.analytics.adobe.AdobeAnalyticsAgent {
    public <fields>;
    public <methods>;
 }

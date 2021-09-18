@@ -74,9 +74,9 @@ const ui_frameworks = {
 const min_zapp_sdk = {
   ios_for_quickbrick: "4.1.0-Dev",
   tvos_for_quickbrick: "4.1.0-Dev",
-  android_for_quickbrick: "2.0.0",
-  android_tv_for_quickbrick: "2.0.0",
-  amazon_fire_tv_for_quickbrick: "2.0.0",
+  android_for_quickbrick: "8.0.0-dev",
+  android_tv_for_quickbrick: "8.0.0-dev",
+  amazon_fire_tv_for_quickbrick: "8.0.0-dev",
 };
 
 const extra_dependencies_apple = [
@@ -111,7 +111,7 @@ const api_apple = {
 };
 
 const api_android = {
-  class_name: "com.adobeagent.AdobeAnalyticsAgent",
+  class_name: "com.applicaster.analytics.adobe.AdobeAnalyticsAgent",
 };
 
 const api = {
