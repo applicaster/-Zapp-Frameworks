@@ -10,17 +10,28 @@ import Foundation
 
 class GoogleUrlTagData {
     var vmapUrl: String?
-    var vastPrerrolUrl: String?
+    var vastPrerollUrl: String?
     var vastPostrollUrl: String?
     var vastMidrollsArray: [MidrollTagData] = []
     var tfuaDisablePersonalizedAdvertising: Bool = false
 
+    var content: [String: Any] {
+        [
+            "vmapUrl": vmapUrl ?? "",
+            "vastPrerollUrl": vastPrerollUrl ?? "",
+            "vastPostrollUrl": vastPostrollUrl ?? "",
+            "vastMidrollsArray": vastMidrollsArray.map({ data in
+                ["timeOffset": data.timeOffset,
+                 "url": data.url]
+            })
+        ]
+    }
     var isVmapAd: Bool {
         return vmapUrl != nil
     }
 
     var startedAdExist: Bool {
-        return vmapUrl != nil || vastPrerrolUrl != nil
+        return vmapUrl != nil || vastPrerollUrl != nil
     }
 
     init(entry: [String: Any]?,
@@ -41,7 +52,7 @@ class GoogleUrlTagData {
 
         if let url = pluginParams[PluginsCustomizationKeys.prerollUrl] as? String,
             url.isEmpty == false {
-            vastPrerrolUrl = customizeUrlIfNeeded(url)
+            vastPrerollUrl = customizeUrlIfNeeded(url)
         }
 
         if let url = pluginParams[PluginsCustomizationKeys.postrollUrl] as? String,
@@ -97,7 +108,7 @@ class GoogleUrlTagData {
                                                             timeOffset: timeOffset))
                     } else if let offsetString = offset as? String {
                         if offsetString == prerollTypeKey {
-                            vastPrerrolUrl = adUrl
+                            vastPrerollUrl = adUrl
                         } else if offsetString == postrollTypeKey {
                             vastPostrollUrl = adUrl
                         }
@@ -127,7 +138,7 @@ class GoogleUrlTagData {
     }
 
     func prerollUrlString() -> String? {
-        return vmapUrl ?? vastPrerrolUrl
+        return vmapUrl ?? vastPrerollUrl
     }
 
     func postrollUrlString() -> String? {

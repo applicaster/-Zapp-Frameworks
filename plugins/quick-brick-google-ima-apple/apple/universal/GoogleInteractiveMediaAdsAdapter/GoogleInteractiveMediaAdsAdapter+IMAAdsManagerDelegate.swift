@@ -27,9 +27,20 @@ extension GoogleInteractiveMediaAdsAdapter: IMAAdsManagerDelegate {
             }
             postrollCompletion?(true)
         case .SKIPPED:
+            EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adSkip)),
+                                           source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
+                                           data: [
+                                               "content": urlTagData?.content ?? [:],
+                                           ]))
             if let playerPlugin = playerPlugin {
                 FacadeConnector.connector?.playerDependant?.playerAdSkiped(player: playerPlugin)
             }
+        case .TAPPED:
+            EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adClicked)),
+                                           source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
+                                           data: [
+                                               "content": urlTagData?.content ?? [:],
+                                           ]))
         default:
             return
         }
@@ -37,6 +48,11 @@ extension GoogleInteractiveMediaAdsAdapter: IMAAdsManagerDelegate {
 
     public func adsManagerDidRequestContentPause(_ adsManager: IMAAdsManager!) {
         delegate?.advertisementWillPresented(provider: self)
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adBegin)),
+                                       source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
+                                       data: [
+                                           "content": urlTagData?.content ?? [:],
+                                       ]))
         if let playerPlugin = playerPlugin {
             FacadeConnector.connector?.playerDependant?.playerAdStarted(player: playerPlugin)
         }
@@ -46,6 +62,12 @@ extension GoogleInteractiveMediaAdsAdapter: IMAAdsManagerDelegate {
 
     public func adsManager(_ adsManager: IMAAdsManager!, didReceive error: IMAAdError!) {
         delegate?.advertisementFailedToLoad(provider: self)
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adError)),
+                                       source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
+                                       data: [
+                                           "content": urlTagData?.content ?? [:],
+                                           "error": error.description,
+                                       ]))
         // Something went wrong with the ads manager after ads were loaded. Log the error and play the
         // content.
         isPrerollAdLoading = false
@@ -60,17 +82,27 @@ extension GoogleInteractiveMediaAdsAdapter: IMAAdsManagerDelegate {
 
     public func adsManagerDidRequestContentResume(_ adsManager: IMAAdsManager!) {
         delegate?.advertisementWillDismissed(provider: self)
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adEnd)),
+                                       source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
+                                       data: [
+                                           "content": urlTagData?.content ?? [:],
+                                       ]))
         if let playerPlugin = playerPlugin {
             FacadeConnector.connector?.playerDependant?.playerAdCompleted(player: playerPlugin)
         }
         // The SDK is done playing ads (at least for now), so resume the content.
         resumePlayback()
     }
-    
+
     public func adsManager(_ adsManager: IMAAdsManager!, adDidProgressToTime mediaTime: TimeInterval, totalTime: TimeInterval) {
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adProgress)),
+                                       source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
+                                       data: [
+                                           "progress": mediaTime,
+                                           "duration": totalTime,
+                                       ]))
         if let playerPlugin = playerPlugin {
             FacadeConnector.connector?.playerDependant?.playerAdProgressUpdate(player: playerPlugin, currentTime: mediaTime, duration: totalTime)
         }
     }
-    
 }

@@ -118,10 +118,6 @@ import ZappCore
     func addRateObserver() {
         avPlayer?.addObserver(self, forKeyPath: MediaAdsConstants.playerPlaybackRate, options: NSKeyValueObservingOptions.new, context: nil)
     }
-    
-    func removeRateObserver() {
-        avPlayer?.removeObserver(self, forKeyPath:  MediaAdsConstants.playerPlaybackRate, context: nil)
-    }
 
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == MediaAdsConstants.playerPlaybackRate {
@@ -132,6 +128,12 @@ import ZappCore
     }
 
     func resumePlayback() {
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adBreakEnd)),
+                                       source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
+                                       data: [
+                                           "content": urlTagData?.content ?? [:],
+                                       ]))
+
         isPlaybackPaused = false
         playerPlugin?.pluggablePlayerResume()
 
@@ -141,6 +143,12 @@ import ZappCore
     }
 
     func pausePlayback() {
+        EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adBreakBegin)),
+                                       source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
+                                       data: [
+                                           "content": urlTagData?.content ?? [:],
+                                       ]))
+
         isPlaybackPaused = true
         playerPlugin?.pluggablePlayerPause()
 
@@ -153,25 +161,24 @@ import ZappCore
         if isPrerollAdLoading {
             activityIndicator.color = .gray
             activityIndicator.backgroundColor = .black
-            
-            if let contentOverlay = (self.playerPlugin?.pluginPlayerViewController as? AVPlayerViewController)?.contentOverlayView,
+
+            if let contentOverlay = (playerPlugin?.pluginPlayerViewController as? AVPlayerViewController)?.contentOverlayView,
                self.activityIndicator.superview == nil {
                 contentOverlay.addSubview(self.activityIndicator)
                 activityIndicator.translatesAutoresizingMaskIntoConstraints = false
                 activityIndicator.widthAnchor.constraint(equalTo: contentOverlay.widthAnchor, multiplier: 1.0).isActive = true
                 activityIndicator.heightAnchor.constraint(equalTo: contentOverlay.heightAnchor, multiplier: 1.0).isActive = true
                 activityIndicator.startAnimating()
-            }
-            else if let playerView = self.playerPlugin as? UIView,
-                    let playerLayer = playerView.layer.sublayers?.first(where: { $0 is AVPlayerLayer}) {
+            } else if let playerView = playerPlugin as? UIView,
+                      let playerLayer = playerView.layer.sublayers?.first(where: { $0 is AVPlayerLayer }) {
                 activityIndicator.frame = playerLayer.bounds
                 playerLayer.addSublayer(activityIndicator.layer)
                 activityIndicator.startAnimating()
             }
 
         } else {
-            self.activityIndicator.removeFromSuperview()
-            self.activityIndicator.layer.removeFromSuperlayer()
+            activityIndicator.removeFromSuperview()
+            activityIndicator.layer.removeFromSuperlayer()
         }
     }
 
@@ -207,6 +214,12 @@ import ZappCore
 
             // Storing accessibility identifier for UI automation tests needs
             advAccessibilityIdentifier = adUrl
+            
+            EventsBus.post(EventsBus.Event(type: EventsBusType(.player(.adRequest)),
+                                           source: "\(kNativeSubsystemPath)/GoogleInteractiveMediaAds",
+                                           data: [
+                                               "content": urlTagData?.content ?? [:],
+                                           ]))
         }
     }
 }
