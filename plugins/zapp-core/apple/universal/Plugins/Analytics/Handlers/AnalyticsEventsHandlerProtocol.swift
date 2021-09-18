@@ -52,4 +52,5 @@ public protocol AnalyticsAdEventsHandlerProtocol: AnalyticsEventsHandlerProtocol
     func handleAdClickedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
     func handleAdSkipEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
     func handleAdRequestEvent(_ eventName: String, parameters: [String: Any]?) -> Bool
+
 }

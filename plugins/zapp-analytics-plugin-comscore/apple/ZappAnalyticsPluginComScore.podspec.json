@@ -16,17 +16,16 @@
     "tag": "@@applicaster/zapp-analytics-plugin-comscore/8.1.0"
   },
   "requires_arc": true,
-  "public_header_files": "ios/**/*.h",
-  "source_files": "ios/**/*.{h,m,swift}",
+  "source_files": "ios/**/*.{swift}",
   "xcconfig": {
     "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
     "ENABLE_BITCODE": "YES",
     "SWIFT_VERSION": "5.1"
   },
   "dependencies": {
-    "ZappAnalyticsPluginsSDK": [],
+    "ZappCore": [],
     "ComScore": [
-      "~> 5.8"
+      "~> 6.8.1"
     ]
   }
 }

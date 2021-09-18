@@ -106,7 +106,7 @@ const project_dependencies = {
 
 const api_apple = {
   require_startup_execution: false,
-  class_name: "APAnalyticsProviderAdobe",
+  class_name: "AdobeAnalytics",
   modules: ["ZappAnalyticsPluginAdobe"]
 };
 

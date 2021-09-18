@@ -1,7 +1,7 @@
 {
   "api": {
     "require_startup_execution": false,
-    "class_name": "APAnalyticsProviderComScore",
+    "class_name": "ComScoreAnalytics",
     "modules": [
       "ZappAnalyticsPluginComScore"
     ]

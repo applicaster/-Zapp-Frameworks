@@ -84,7 +84,7 @@ const ui_frameworks = {
 };
 
 const min_zapp_sdk = {
-  ios_for_quickbrick: "2.0.2-Dev",
+  ios_for_quickbrick: "5.2.0-Dev",
 };
 
 const extra_dependencies_apple = [
@@ -100,7 +100,7 @@ const extra_dependencies = {
 
 const api_apple = {
   require_startup_execution: false,
-  class_name: "APAnalyticsProviderComScore",
+  class_name: "ComScoreAnalytics",
   modules: ["ZappAnalyticsPluginComScore"]
 };
 
