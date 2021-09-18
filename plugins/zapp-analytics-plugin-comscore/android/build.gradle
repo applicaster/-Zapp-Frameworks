@@ -1,0 +1,61 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+import org.gradle.util.VersionNumber
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 17
+        targetSdkVersion 29
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+def getExtOrDefault(name, fallback) {
+    def ver = rootProject.ext.has(name) ? rootProject.ext.get(name) : fallback
+    if (VersionNumber.parse(fallback) > VersionNumber.parse(ver)) {
+        throw new Exception("Version mismatch for $name: $ver found, at least $fallback required")
+    }
+    return ver
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api "com.comscore:android-analytics:6.7.1"
+
+    // Check if an open SDK is defined - if not use the closed one.
+    if (!findProject(':applicaster-android-sdk')) {
+        def sdkVersion = getExtOrDefault('applicaster_android_sdk_core_version', '8.5.0')
+        api "com.applicaster:applicaster-android-sdk-core:${sdkVersion}"
+    }
+    else {
+        api project(':applicaster-android-sdk')
+    }
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
