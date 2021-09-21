@@ -185,7 +185,7 @@ export async function pleaseLogOut(oAuthConfig, access_token) {
       },
     };
 
-    await axios(request);
+    const response = await axios(request);
 
     logger.debug({
       message: "pleaseLogOut: completed",
