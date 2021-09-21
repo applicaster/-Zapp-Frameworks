@@ -37,13 +37,14 @@ export const LoginFlow = React.forwardRef((props: LoginProps, ref) => {
     localizations,
   });
 
-  useInitialFocus(props?.focused, login1ButtonRef);
+  useInitialFocus(props?.focused, isLoggedIn ? logoutButtonRef : login1ButtonRef);
+
   return (
     <>
       <UserPhoto styles={styles} imageSrc={styles?.user_image_placeholder} />
       {!isLoggedIn ? (
         <Button
-          ref={login1ButtonRef}
+          buttonRef={login1ButtonRef}
           nextFocusUp={parentFocus?.nextFocusUp}
           nextFocusDown={login2ButtonRef}
           focused={focused}
@@ -57,9 +58,9 @@ export const LoginFlow = React.forwardRef((props: LoginProps, ref) => {
         />
       ) : null}
 
-      {!isLoggedIn && button_2_login_enabled ? (
+      {!isLoggedIn && Boolean(button_2_login_enabled) ? (
         <Button
-          ref={login2ButtonRef}
+          buttonRef={login2ButtonRef}
           nextFocusUp={login1ButtonRef}
           nextFocusDown={logoutButtonRef}
           focused={focused}
@@ -81,7 +82,7 @@ export const LoginFlow = React.forwardRef((props: LoginProps, ref) => {
       ) : null}
       {isLoggedIn ? (
         <Button
-          ref={logoutButtonRef}
+          buttonRef={logoutButtonRef}
           nextFocusUp={parentFocus?.nextFocusUp}
           focused={focused}
           parentFocus={parentFocus}

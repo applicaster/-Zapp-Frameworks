@@ -9,13 +9,13 @@ import Foundation
 
 open class AnalyticsAdEventsHandler: AnalyticsBaseEventsHandler, AnalyticsAdEventsHandlerProtocol {
     public var adBreakCounter: Int = 0
-    public override func handleEvent(name: String, parameters: [String: Any]?) -> Bool {
+    override public func handleEvent(name: String, parameters: [String: Any]?) -> Bool {
         guard super.handleEvent(name: name, parameters: parameters) == false else {
             return true
         }
-        
+
         var retValue = false
-        
+
         switch name {
         case AdAnalyticsEvent.adBreakStart:
             retValue = handleAdBreakStartEvent(name, parameters: parameters)
@@ -31,6 +31,15 @@ open class AnalyticsAdEventsHandler: AnalyticsBaseEventsHandler, AnalyticsAdEven
 
         case AdAnalyticsEvent.adError:
             retValue = handleAdErrorEvent(name, parameters: parameters)
+
+        case AdAnalyticsEvent.adClicked:
+            retValue = handleAdClickedEvent(name, parameters: parameters)
+
+        case AdAnalyticsEvent.adSkip:
+            retValue = handleAdSkipEvent(name, parameters: parameters)
+
+        case AdAnalyticsEvent.adRequest:
+            retValue = handleAdRequestEvent(name, parameters: parameters)
         default:
             break
         }
@@ -39,7 +48,7 @@ open class AnalyticsAdEventsHandler: AnalyticsBaseEventsHandler, AnalyticsAdEven
     }
 
     open func handleAdBreakStartEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
-        adBreakCounter+=1
+        adBreakCounter += 1
         return false
     }
 
@@ -58,10 +67,39 @@ open class AnalyticsAdEventsHandler: AnalyticsBaseEventsHandler, AnalyticsAdEven
     open func handleAdErrorEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
         return false
     }
+
+    open func handleAdClickedEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        return false
+    }
+
+    open func handleAdSkipEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        return false
+    }
+
+    open func handleAdRequestEvent(_ eventName: String, parameters: [String: Any]?) -> Bool {
+        return false
+    }
 }
 
 extension AnalyticsAdEventsHandler {
     public func getCurrentPlayerPosition(from parameters: [String: Any]?) -> Double {
-        return parameters?["offset"] as? Double ?? 0.00
+        return parameters?["Item Position"] as? Double ?? 0.00
+    }
+
+    public func getCurrentItemDuration(from parameters: [String: Any]?) -> Double {
+        let key = "Item Duration"
+        var value: Double = 0
+        if let duration = parameters?[key] as? String {
+            value = Double(duration) ?? 0.00
+        } else if let duration = parameters?[key] as? Double {
+            value = duration
+        }
+        return value
+    }
+
+    public func isEndOfPlayback(accordingTo parameters: [String: Any]?) -> Bool {
+        let position = getCurrentPlayerPosition(from: parameters)
+        let duration = getCurrentItemDuration(from: parameters)
+        return position >= duration
     }
 }
