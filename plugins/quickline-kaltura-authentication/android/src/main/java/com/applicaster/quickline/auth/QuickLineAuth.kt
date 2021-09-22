@@ -74,16 +74,26 @@ class QuickLineAuth : ApplicationLoaderHookUpI, GenericPluginI {
         val jo = JSONObject(json)
         val verifyUserUrl = jo.getString("verifyUserUrl")
         val contractId = jo.getString("contractId")
-
+        val extras = mapOf(
+            "auth" to mapOf(
+                "objectType" to "KalturaStringValue",
+                "value" to "QuickLineSso"
+            )
+        )
         // send to Kaltura and get response, verifyUserUrl is used as password
-        return loginPasswordRegistration(contractId, verifyUserUrl, uuid)
+        return loginPasswordRegistration(contractId, verifyUserUrl, uuid, extras)
     }
 
     @WorkerThread
-    fun loginPasswordRegistration(username: String, password: String, uuid: String): String {
+    fun loginPasswordRegistration(
+        username: String,
+        password: String,
+        uuid: String,
+        extras: Map<String, Any>? = null
+    ): String {
         val kalturaAPI = KalturaFlows.makeKalturaAPI(kalturaAPIEndpoint)
 
-        val session = KalturaFlows.login(kalturaAPI, username, password, uuid, partnerId)
+        val session = KalturaFlows.login(kalturaAPI, username, password, uuid, partnerId, extras)
             ?: throw RuntimeException("Failed to obtain session")
 
         // ks is good for a week

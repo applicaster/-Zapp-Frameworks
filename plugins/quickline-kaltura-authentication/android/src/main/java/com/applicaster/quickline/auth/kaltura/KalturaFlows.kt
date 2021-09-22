@@ -16,14 +16,16 @@ object KalturaFlows {
         username: String,
         password: String,
         uuid: String,
-        partnerId: Long
+        partnerId: Long,
+        extras: Map<String, Any>? = null
     ): KalturaLoginSession? {
         val loginResponse = kalturaAPI.loginOTT(
             LoginRequest(
                 partnerId,
                 username,
                 password,
-                uuid
+                uuid,
+                extras
             )
         ).execute()
 

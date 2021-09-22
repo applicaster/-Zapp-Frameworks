@@ -7,7 +7,8 @@ data class LoginRequest(
     val username: String,
     val password: String,
     val uuid: String,
-    val apiVersion: String = IKalturaAPI.API_VERSION
+    val extraParams: Map<String, Any>? = null,
+    val apiVersion: String = IKalturaAPI.API_VERSION,
 )
 
 data class LoginResponse(
